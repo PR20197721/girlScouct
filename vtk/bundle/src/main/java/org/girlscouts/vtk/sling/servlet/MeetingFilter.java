@@ -8,7 +8,6 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.Meeting;
@@ -97,54 +96,56 @@ public class MeetingFilter extends SlingAllMethodsServlet {
                     if (meetings != null) {
                         for (Meeting meeting : meetings) {
                             try {
-                                FilterOption levelOption = null;
-                                String meetingLevel = meeting.getLevel().replace("-", "");
-                                if (filters.containsKey(meetingLevel)) {
-                                    levelOption = filters.get(meetingLevel);
-                                    log.debug("Updating filter /" + levelOption.getValue());
-                                } else {
-                                    levelOption = new FilterOption("ML_" + new Date().getTime() + "_" + Math.random(), meeting.getLevel(), meeting.getLevel().replace("_", " "));
-                                    log.debug("Created new filter /" + levelOption.getValue());
-                                }
-                                if (levelOption != null) {
-                                    TreeMap<String, FilterOption> typeFilters = levelOption.getSubFilterOptions();
-                                    if (typeFilters == null) {
-                                        typeFilters = new TreeMap<String, FilterOption>();
-                                    }
-                                    FilterOption typeOption = null;
-                                    if (typeFilters.containsKey(meeting.getMeetingPlanType())) {
-                                        typeOption = typeFilters.get(meeting.getMeetingPlanType());
-                                        log.debug("Updating filter /" + levelOption.getValue() + "/" + typeOption.getValue());
+                                if(!meeting.getArchived()) {
+                                    FilterOption levelOption = null;
+                                    String meetingLevel = meeting.getLevel().replace("-", "");
+                                    if (filters.containsKey(meetingLevel)) {
+                                        levelOption = filters.get(meetingLevel);
+                                        log.debug("Updating filter /" + levelOption.getValue());
                                     } else {
-                                        typeOption = new FilterOption("MT_" + new Date().getTime() + "_" + Math.random(), meeting.getMeetingPlanType(), meeting.getMeetingPlanType().replace("_", "-"));
-                                        log.debug("Created new filter /" + levelOption.getValue() + "/" + meeting.getMeetingPlanType());
+                                        levelOption = new FilterOption("ML_" + new Date().getTime() + "_" + Math.random(), meeting.getLevel(), meeting.getLevel().replace("_", " "));
+                                        log.debug("Created new filter /" + levelOption.getValue());
                                     }
-                                    if (typeOption != null) {
-                                        TreeMap<String, FilterOption> categoryFilters = typeOption.getSubFilterOptions();
-                                        if (categoryFilters == null) {
-                                            categoryFilters = new TreeMap<String, FilterOption>();
+                                    if (levelOption != null) {
+                                        TreeMap<String, FilterOption> typeFilters = levelOption.getSubFilterOptions();
+                                        if (typeFilters == null) {
+                                            typeFilters = new TreeMap<String, FilterOption>();
                                         }
-                                        String categories = meeting.getCatTags();
-                                        if (categories != null) {
-                                            StringTokenizer t = new StringTokenizer(categories, ",");
-                                            while (t.hasMoreElements()) {
-                                                String category = (String) t.nextToken();
-                                                if (!categoryFilters.containsKey(category)) {
-                                                    FilterOption categoryOption = new FilterOption("MC_" + new Date().getTime() + "_" + Math.random(), category, category.replace("_", "-"));
-                                                    log.debug("Created new filter /" + levelOption.getValue() + "/" + typeOption.getValue() + "/" + category);
-                                                    log.debug("Adding filter /" + levelOption.getValue() + "/" + typeOption.getValue() + "/" + categoryOption.getValue() + " to filter");
-                                                    categoryFilters.put(category, categoryOption);
+                                        FilterOption typeOption = null;
+                                        if (typeFilters.containsKey(meeting.getMeetingPlanType())) {
+                                            typeOption = typeFilters.get(meeting.getMeetingPlanType());
+                                            log.debug("Updating filter /" + levelOption.getValue() + "/" + typeOption.getValue());
+                                        } else {
+                                            typeOption = new FilterOption("MT_" + new Date().getTime() + "_" + Math.random(), meeting.getMeetingPlanType(), meeting.getMeetingPlanType().replace("_", "-"));
+                                            log.debug("Created new filter /" + levelOption.getValue() + "/" + meeting.getMeetingPlanType());
+                                        }
+                                        if (typeOption != null) {
+                                            TreeMap<String, FilterOption> categoryFilters = typeOption.getSubFilterOptions();
+                                            if (categoryFilters == null) {
+                                                categoryFilters = new TreeMap<String, FilterOption>();
+                                            }
+                                            String categories = meeting.getCatTags();
+                                            if (categories != null) {
+                                                StringTokenizer t = new StringTokenizer(categories, ",");
+                                                while (t.hasMoreElements()) {
+                                                    String category = (String) t.nextToken();
+                                                    if (!categoryFilters.containsKey(category)) {
+                                                        FilterOption categoryOption = new FilterOption("MC_" + new Date().getTime() + "_" + Math.random(), category, category.replace("_", "-"));
+                                                        log.debug("Created new filter /" + levelOption.getValue() + "/" + typeOption.getValue() + "/" + category);
+                                                        log.debug("Adding filter /" + levelOption.getValue() + "/" + typeOption.getValue() + "/" + categoryOption.getValue() + " to filter");
+                                                        categoryFilters.put(category, categoryOption);
+                                                    }
                                                 }
                                             }
+                                            typeOption.setSubFilterOptions(categoryFilters);
                                         }
-                                        typeOption.setSubFilterOptions(categoryFilters);
+                                        log.debug("Adding filter /" + levelOption.getValue() + "/" + typeOption.getValue() + " to filter");
+                                        typeFilters.put(meeting.getMeetingPlanType(), typeOption);
+                                        levelOption.setSubFilterOptions(typeFilters);
                                     }
-                                    log.debug("Adding filter /" + levelOption.getValue() + "/" + typeOption.getValue() + " to filter");
-                                    typeFilters.put(meeting.getMeetingPlanType(), typeOption);
-                                    levelOption.setSubFilterOptions(typeFilters);
+                                    log.debug("Adding filter /" + levelOption.getValue() + " to filter");
+                                    filters.put(meetingLevel, levelOption);
                                 }
-                                log.debug("Adding filter /" + levelOption.getValue() + " to filter");
-                                filters.put(meetingLevel, levelOption);
                             } catch (Exception e) {
                                 log.error("Exception occured:", e);
                             }
