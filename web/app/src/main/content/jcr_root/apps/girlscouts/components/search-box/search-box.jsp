@@ -8,6 +8,9 @@
     String placeholderText = properties.get("placeholder-text", "");
     String lastSearch = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : "";
     lastSearch = URLEncoder.encode(lastSearch, "UTF-8");
+    if (lastSearch != null && lastSearch.trim().length() > 0) {
+        placeholderText = URLDecoder.decode(lastSearch, "UTF-8");
+    }
     String searchAction = properties.get("searchAction", null);
     String action = (String) request.getAttribute("altSearchPath");
     if ((null == searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
