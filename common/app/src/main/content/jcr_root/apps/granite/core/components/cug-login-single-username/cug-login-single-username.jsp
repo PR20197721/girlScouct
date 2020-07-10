@@ -380,6 +380,7 @@ login
 
 
     String cug = cfg.get("box/cug","anonymous");
+    String cugcouncil = cfg.get("box/cugcouncil","preview-council");
 
 %><!DOCTYPE html>
 <html>
@@ -464,8 +465,12 @@ login
             %>
             <p id="sign-in-title"><%= isLogin ? loginTitle : changeTitle %></p>
             <div class="coral-Form-fieldwrapper">
+                <% if (redirect.equals("/content/gsusa/en.html")) { %>
                 <input is="coral-textfield" style="display:none" value="<%= cug %>" aria-label="<%= userPlaceholder %>" class="coral-Form-field" id="username" name="j_username" type="text" autofocus="autofocus" pattern=".*" placeholder="<%= userPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>">
+                <%}%>
+                <input is="coral-textfield" style="display:none" value="<%= cugcouncil %>" aria-label="<%= userPlaceholder %>" class="coral-Form-field" id="username" name="j_username" type="text" autofocus="autofocus" pattern=".*" placeholder="<%= userPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>">
             </div>
+
             <div class="coral-Form-fieldwrapper">
                 <input is="coral-textfield" aria-label="<%= isLogin ? loginPasswordPlaceholder : changePasswordPlaceholder %>" class="coral-Form-field" id="password" name="j_password" type="password"  placeholder="<%= isLogin ? loginPasswordPlaceholder : changePasswordPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>">
             </div>
@@ -569,3 +574,4 @@ login
 <!-- QUICKSTART_HOMEPAGE - (string used for readyness detection, do not remove) -->
 </body>
 </html>
+s
