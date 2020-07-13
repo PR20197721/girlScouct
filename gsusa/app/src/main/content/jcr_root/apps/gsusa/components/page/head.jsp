@@ -45,7 +45,7 @@
 	String ogImage = properties.get("ogImage", "");
 	String reqProtocol = request.getHeader("X-Forwarded-Proto");
 	if(reqProtocol == null) reqProtocol = "http";
-	out.println("domainName::"+ reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort());
+	
 	if(ogImage == null || "".equals(ogImage.trim())){
 		String pageImagePath = currentPage.getPath() + "/jcr:content/content/hero/par/image";
 		String ragImagePath = currentPage.getPath() + "/jcr:content/image";
@@ -67,7 +67,7 @@
 			
 	    }else if(session.nodeExists(contentMiddlePar)){
 	    	ogImage = getOgImage(contentMiddlePar,resourceResolver);
-        }else if(session.nodeExists(contentPar)){
+	    }else if(session.nodeExists(contentPar)){
 	    	ogImage = getOgImage(contentPar,resourceResolver);
 	    }
 	}
@@ -89,7 +89,7 @@
 			canonicalUrl = canonicalUrl.replace(":80/","/");
 		}
 	}
-
+	
 	Page parentPage = currentPage.getAbsoluteParent(2);
 	String fbAppId = parentPage.getProperties().get("facebookId", "419540344831322");
 	if(!"".equals(properties.get("fbAppId",""))){
@@ -182,7 +182,7 @@ String getOgImage(String par,ResourceResolver resourceResolver){
     <cq:include script="stats.jsp"/>
     <% if (favIcon != null) {
     	if(favIcon.startsWith("/")) {
-			favIcon = reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort() + favIcon;
+            favIcon = reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort() + favIcon;
 			favIcon = favIcon.replace(":80/","/").replace(":443/","/");
         }
     	%>
@@ -214,7 +214,7 @@ String getOgImage(String par,ResourceResolver resourceResolver){
 	});
 	</script>
 	<!-- END GA Tracking -->
-
+	
 	<!-- GTM Tracking -->
 	<script type="text/javascript">
         (function (w, d, s, l, i) {
