@@ -26,7 +26,7 @@
 %><%@ page import="com.day.cq.commons.Doctype,
 				   org.apache.sling.settings.SlingSettingsService,
 				   org.apache.sling.api.SlingHttpServletRequest,
-				   com.day.cq.commons.Externalizer,
+				   com.day.cq.commons.Externalizer,org.apache.commons.lang3.StringUtils,
 				   java.util.Set,org.apache.sling.api.resource.ResourceResolver,java.util.Iterator"%><%
 	Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
 	Boolean isProd = set.contains("prod");
@@ -54,50 +54,28 @@
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
 	    if (session.nodeExists(pageImagePath)) {
 	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content/content/hero/par/image.img.png");
-			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
 	    } else if (session.nodeExists(ragImagePath)) {
 			ValueMap imageProps = resourceResolver.resolve(ragImagePath).adaptTo(ValueMap.class);
 			String ragImage = imageProps.get("fileReference",""); 
 			if(!ragImage.equals("")) {
 		    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
-				Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-				ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
 			}else if(session.nodeExists(contentPar)){
 				ogImage = getOgImage(contentPar,resourceResolver);
-		    	if(!ogImage.equals("") && null != ogImage){
-		    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-		    	}
 			}else if(session.nodeExists(contentMiddlePar)){
 				ogImage = getOgImage(contentMiddlePar,resourceResolver);
-		    	if(!ogImage.equals("") && null != ogImage){
-		    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-		    	}
 			}
 			
 	    }else if(session.nodeExists(contentMiddlePar)){
 	    	ogImage = getOgImage(contentMiddlePar,resourceResolver);
-	    	if(!ogImage.equals("") && null != ogImage){
-	    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-	    	}
-	    	
 	    }else if(session.nodeExists(contentPar)){
 	    	ogImage = getOgImage(contentPar,resourceResolver);
-	    	if(!ogImage.equals("") && null != ogImage){
-	    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-	    	}
 	    }
 	}
 	// resolve only if this is relative path
-	if(ogImage.startsWith("/")) {
-		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+	if(ogImage.startsWith("/") || (!StringUtils.isBlank(ogImage))) {
+        ogImage = reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort() + ogImage;
 	}
-	ogImage = ogImage.replace(":80/","/");
+	ogImage = ogImage.replace(":80/","/").replace(":443/","/");
 	String canonicalUrl = properties.get("canonicalUrl", "");
 	if("".equals(canonicalUrl) == false){
 		// resolve only if this is relative path
@@ -204,9 +182,8 @@ String getOgImage(String par,ResourceResolver resourceResolver){
     <cq:include script="stats.jsp"/>
     <% if (favIcon != null) {
     	if(favIcon.startsWith("/")) {
-            Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			favIcon = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, favIcon);
-			favIcon = favIcon.replace(":80/","/");
+            favIcon = reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort() + favIcon;
+			favIcon = favIcon.replace(":80/","/").replace(":443/","/");
         }
     	%>
     <link rel="icon" type="image/vnd.microsoft.icon" href="<%=favIcon%>"<%=xs%>>
