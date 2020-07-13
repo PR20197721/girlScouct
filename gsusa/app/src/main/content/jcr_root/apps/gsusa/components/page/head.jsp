@@ -45,7 +45,7 @@
 	String ogImage = properties.get("ogImage", "");
 	String reqProtocol = request.getHeader("X-Forwarded-Proto");
 	if(reqProtocol == null) reqProtocol = "http";
-	
+	out.println("domainName::"+ reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort());
 	if(ogImage == null || "".equals(ogImage.trim())){
 		String pageImagePath = currentPage.getPath() + "/jcr:content/content/hero/par/image";
 		String ragImagePath = currentPage.getPath() + "/jcr:content/image";
@@ -54,50 +54,28 @@
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
 	    if (session.nodeExists(pageImagePath)) {
 	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content/content/hero/par/image.img.png");
-			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
 	    } else if (session.nodeExists(ragImagePath)) {
 			ValueMap imageProps = resourceResolver.resolve(ragImagePath).adaptTo(ValueMap.class);
 			String ragImage = imageProps.get("fileReference",""); 
 			if(!ragImage.equals("")) {
 		    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
-				Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-				ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
 			}else if(session.nodeExists(contentPar)){
 				ogImage = getOgImage(contentPar,resourceResolver);
-		    	if(!ogImage.equals("") && null != ogImage){
-		    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-		    	}
 			}else if(session.nodeExists(contentMiddlePar)){
 				ogImage = getOgImage(contentMiddlePar,resourceResolver);
-		    	if(!ogImage.equals("") && null != ogImage){
-		    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-		    	}
 			}
 			
 	    }else if(session.nodeExists(contentMiddlePar)){
 	    	ogImage = getOgImage(contentMiddlePar,resourceResolver);
-	    	if(!ogImage.equals("") && null != ogImage){
-	    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-	    	}
-	    	
-	    }else if(session.nodeExists(contentPar)){
+        }else if(session.nodeExists(contentPar)){
 	    	ogImage = getOgImage(contentPar,resourceResolver);
-	    	if(!ogImage.equals("") && null != ogImage){
-	    		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		    	ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
-	    	}
 	    }
 	}
 	// resolve only if this is relative path
-	if(ogImage.startsWith("/")) {
-		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+	if(ogImage.startsWith("/") || (!ogImage.equals("") && null != ogImage)) {
+        ogImage = reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort() + ogImage;
 	}
-	ogImage = ogImage.replace(":80/","/");
+	ogImage = ogImage.replace(":80/","/").replace(":443/","/");
 	String canonicalUrl = properties.get("canonicalUrl", "");
 	if("".equals(canonicalUrl) == false){
 		// resolve only if this is relative path
@@ -111,7 +89,7 @@
 			canonicalUrl = canonicalUrl.replace(":80/","/");
 		}
 	}
-	
+
 	Page parentPage = currentPage.getAbsoluteParent(2);
 	String fbAppId = parentPage.getProperties().get("facebookId", "419540344831322");
 	if(!"".equals(properties.get("fbAppId",""))){
@@ -204,9 +182,8 @@ String getOgImage(String par,ResourceResolver resourceResolver){
     <cq:include script="stats.jsp"/>
     <% if (favIcon != null) {
     	if(favIcon.startsWith("/")) {
-            Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			favIcon = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, favIcon);
-			favIcon = favIcon.replace(":80/","/");
+			favIcon = reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort() + favIcon;
+			favIcon = favIcon.replace(":80/","/").replace(":443/","/");
         }
     	%>
     <link rel="icon" type="image/vnd.microsoft.icon" href="<%=favIcon%>"<%=xs%>>
@@ -237,7 +214,7 @@ String getOgImage(String par,ResourceResolver resourceResolver){
 	});
 	</script>
 	<!-- END GA Tracking -->
-	
+
 	<!-- GTM Tracking -->
 	<script type="text/javascript">
         (function (w, d, s, l, i) {
