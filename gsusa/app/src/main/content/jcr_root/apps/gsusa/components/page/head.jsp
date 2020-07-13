@@ -26,7 +26,7 @@
 %><%@ page import="com.day.cq.commons.Doctype,
 				   org.apache.sling.settings.SlingSettingsService,
 				   org.apache.sling.api.SlingHttpServletRequest,
-				   com.day.cq.commons.Externalizer,
+				   com.day.cq.commons.Externalizer,org.apache.commons.lang3.StringUtils,
 				   java.util.Set,org.apache.sling.api.resource.ResourceResolver,java.util.Iterator"%><%
 	Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
 	Boolean isProd = set.contains("prod");
@@ -72,7 +72,7 @@
 	    }
 	}
 	// resolve only if this is relative path
-	if(ogImage.startsWith("/") || (!ogImage.equals("") && null != ogImage)) {
+	if(ogImage.startsWith("/") || (!StringUtils.isBlank(ogImage))) {
         ogImage = reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort() + ogImage;
 	}
 	ogImage = ogImage.replace(":80/","/").replace(":443/","/");
