@@ -63,6 +63,8 @@ public interface MeetingDAO {
 
     java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException;
 
+    java.util.List<Meeting> getAllActiveMeetings(User user, Troop troop) throws IllegalAccessException;
+
     java.util.List<Note> getNotes(User user, Troop troop, String path) throws IllegalAccessException, VtkException;
 
     boolean updateNote(User user, Troop troop, Note note) throws IllegalAccessException;

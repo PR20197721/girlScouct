@@ -180,6 +180,10 @@ public class YearPlanUtil {
         return meetingDAO.getAllMeetings(user, troop);
     }
 
+    public java.util.List<Meeting> getAllActiveMeetings(User user, Troop troop) throws IllegalAccessException {
+        return meetingDAO.getAllActiveMeetings(user, troop);
+    }
+
     public java.util.List<MeetingE> getAllEventMeetings_byPath(User user, Troop troop, String yearPlanPath) throws IllegalAccessException {
         return meetingDAO.getAllEventMeetings_byPath(user, troop, yearPlanPath.endsWith("/") ? yearPlanPath : yearPlanPath + "/");
     }

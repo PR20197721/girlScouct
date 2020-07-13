@@ -61,7 +61,7 @@ public class MeetingFilter extends SlingAllMethodsServlet {
                     User user = (User) session.getAttribute(User.class.getName());
                     Troop troop = (Troop) session.getAttribute("VTK_troop");
                     try {
-                        meetings = yearPlanUtil.getAllMeetings(user, troop);
+                        meetings = yearPlanUtil.getAllActiveMeetings(user, troop);
                     } catch (Exception e) {
                         log.error("Exception occured:", e);
                     }
@@ -96,7 +96,7 @@ public class MeetingFilter extends SlingAllMethodsServlet {
                     if (meetings != null) {
                         for (Meeting meeting : meetings) {
                             try {
-                                if(!meeting.getArchived()) {
+                                if(meeting.getArchived()== null || !meeting.getArchived()) {
                                     FilterOption levelOption = null;
                                     String meetingLevel = meeting.getLevel().replace("-", "");
                                     if (filters.containsKey(meetingLevel)) {

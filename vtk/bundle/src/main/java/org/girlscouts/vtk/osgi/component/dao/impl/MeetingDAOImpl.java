@@ -1197,6 +1197,24 @@ public class MeetingDAOImpl implements MeetingDAO {
 
     }
 
+    public java.util.List<Meeting> getAllActiveMeetings(User user, Troop troop) throws IllegalAccessException {
+        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
+            throw new IllegalAccessException();
+        }
+        List<Meeting> meetings = null;
+        try {
+            String query = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/girlscouts-vtk/meetings/library]) AND s.[ocm_classname] = 'org.girlscouts.vtk.ocm.MeetingNode' AND (s.[isArchived] <> CAST('true' AS BOOLEAN) OR s.[isArchived] IS NULL)";
+            meetings = girlScoutsMeetingOCMService.findObjectsCustomQuery(query);
+            if (meetings != null) {
+                Collections.sort(meetings, new MeetingPositionComparator());
+            }
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return meetings;
+
+    }
+
     public boolean updateNote(User user, Troop troop, Note note) throws IllegalAccessException {
         boolean isRm = false;
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
