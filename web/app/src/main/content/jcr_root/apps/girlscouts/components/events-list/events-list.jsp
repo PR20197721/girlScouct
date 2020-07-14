@@ -70,7 +70,7 @@
 			</div>
 			<div class="column large-23 small-22 medium-23" style="float:none">
 				<div class="row collapse">
-					<h2 class="columns large-24 medium-24"><a href="<%=eventsLink%>"><%=featureTitle%></a></h2>
+					<h2 class="columns large-24 medium-24"><a href="<%=eventsLink%>" style="color: #414141"><%=featureTitle%></a></h2>
 					<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
 						<%
 							//com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
