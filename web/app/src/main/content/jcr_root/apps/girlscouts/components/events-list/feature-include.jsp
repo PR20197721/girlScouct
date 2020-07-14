@@ -5,6 +5,7 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
 	ArrayDeque<String> featureEvents = new ArrayDeque<String>();
+	ArrayDeque<String> taggedEvents = new ArrayDeque<String>();
 
 	// Selected
 	List list = new List(slingRequest, new PageFilter());
@@ -12,7 +13,7 @@
 		Iterator<Page> items = list.getPages();
 		while (items.hasNext()) {
 			Page item = (Page)items.next();
-			featureEvents.push(item.getPath() + "/jcr:content");
+			featureEvents.push(item.getPath());
 		}
 	}
 
@@ -26,12 +27,18 @@
 		if (pathType.equals("tags")) {
 			while (it.hasNext()) {
 				Resource event = it.next();
-				featureEvents.push(event.getPath());
+				String eventPath = event.getPath();
+				int index = eventPath.lastIndexOf("/jcr:content");
+				if (index > 0) {
+					eventPath = eventPath.substring(0, index);
+				}
+				taggedEvents.push(eventPath);
 			}
 		}
 	}
 
 	request.setAttribute("featureEvents", featureEvents);
+	request.setAttribute("taggedEvents", taggedEvents);
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 		%><cq:includeClientLib categories="apps.girlscouts.components.authoring"/><%
 	}

@@ -9,7 +9,7 @@
             javax.jcr.PropertyIterator,
             com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,
             java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset,
-            java.util.ArrayDeque, java.util.Iterator"%>
+            java.util.ArrayDeque"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -19,11 +19,28 @@
 
 <cq:include script="feature-include.jsp" />
 <%
+	String iconImg = properties.get("fileReference", String.class);
+	String eventsLink = properties.get("urltolink", "") + ".html";
+	String pathType = properties.get("pathType", "url");
+	String featureTitle = properties.get("featuretitle", "UPCOMING EVENTS");
+	int eventCount = Integer.parseInt(properties.get("eventcount", "0"));
+	int daysofevents = Integer.parseInt(properties.get("daysofevents", "0"));
+	String filterProp = properties.get("filter", "end"); // filtered by start or end date of the events. by cwu
+
+	// Upcoming Events
 	SearchResultsInfo srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
 	if (srchInfo == null) {
 		%><cq:include script="/apps/girlscouts/components/event-search/event-search.jsp" /><%
 		srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
 	}
+	List<String> srchInfoList = srchInfo != null ? srchInfo.getResults() : new ArrayList<String>();
+
+	// Tagged Events
+	ArrayDeque<String> taggedEvents = (ArrayDeque) request.getAttribute("taggedEvents");
+	List<String> taggedEventsList = new ArrayList<>(taggedEvents);
+
+	// Select Events based upon config
+	List<String> results = pathType.equals("tags") ? taggedEventsList : srchInfoList;
 
 	Date today = new Date();
 	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -31,27 +48,8 @@
 	String evtStartDt = formatter.format(today);
 	try {
 		today = formatter.parse(evtStartDt);
-	}catch (Exception e) {}
-
-	java.util.List<String> results = srchInfo != null ? srchInfo.getResults(): new ArrayList<String>();
-	int eventcounts = 0;
+	} catch (Exception e) {}
 	int eventsRendered = 0;
-	String key = "";
-	String value = "";
-
-	if (properties.containsKey("eventcount")) {
-		eventcounts = Integer.parseInt(properties.get("eventcount",String.class));
-	}
-
-	String designPath = currentDesign.getPath();
-	String iconImg = properties.get("fileReference", String.class);
-	String eventsLink = properties.get("urltolink", "") + ".html";
-	String pathType = properties.get("pathType", "url");
-	String featureTitle = properties.get("featuretitle","UPCOMING EVENTS");
-	int daysofevents = Integer.parseInt(properties.get("daysofevents","0"));
-	//filtered by start or end date of the events. by cwu
-	String filterProp = properties.get("filter", "end");
-	Date startDate = null;
 	List<Map<String, Object>> renderMaps = new ArrayList<>();
 %>
 
@@ -69,15 +67,15 @@
 			%></h2>
 			<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
 				<%
-					// Feature/Tagged Events
+					// Feature Events
 					//com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
 					ArrayDeque<String> featureEvents = (ArrayDeque) request.getAttribute("featureEvents");
 					Calendar cale = Calendar.getInstance();
-					if (eventcounts > 0 && !featureEvents.isEmpty()) {
+					if (eventCount > 0 && !featureEvents.isEmpty()) {
 						Iterator<String> itemUrl = featureEvents.descendingIterator();
 						Date currentDate = new Date();
 						while (itemUrl.hasNext()) {
-							Node node = resourceResolver.getResource(itemUrl.next()).getParent().adaptTo(Node.class);
+							Node node = resourceResolver.getResource(itemUrl.next()).adaptTo(Node.class);
 							try {
 								if (node.hasNode("jcr:content/data")) {
 									Node propNode = node.getNode("jcr:content/data");
@@ -104,15 +102,33 @@
 						}
 					}
 
-					// Upcoming Events
+					// Sort
+					renderMaps.sort((m1, m2) -> {
+						Date d1 = (Date)m1.get("date");
+						Date d2 = (Date)m2.get("date");
+						return d1.before(d2) ? -1 : 1;
+					});
+
+					// Render
+					for (Map<String, Object> renderMap : renderMaps) {
+						renderMap.forEach((k, v) -> {
+							if (!k.equals("date")) request.setAttribute(k, v);
+						});
+						%><cq:include script="event-render.jsp"/><%
+					}
+
+					// Clear maps
+					renderMaps.clear();
+
+					// Upcoming Events or Tagged Events
 					// need to look for the event starting/ending date is great then TODAYS date, if end date is not there, else start >= todays date.
 					GSDateTime gsToday = new GSDateTime();
 					GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 					int count = 0;
-					if (eventcounts > results.size()) {
-						eventcounts = results.size();
+					if (eventCount > results.size()) {
+						eventCount = results.size();
 					}
-					if (eventcounts > 0 && !pathType.equals("tags")) {
+					if (eventCount > 0) {
 						if (daysofevents > 0) {
 							Calendar cal1 = Calendar.getInstance();
 							cal1.add(Calendar.DATE, daysofevents);
@@ -121,7 +137,7 @@
 							today = formatter.parse(formatter.format(cal1.getTime()));
 						}
 						for (String result : results) {
-							if (count == eventcounts) {
+							if (count == eventCount) {
 								break;
 							}
 							Node node = resourceResolver.getResource(result).adaptTo(Node.class);
@@ -173,7 +189,7 @@
 
 					// Render
 					for (Map<String, Object> renderMap : renderMaps) {
-						if (eventsRendered < eventcounts) {
+						if (eventsRendered < eventCount) {
 							renderMap.forEach((k, v) -> {
 								if (!k.equals("date")) request.setAttribute(k, v);
 							});
