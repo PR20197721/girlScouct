@@ -26,7 +26,7 @@
 	script="/apps/girlscouts/components/event-search/event-search.jsp" />
 <%
 	srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
-	
+
 	}
 %>
 
@@ -44,14 +44,14 @@
 	int eventsRendered = 0;
 	String key = "";
 	String value = "";
-	
+
 	if (properties.containsKey("eventcount")) {
 			eventcounts = Integer.parseInt(properties.get("eventcount",String.class));
 			if (eventcounts > results.size()) {
 				eventcounts = results.size();
 			}
 	}
-	
+
 	String designPath = currentDesign.getPath();
 	String iconImg = properties.get("fileReference", String.class);
 	String eventsLink = properties.get("urltolink", "") + ".html";
@@ -81,7 +81,7 @@
 						<%
 							//com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
 							ArrayDeque<String> featureEvents = (ArrayDeque) request.getAttribute("featureEvents");
-							Calendar cale =  Calendar.getInstance();
+							Calendar cale = Calendar.getInstance();
 							if (featureEvents != null && !featureEvents.isEmpty()) {
 								Iterator<String> itemUrl = featureEvents.descendingIterator();
 								Date currentDate = new Date();
@@ -92,33 +92,27 @@
 										if (node.hasNode("jcr:content/data")) {
 											Node propNode = node.getNode("jcr:content/data");
 
-                      //Check for featured events excluded by date 
-                     if (propNode.hasProperty(filterProp)){
-							cale.setTime(fromFormat.parse(propNode.getProperty(filterProp).getString()));
-                     }else {
-                    	 cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-                     }
-										Date eventStartDate = cale.getTime();
+											//Check for featured events excluded by date
+											if (propNode.hasProperty(filterProp)) {
+												cale.setTime(fromFormat.parse(propNode.getProperty(filterProp).getString()));
+											} else {
+												cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+											}
+											Date eventStartDate = cale.getTime();
 
-                      if(eventStartDate.after(currentDate)){
-
-                          title = propNode.getProperty("../jcr:title").getString();
-
-                          request.setAttribute("propNode", propNode);
-                          request.setAttribute("node", node);
-                          request.setAttribute("href", href);
-                          request.setAttribute("title", title);
-                          %>
-                              <cq:include script="event-render.jsp" />
-                          <%
-                              eventsRendered++;
-                      }
+											if (eventStartDate.after(currentDate)) {
+												title = propNode.getProperty("../jcr:title").getString();
+												request.setAttribute("propNode", propNode);
+												request.setAttribute("node", node);
+												request.setAttribute("href", href);
+												request.setAttribute("title", title);
+												%><cq:include script="event-render.jsp"/><%
+												eventsRendered++;
+											}
 										}
 									} catch (Exception e) {}
 								}
-
 							}
-
 						%>
 						<%
                             // need to look for the event starting/ending date is great then TODAYS date, if end date is not there, else start >= todays date.
@@ -167,11 +161,11 @@
 												request.setAttribute("href", href);
 												request.setAttribute("title", title);
 												if (!featureEvents.contains(result)) {
-															
+
 												%>
 													<cq:include script="event-render.jsp" />
 
-												<%		
+												<%
                                                     eventsRendered++;
 													count++;
 												}
