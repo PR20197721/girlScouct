@@ -2,8 +2,8 @@
 	import="com.day.cq.tagging.TagManager,java.util.ArrayList,
             java.util.HashSet,java.text.DateFormat,
             java.text.SimpleDateFormat,java.util.Date,
-            java.util.Locale,java.util.Arrays,
-            java.util.Iterator,
+            java.util.Locale,java.util.Arrays,java.util.List,
+            java.util.Iterator,java.util.Map,java.util.HashMap,
             java.util.Set,com.day.cq.search.result.SearchResult,
             java.util.ResourceBundle,com.day.cq.search.QueryBuilder,
             javax.jcr.PropertyIterator,
@@ -85,6 +85,7 @@
 							if (featureEvents != null && !featureEvents.isEmpty()) {
 								Iterator<String> itemUrl = featureEvents.descendingIterator();
 								Date currentDate = new Date();
+								List<Map<String, Object>> renderMaps = new ArrayList<>();
 								while (itemUrl.hasNext()) {
 									Node node = resourceResolver.getResource(itemUrl.next()).getParent().adaptTo(Node.class);
 									href = node.getPath() + ".html";
@@ -92,7 +93,7 @@
 										if (node.hasNode("jcr:content/data")) {
 											Node propNode = node.getNode("jcr:content/data");
 
-											//Check for featured events excluded by date
+											// Check for featured events excluded by date
 											if (propNode.hasProperty(filterProp)) {
 												cale.setTime(fromFormat.parse(propNode.getProperty(filterProp).getString()));
 											} else {
@@ -101,16 +102,32 @@
 											Date eventStartDate = cale.getTime();
 
 											if (eventStartDate.after(currentDate)) {
-												title = propNode.getProperty("../jcr:title").getString();
-												request.setAttribute("propNode", propNode);
-												request.setAttribute("node", node);
-												request.setAttribute("href", href);
-												request.setAttribute("title", title);
-												%><cq:include script="event-render.jsp"/><%
-												eventsRendered++;
+												Map<String, Object> renderMap = new HashMap<>();
+												renderMap.put("date", eventStartDate);
+												renderMap.put("propNode", propNode);
+												renderMap.put("node", node);
+												renderMap.put("href", href);
+												renderMap.put("title", propNode.getProperty("../jcr:title").getString());
+												renderMaps.add(renderMap);
 											}
 										}
 									} catch (Exception e) {}
+								}
+
+								// Sort
+								renderMaps.sort((m1, m2) -> {
+									Date d1 = (Date)m1.get("date");
+									Date d2 = (Date)m2.get("date");
+									return d1.before(d2) ? -1 : 1;
+								});
+
+								// Render
+								for (Map<String, Object> renderMap : renderMaps) {
+									renderMap.forEach((k, v) -> {
+										if (!k.equals("date")) request.setAttribute(k, v);
+									});
+									%><cq:include script="event-render.jsp"/><%
+									eventsRendered++;
 								}
 							}
 						%>
