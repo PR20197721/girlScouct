@@ -9,7 +9,10 @@ $(document).ready(function() {
     var gatedFormDownload = "";
     var selector = generateSelector(extensions, filesList);
     var action = $("#gated-content-form-action").attr("action");
-    $(selector).click(function() {
+    $(selector).click(function(e) {
+    	if(!e.target.hasAttribute("target")){
+    		e.target.setAttribute("target", "_blank");
+    	}
         var gsathomeDataFound = false;
         var gsathomeCookie = getCookie('gsathome');
         if (gsathomeCookie) {

@@ -8,19 +8,24 @@
 
 #gsathome-age-check-title{
 	margin-bottom:30px;
+	font-weight: 500;
 }
 
 #gsathome-age-check-subtitle{
 	margin-bottom:20px;
+	font-weight: 500;
 }
 
 #gsathome-age-form{
 	display: inline-flex;
 }
-.input-col input-month,input-col input-day,input-col input-year{
-	width: 60px;
+.input-col.input-month {
+    width: 60px;
 }
 
+.input-col.input-day {
+    width: 60px;
+}
 .input-col {
 	padding-right:10px;
 }
@@ -28,10 +33,17 @@
 #gsathome-age-gate-month,#gsathome-age-gate-day{
 	width: 40px; 
 	display:inline-flex;
+	font-size: 0.875rem;
+	height: 2.3125rem
+}
+#gsathome-age-form input {
+    margin-bottom: 5px;
 }
 
 #gsathome-age-gate-year{
 	width: 50px; 
+    font-size: 0.875rem;
+	height: 2.3125rem
 }
 
 
@@ -47,6 +59,7 @@
 
 #gsathome-privacy-policy{
 	font-size:13px;
+	line-height:1.5;
 }
 
 #gsathome-age-form-continue{
@@ -58,6 +71,12 @@
 	padding-right: 15px;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	margin-bottom: 20px;
+    height: 36px;
+    font-size: 1.125rem;
+    background-color: #00AE58;
+    border-color: #008b46;
+    color: #FFFFFF;
 }
 
 #gsathome-download h3{
@@ -80,7 +99,9 @@ input[type=number] {
 #gsathome-age-form input { 
 	margin-bottom:5px;
 	text-align:center;
+	
 }
+
 #gsathome-main-form input[type="text"],
 #gsathome-main-form input[type="email"],
 #gsathome-main-form input[type="tel"] {
@@ -130,7 +151,7 @@ input[type=number] {
 
 #gsathome-main-form #divIsMember {
     font-size: 12px;
-    display: block;
+    display: inline-flex;
     line-height: 16px;
     width: 95%;
     padding-top: 5px;
@@ -160,6 +181,33 @@ input[type=number] {
     font-weight: 600;
 }
 
+button#submit {
+    font-size: 1.125rem;
+    background-color: #00AE58;
+    border-color: #008b46;
+    color: #FFFFFF;
+	height:36px;
+}
+#gsathome-main-form label{
+	color: #4d4d4d;
+    cursor: pointer;
+    display: block;
+    font-size: 0.875rem;
+    font-weight: normal;
+    line-height: 1.5;
+}
+input#is-member{
+	margin-top:0.25rem;
+}
+
+div#divEmail {
+    margin-top: 5px;
+}
+
+#gsathome-main-form input::placeholder {
+    color: #cccccc;
+    font-size: 14px;
+}
 
 @media screen and (max-width: 585px) {
     #gsathome-main-form {
@@ -175,4 +223,10 @@ input[type=number] {
 
 @media screen and (min-width: 360px) and (max-width:360px) {
 	
+}
+
+@media only screen and (min-width: 48.1225em){
+	#gsathome-age-check-title {
+    font-size: 1.75rem;
+}
 }

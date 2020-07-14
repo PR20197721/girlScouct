@@ -75,7 +75,15 @@ public class GatedContentForm {
 
 		Iterator<Resource> filesItr = files.listChildren();
 		while (filesItr.hasNext()) {
-			filesList.add(filesItr.next().getValueMap().get("file", String.class));
+			String filePath = filesItr.next().getValueMap().get("file", String.class);
+			if(null != filePath) {
+				if(filePath.lastIndexOf(".") != -1 && filePath.lastIndexOf(".") != 0) {
+					filesList.add(filePath);
+				}else {
+					filePath  += ".html";
+					filesList.add(filePath);
+				}
+			}
 		}
 
 	}
