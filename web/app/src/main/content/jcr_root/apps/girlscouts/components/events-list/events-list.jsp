@@ -82,7 +82,7 @@
 							//com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
 							ArrayDeque<String> featureEvents = (ArrayDeque) request.getAttribute("featureEvents");
 							Calendar cale = Calendar.getInstance();
-							if (featureEvents != null && !featureEvents.isEmpty()) {
+							if (!featureEvents.isEmpty()) {
 								Iterator<String> itemUrl = featureEvents.descendingIterator();
 								Date currentDate = new Date();
 								List<Map<String, Object>> renderMaps = new ArrayList<>();
