@@ -6,7 +6,7 @@
             java.util.Iterator,
             java.util.Set,com.day.cq.search.result.SearchResult,
             java.util.ResourceBundle,com.day.cq.search.QueryBuilder,
-            javax.jcr.PropertyIterator, javax.jcr.Value,
+            javax.jcr.PropertyIterator,
             com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,
             java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset,
             java.util.ArrayDeque, java.util.Iterator"%>
@@ -56,7 +56,6 @@
 	String iconImg = properties.get("fileReference", String.class);
 	String eventsLink = properties.get("urltolink", "") + ".html";
 	String pathType = properties.get("pathType", "url");
-	String tags = properties.get("cq:tags");
 	String featureTitle = properties.get("featuretitle","UPCOMING EVENTS");
 	int daysofevents = Integer.parseInt(properties.get("daysofevents","0"));
 	//filtered by start or end date of the events. by cwu
@@ -72,52 +71,25 @@
 			<div class="column large-23 small-22 medium-23">
 				<div class="row collapse">
 					<h2 class="columns large-24 medium-24"><%
-                        if (pathType.equals("url")) {
-                            %><a href="<%=eventsLink%>"><%=featureTitle%></a><%
-                        } else {
-                            %><%=featureTitle%><%
-                        }
+						if (pathType.equals("url")) {
+							%><a href="<%=eventsLink%>"><%=featureTitle%></a><%
+						} else {
+							%><%=featureTitle%><%
+						}
 					%></h2>
 					<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
 						<%
 							//com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
 							ArrayDeque<String> featureEvents = (ArrayDeque) request.getAttribute("featureEvents");
 							Calendar cale =  Calendar.getInstance();
-							if (!featureEvents.isEmpty()) {
+							if (featureEvents != null && !featureEvents.isEmpty()) {
 								Iterator<String> itemUrl = featureEvents.descendingIterator();
 								Date currentDate = new Date();
 								while (itemUrl.hasNext()) {
-									Node node = resourceResolver.getResource(itemUrl.next()).adaptTo(Node.class);
+									Node node = resourceResolver.getResource(itemUrl.next()).getParent().adaptTo(Node.class);
 									href = node.getPath() + ".html";
-
-									// Has tags
-                                    Boolean hasTags = false;
-                                    Node contentNode = node.getNode("jcr:content");
-                                    if (pathType.equals("tags") && contentNode != null && contentNode.hasProperty("cq:tags")) {
-                                        // We need to check for the multiple properties.
-                                        Property tagProps = contentNode.getProperty("cq:tags");
-                                        Value[] value = new ArrayList<Value>();
-
-                                        if (tagProps.isMultiple()) {
-                                            value = tagProps.getValues();
-                                        } else {
-                                            value = new Value[]{tagProps.getValue()};
-                                        }
-
-                                        String eventTags = value.join(",");
-                                        log.error("TAGS: {}", tags);
-                                        log.error("EVENT TAGS: {}", eventTags);
-                                        if (tags != null && eventTags != null) {
-                                            for (String tag : tags.split(",")) {
-                                                if (eventTags.contains(tag)) hasTags = true;
-                                            }
-                                        }
-                                    } else {
-                                        hasTags = true;
-                                    }
-
 									try {
-										if (node.hasNode("jcr:content/data") && hasTags) {
+										if (node.hasNode("jcr:content/data")) {
 											Node propNode = node.getNode("jcr:content/data");
 
                       //Check for featured events excluded by date 

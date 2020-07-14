@@ -8,20 +8,17 @@
 	TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
 	String[] tagIDs = (String[])properties.get("cq:tags", null);
 	String path = currentSite.get("eventPath",String.class);
-	RangeIterator<Resource> it = tagManager.find(path, tagIDs);
 	ArrayDeque<String> featureEvents = new ArrayDeque<String>();
-
-	if (pathType.equals("tags")) {
-		while (it.hasNext()) {
-			Resource event = it.next();
-			//Check start date
-			//Check for sort
-			//if(start date in the future) {
-			featureEvents.push(event.getPath());
-			//}
+	if (tagIDs != null) {
+		RangeIterator<Resource> it = tagManager.find(path, tagIDs);
+		if (pathType.equals("tags")) {
+			while (it.hasNext()) {
+				Resource event = it.next();
+				featureEvents.push(event.getPath());
+			}
 		}
+		request.setAttribute("featureEvents", featureEvents);
 	}
-	request.setAttribute("featureEvents", featureEvents);
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 		%><cq:includeClientLib categories="apps.girlscouts.components.authoring"/><%
 	}
