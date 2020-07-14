@@ -20,7 +20,6 @@
 	com.day.cq.dam.api.Asset,
 	com.day.cq.commons.Externalizer,
 	com.day.cq.wcm.api.WCMMode,
-	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
 	org.girlscouts.common.events.search.*,
