@@ -26,15 +26,15 @@ $(document).ready(function() {
         if (gsathomeDataFound) {
             if (gsathomeData[0] != 'age12andunder') {
                 $.post(action, {
-                    Email: gsathomeData[0],
-                    FirstName: gsathomeData[1],
-                    LastName: gsathomeData[2],
-                    Phone: gsathomeData[3],
-                    ZIPCode: gsathomeData[4],
+                	email: gsathomeData[0],
+                	first_name: gsathomeData[1],
+                	last_name: gsathomeData[2],
+                	phone: gsathomeData[3],
+                	zip: gsathomeData[4],
                     IsMember: gsathomeData[5],
-                    Page: gatedFormPage,
-                    Download: gatedFormDownload,
-                    SalesforceCampaignId: salesforceCampaignId
+                    description: gatedFormPage,
+                    company: gatedFormDownload,
+                    Campaign_ID: salesforceCampaignId
                 }, function(response) {
                     if (response === 'success') {
                         return true;
@@ -171,17 +171,17 @@ $(document).ready(function() {
         var gatedFormPhone = $(me).find("[name='phone']").val();
         var gatedFormZIPCode = $(me).find("[name='zipcode']").val();
         var gatedFormIsMember = $(me).find("[name='is-member']:checked").val();
-
+        
         $.post(action, {
-            Email: gatedFormEmail,
-            FirstName: gatedFormFirstName,
-            LastName: gatedFormLastName,
-            Phone: gatedFormPhone,
-            ZIPCode: gatedFormZIPCode,
-            Page: gatedFormPage,
-            Download: gatedFormDownload,
+            email: gatedFormEmail,
+            first_name: gatedFormFirstName,
+            last_name: gatedFormLastName,
+            phone: gatedFormPhone,
+            zip: gatedFormZIPCode,
+            description: gatedFormPage,
+            company: gatedFormDownload,
             IsMember: gatedFormIsMember,
-            SalesforceCampaignId: salesforceCampaignId
+            Campaign_ID: salesforceCampaignId
         }, function(result) {
             if (result == 'success') {
                 $('#gsathome-main').hide();
