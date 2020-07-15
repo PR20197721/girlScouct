@@ -22,7 +22,6 @@
 	String iconImg = properties.get("fileReference", "#");
 	String eventsLink = properties.get("urltolink", "");
 	eventsLink = eventsLink.isEmpty() ? "" : eventsLink+ ".html";
-	String pathType = properties.get("pathType", "url");
 	String featureTitle = properties.get("featuretitle", "UPCOMING EVENTS");
 	int eventCount = Integer.parseInt(properties.get("eventcount", "0"));
 	int daysofevents = Integer.parseInt(properties.get("daysofevents", "0"));
@@ -41,7 +40,7 @@
 	List<String> taggedEventsList = new ArrayList<>(taggedEvents);
 
 	// Select Events based upon config
-	List<String> results = pathType.equals("tags") ? taggedEventsList : srchInfoList;
+	List<String> results = !taggedEventsList.isEmpty() ? taggedEventsList : srchInfoList;
 
 	Date today = new Date();
 	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -59,13 +58,9 @@
 	</div>
 	<div class="column large-23 small-22 medium-23" style="float:none">
 		<div class="row collapse">
-			<h2 class="columns large-24 medium-24"><%
-				if (pathType.equals("url")) {
-					%><a href="<%=eventsLink%>" style="color: #414141"><%=featureTitle%></a><%
-				} else {
-					%><%=featureTitle%><%
-				}
-			%></h2>
+			<h2 class="columns large-24 medium-24">
+				<a href="<%=eventsLink%>" style="color: #414141"><%=featureTitle%></a>
+			</h2>
 			<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
 				<%
 					// Feature Events

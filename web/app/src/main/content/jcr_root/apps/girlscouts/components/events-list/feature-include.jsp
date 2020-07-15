@@ -18,22 +18,19 @@
 	}
 
 	// Tags
-	String pathType = properties.get("pathType", "url");
 	TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
 	String[] tagIDs = (String[])properties.get("cq:tags", null);
 	String path = currentSite.get("eventPath",String.class);
 	if (tagIDs != null) {
 		RangeIterator<Resource> it = tagManager.find(path, tagIDs);
-		if (pathType.equals("tags")) {
-			while (it.hasNext()) {
-				Resource event = it.next();
-				String eventPath = event.getPath();
-				int index = eventPath.lastIndexOf("/jcr:content");
-				if (index > 0) {
-					eventPath = eventPath.substring(0, index);
-				}
-				taggedEvents.push(eventPath);
+		while (it.hasNext()) {
+			Resource event = it.next();
+			String eventPath = event.getPath();
+			int index = eventPath.lastIndexOf("/jcr:content");
+			if (index > 0) {
+				eventPath = eventPath.substring(0, index);
 			}
+			taggedEvents.push(eventPath);
 		}
 	}
 
