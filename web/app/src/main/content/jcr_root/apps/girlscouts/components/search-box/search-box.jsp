@@ -8,8 +8,10 @@
     String placeholderText = properties.get("placeholder-text", "");
     String lastSearch = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : "";
     lastSearch = URLEncoder.encode(lastSearch, "UTF-8");
+	String valueText = "";
     if (lastSearch != null && lastSearch.trim().length() > 0) {
         placeholderText = URLDecoder.decode(lastSearch, "UTF-8");
+        valueText = "value=\"" + placeholderText + "\"";
     }
     String searchAction = properties.get("searchAction", null);
     String action = (String) request.getAttribute("altSearchPath");
@@ -25,6 +27,6 @@ Please edit Search Box Component
     }
 %>
 <form action="<%=action%>.html" method="get" path="<%=currentNode.getPath()%>">
-    <input type="text" name="q" id="eventSearch" placeholder="<%=placeholderText %>" <%if(lastSearch != null && !"".equals(lastSearch)){ %>value=<%=lastSearch%><%}%> class="searchField"/>
+    <input type="text" name="q" id="eventSearch" placeholder="<%=placeholderText %>" class="searchField" <%=valueText%>/>
 </form>
 <%}%>
