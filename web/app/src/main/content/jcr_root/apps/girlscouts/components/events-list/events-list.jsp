@@ -22,7 +22,6 @@
 	String iconImg = properties.get("fileReference", "#");
 	String eventsLink = properties.get("urltolink", "");
 	eventsLink = eventsLink.isEmpty() ? "" : eventsLink+ ".html";
-	String[] tags = (String[])properties.get("cq:tags", null);
 	String featureTitle = properties.get("featuretitle", "UPCOMING EVENTS");
 	int eventCount = Integer.parseInt(properties.get("eventcount", "0"));
 	int daysofevents = Integer.parseInt(properties.get("daysofevents", "0"));
@@ -41,7 +40,7 @@
 	List<String> taggedEventsList = new ArrayList<>(taggedEvents);
 
 	// Select Events based upon config
-	List<String> results = tags != null ? taggedEventsList : srchInfoList;
+	List<String> results = !taggedEventsList.isEmpty() ? taggedEventsList : srchInfoList;
 
 	Date today = new Date();
 	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
