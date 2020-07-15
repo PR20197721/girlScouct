@@ -53,12 +53,12 @@
 		String contentPar = currentPage.getPath() + "/jcr:content/content/par";
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
 	    if (session.nodeExists(pageImagePath)) {
-	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content/content/hero/par/image.img.png");
+	    	ogImage = currentPage.getPath() + "/jcr:content/content/hero/par/image.img.png";
 	    } else if (session.nodeExists(ragImagePath)) {
 			ValueMap imageProps = resourceResolver.resolve(ragImagePath).adaptTo(ValueMap.class);
 			String ragImage = imageProps.get("fileReference",""); 
 			if(!ragImage.equals("")) {
-		    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
+		    	ogImage = currentPage.getPath() + "/jcr:content.img.png";
 			}else if(session.nodeExists(contentPar)){
 				ogImage = getOgImage(contentPar,resourceResolver);
 			}else if(session.nodeExists(contentMiddlePar)){
