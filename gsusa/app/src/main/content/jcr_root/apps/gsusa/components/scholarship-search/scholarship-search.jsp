@@ -18,13 +18,15 @@
 <%
 	boolean searchMade = false;
 	String path = properties.get("path","");
+	String typeParam = "";
+	String stateParam = "";
 	if(path.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
 		%>
 **PLEASE ENTER A FILE PATH
 		<%
 	} else if (!path.equals("")) {
-		String typeParam = "All";
-		String stateParam = "All";
+		typeParam = "All";
+		stateParam = "All";
 
 		String mySelector = slingRequest.getRequestPathInfo().getSelectorString();
 		if (mySelector != null) {
@@ -80,6 +82,21 @@
 		%>
 		
 <script>
+	$(document).ready(function(){
+		// update page title according to selectors
+		var typeParam = '<%= typeParam %>';
+		var stateParam = '<%= stateParam %>';
+		var title = ''; 
+		
+		if (typeParam.toLowerCase() !== 'all') {
+			title += ' | ' + typeParam;
+		}
+		if (stateParam.toLowerCase() !== 'all') {
+			title += ' | ' + stateParam;
+		}
+		document.title = 'Scholarships' + title + ' - Girl Scouts';
+	});
+
 	function displayResults(obj) {
 		// cannot send "/" so replacing it with "^"
 		var myType = encodeURIComponent(obj["type"].value).replace(/'/g,"%27").replace(/"/g,"%22").replace("%2F","%7E");
