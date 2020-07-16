@@ -36,53 +36,12 @@ println "=========================================="
 
 def encodeAccordionContentNode(contentPath){
 	List<String> childList = new ArrayList<>();
-	Resource resource = resourceResolver.getResource(contentPath);
-	
+	Resource resource = resourceResolver.getResource(contentPath);	
 	String accordionIndex = "";
-	String accordionName = resource.getName();
-	
+	String accordionName = resource.getName();	
 	if (accordionName.contains("_") && accordionName.length() > accordionName.indexOf('_') + 1) {
 		accordionIndex = accordionName.substring(accordionName.indexOf('_') + 1);
-	}
-	
-	try {
-		Node accordionNode = resource.adaptTo(Node.class);
-		if (null != accordionNode) {
-			javax.jcr.NodeIterator nodeItr = accordionNode.getNodes();
-			while (nodeItr.hasNext()) {
-				Node accChildNode = nodeItr.nextNode();
-				if (accChildNode.getName() != "children") {
-					javax.jcr.NodeIterator contenNode = accChildNode.getNodes();
-					while (contenNode.hasNext()) {
-						Node cNode = contenNode.nextNode();
-						if(null != cNode) {
-							if (!cNode.hasProperty("isEncoded") && cNode.hasProperty("text")) {
-								String data = cNode.getProperty("text").getString();
-								byte[] bytesEncoded = Base64.encodeBase64(data.getBytes());
-								String encodedString = new String(bytesEncoded);
-								cNode.setProperty("text", encodedString);
-								cNode.setProperty("isEncoded", true);
-								println "Encoded Node Path: "+cNode.getPath();
-								
-							}else if(!cNode.hasProperty("isEncoded") && cNode.hasProperty("tableData")) {
-								String data = cNode.getProperty("tableData").getString();
-								byte[] bytesEncoded = Base64.encodeBase64(data.getBytes());
-								String encodedString = new String(bytesEncoded);
-								cNode.setProperty("tableData", encodedString);
-								cNode.setProperty("isEncoded", true);
-								println "Encoded Node Path: "+cNode.getPath();
-							}
-						}
-						
-					}
-					
-				}
-			}
-		}
-		
-	}catch(Exception e) {
-		println("Exception occured encodeAccordionContentNode :"+e);
-	}
+	}	
 	
 	Resource children = resource.getChild("children");
 	if(null != children && !children.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
@@ -103,52 +62,38 @@ def encodeAccordionContentNode(contentPath){
 					parsys += idField;					
 				} else {
 					try {
-						//resource.adaptTo(Node.class).getNode(parsys + accordion.getName());
 						parsys += accordion.getName();
 					} catch (PathNotFoundException pnfe) {
 						println("Exception occured" + e);
 					}
-				}
-				
-				String parsysIdentifier = resource.getPath() + "/" + parsys;	
-				
-				try {
-				    
-					Resource parsysRes = resourceResolver.getResource(parsysIdentifier);
-				
-					if (null != parsysRes && !parsysRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-					    
-						Node parNode = parsysRes.adaptTo(Node.class);
-						javax.jcr.NodeIterator parNodeItr = parNode.getNodes();
-						while (parNodeItr.hasNext()) {
-							Node cNode = parNodeItr.nextNode();
-							if(null != cNode) {
-								if (cNode.hasProperty("isEncoded") && cNode.hasProperty("text")) {
-									String decodeStr = cNode.getProperty("text").getString();
-									byte[] valueDecoded = Base64.decodeBase64(decodeStr);
-									String decodedString = new String(valueDecoded);
-									cNode.setProperty("text", decodedString);
-									cNode.getProperty("isEncoded").remove();
-									println "Decoded Node Path: "+cNode.getPath();
-								}
-								else if(cNode.hasProperty("isEncoded") && cNode.hasProperty("tableData")) {
-									String decodeStr = cNode.getProperty("tableData").getString();
-									byte[] valueDecoded = Base64.decodeBase64(decodeStr);
-									String decodedString = new String(valueDecoded);
-									cNode.setProperty("tableData", decodedString);
-									cNode.getProperty("isEncoded").remove();
-									println "Decoded Node Path: "+cNode.getPath();
-								}
-							}
-							
+				}				
+				childList.add(parsys);
+			
+			}
+		}
+	}
+	
+	try {
+		Node accordionNode = resource.adaptTo(Node.class);
+		if (null != accordionNode) {
+			javax.jcr.NodeIterator nodeItr = accordionNode.getNodes();
+			while (nodeItr.hasNext()) {
+				Node accChildNode = nodeItr.nextNode();
+				if (!accChildNode.getName().equals("children")) {
+					if (!childList.contains(accChildNode.getName())) {
+						javax.jcr.NodeIterator contenNode = accChildNode.getNodes();
+						while (contenNode.hasNext()) {
+							Node cNode = contenNode.nextNode();
+							encodeAccordionContent(cNode, "text", session);
+							encodeAccordionContent(cNode, "tableData", session);
 						}
-						//session.save();
 					}
-				} catch (Exception e) {
-					println("Exception occured" + e);
 				}
 			}
 		}
+
+	} catch (Exception e) {
+		println ("Exception occured " + e);
 	}
 	
 }
@@ -163,4 +108,20 @@ def queryResults(statement) {
 		println "Exception occured at queryResults() "+ e;
 	}
 	return result;
+}
+
+def encodeAccordionContent(Node cNode, String component, Session session) {
+	try {
+		if (!cNode.hasProperty("isEncoded") && cNode.hasProperty(component)) {
+			String data = cNode.getProperty(component).getString();
+			byte[] bytesEncoded = Base64.encodeBase64(data.getBytes());
+			String encodedString = new String(bytesEncoded);
+			cNode.setProperty(component, encodedString);
+			cNode.setProperty("isEncoded", true);
+			println "path "+ cNode.getPath();
+			session.save();
+		}
+	} catch (Exception e) {
+		println "Error occured "+e;
+	}
 }

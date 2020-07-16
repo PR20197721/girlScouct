@@ -1,18 +1,19 @@
 <%@page import="org.w3c.dom.traversal.NodeIterator"%>
 <%@page
-	import="	com.day.cq.wcm.api.WCMMode, 
-				org.apache.commons.lang3.StringUtils,
-				org.apache.sling.api.resource.Resource, 
-				java.util.Iterator,
-				java.util.Date,
-				org.apache.commons.codec.binary.Base64,
-				java.lang.StringBuilder, 
-				javax.jcr.Session, 
-				javax.jcr.PathNotFoundException,
-				javax.jcr.Node,
-				org.apache.sling.settings.SlingSettingsService,
-				org.slf4j.Logger,
-				org.slf4j.LoggerFactory"%>
+	import="     com.day.cq.wcm.api.WCMMode, 
+                           org.apache.commons.lang3.StringUtils,
+                           org.apache.sling.api.resource.Resource, 
+                          java.util.Iterator,
+                          java.util.Date,
+                           org.apache.commons.codec.binary.Base64,
+                          java.lang.StringBuilder, 
+                          javax.jcr.Session, 
+                          javax.jcr.PathNotFoundException,
+                          javax.jcr.Node,
+                           org.apache.sling.settings.SlingSettingsService,
+                          org.slf4j.Logger,
+                          org.slf4j.LoggerFactory,
+                          java.util.*"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
 
@@ -27,47 +28,9 @@
 	SlingSettingsService slingeSettings = sling
 			.getService(org.apache.sling.settings.SlingSettingsService.class);
 	boolean isAuthor = slingeSettings.getRunModes().contains("author");
+	List<String> childParsysList = new ArrayList<>();
 	if (accordionName.contains("_") && accordionName.length() > accordionName.indexOf('_') + 1) {
 		accordionIndex = accordionName.substring(accordionName.indexOf('_') + 1);
-	}
-
-	if (isAuthor) {
-		try {
-			Node accordionNode = resource.adaptTo(Node.class);
-			if (null != accordionNode) {
-				javax.jcr.NodeIterator nodeItr = accordionNode.getNodes();
-				while (nodeItr.hasNext()) {
-					Node accChildNode = nodeItr.nextNode();
-					if (accChildNode.getName() != "children") {
-						javax.jcr.NodeIterator contenNode = accChildNode.getNodes();
-						while (contenNode.hasNext()) {
-							Node cNode = contenNode.nextNode();
-							if (!cNode.hasProperty("isEncoded") && cNode.hasProperty("text")) {
-								String data = cNode.getProperty("text").getString();
-								byte[] bytesEncoded = Base64.encodeBase64(data.getBytes());
-								String encodedString = new String(bytesEncoded);
-								cNode.setProperty("text", encodedString);
-								cNode.setProperty("isEncoded", true);
-								
-							}
-							if (!cNode.hasProperty("isEncoded") && cNode.hasProperty("tableData")) {
-								String data = cNode.getProperty("tableData").getString();
-								byte[] bytesEncoded = Base64.encodeBase64(data.getBytes());
-								String encodedString = new String(bytesEncoded);
-								cNode.setProperty("tableData", encodedString);
-								cNode.setProperty("isEncoded", true);
-								
-							}
-						}
-						session.save();
-					}
-				}
-			}
-
-		} catch (Exception e) {
-			logger.debug("Exception occured " + e);
-		}
-
 	}
 
 	if (children != null && !children.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
@@ -110,37 +73,25 @@
 					}
 
 					String parsysIdentifier = resource.getPath() + "/" + parsys;
+					childParsysList.add(parsys);
 					if (isAuthor) {
 						try {
 							Resource parsysRes = resourceResolver.getResource(parsysIdentifier);
-							if (null != parsysRes && !parsysRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+							if (null != parsysRes) {
 								Node parNode = parsysRes.adaptTo(Node.class);
 								javax.jcr.NodeIterator parNodeItr = parNode.getNodes();
 								while (parNodeItr.hasNext()) {
 									Node cNode = parNodeItr.nextNode();
-									if (cNode.hasProperty("isEncoded") && cNode.hasProperty("text")) {
-										String decodeStr = cNode.getProperty("text").getString();
-										byte[] valueDecoded = Base64.decodeBase64(decodeStr);
-										String decodedString = new String(valueDecoded);
-										cNode.setProperty("text", decodedString);
-										cNode.getProperty("isEncoded").remove();
-										
-									}
-									if(cNode.hasProperty("isEncoded") && cNode.hasProperty("tableData")){
-										String decodeStr = cNode.getProperty("tableData").getString();
-										byte[] valueDecoded = Base64.decodeBase64(decodeStr);
-										String decodedString = new String(valueDecoded);
-										cNode.setProperty("tableData", decodedString);
-										cNode.getProperty("isEncoded").remove();
-									}
+									decodeAccordionContent(cNode, "text", session);
+									decodeAccordionContent(cNode, "tableData", session);
 								}
-								session.save();
 							}
 						} catch (Exception e) {
 							logger.debug("Exception occured" + e);
 						}
 					}
 	%>
+
 	<dt class="accordionComponentHeader" style="clear: both"
 		id="<%=achorField%>" data-parsys-identifier="<%=parsysIdentifier%>">
 		<h6 class="accordionComponentLabel"><%=nameField%></h6>
@@ -169,3 +120,61 @@
 <%
 	}
 %>
+<%
+	if (isAuthor) {
+		try {
+			Node accordionNode = resource.adaptTo(Node.class);
+			if (null != accordionNode) {
+				javax.jcr.NodeIterator nodeItr = accordionNode.getNodes();
+				while (nodeItr.hasNext()) {
+					Node accChildNode = nodeItr.nextNode();
+					if (!accChildNode.getName().equals("children")) {
+						if (!childParsysList.contains(accChildNode.getName())) {
+							javax.jcr.NodeIterator contenNode = accChildNode.getNodes();
+							while (contenNode.hasNext()) {
+								Node cNode = contenNode.nextNode();
+								encodeAccordionContent(cNode, "text", session);
+								encodeAccordionContent(cNode, "tableData", session);
+							}
+						}
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			logger.debug("Exception occured " + e);
+		}
+
+	}
+%>
+<%!void encodeAccordionContent(Node cNode, String component, Session session) {
+		Logger log = LoggerFactory.getLogger(this.getClass());
+		try {
+			if (!cNode.hasProperty("isEncoded") && cNode.hasProperty(component)) {
+				String data = cNode.getProperty(component).getString();
+				byte[] bytesEncoded = Base64.encodeBase64(data.getBytes());
+				String encodedString = new String(bytesEncoded);
+				cNode.setProperty(component, encodedString);
+				cNode.setProperty("isEncoded", true);
+				session.save();
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+	}
+
+	void decodeAccordionContent(Node cNode, String component, Session session) {
+		Logger log = LoggerFactory.getLogger(this.getClass());
+		try {
+			if (cNode.hasProperty("isEncoded") && cNode.hasProperty(component)) {
+				String decodeStr = cNode.getProperty(component).getString();
+				byte[] valueDecoded = Base64.decodeBase64(decodeStr);
+				String decodedString = new String(valueDecoded);
+				cNode.setProperty(component, decodedString);
+				cNode.getProperty("isEncoded").remove();
+				session.save();
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+	}%>
