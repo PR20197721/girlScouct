@@ -320,27 +320,26 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     private void setTroopsForUser(ApiConfig apiConfig, User user, UserInfoResponseEntity userInfoResponseEntity, ParentEntity[] campsTroops) {
         List<Troop> parentTroops = new ArrayList<Troop>();
         List<Troop> additionalTroops;
-        if(girlScoutsManualTroopLoadService.isActive() && !apiConfig.isDemoUser()) {
-            additionalTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
-        } else {
-            if (campsTroops != null && campsTroops.length > 0) {
-                for (ParentEntity entity : campsTroops) {
-                    if (entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
-                        Troop troop = ParentEntityToTroopMapper.map(entity);
-                        //Independent Registered Member
-                        if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                            setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
-                        } else {
-                            troop.setRole("PA");
-                            parentTroops.add(troop);
-                        }
-                        troop.setSfUserId(user.getSfUserId());
+        if (campsTroops != null && campsTroops.length > 0) {
+            for (ParentEntity entity : campsTroops) {
+                if (entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
+                    Troop troop = ParentEntityToTroopMapper.map(entity);
+                    //Independent Registered Member
+                    if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
+                        setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
                     } else {
-                        log.debug("Skipping parent troop: {}", entity.toString());
+                        troop.setRole("PA");
+                        parentTroops.add(troop);
                     }
+                    troop.setSfUserId(user.getSfUserId());
+                } else {
+                    log.debug("Skipping parent troop: {}", entity.toString());
                 }
             }
-            additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
+        }
+        additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
+        if(additionalTroops.size() == 0 && !user.isActive()){
+            additionalTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
         }
         //Service Unit Manager
         if (user.isServiceUnitManager()) {
