@@ -106,7 +106,7 @@ String getOgImage(String par,ResourceResolver resourceResolver){
 		Iterator<Resource> itr = contentParResource.listChildren();
 		while(itr.hasNext()){
 			Resource childResource = itr.next();
-			if(childResource.isResourceType("gsusa/components/image")){
+			if(childResource.isResourceType("gsusa/components/image") || childResource.isResourceType("girlscouts/components/image")){
 				ValueMap imageProps = resourceResolver.resolve(childResource.getPath()).adaptTo(ValueMap.class);
 				ogImage = imageProps.get("fileReference",""); 
 				break;
