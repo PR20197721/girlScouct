@@ -194,27 +194,27 @@
                     if (node.hasProperty("popupBody")) {
                         popupBody = node.getProperty("popupBody").getString();
                     }
-%>
-<!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
-<div id="maintenanceModal" class="maintenance">
-    <!-- Modal content -->
-    <div class="maintenance-content">
-        <div class="modal-header">
-            <div class="vtk-maintenance-news-button">
-                <span id="modal-close-button">X</span>
-            </div>
-            <div class="maintenanceHeader"><%= popupHeader %> </br></div>
-        </div>
-        <div class="modal-body">
-            <p id="maintenanceBody"><%= popupBody %>
-            </p>
-        </div>
-        <div class="modal-footer">
-            <strong>-The GSUSA VTK Team</strong>
-        </div>
-    </div>
-</div>
-<%
+                    %>
+                    <!--PAGE STRUCTURE: MAINTENANCE NOTIFICATION-->
+                    <div id="maintenanceModal" class="maintenance">
+                        <!-- Modal content -->
+                        <div class="maintenance-content">
+                            <div class="modal-header">
+                                <div class="vtk-maintenance-news-button">
+                                    <span id="modal-close-button">X</span>
+                                </div>
+                                <div class="maintenanceHeader"><%= popupHeader %> </br></div>
+                            </div>
+                            <div class="modal-body">
+                                <p id="maintenanceBody"><%= popupBody %>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <strong>-The GSUSA VTK Team</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <%
                 }
             }
         } catch (Exception e) {

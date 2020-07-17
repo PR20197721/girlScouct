@@ -18,4 +18,6 @@ public interface GirlScoutsMeetingOCMService {
 
     List<Meeting> findObjects(String path, Map<String, String> params);
 
+    List<Meeting> findObjectsCustomQuery(String query);
+
 }

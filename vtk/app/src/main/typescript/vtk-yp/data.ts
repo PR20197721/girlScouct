@@ -81,19 +81,16 @@ export function parseJSONVTK(json: any) {
         }
 
         if (json[part].hasOwnProperty('level')) {
-
-
             if (json[part]['level'] === "Grade") {
                 parts.push(json[part])
-            } else if (json[part]['level'] === "Category") {
-
-                json[part]['categories'] = [];
-                parts.push(json[part]);
-                currentCategory = parts.length - 1;
-
+            } else {
+                if (json[part]['level'] === "Category") {
+                    json[part]['categories'] = [];
+                    parts.push(json[part]);
+                    currentCategory = parts.length - 1;
+                }
             }
         } else {
-
             parts[currentCategory]['categories'].push(json[part])
         }
 

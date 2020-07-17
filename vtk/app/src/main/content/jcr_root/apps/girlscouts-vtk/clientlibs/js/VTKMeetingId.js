@@ -23,25 +23,28 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.Selection, {
     constructor: function(config) {
         config = config || {};
         defaults = {
-    		type: 'select',
-    		editable: true,
-    		allowBlank: false,
-    		optionsConfig: {
-    			forceSelection: true
-    		}
+            type: 'select',
+            editable: true,
+            allowBlank: false,
+            optionsConfig: {
+                forceSelection: true
+            }
         };
         config = CQ.Util.applyDefaults(config, defaults);
         girlscouts.components.VTKMeetingId.superclass.constructor.call(this, config);
     },
-    
+
     initComponent: function() {
         girlscouts.components.VTKMeetingId.superclass.initComponent.call(this);
 
-		this.idField = new CQ.Ext.form.Hidden({});
-		this.add(this.idField);
+        this.idField = new CQ.Ext.form.Hidden({});
+        this.add(this.idField);
 
-		this.ocmField = new CQ.Ext.form.Hidden({});
-		this.add(this.ocmField);
+        this.sortOrderField = new CQ.Ext.form.Hidden({});
+        this.add(this.sortOrderField);
+
+        this.ocmField = new CQ.Ext.form.Hidden({});
+        this.add(this.ocmField);
     }
 });
 
