@@ -133,6 +133,7 @@
                 <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
                     <a href="<%=relayUrl %><%=vtk_cache_uri%>/vtk.resource.html">Resources</a>
                 </dd>
+                <%}%>
                 <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MILESTONE_ID) && !selectedTroop.getIsLoadedManualy()) { %>
                 <dd <%= "milestones".equals(activeTab) ? "class='active'" : "" %>>
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
@@ -143,13 +144,12 @@
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (user.isAdmin() || !(isParent || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                <% if (user.isAdmin() || !(user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
                 </dd>
                 <% } %>
-                <%}%>
             </dl>
             <div class="dropdown hide-for-print hide-for-large-up">
                 <a id="vtk-main-menu-button"
@@ -301,14 +301,14 @@
                     <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="<%=relayUrl %>/myvtk/<%=councilMapper.getCouncilName(selectedTroop.getSfCouncil())%>/vtk.resource.html">Resources</a>
                     </li>
+                    <%}%>
                     <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MILESTONE_ID) && !selectedTroop.getIsLoadedManualy()) { %>
                     <li <%= ("milestones".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
                     </li>
                     <% } %>
                     <% if (user.isAdmin() && !"0".equals(user.getAdminCouncilId()) && !selectedTroop.getIsLoadedManualy()) { %>
-                    <li
-                            class='has-dropdown<%= ("reports".equals(activeTab)) ? " active" : "" %>'>
+                    <li class='has-dropdown<%= ("reports".equals(activeTab)) ? " active" : "" %>'>
                         <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                         <% if ("reports".equals(activeTab)) { %>
                         <ul class="dropdown">
@@ -319,12 +319,11 @@
                         <% } %>
                     </li>
                     <% } %>
-                    <% if (user.isAdmin() || !(isParent || user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                    <% if (user.isAdmin() || !(user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                     <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
                     </li>
                     <% } %>
-                    <%}%>
                 </ul>
             </div>
         </div>

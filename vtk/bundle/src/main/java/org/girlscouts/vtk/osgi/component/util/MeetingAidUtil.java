@@ -106,9 +106,14 @@ public class MeetingAidUtil {
                                     } else {
                                         asset.setIsGlobalRelated(false);
                                     }
+                                    if (props.hasProperty("dc:isVirtualRelated")) {
+                                        asset.setIsVirtualRelated(props.getProperty("dc:isVirtualRelated").getBoolean());
+                                    } else {
+                                        asset.setIsVirtualRelated(false);
+                                    }
                                     asset.setIsCachable(true);
                                     asset.setType("AID");
-                                    asset.setDescription(props.getProperty("dc:description").getString());
+                                    asset.setDescription(props.hasProperty("dc:description") ? props.getProperty("dc:description").getString() : "" );
                                     asset.setTitle(props.getProperty("dc:title").getString());
                                     meetingAids.add(asset);
                                 }
