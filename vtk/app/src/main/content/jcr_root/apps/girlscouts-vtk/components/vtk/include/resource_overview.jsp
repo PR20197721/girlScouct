@@ -30,7 +30,7 @@
                         width="60px"
                         height="60px"
                         <% if (isReq) { %> onclick="afterClick(this)" <% } %>
-                        src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=meeting.getId()%>.png"
+                        src="/content/girlscouts-vtk/service/meeting/icon.<%=meeting.getId()%>.png"
                 />
             </div>
         </div>

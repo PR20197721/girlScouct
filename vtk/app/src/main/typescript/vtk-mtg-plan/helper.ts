@@ -14,7 +14,7 @@ export module HELPER {
     }
     export module PATH {
         const URL = {
-            'MTG_IMAGES': '/content/dam/girlscouts-vtk/local/icon/meetings/'
+            'MTG_IMAGES': '/content/girlscouts-vtk/service/meeting/icon.'
         };
 
         export function URL_MAKER(type: string, file = '') {
