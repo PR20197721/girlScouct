@@ -19,7 +19,7 @@
     		               "538", "608", "134", "377", "506", "450", "634", "110", "116", "345", "556", "635", "536", "131", "603", 
     		               "687", "263", "478", "563", "346", "282", "607", "313", "194", "456", "664", "388", "312", "325", "161",
     		               "434", "289", "135", "590", "416", "320", "376", "441", "117", "212", "238", "700", "622", "106", "465",
-    		               "402"};
+    		               "402", "415", "234"};
     
     String gsLearnCouncil = "";
     List<Troop> userTroops = null;
@@ -158,7 +158,7 @@
                                     <% if (councilId.equals(gsLearnCouncil) || usercounciId.equals(gsLearnCouncil)) { %>
                                     <a href="https://gsmembers.force.com/members/idp/login?app=0sp0f000000k9bw"><img src="/etc/designs/girlscouts-vtk/images/btn_member_gslearn.jpg"/></a>
                                     <p>
-                                        Get training and resources to support you in your volunteer role and have an amazing Girl Scout year!<br/><br/>Everything on gsLearn is designed to help you get started. You can return at any time to review and refresh your Girl Scout knowledge!
+                                        Get the training and resources you need for an amazing Girl Scout year!<br/><br/>Everything on gsLearn is designed to help you have a successful Girl Scout experience. You can return at any time to review and refresh your knowledge.
                                     </p>
                                     <%}%>
                                 </li>
