@@ -31,9 +31,8 @@ $(document).ready(function() {
                 	last_name: gsathomeData[2],
                 	phone: gsathomeData[3],
                 	zip: gsathomeData[4],
-                    IsMember: gsathomeData[5],
-                    description: gatedFormPage,
-                    company: gatedFormDownload,
+                    description: 'Current Member:'+gsathomeData[5] +'\n'+'Page URL:'+gatedFormPage,
+                    company: 'Download URL:'+gatedFormDownload,
                     Campaign_ID: salesforceCampaignId
                 }, function(response) {
                     if (response === 'success') {
@@ -171,16 +170,16 @@ $(document).ready(function() {
         var gatedFormPhone = $(me).find("[name='phone']").val();
         var gatedFormZIPCode = $(me).find("[name='zipcode']").val();
         var gatedFormIsMember = $(me).find("[name='is-member']:checked").val();
-        
+        gatedFormIsMember = gatedFormIsMember==='Yes'?'Yes':'No';
+
         $.post(action, {
             email: gatedFormEmail,
             first_name: gatedFormFirstName,
             last_name: gatedFormLastName,
             phone: gatedFormPhone,
             zip: gatedFormZIPCode,
-            description: gatedFormPage,
-            company: gatedFormDownload,
-            IsMember: gatedFormIsMember,
+            description: 'Current Member:'+gatedFormIsMember+'\n'+'Page URL:'+gatedFormPage,
+            company: 'Download URL:'+gatedFormDownload,
             Campaign_ID: salesforceCampaignId
         }, function(result) {
             if (result == 'success') {

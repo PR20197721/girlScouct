@@ -2,7 +2,7 @@
 <div data-sly-test="${wcmmode.edit}" class="cq-placeholder cq-marker-start"	data-emptytext="${component.getTitle}"></div>
 <!-- Component Placeholder : end -->
 <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html" data-sly-call="${clientlib.css @ categories='apps.girlscouts.components.gated-content-form'}" />
-<div data-sly-use.gatedForm ="org.girlscouts.web.components.models.GatedContentForm">	
+<div data-sly-use.gatedForm ="org.girlscouts.common.components.models.GatedContentForm">	
 	<sly data-sly-test="${gatedForm.showBirthdayPopup}">
 		<sly data-sly-call="${clientlib.js @ categories='apps.girlscouts.components.gated-content-form'}"/>
 	</sly>	

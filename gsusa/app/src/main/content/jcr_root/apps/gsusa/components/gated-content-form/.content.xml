@@ -3,4 +3,4 @@
     jcr:primaryType="cq:Component"
     jcr:title="Gated Content Form"
     sling:resourceSuperType="girlscouts-common/components/gated-content-form"
-    componentGroup="Girl Scouts"/>
+    componentGroup="GSUSA"/>
