@@ -27,7 +27,6 @@ def encodeAccordionContent(council){
 	println "Encoding accordion content for " + council;
 	def statement = "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([${council}]) and s.[sling:resourceType] = 'girlscouts/components/accordion'"
 	def result = queryResults(statement);
-
 	println "Total Number of Accordion componenst configured in "+council +": "+result.getRows().size();
 
 	try {
@@ -102,31 +101,41 @@ def checkForUnusedAccordions(accordionPath) {
 		}
 	} catch (Exception e) {
 		println ("Exception occured " + e);
+
 	}
 }
 
 def encodeAccordionContentNode(cnode) {
 	String[] properties =["text", "tableData", "jcr:title", "title", "alt", "jcr:description"];
-	if(null != cnode) {
-		if(!cnode.hasProperty('isEncoded')) {
-			for(String prop:properties) {
-				if(cnode.hasProperty(prop)) {
-					String data = cnode.getProperty(prop).getString();
-					byte[] bytesEncoded = Base64.encodeBase64(data.getBytes());
-					String encodedString = new String(bytesEncoded);
-					cnode.setProperty(prop, encodedString);
+	try{
+		if(null != cnode) {
+			if(!cnode.hasProperty('isEncoded')) {
+				for(String prop:properties) {
+					if(cnode.hasProperty(prop)) {
+						if(!cnode.isCheckedOut()){
+							println"Node is checkedin: "+cnode.getPath();
+						}
+						String data = cnode.getProperty(prop).getString();
+						byte[] bytesEncoded = Base64.encodeBase64(data.getBytes());
+						String encodedString = new String(bytesEncoded);
+						cnode.setProperty(prop, encodedString);
+					}
 				}
+				cnode.setProperty("isEncoded", true);
+				println "path "+ cnode.getPath();
+				//session.save();
 			}
-			cnode.setProperty("isEncoded", true);
-			println "path "+ cnode.getPath();
-			session.save();
-		}
 
-		javax.jcr.NodeIterator nodeIt = cnode.getNodes();
-		while(nodeIt.hasNext()) {
-			encodeAccordionContentNode(nodeIt.next());
+			javax.jcr.NodeIterator nodeIt = cnode.getNodes();
+			while(nodeIt.hasNext()) {
+				encodeAccordionContentNode(nodeIt.next());
+			}
 		}
+	}catch(Exception e){
+		println "Error occured "+e;
+		println "Exception Path :"+cnode.getPath();
 	}
+	
 
 }
 
