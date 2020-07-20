@@ -465,10 +465,13 @@ login
             %>
             <p id="sign-in-title"><%= isLogin ? loginTitle : changeTitle %></p>
             <div class="coral-Form-fieldwrapper">
-                <% if (redirect.equals("/content/gsusa/en.html")) { %>
+                <% if (redirect.contains("/content/gsusa")) { %>
                 <input is="coral-textfield" style="display:none" value="<%= cug %>" aria-label="<%= userPlaceholder %>" class="coral-Form-field" id="username" name="j_username" type="text" autofocus="autofocus" pattern=".*" placeholder="<%= userPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>">
-                <%}%>
+                <%} else if(redirect.contains("/content/girlscouts-template")){%>
+                <input is="coral-textfield" style="display:none" value="template-user" aria-label="<%= userPlaceholder %>" class="coral-Form-field" id="username" name="j_username" type="text" autofocus="autofocus" pattern=".*" placeholder="<%= userPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>">
+                <% } else { %>
                 <input is="coral-textfield" style="display:none" value="<%= cugcouncil %>" aria-label="<%= userPlaceholder %>" class="coral-Form-field" id="username" name="j_username" type="text" autofocus="autofocus" pattern=".*" placeholder="<%= userPlaceholder %>" spellcheck="false" autocomplete="<%= autocomplete %>">
+                <% } %>
             </div>
 
             <div class="coral-Form-fieldwrapper">
