@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.girlscouts</groupId>
 		<artifactId>aem</artifactId>
-		<version>4.0.22-SNAPSHOT</version>
+		<version>4.0.22</version>
 	</parent>
 	<!-- ====================================================================== -->
 	<!-- P R O P E R T I E S -->
