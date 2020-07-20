@@ -123,7 +123,7 @@ def encodeAccordionContentNode(cnode) {
 				}
 				cnode.setProperty("isEncoded", true);
 				println "path "+ cnode.getPath();
-				//session.save();
+				session.save();
 			}
 
 			javax.jcr.NodeIterator nodeIt = cnode.getNodes();
