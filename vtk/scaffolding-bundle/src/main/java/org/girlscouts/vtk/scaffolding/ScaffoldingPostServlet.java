@@ -104,9 +104,9 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
         Session session = request.getResourceResolver().adaptTo(Session.class);
         String rootPath = request.getParameter("originalUrl");
         if (rootPath.endsWith("*")) {
-            // /content/girlscouts-vtk/meetings/myyearplan/*
+            // /content/girlscouts-vtk/meetings/library/*
             // =>
-            // /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B05
+            // /content/girlscouts-vtk/meetings/library/brownie/B14B05
             rootPath = rootPath.substring(0, rootPath.length() - 1); 
             rootPath = rootPath + request.getParameter("./level").toLowerCase() + "/" 
                     + request.getParameter("./id").toUpperCase();
@@ -129,7 +129,7 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
         existingNodePaths.removeAll(childrenNodePaths);
         
         // Cannot do this way because of special character problems.
-        // e.g. /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04/activities/A1405659407340[7]
+        // e.g. /content/girlscouts-vtk/meetings/library/brownie/B14B04/activities/A1405659407340[7]
         //for (String path : existingNodePaths) {
         //    session.removeItem(path);
         //}
