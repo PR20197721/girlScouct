@@ -1,4 +1,4 @@
-package org.girlscouts.web.servlets;
+package org.girlscouts.common.servlet;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -24,7 +24,7 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.girlscouts.web.webtolead.config.WebToLeadConfig;
+import org.girlscouts.common.webtolead.config.WebToLeadConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,9 @@ import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 @Component(metatype = false)
 @Service(Servlet.class)
-@Properties({ @Property(name = "sling.servlet.resourceTypes", value = "girlscouts/components/gated-content-form"),
+@Properties({
+		@Property(name = "sling.servlet.resourceTypes", value = { "girlscouts/components/gated-content-form",
+				"gsusa/components/gated-content-form" }),
 		@Property(name = "sling.servlet.methods", value = "POST"),
 		@Property(name = "sling.servlet.selectors", value = "gatedcontentform"),
 		@Property(name = "sling.servlet.extensions", value = "html"),
@@ -47,9 +49,12 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
 	private static final Logger logger = LoggerFactory.getLogger(GatedContentFormServlet.class);
 
 	protected static final String URL_PROPERTY = "apiUrl";
+
 	private List<NameValuePair> requestParams = new LinkedList<>();
 
 	private int statusCode;
+
+	protected static final String EXTENSION = "html";
 
 	@Reference
 	private WebToLeadConfig webToLeadConfig;
@@ -71,15 +76,24 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
 		requestParams.add(new NameValuePair("oid", webToLeadConfig.getOID()));
 		logger.info("OrgId :" + webToLeadConfig.getOID());
 
+		final String sfCampaignId = "00N0f00000Eoc8U";
+
 		for (Iterator<String> itr = FormsHelper.getContentRequestParameterNames(request); itr.hasNext();) {
 			final String paraName = itr.next();
+
 			RequestParameter[] paras = request.getRequestParameters(paraName);
 			for (RequestParameter paraValue : paras) {
 				if (paraValue.isFormField()) {
-					requestParams.add(new NameValuePair(paraName, paraValue.getString()));
+					if (!paraName.equals("Campaign_ID")) {
+						requestParams.add(new NameValuePair(paraName, paraValue.getString()));
+					} else {
+						requestParams.add(new NameValuePair(sfCampaignId, paraValue.getString()));
+					}
+
 				}
 			}
 		}
+		logger.info("Request Parameters :" + requestParams);
 		response.setContentType("text/html");
 
 		statusCode = getResponse(endPoint);
@@ -120,6 +134,7 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
 			logger.error("Fatal error:: " + e.getMessage());
 		} finally {
 			postMethod.releaseConnection();
+			requestParams.clear();
 		}
 
 		return statusCode;

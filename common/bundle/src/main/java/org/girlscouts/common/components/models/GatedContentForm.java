@@ -1,4 +1,4 @@
-package org.girlscouts.web.components.models;
+package org.girlscouts.common.components.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,7 +77,7 @@ public class GatedContentForm {
 		while (filesItr.hasNext()) {
 			String filePath = filesItr.next().getValueMap().get("file", String.class);
 			if(null != filePath) {
-				if(filePath.lastIndexOf(".") != -1 && filePath.lastIndexOf(".") != 0) {
+				if(filePath.lastIndexOf(".") != -1) {
 					filesList.add(filePath);
 				}else {
 					filePath  += ".html";

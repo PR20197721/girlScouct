@@ -1,4 +1,4 @@
-package org.girlscouts.web.webtolead.config;
+package org.girlscouts.common.webtolead.config;
 
 import java.util.Dictionary;
 
