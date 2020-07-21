@@ -87,7 +87,7 @@ public class GirlScoutsManualTroopLoadServiceImpl extends BasicGirlScoutsService
                         troop.setId(troop.getSfTroopId());
                         troop.setGradeLevel(troop.getSfTroopAge());
                         troop.setSfUserId(record.getSfUserId());
-                        troop.setCouncilPath("/vtk2019/" + record.getCouncilCode());
+                        troop.setCouncilPath(this.vtkBase + "/"  + record.getCouncilCode());
                         if (record.getTroopLeader()) {
                             troop.setRole("DP");
                             troop.setParticipationCode("Troop");
@@ -95,21 +95,20 @@ public class GirlScoutsManualTroopLoadServiceImpl extends BasicGirlScoutsService
                             if (record.getParent()) {
                                 troop.setRole("PA");
                                 troop.setParticipationCode("Troop");
-                            } else {
                                 if (record.getIRM()) {
                                     troop.setIsIRM(true);
-                                    troop.setRole("PA");
-                                    troop.setParticipationCode("IRM");
+                                }else{
+                                    troop.setIsIRM(false);
                                 }
                             }
                         }
                         my20Troops.add(troop);
                     }catch(Exception e){
-                        log.error("Error manually loading troop "+record.getSfTroopId()+" for "+record.getCouncilCode()+" in " + this.vtkBase);
+                        log.error("Error manually loading troop "+this.vtkBase+"/"+record.getCouncilCode()+"/"+record.getSfTroopId());
                     }
                 }
             }else{
-                log.debug("No troop records found in "+this.localDataPath+" for "+user.getSfUserId());
+                log.debug("No troop records found in "+this.localDataPath+" for user: "+user.getSfUserId());
             }
         }
         return my20Troops;

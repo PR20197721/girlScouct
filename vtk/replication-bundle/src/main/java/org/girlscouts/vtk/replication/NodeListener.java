@@ -1,28 +1,18 @@
 package org.girlscouts.vtk.replication;
 
-import java.util.Collection;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.jcr.Session;
-import javax.jcr.observation.EventIterator;
-import javax.jcr.observation.EventListener;
-
+import com.day.cq.replication.*;
+import com.day.cq.replication.ReplicationLog.Level;
 import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.replication.Agent;
-import com.day.cq.replication.AgentIdFilter;
-import com.day.cq.replication.ReplicationAction;
-import com.day.cq.replication.ReplicationActionType;
-import com.day.cq.replication.ReplicationException;
-import com.day.cq.replication.ReplicationListener;
-import com.day.cq.replication.ReplicationOptions;
-import com.day.cq.replication.ReplicationResult;
-import com.day.cq.replication.Replicator;
-import com.day.cq.replication.ReplicationLog.Level;
+import javax.jcr.Session;
+import javax.jcr.observation.EventIterator;
+import javax.jcr.observation.EventListener;
+import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NodeListener implements EventListener {
     private static final Logger log = LoggerFactory.getLogger(NodeListener.class);
@@ -140,7 +130,7 @@ public class NodeListener implements EventListener {
             if (affectedTroop == null) {
                 Matcher troopMatcher = troopPattern.matcher(path);
                 while (troopMatcher.find()) {
-                    affectedTroop = troopMatcher.group(1);
+                    affectedTroop = path;
                     log.debug("Affected Troop found: " + affectedTroop);
                 }
             }

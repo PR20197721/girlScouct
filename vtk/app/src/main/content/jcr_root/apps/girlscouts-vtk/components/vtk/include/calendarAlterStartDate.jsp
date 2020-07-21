@@ -55,7 +55,7 @@
     </div>
 </section>
 <section class="clearfix holidays">
-    <p>Do not schedule the meeting the week of:</p>
+    <p><i>Consider other days that may be important to you and your families and adjust your meeting dates accordingly as you go.</i></p>
     <%
         String exlDates = selectedTroop.getYearPlan().getCalExclWeeksOf();
         exlDates = exlDates == null ? "" : exlDates.trim();

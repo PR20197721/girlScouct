@@ -105,9 +105,9 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         // If it is an update, read agenda items.
         var path = window.location.pathname;
         if (path.indexOf('/etc/scaffolding') != 0) { 
-        	// /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04.scaffolding.html
+        	// /content/girlscouts-vtk/meetings/library/brownie/B14B04.scaffolding.html
         	// =>
-        	// /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04
+        	// /content/girlscouts-vtk/meetings/library/brownie/B14B04
         	path = path.substring(0, path.indexOf('.', path.lastIndexOf('/')));
 	        var response = http.get(http.externalize(path + '/activities.3.json'));
 

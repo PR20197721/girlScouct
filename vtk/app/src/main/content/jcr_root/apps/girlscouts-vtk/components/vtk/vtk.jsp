@@ -5,13 +5,19 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
 <%
-    if (selectedTroop.getYearPlan() != null || (selectedTroop.getRole() != null && selectedTroop.getRole().equals("PA") && !"IRM".equals(selectedTroop.getParticipationCode()))) {
-%>
-<%@include file="plan.jsp" %>
-<%
-} else {
-%>
-<script>self.location = "/content/girlscouts-vtk/en/vtk.explore.html"; </script>
-<%
+    if(selectedTroop.getIsLoadedManualy()) {
+        %>
+        <script>self.location = "/content/girlscouts-vtk/en/vtk.finances.html"; </script>
+        <%
+    }else{
+        if (selectedTroop.getYearPlan() != null || (selectedTroop.getRole() != null && selectedTroop.getRole().equals("PA") && !"IRM".equals(selectedTroop.getParticipationCode()))) {
+            %>
+            <%@include file="plan.jsp" %>
+            <%
+        } else {
+            %>
+            <script>self.location = "/content/girlscouts-vtk/en/vtk.explore.html"; </script>
+            <%
+        }
     }
 %>

@@ -49,6 +49,8 @@ public class MeetingEntity extends BaseEntity {
     private String catTags;
     @SerializedName("catTagsAlt")
     private String catTagsAlt;
+    @SerializedName("isArchived")
+    private String isArchived;
 
     public YearPlanComponentType getType() {
         return type;
@@ -216,5 +218,20 @@ public class MeetingEntity extends BaseEntity {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public String getIsArchived() {
+        return isArchived;
+    }
+
+    public void setIsArchived(String isArchived) {
+        this.isArchived = isArchived;
+    }
+    public String getArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(String isArchived) {
+        this.isArchived = isArchived;
     }
 }

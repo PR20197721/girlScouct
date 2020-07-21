@@ -245,6 +245,42 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
         return results;
     }
 
+    @Override
+    public <T extends JcrNode> List<T> findObjectsCustomQuery(String query, Class<T> clazz) {
+        List<T> results = null;
+        String key = query;
+        if(query != null && query.contains("ISDESCENDANTNODE([/content/girlscouts-vtk/")){
+            if(libraryCache.containsList(key)){
+                log.debug("Loading "+clazz.getName()+" results for "+query+" from cache");
+                results = libraryCache.readList(key);
+            }
+        }
+        if(results == null){
+            ResourceResolver rr = null;
+            try {
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Session session = rr.adaptTo(Session.class);
+                ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+                log.debug("Looking up OCM Objects :" + query);
+                results =  (List<T>) ocm.getObjects(query, javax.jcr.query.Query.JCR_SQL2);
+                if(query != null && query.contains("ISDESCENDANTNODE([/content/girlscouts-vtk/")){
+                    libraryCache.writeList(key, results);
+                }
+            } catch (Exception e) {
+                log.error("Error Occurred: ", e);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
+            }
+        }
+        return results;
+    }
+
     private String getJCRSQL2Query(String path, Map<String, String> params, String ocm_classname, Session session) {
         try {
             String sql = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([" + path + "]) AND s.[ocm_classname] = '" + ocm_classname + "'";
