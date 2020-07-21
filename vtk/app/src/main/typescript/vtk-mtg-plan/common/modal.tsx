@@ -30,17 +30,21 @@ class VtkModal extends React.PureComponent<VtkModalProps, any> {
         window.onscroll = () => { };
     }
 
+    escapeHTML(text) {
+        return $("<div>").text(text).html();
+    }
+
     checkAgenda(innerText) {
-        var newHtml = innerText || "";
+        let newHtml = innerText || "";
         if (!newHtml.length) return "";
 
-        $(".__list_of_assets li a").each(() => {
-            var text = $(this).text() || "",
-                href = $(this).attr("href") || "",
+        $(".__list_of_assets li a").each((i, el) => {
+            let text = this.escapeHTML($(el).text().trim()) || "",
+                href = $(el).attr("href") || "",
                 link = `<a href='${href}' target='_blank'>${text}</a>`;
             if (text.length && href.length) {
                 // Replace modal description text with asset links
-                newHtml.split(text).join(link);
+                newHtml = newHtml.split(text).join(link);
             }
         });
 
