@@ -20,52 +20,52 @@
  */
 
 (function(){
-	var helper= {};
+    var helper= {};
 
-	helper.options = null;
-	helper.provideOptions = function() {
-		if (!helper.options) {
-			helper.updateOptions();
-		}
-		return helper.options;
-	},
-	helper.updateOptions = function() {
-	    var http = CQ.shared.HTTP;
-	    var base = '/content/girlscouts-vtk/meetings/myyearplan2019/';
-		var options = new Array();
-		var levels = ['brownie', 'junior', 'daisy', 'multi-level', 'cadette','ambassador','senior'];
-	
-	    for (var i = 0; i < levels.length; i++) {
-	    	var level = levels[i];
-			var path = base + level.toLowerCase() + '.1.json';
-			var response = http.get(http.externalize(path));
-			var responseJson = JSON.parse(response.responseText);
-			
-		    for (var childKey in responseJson) {
-		    	var child = responseJson[childKey];
-		    	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
-		    		// Skip CQ built-in stuff
-		    		if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
-		    			continue;
-		        	}
-		    	
-			    	options.push({
-			    		"value": base + level + '/' + childKey,
-			    		"text": childKey + ' - ' + child.name,
-			    		"qtip": child.name
-			    	});
-		    	}
-		    }
-	    }
-	    
-	    helper.options = options;
-	};
-	girlscouts.components.VTKMeetingIdHelper = helper;
+    helper.options = null;
+    helper.provideOptions = function() {
+        if (!helper.options) {
+            helper.updateOptions();
+        }
+        return helper.options;
+    },
+        helper.updateOptions = function() {
+            var http = CQ.shared.HTTP;
+            var base = '/content/girlscouts-vtk/meetings/library/';
+            var options = new Array();
+            var levels = ['brownie', 'junior', 'daisy', 'multi-level', 'cadette','ambassador','senior'];
+
+            for (var i = 0; i < levels.length; i++) {
+                var level = levels[i];
+                var path = base + level.toLowerCase() + '.1.json';
+                var response = http.get(http.externalize(path));
+                var responseJson = JSON.parse(response.responseText);
+
+                for (var childKey in responseJson) {
+                    var child = responseJson[childKey];
+                    if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
+                        // Skip CQ built-in stuff
+                        if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
+                            continue;
+                        }
+
+                        options.push({
+                            "value": base + level + '/' + childKey,
+                            "text": childKey + ' - ' + child.name,
+                            "qtip": child.name
+                        });
+                    }
+                }
+            }
+
+            helper.options = options;
+        };
+    girlscouts.components.VTKMeetingIdHelper = helper;
 })();
 
 girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
-	options: null,
-	
+    options: null,
+
     constructor: function(config) {
         config = config || {};
         defaults = {};
@@ -80,21 +80,23 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
         // Cleanup before submission
         var form = this.findParentByType("form");
         form.on('beforeaction', function(){
-        	// Setup each meeting id
+            // Setup each meeting id
             var index = 1;
             this.items.each(function(item/*,index, length*/) {
                 if (item instanceof CQ.form.MultiField.Item) {
-                	var field = item.field;
-			    	// Setup property keys
-			    	var path = './meetings/meeting' + index + '/';
-			    	field.idField.el.dom.name = path + 'id';
-			    	field.idField.setValue(index);
-			    	index++;
+                    var field = item.field;
+                    // Setup property keys
+                    var path = './meetings/meeting' + index + '/';
+                    field.idField.el.dom.name = path + 'id';
+                    field.idField.setValue(index);
+                    field.sortOrderField.el.dom.name = path + 'sortOrder';
+                    field.sortOrderField.setValue(index);
+                    index++;
 
-			    	field.ocmField.el.dom.name = path + 'ocm_classname';
-			    	field.ocmField.setValue('org.girlscouts.vtk.ocm.MeetingENode');
+                    field.ocmField.el.dom.name = path + 'ocm_classname';
+                    field.ocmField.setValue('org.girlscouts.vtk.ocm.MeetingENode');
 
-			    	field.hiddenField.el.dom.name = path + 'refId';
+                    field.hiddenField.el.dom.name = path + 'refId';
                 }
             }, this);
         }, this);
@@ -111,38 +113,38 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
             }
         }, this);
         this.doLayout();
-        
+
         var http = CQ.shared.HTTP;
         // If it is an update, read agenda items.
         var path = window.location.pathname;
-        if (path.indexOf('/etc/scaffolding') != 0) { 
-        	// /content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1.scaffolding.html
-        	// =>
-        	// /content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1
-        	path = path.substring(0, path.indexOf('.', path.lastIndexOf('/')));
-	        var response = http.get(http.externalize(path + '/meetings.1.json'));
-	        
-	        var meetings = new Array();
-	        var responseJson = JSON.parse(response.responseText);
-	        for (var childKey in responseJson) {
-	        	var child = responseJson[childKey];
-	        	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
-	        		// Skip CQ built-in stuff
-	        		if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
-	        			continue;
-	        		}
-	        		meetings.push({
-	        			"id": child.id,
-	        			"refId": child.refId
-	        		});
-	        	}
-	        }
-	
-	        meetings.sort(function(a, b){return a.id - b.id});
-	
-	        for (var i = 0; i < meetings.length; i++) {
-	        	this.addItem(meetings[i].refId);
-	        }
+        if (path.indexOf('/etc/scaffolding') != 0) {
+            // /content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1.scaffolding.html
+            // =>
+            // /content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1
+            path = path.substring(0, path.indexOf('.', path.lastIndexOf('/')));
+            var response = http.get(http.externalize(path + '/meetings.1.json'));
+
+            var meetings = new Array();
+            var responseJson = JSON.parse(response.responseText);
+            for (var childKey in responseJson) {
+                var child = responseJson[childKey];
+                if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
+                    // Skip CQ built-in stuff
+                    if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
+                        continue;
+                    }
+                    meetings.push({
+                        "id": child.id,
+                        "refId": child.refId
+                    });
+                }
+            }
+
+            meetings.sort(function(a, b){return a.id - b.id});
+
+            for (var i = 0; i < meetings.length; i++) {
+                this.addItem(meetings[i].refId);
+            }
         }
     }
 });

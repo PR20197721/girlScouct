@@ -132,9 +132,7 @@ var $ = jQuery.noConflict();
                 var popup_h = (window_h - 75);
                 $('#modal_popup').find('.scroll').css('max-height', popup_h + 'px');
                 var scroll = $('#modal_popup').find('.scroll');
-                console.log(scroll.html());
                 scroll.html(checkMeetingAidsRefs(scroll.html()));
-                console.log(scroll.html());
             },
             open: function () {
                 $('body').css({'overflow': 'hidden'});
@@ -477,7 +475,7 @@ function checkNews() {
 
 function addNewTags() {
     //"NEW" tag list
-    var newMeetings = ["Outdoor", "Badges_for_2019-2020", "STEM", "Journey|Outdoor", "Journey|STEM", "Badges_Petals|Badges_for_2019-2020", "Life_Skills"];
+    var newMeetings = ["Outdoor", "Badges_for_2020-2021", "STEM", "Journey|Outdoor", "Journey|STEM", "Badges_Petals|Badges_for_2020-2021", "Life_Skills"];
     for (var tag in newMeetings) {
         var el = document.getElementById("category" + newMeetings[tag]);
         $(el).parent().find("p").append("<span style='font-size:10px;color:#F9A61A;font-weight:bold;background:none;display:inline-block; padding-top: 8px;'>NEW</span>")
@@ -622,9 +620,9 @@ function generateMeetingHtml(data, meeting) {
 
 
     if (!(data[meeting].req !== null && data[meeting].req !== undefined && data[meeting].req !== "")) {
-        $("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' class='image  _no_requirement_modal' height='100' src='/content/dam/girlscouts-vtk/local/icon/meetings/" + data[meeting].id + ".png'></div></div></div>");
+        $("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' class='image  _no_requirement_modal' height='100' src='/content/girlscouts-vtk/service/meeting/icon." + data[meeting].id + ".png'></div></div></div>");
     } else {
-        $("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' onclick='openRequirementDetail(this)' class='image  _requirement_modal' height='100' src='/content/dam/girlscouts-vtk/local/icon/meetings/" + data[meeting].id + ".png'></div></div></div>");
+        $("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' onclick='openRequirementDetail(this)' class='image  _requirement_modal' height='100' src='/content/girlscouts-vtk/service/meeting/icon." + data[meeting].id + ".png'></div></div></div>");
         $("[data-meetingid=" + data[meeting].id + "]").append("<div class='__requiments_details row' style='display:none'><div class='column small-24' style='padding:10px;'><div class='_requiments_description'><p style='margin-bottom: 5px'><b>" + data[meeting].reqTitle + "</b></p>" + data[meeting].req + "</div><p style='text-align:center; margin-top:20px'><span class='vtk-button' style='cursor:pointer;' onclick='_closeME(this)'>&nbsp;&nbsp;&nbsp;CLOSE&nbsp;&nbsp;&nbsp;</span></p></div></div>");
     }
     if (data[meeting].hasGlobal === true) {
@@ -798,34 +796,23 @@ $(window).load(function () {
     $(document).foundation();
 });
 
-function replaceAll(str, rep, val) {
-    if (str === null) {
-        return;
-    }
-    return str.replace(new RegExp(rep, 'g'), val);
+function escapeHTML(text) {
+    return $("<div>").text(text).html();
 }
 
-function checkMeetingAidsRefs(originalHTML) {
-    var modifiedHTML = originalHTML;
-    var assets = [];
-    var assetNames = [];
-    //Parse Meeting aid Titles and Hrefs into arrays
-    $(".__list_of_assets").children().each(function () {
-        assetNames.push($.trim($(this).find("a").text()));
-        assets.push($(this).find("a").attr("href"));
-    });
-    if(assets.length>0) {
-        for (var i = 0; i < $(".__list_of_assets").children().length; i++) {
-            try {
-                if (modifiedHTML !== undefined) {
-                    modifiedHTML = this.replaceAll(modifiedHTML, assetNames[i], "<a href='" + assets[i] + "'target='_blank'>" + assetNames[i] + "</a>");
-                }
-            } catch (err) {
-                return originalHTML;
-            }
+function checkMeetingAidsRefs(innerText) {
+    let newHtml = innerText || "";
+    if (!newHtml.length) return "";
+
+    $(".__list_of_assets li a").each((i, el) => {
+        let text = this.escapeHTML($(el).text().trim()) || "",
+            href = $(el).attr("href") || "",
+            link = `<a href='${href}' target='_blank'>${text}</a>`;
+        if (text.length && href.length) {
+            // Replace modal description text with asset links
+            newHtml = newHtml.split(text).join(link);
         }
-    }else{
-        return originalHTML;
-    }
-    return modifiedHTML;
+    });
+
+    return newHtml;
 }
