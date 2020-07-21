@@ -22,15 +22,17 @@
 	String[] tagIDs = (String[])properties.get("cq:tags", null);
 	String path = currentSite.get("eventPath",String.class);
 	if (tagIDs != null) {
-		RangeIterator<Resource> it = tagManager.find(path, tagIDs);
-		while (it.hasNext()) {
-			Resource event = it.next();
-			String eventPath = event.getPath();
-			int index = eventPath.lastIndexOf("/jcr:content");
-			if (index > 0) {
-				eventPath = eventPath.substring(0, index);
+		for (String tag : tagIDs) {
+			RangeIterator<Resource> it = tagManager.find(path, new String[]{tag});
+			while (it.hasNext()) {
+				Resource event = it.next();
+				String eventPath = event.getPath();
+				int index = eventPath.lastIndexOf("/jcr:content");
+				if (index > 0) {
+					eventPath = eventPath.substring(0, index);
+				}
+				taggedEvents.push(eventPath);
 			}
-			taggedEvents.push(eventPath);
 		}
 	}
 
