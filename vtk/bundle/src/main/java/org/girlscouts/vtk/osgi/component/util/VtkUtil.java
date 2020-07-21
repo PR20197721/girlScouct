@@ -12,7 +12,6 @@ import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
 import com.itextpdf.tool.xml.pipeline.end.ElementHandlerPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.*;

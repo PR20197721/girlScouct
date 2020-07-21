@@ -44,7 +44,7 @@
 		}catch(Exception e){e.printStackTrace();}
 
 
-		sql="select id,name, level, catTags, catTagsAlt from nt:unstructured where isdescendantnode( '/content/girlscouts-vtk/meetings/myyearplan"+rptForYear+"/') and ocm_classname='org.girlscouts.vtk.ocm.MeetingNode'";
+		sql="select id,name, level, catTags, catTagsAlt from nt:unstructured where isdescendantnode( '/content/girlscouts-vtk/meetings/library/') and ocm_classname='org.girlscouts.vtk.ocm.MeetingNode' AND ([isArchived] <> CAST('true' AS BOOLEAN) OR [isArchived] IS NULL)";
 		q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		result = q.execute();
 

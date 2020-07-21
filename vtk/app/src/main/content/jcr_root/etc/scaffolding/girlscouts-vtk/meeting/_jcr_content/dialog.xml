@@ -1,4 +1,5 @@
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" jcr:primaryType="cq:Dialog" xtype="tabpanel">
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          xmlns:nt="http://www.jcp.org/jcr/nt/1.0" jcr:primaryType="cq:Dialog" xtype="tabpanel">
     <items jcr:primaryType="cq:WidgetCollection">
         <tab1
                 jcr:primaryType="cq:Panel"
@@ -20,6 +21,15 @@
                         value="meeting"
                         name="./vtkDataType"
                         xtype="hidden"/>
+                <archived
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        checkboxBoolTypeHint="{Boolean}true"
+                        fieldLabel="Archived"
+                        fieldDescription="Check this box and re-publish the meeting to hide it from search in VTK"
+                        xtype="selection"
+                        type="checkbox"
+                        name="./isArchived"/>
                 <id
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Id"
@@ -77,6 +87,11 @@
                         fieldLabel="Meeting Short Description"
                         allowBlank="{Boolean}false"
                         name="./meetingInfo/meeting short description/str"/>
+                <meeting_short_description_ocm
+                        jcr:primaryType="cq:Widget"
+                        name="./meetingInfo/meeting short description/ocm_classname"
+                        value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
+                        xtype="hidden"/>
                 <blurb
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Blurb"
@@ -249,14 +264,14 @@
                         <catTags9
                                 jcr:primaryType="cq:Widget"
                                 allowBlank="{Boolean}true"
-                                fieldLabel="Badges for 2019-2020"
-                                name="./Badgesfor20192020"
+                                fieldLabel="Badges for 2020-2021"
+                                name="./Badgesfor20202021"
                                 xtype="selection"
                                 type="checkbox"
                                 itemId="tagsField9">
                             <listeners
                                     jcr:primaryType="nt:unstructured"
-                                    selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2019-2020,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2019-2020,/g,'')); } }"/>
+                                    selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2020-2021,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2020-2021,/g,'')); } }"/>
                         </catTags9>
                     </items>
                 </fieldset1>
@@ -992,7 +1007,9 @@
                         </chars>
                     </specialCharsConfig>
                 </req>
-                <req_ocm jcr:primaryType="cq:Widget" name="./meetingInfo/req/ocm_classname" defaultValue="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" xtype="hidden"/>
+                <req_ocm jcr:primaryType="cq:Widget" name="./meetingInfo/req/ocm_classname"
+                         defaultValue="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
+                         value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" xtype="hidden"/>
                 <email_invite
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Email Invite"
@@ -1138,7 +1155,9 @@
                         </chars>
                     </specialCharsConfig>
                 </email_invite>
-                <email_invite_ocm jcr:primaryType="cq:Widget" name="./meetingInfo/email invite/ocm_classname" defaultValue="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" xtype="hidden"/>
+                <email_invite_ocm jcr:primaryType="cq:Widget" name="./meetingInfo/email invite/ocm_classname"
+                                  defaultValue="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode"
+                                  value="org.girlscouts.vtk.ocm.JcrCollectionHoldStringNode" xtype="hidden"/>
                 <email_summary
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Email Summary"

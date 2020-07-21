@@ -910,7 +910,7 @@
                     '<div class="scroll content">' +
                     '<section class="content">' +
                     '<div style="text-align:center">' +
-                    '<img src="/content/dam/girlscouts-vtk/local/icon/meetings/' + binder.id + '.png" />' +
+                    '<img src="/content/girlscouts-vtk/service/meeting/icon.' + binder.id + '.png" />' +
                     '<h3>' + binder.reqTitle + '</h3><br />' +
                     '</div>' +
                     '<div>' + binder.req +
@@ -929,7 +929,7 @@
                 displayName: "MeetingImg",
                 render: function () {
                     var _this = this;
-                    var src = "/content/dam/girlscouts-vtk/local/icon/meetings/" + this.props.mid + ".png";
+                    var src = "/content/girlscouts-vtk/service/meeting/icon." + this.props.mid + ".png";
                     var imgReturn = "";
                     var onClick = function () {
                     };
