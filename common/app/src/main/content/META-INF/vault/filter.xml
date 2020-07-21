@@ -2,6 +2,7 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/dam/gui/content/commons"/>
     <filter root="/apps/wcm/core/content/common"/>
+    <filter root="/apps/core/wcm/components" mode="merge"/>
     <filter root="/apps/clientlibs"/>
     <filter root="/apps/cq/core"/>
     <filter root="/apps/cq/gui/components/authoring/dialog" />
