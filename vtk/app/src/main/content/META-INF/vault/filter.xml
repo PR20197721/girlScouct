@@ -9,7 +9,7 @@
     <filter root="/content/girlscouts-vtk/service"/>
     <filter root="/content/girlscouts-vtk/scaffolding"/>
     <filter root="/content/girlscouts-vtk/salesforce-data">
-        <exclude pattern="/content/girlscouts-vtk/salesforce-data/my20-data"/>
+        <exclude pattern="/content/girlscouts-vtk/salesforce-data/my20-data/sfdata.json"/>
     </filter>
     <filter root="/etc/designs/girlscouts-vtk">
         <exclude pattern="/etc/designs/girlscouts-vtk/clientlibs.juno"/>

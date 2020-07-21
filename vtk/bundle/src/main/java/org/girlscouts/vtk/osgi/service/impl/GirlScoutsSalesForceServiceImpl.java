@@ -349,9 +349,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         log.debug("Skipping parent troop: {}", entity.toString());
                     }
                 }
-                List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
-                mergedTroops = mergeTroops(parentTroops, additionalTroops);
             }
+            List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
+            mergedTroops = mergeTroops(parentTroops, additionalTroops);
         }
         //Service Unit Manager
         if (user.isServiceUnitManager()) {
