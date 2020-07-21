@@ -15,14 +15,13 @@
 	WebToLeadConfig webToLeadConfig = sling.getService(WebToLeadConfig.class);	
     final ValueMap props = ResourceUtil.getValueMap(resource);
 	String campaignID = props.get("campaignID", "");
-	String organizationID = webToLeadConfig.getOID();
+	//String organizationID = webToLeadConfig.getOID();
 	String campaignIDFieldName1 = webToLeadConfig.getCampaignIDPrimaryName();
 	String campaignIDFieldName2 = webToLeadConfig.getCampaignIDSecondaryName();
 	String apiURL = webToLeadConfig.getAPIURL();
     if(!campaignID.isEmpty()){
 %>
-<!-- ORGANIZATION ID -->
-<input type=hidden name="oid" value="<%=organizationID%>"> 
+
 <!-- CAMPAIGN ID -->
 <input type=hidden name="<%=campaignIDFieldName1%>" value="<%=campaignID%>" />
 <input type=hidden name="<%=campaignIDFieldName2%>" value="<%=campaignID%>" />

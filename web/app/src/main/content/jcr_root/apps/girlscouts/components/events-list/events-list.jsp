@@ -53,8 +53,9 @@
 	}
 	
 	String designPath = currentDesign.getPath();
-	String iconImg = properties.get("fileReference", String.class);
-	String eventsLink = properties.get("urltolink", "") + ".html";
+	String iconImg = properties.get("fileReference", "#");
+	String eventsLink = properties.get("urltolink", "");
+	eventsLink = eventsLink.isEmpty() ? "" : eventsLink+ ".html";
 	String featureTitle = properties.get("featuretitle","UPCOMING EVENTS");
 	int daysofevents = Integer.parseInt(properties.get("daysofevents","0"));
 	//filtered by start or end date of the events. by cwu
@@ -65,11 +66,11 @@
 %>
 
 			<div class="large-1 columns small-2 medium-1">
-				<img src="<%=iconImg%>" width="32" height="32" alt="feature icon" />
+				<img src="<%=iconImg%>" onerror="this.style.display='none'" width="32" height="32" alt="feature icon" />
 			</div>
-			<div class="column large-23 small-22 medium-23">
+			<div class="column large-23 small-22 medium-23" style="float:none">
 				<div class="row collapse">
-					<h2 class="columns large-24 medium-24"><a href="<%=eventsLink%>"><%=featureTitle%></a></h2>
+					<h2 class="columns large-24 medium-24"><a href="<%=eventsLink%>" style="color: #414141"><%=featureTitle%></a></h2>
 					<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
 						<%
 							//com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");

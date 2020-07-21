@@ -66,4 +66,14 @@ public class GirlScoutsMeetingOCMServiceImpl implements GirlScoutsMeetingOCMServ
         return models;
     }
 
+    @Override
+    public List<Meeting> findObjectsCustomQuery(String query) {
+        List<MeetingNode> nodes = girlScoutsOCMRepository.findObjectsCustomQuery(query, MeetingNode.class);
+        List<Meeting> models = new ArrayList<>();
+        nodes.forEach(meetingNode -> {
+            models.add(NodeToModelMapper.INSTANCE.toModel(meetingNode));
+        });
+        return models;
+    }
+
 }

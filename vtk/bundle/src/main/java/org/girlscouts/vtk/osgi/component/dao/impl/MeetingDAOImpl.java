@@ -72,17 +72,6 @@ public class MeetingDAOImpl implements MeetingDAO {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
     }
 
-    // by planId
-    public List<MeetingE> getAllEventMeetings(User user, Troop troop, String yearPlanId) throws IllegalAccessException {
-        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
-            throw new IllegalAccessException();
-        }
-        List<MeetingE> meetings = null;
-        String path = "/content/girlscouts-vtk/yearPlanTemplates/yearplan" + user.getCurrentYear() + "/brownie/yearPlan" + yearPlanId + "/meetings/";
-        meetings = girlScoutsMeetingEOCMService.findObjects(path, null);
-        return meetings;
-    }
-
     // by plan path
     public List<MeetingE> getAllEventMeetings_byPath(User user, Troop troop, String yearPlanPath) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
@@ -98,7 +87,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         Meeting meeting = girlScoutsMeetingOCMService.read(path);
         if (meeting != null && path != null && path.contains("/lib/meetings/")) {
-            Meeting globalMeetingInfo = getMeeting(user, troop, "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + meeting.getLevel().toLowerCase().trim() + "/" + meeting.getId());
+            Meeting globalMeetingInfo = getMeeting(user, troop, "/content/girlscouts-vtk/meetings/library/" + meeting.getLevel().toLowerCase().trim() + "/" + meeting.getId());
             if (globalMeetingInfo != null) {
                 meeting.setMeetingInfo(globalMeetingInfo.getMeetingInfo());
                 meeting.setIsAchievement(globalMeetingInfo.getIsAchievement());
@@ -128,7 +117,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         return meeting;
     }
 
-    private Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
+    public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
             throw new IllegalAccessException();
         }
@@ -147,7 +136,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
     }
 
-    private Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
+    public Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting libMeeting) throws IllegalAccessException {
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
             throw new IllegalAccessException();
         }
@@ -393,7 +382,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             throw new IllegalAccessException();
         }
         List<Meeting> meetings = null;
-        String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/";
+        String path = "/content/girlscouts-vtk/meetings/library/" + gradeLevel + "/";
         meetings = girlScoutsMeetingOCMService.findObjects(path, null);
         if (meetings != null) {
             Collections.sort(meetings, new MeetingPositionComparator());
@@ -875,7 +864,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         int count = 0;
         ResourceResolver rr = null;
         try {
-            String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
+            String sql = "SELECT s.[dc:description], s.[dc:format], s.[dc:title], s.[jcr:mimeType], s.[jcr:path] FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(" + _path + ") AND s.[cq:tags] IS NOT NULL";
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -1006,9 +995,9 @@ public class MeetingDAOImpl implements MeetingDAO {
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
-            String sql = "select [jcr:path] " + " from [dam:Asset] as s where " + " (isdescendantnode (s, [" + path + "]))";
+            String sql = "SELECT s.[jcr:path] FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE(" + path + ")";
             QueryManager qm = session.getWorkspace().getQueryManager();
-            Query q = qm.createQuery(sql, Query.SQL);
+            Query q = qm.createQuery(sql, Query.JCR_SQL2);
             log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
@@ -1041,11 +1030,11 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         ResourceResolver rr = null;
         try {
-            String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " + " from [nt:unstructured] as parent where " + " (isdescendantnode (parent, [" + _path + "])) and [cq:tags] is not null";
+            String sql = "SELECT s.[dc:description], s.[dc:format], s.[dc:title], s.[jcr:mimeType], s.[jcr:path] FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(" + _path + ") AND s.[cq:tags] IS NOT NULL";
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-            Query q = qm.createQuery(sql, Query.SQL);
+            Query q = qm.createQuery(sql, Query.JCR_SQL2);
             log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
@@ -1080,11 +1069,11 @@ public class MeetingDAOImpl implements MeetingDAO {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Session session = rr.adaptTo(Session.class);
             QueryManager qm = session.getWorkspace().getQueryManager();
-            String sql = "SELECT [jcr:path], [jcr:title] FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(s, [" + _path + "])";
+            String sql = "SELECT s.[jcr:path], s.[jcr:title] FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(" + _path + ")";
             Map<String, String> categoryDictionary = new TreeMap<String, String>();
             Map<String, List<String>> container = new TreeMap();
             dictionary = new TreeMap<String, bean_resource>();
-            Query q = qm.createQuery(sql, Query.SQL);
+            Query q = qm.createQuery(sql, Query.JCR_SQL2);
             log.debug("Executing JCR query: " + sql);
             QueryResult result = q.execute();
             NodeIterator itr = result.getNodes();
@@ -1196,8 +1185,26 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         List<Meeting> meetings = null;
         try {
-            String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear();
+            String path = "/content/girlscouts-vtk/meetings/library";
             meetings = girlScoutsMeetingOCMService.findObjects(path, null);
+            if (meetings != null) {
+                Collections.sort(meetings, new MeetingPositionComparator());
+            }
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return meetings;
+
+    }
+
+    public java.util.List<Meeting> getAllActiveMeetings(User user, Troop troop) throws IllegalAccessException {
+        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) {
+            throw new IllegalAccessException();
+        }
+        List<Meeting> meetings = null;
+        try {
+            String query = "SELECT s.* FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE([/content/girlscouts-vtk/meetings/library]) AND s.[ocm_classname] = 'org.girlscouts.vtk.ocm.MeetingNode' AND (s.[isArchived] <> CAST('true' AS BOOLEAN) OR s.[isArchived] IS NULL)";
+            meetings = girlScoutsMeetingOCMService.findObjectsCustomQuery(query);
             if (meetings != null) {
                 Collections.sort(meetings, new MeetingPositionComparator());
             }
@@ -1406,7 +1413,7 @@ public class MeetingDAOImpl implements MeetingDAO {
         }
         List<Meeting> meetings = new ArrayList();
         try {
-            String path = "/content/girlscouts-vtk/meetings/myyearplan" + VtkUtil.getCurrentGSYear();
+            String path = "/content/girlscouts-vtk/meetings/library";
             Map<String, String> params = new HashMap<String, String>();
             params.put("level", level);
             meetings = girlScoutsMeetingOCMService.findObjects(path, params);

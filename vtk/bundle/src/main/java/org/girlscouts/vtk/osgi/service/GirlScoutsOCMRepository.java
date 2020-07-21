@@ -18,4 +18,6 @@ public interface GirlScoutsOCMRepository {
 
     <T extends JcrNode> List<T> findObjects(String path, Map<String, String> params, Class<T> clazz);
 
+    <T extends JcrNode> List<T> findObjectsCustomQuery(String query, Class<T> clazz);
+
 }

@@ -1,4 +1,4 @@
-<%@page session="false"%><%--
+<%@page session="false" %><%--
   Copyright 1997-2008 Day Management AG
   Barfuesserplatz 6, 4001 Basel, Switzerland
   All Rights Reserved.
@@ -15,19 +15,21 @@
 
   Displays and provides editing of scaffoldings
 
---%><%@include file="/libs/foundation/global.jsp"%><%
-%><%@ page import="
+--%>
+<%@include file="/libs/foundation/global.jsp" %>
+<%
+%>
+<%@ page import="
         org.apache.sling.api.resource.ResourceUtil,
-        com.day.cq.i18n.I18n,
-        com.day.cq.wcm.api.WCMMode,
-        com.day.cq.wcm.core.utils.ScaffoldingUtils" %><%
+                 com.day.cq.i18n.I18n,
+                 com.day.cq.wcm.api.WCMMode,
+                 com.day.cq.wcm.core.utils.ScaffoldingUtils" %>
+<%
 %>
 <body>
-    <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
+<script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
 <%
-
     I18n i18n = new I18n(slingRequest);
-
     String contentPath = properties.get("cq:targetPath", "");
     String dlgPathProperty = properties.get("dialogPath", "");
     String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
@@ -38,7 +40,6 @@
     boolean isUpdate = false;
     String requestUri = request.getRequestURI();
     requestUri = requestUri.substring(0, requestUri.indexOf('.'));
-
     if (!resourcePage.getPath().equals(requestUri)) {
         contentPath = requestUri;
         formUrl = requestUri;
@@ -48,47 +49,52 @@
         formUrl = contentPath;
         isUpdate = true;
     }
-
     String title = null;
     if (isUpdate) {
         Resource contentResource = resourceResolver.getResource(contentPath);
         ValueMap contentProperties = ResourceUtil.getValueMap(contentResource);
         title = contentProperties.get("jcr:title", contentResource.getName()); %>
-        <h1><%= xssAPI.encodeForHTML(currentPage.getTitle()) %> | <%= xssAPI.filterHTML(title) %></h1><%
-    } else {
-        title = pageProperties.get("jcr:title", currentPage.getName()); %>
-        <h1><%= xssAPI.encodeForHTML(title) %></h1><%
-        if (WCMMode.fromRequest(request) == WCMMode.DESIGN) { %>
-            <%= i18n.get("You can edit this form using the dialog editor: ") %><a target="_new" href="<%= xssAPI.getValidHref(dlgPath) %>.html"></a><br></body><%
-            return;
-        }
-        String description = properties.get("jcr:description", "");
-        if (description.length() > 0) {
-            %><em><%= xssAPI.encodeForHTML(description) %></em><br><br><%
-        }
-        if (scaffoldPath.equals("/etc/scaffolding")) { %>
-            </body><%
-            return;
-        }
-        if (contentPath.length() == 0) { %>
-            <%= i18n.get("Please define the target path in the page properties of this scaffolding.")%><br></body><%
-            return;
-        } else if (pageMode) { %>
-            <h3><%= i18n.get("Create pages below: ")%><span id="parentpath"><%= contentPath %></span> (<a href="javascript:changeParentPath()"><%= i18n.get("change")%></a>)</h3>
-            <ul id="linklist"></ul><%
-        } else { %>
-            <h3><%= i18n.get("Create resources below: ")%><span id="parentpath"><%= contentPath %></span> (<a href="javascript:changeParentPath()"><%= i18n.get("change")%></a>)</h3>
-            <ul id="linklist"></ul><%
+<h1><%= xssAPI.encodeForHTML(currentPage.getTitle()) %> | <%= xssAPI.filterHTML(title) %>
+</h1><%
+} else {
+    title = pageProperties.get("jcr:title", currentPage.getName()); %>
+<h1><%= xssAPI.encodeForHTML(title) %>
+</h1><%
+    if (WCMMode.fromRequest(request) == WCMMode.DESIGN) { %>
+<%= i18n.get("You can edit this form using the dialog editor: ") %><a target="_new" href="<%= xssAPI.getValidHref(dlgPath) %>.html"></a><br>
+</body>
+<%
+        return;
+    }
+    String description = properties.get("jcr:description", "");
+    if (description.length() > 0) {
+%><em><%= xssAPI.encodeForHTML(description) %>
+</em><br><br><%
+    }
+    if (scaffoldPath.equals("/etc/scaffolding")) { %>
+</body><%
+        return;
+    }
+    if (contentPath.length() == 0) { %>
+<%= i18n.get("Please define the target path in the page properties of this scaffolding.")%><br></body><%
+    return;
+} else if (pageMode) { %>
+<h3><%= i18n.get("Create pages below: ")%><span id="parentpath"><%= contentPath %></span> (<a href="javascript:changeParentPath()"><%= i18n.get("change")%>
+</a>)</h3>
+<ul id="linklist"></ul>
+<%
+} else { %>
+<h3><%= i18n.get("Create resources below: ")%><span id="parentpath"><%= contentPath %></span> (<a href="javascript:changeParentPath()"><%= i18n.get("change")%>
+</a>)</h3>
+<ul id="linklist"></ul>
+<%
         }
     }
-    %><br>
-
+%><br>
 <div id="CQ">
     <div id="dlg"></div>
 </div>
-
 <script type="text/javascript">
-
     // undo/redo is not allowed when in scaffolding mode (but undo history is active, as
     // we're recording the update)
     if (CQ.undo.UndoManager.isEnabled()) {
@@ -115,13 +121,13 @@
                 baseParams: {
                     "_charset_": "utf-8"
                 },
-                createNode: function(attr) {
+                createNode: function (attr) {
                     attr.text = attr.name;   // use plain node name for tree nodes
                     return CQ.Ext.tree.TreeLoader.prototype.createNode.call(this, attr);
                 }
             },
             path: parentPath,
-            ok: function() {
+            ok: function () {
                 parentPath = browseDialog.getSelectedPath();
                 browseDialog.hide();
                 myForm.getForm().url = CQ.HTTP.externalize(parentPath + "/*");
@@ -131,7 +137,7 @@
         browseDialog.show();
     }
 
-    CQ.Ext.onReady(function() {
+    CQ.Ext.onReady(function () {
         /**
          * An array containing the xtype of widgets that need to call
          * their processRecord function even when creating a new page
@@ -142,8 +148,8 @@
             //standardSubmit: false,
             url: CQ.HTTP.externalize("<%= xssAPI.encodeForJSString(formUrl) %>"),
             buttonAlign: "left",
-            border:false,
-            processExternalDialog: function(data) {
+            border: false,
+            processExternalDialog: function (data) {
                 if (data && data.items) {
                     if (data.items instanceof Array) {
                         for (var i = 0; i < data.items.length; i++) {
@@ -155,12 +161,12 @@
                 }
             },
 
-            processExternalItem: function(tab) {
+            processExternalItem: function (tab) {
                 if (tab["xtype"] == "tabpanel") {
                     this.processExternalDialog(tab);
                 } else {
                     if (tab instanceof Array) {
-                        for (var i=0; i<tab.length; i++) {
+                        for (var i = 0; i < tab.length; i++) {
                             this.processExternalItem(tab[i]);
                         }
                     } else {
@@ -196,9 +202,9 @@
              * Loads the content from the given data store or path.
              * @param {Store/String} content The data store or path
              */
-            loadContent: function(content) {
+            loadContent: function (content) {
                 var store;
-                if (typeof(content) == "string") {
+                if (typeof (content) == "string") {
                     this.path = content;
                     var url = CQ.HTTP.externalize(this.path);
                     if (pageMode) {
@@ -225,12 +231,12 @@
              *        successful, <code>false</code> otherwise
              * @private
              */
-            processRecords: function(recs, opts, success) {
+            processRecords: function (recs, opts, success) {
                 var rec;
                 if (success) {
                     rec = recs[0];
                     if (pageMode) {
-                        rec.data = { "jcr:content" : rec.data };
+                        rec.data = {"jcr:content": rec.data};
                     }
                 } else {
                     CQ.Log.warn("scaffolding processRecords: retrieval of records unsuccessful");
@@ -254,8 +260,7 @@
                                     fields[name][i].processRecord(rec, this.path);
                                 }
                             }
-                        }
-                        catch (e) {
+                        } catch (e) {
                             CQ.Log.debug("scaffolding processRecords: {0}", e.message);
                         }
                     }
@@ -266,7 +271,7 @@
                 if (CQ.undo.UndoManager.isEnabled()) {
                     CQ.undo.util.UndoUtils.addUndoMarker(this);
                     CQ.undo.UndoManager.getHistory().prepareUndo(
-                            new CQ.undo.util.OriginalData(this.path, rec, this, true));
+                        new CQ.undo.util.OriginalData(this.path, rec, this, true));
                 }
             },
 
@@ -275,7 +280,7 @@
              * Processes the given records. This method should only be used as
              * a callback by the component's store when loading content.
              */
-            processPath: function(path) {
+            processPath: function (path) {
                 var fields = CQ.Util.findFormFields(this);
                 for (var name in fields) {
                     for (var i = 0; i < fields[name].length; i++) {
@@ -283,21 +288,20 @@
                             if (fields[name][i].processPath) {
                                 fields[name][i].processPath(path);
                             }
-                        }
-                        catch (e) {
+                        } catch (e) {
                             CQ.Log.debug("scaffolding processPath: {0}", e.message);
                         }
                     }
                 }
             },
 
-            getActiveTab: function() {
+            getActiveTab: function () {
                 return this;
             }
         });
         myForm.addButton({
             text: isUpdate ? CQ.I18n.getMessage("Save") : CQ.I18n.getMessage("Create"),
-            handler: function() {
+            handler: function () {
                 var frm = myForm.getForm();
                 var title;
                 var params = {
@@ -331,79 +335,73 @@
                 }
 
                 /****************************************
-                // Customize code to add level
-                ****************************************/
-              
- 
-                     for( var fields=0; fields< myForm.getForm().items.items.length;fields++){
-						var type = frm.findField(myForm.getForm().items.items[fields].id).getValue();
-                        if(  type != undefined && (typeof type =='string') && !Array.isArray(type)  ){
-                        	var yy = frm.findField(myForm.getForm().items.items[fields].id).getValue();
-                        	 if( (!yy.startsWith("[") && !yy.endsWith("]"))&&
-                                     frm.findField(myForm.getForm().items.items[fields].id).getName()!= undefined &&
-                                     frm.findField(myForm.getForm().items.items[fields].id).getName().indexOf("@") ==-1){
-     									frm.findField(myForm.getForm().items.items[fields].id).setValue(replaceWordChars(yy));
-                             }
-                         }
-                     }
-               
+                 // Customize code to add level
+                 ****************************************/
 
 
+                for (var fields = 0; fields < myForm.getForm().items.items.length; fields++) {
+                    var type = frm.findField(myForm.getForm().items.items[fields].id).getValue();
+                    if (type != undefined && (typeof type == 'string') && !Array.isArray(type)) {
+                        var yy = frm.findField(myForm.getForm().items.items[fields].id).getValue();
+                        if ((!yy.startsWith("[") && !yy.endsWith("]")) &&
+                            frm.findField(myForm.getForm().items.items[fields].id).getName() != undefined &&
+                            frm.findField(myForm.getForm().items.items[fields].id).getName().indexOf("@") == -1) {
+                            frm.findField(myForm.getForm().items.items[fields].id).setValue(replaceWordChars(yy));
+                        }
+                    }
+                }
 
-                if(!isUpdate){
-					var level = frm.findField("./level").getValue().toLowerCase();
 
-                	var type = frm.findField("./ocm_classname").getValue();
-                	var id;
-                	if (type === 'org.girlscouts.vtk.ocm.YearPlanNode') {
-                		id = frm.findField("./id").getValue();
-                		id = 'yearPlan' + id;
-                	} else if (type === 'org.girlscouts.vtk.ocm.MeetingNode') {
-                		id = frm.findField("./id").getValue();
-                	}
-                	
-	                var destDir = '<%=contentPath%>/' + level;
-	                girlscouts.functions.createPath(destDir, 'nt:unstructured');
-	                var destUrl = destDir + '/' + id;
-	                frm.url = destUrl;
+                if (!isUpdate) {
+                    var level = frm.findField("./level").getValue().toLowerCase();
 
-	                // Check if node already exists.
-	                var http = CQ.shared.HTTP;
-        			var response = http.get(http.externalize(destUrl + '.1.json'));
-        			if (response.status == 200) {
-        				alert('Meeting / year plan with this ID already exist: ' + destUrl + '. Please check ID and level.');
-        				return false;
-        			}
+                    var type = frm.findField("./ocm_classname").getValue();
+                    var id;
+                    if (type === 'org.girlscouts.vtk.ocm.YearPlanNode') {
+                        id = frm.findField("./id").getValue();
+                        id = 'yearPlan' + id;
+                    } else if (type === 'org.girlscouts.vtk.ocm.MeetingNode') {
+                        id = frm.findField("./id").getValue();
+                    }
+
+                    var destDir = '<%=contentPath%>/' + level;
+                    girlscouts.functions.createPath(destDir, 'nt:unstructured');
+                    var destUrl = destDir + '/' + id;
+                    frm.url = destUrl;
+
+                    // Check if node already exists.
+                    var http = CQ.shared.HTTP;
+                    var response = http.get(http.externalize(destUrl + '.1.json'));
+                    if (response.status == 200) {
+                        alert('Meeting / year plan with this ID already exist: ' + destUrl + '. Please check ID and level.');
+                        return false;
+                    }
                 }
                 /****************************************
-                // End: Customize code to add level
-                ****************************************/
-                
+                 // End: Customize code to add level
+                 ****************************************/
+
                 // Add original URL to params
                 params.originalUrl = frm.url;
                 var action = new CQ.form.SlingSubmitAction(frm, {
-                	// Direct to our special servlet
-                	url:  '/bin/vtk-scaffolding-post',
+                    // Direct to our special servlet
+                    url: '/bin/vtk-scaffolding-post',
                     params: params,
-                    success: function(frm, resp) {
+                    success: function (frm, resp) {
 
                         var contentPath = resp.result["Path"];
                         var url = CQ.HTTP.externalize(contentPath);
-                        if (pageMode) {
-                            url += ".html";
-                        } else {
-                            url += ".scaffolding.html";
-                        }
+                        url += ".html";
                         if (isUpdate) {
                             //CQ.Ext.Msg.alert("Success", "Updated " + contentPath);
                             CQ.Util.reload(CQ.WCM.getContentWindow(), url);
                         } else {
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;
-                            var html = "<li><a href='"+ CQ.shared.XSS.getXSSValue(url) + "'>" + CQ.shared.XSS.getXSSValue(title) + "</a></li>";
+                            var html = "<li><a href='" + CQ.shared.XSS.getXSSValue(url) + "'>" + CQ.shared.XSS.getXSSValue(title) + "</a></li>";
                             CQ.Ext.DomHelper.append("linklist", html);
                             frm.reset();
-                            window.scrollTo(0,0);
+                            window.scrollTo(0, 0);
                             frm.findField(0).focus();
                         }
                     }
@@ -411,18 +409,18 @@
                 frm.doAction(action);
             }
         });
-       
+
         // Preview Button and Activate Button
         if (isUpdate) {
-	        myForm.addButton({
-	        	text: "Preview",
-	        	handler: function() {
-	        		// Remove the scaffolding selector
-	        		location.href = location.href.replace(".scaffolding.html", ".html");
-	        	}
-	        });
+            myForm.addButton({
+                text: "Preview",
+                handler: function () {
+                    // Remove the scaffolding selector
+                    location.href = location.href.replace(".scaffolding.html", ".html");
+                }
+            });
         }
-        
+
         var url = CQ.HTTP.externalize("<%= xssAPI.encodeForJSString(dlgPath) %>.infinity.json");
         var data = CQ.HTTP.eval(url);
         if (data) {
@@ -436,34 +434,33 @@
 
         myForm.fireEvent("activate", myForm);
         myForm.getForm().findField(0).focus();
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     });
 
-     function replaceWordChars(text) {
+    function replaceWordChars(text) {
 
-    var s = text;
-    // smart single quotes and apostrophe
-    s = s.replace(/[\u2018\u2019\u201A]/g, "\'");
+        var s = text;
+        // smart single quotes and apostrophe
+        s = s.replace(/[\u2018\u2019\u201A]/g, "\'");
 
 
+        // smart double quotes
+        s = s.replace(/[\u201C\u201D\u201E]/g, "\"");
+        // ellipsis
+        s = s.replace(/\u2026/g, "...");
+        // dashes
+        s = s.replace(/[\u2013\u2014]/g, "-");
+        // circumflex
+        s = s.replace(/\u02C6/g, "^");
+        // open angle bracket
+        s = s.replace(/\u2039/g, "<");
+        // close angle bracket
+        s = s.replace(/\u203A/g, ">");
+        // spaces
+        s = s.replace(/[\u02DC\u00A0]/g, " ");
 
-    // smart double quotes
-    s = s.replace(/[\u201C\u201D\u201E]/g, "\"");
-    // ellipsis
-    s = s.replace(/\u2026/g, "...");
-    // dashes
-    s = s.replace(/[\u2013\u2014]/g, "-");
-    // circumflex
-    s = s.replace(/\u02C6/g, "^");
-    // open angle bracket
-    s = s.replace(/\u2039/g, "<");
-    // close angle bracket
-    s = s.replace(/\u203A/g, ">");
-    // spaces
-    s = s.replace(/[\u02DC\u00A0]/g, " ");
+        return s;
 
-    return s;
-
-}
+    }
 </script>
 </body>
