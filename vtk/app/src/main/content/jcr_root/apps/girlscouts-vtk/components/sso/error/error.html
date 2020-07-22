@@ -1,11 +1,3 @@
-<%@page session="false" %>
-<%@ include file="/libs/foundation/global.jsp" %>
-<%@ page import="org.apache.jackrabbit.api.security.user.*,
-                 org.apache.commons.lang.StringUtils,
-                 org.apache.sling.api.request.RequestParameter,
-                 org.apache.sling.api.resource.ResourceResolver,
-                 org.apache.sling.api.resource.ResourceUtil,
-                 org.apache.sling.jcr.api.SlingRepository" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -14,13 +6,12 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <!-- apps/girlscouts/components/page/headlibs.jsp -->
-	<link rel="stylesheet" href="/etc.clientlibs/foundation/clientlibs/main.min.css" type="text/css"/>
-    <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/jquery.min.js"></script>
-    <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/utils.min.js"></script>
-    <script type="text/javascript" src="/etc.clientlibs/clientlibs/granite/jquery/granite.min.js"></script>
-    <script type="text/javascript" src="/etc.clientlibs/foundation/clientlibs/jquery.min.js"></script>
-    <script type="text/javascript" src="/etc.clientlibs/foundation/clientlibs/shared.min.js"></script>
-    <script type="text/javascript" src="/etc.clientlibs/foundation/clientlibs/main.min.js"></script>
+    <link rel="stylesheet" href="/etc/clientlibs/foundation/main.css" type="text/css">
+    <script type="text/javascript" src="/etc/clientlibs/granite/jquery.js"></script>
+    <script type="text/javascript" src="/etc/clientlibs/granite/utils.js"></script>
+    <script type="text/javascript" src="/etc/clientlibs/granite/jquery/granite.js"></script>
+    <script type="text/javascript" src="/etc/clientlibs/foundation/jquery.js"></script>
+    <script type="text/javascript" src="/etc/clientlibs/foundation/main.js"></script>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- Begin: Include Girl Scout clientlibs -->
@@ -42,7 +33,7 @@
         var fixVerticalSizing = true;
     </script>
     <!-- End: login logic -->
-    <title>SSO Landing Page</title>
+    <title>SSO Error Page</title>
 </head>
 <!-- apps/girlscouts/components/page/body.jsp -->
 <body>
@@ -138,57 +129,11 @@
                         <div id="mainContent">
                             <div class="par parsys">
                                 <div class="title section">
-                                    <h1>SSO Logout page</h1>
+                                    <h1>SAML landing page</h1>
                                 </div>
-                                <div class="text parbase section">
-                                    <div id="container">Log out successful</div>
-                                    <% 
-                                        final Session session = resourceResolver.adaptTo(Session.class);
-                                        final UserManager userManager = resourceResolver.adaptTo(UserManager.class);
-                                        final User user = (User) userManager.getAuthorizable(session.getUserID());
-                                        String principalName=user.getPrincipal().getName();
-                                        String lastName=user.getProperty("./profile/familyName")!=null?user.getProperty("./profile/familyName")[0].getString():null;
-                                        String firstName=user.getProperty("./profile/givenName")!=null?user.getProperty("./profile/givenName")[0].getString():null;
-                                        String gsGlobalId=user.getProperty("./profile/GSGlobalID")!=null?user.getProperty("./profile/GSGlobalID")[0].getString():null;
-                                        String email=user.getProperty("./profile/email")!=null?user.getProperty("./profile/email")[0].getString():null;
-                                        String gsUserType=user.getProperty("./profile/gsUserType")!=null?user.getProperty("./profile/gsUserType")[0].getString():null;
-                                    %>
-                                    You are now authenticated as:
-                                    <ul>
-                                            <li>AEM Principal Name: <%=principalName%></li>
-                                            <li>First Name: <%=firstName%></li>
-                                            <li>Last Name: <%=lastName%></li>
-                                            <li>Email: <%=email%></li>
-                                            <li>GS Global ID: <%=gsGlobalId%></li>
-                                            <li>GS User Type: <%=gsUserType%></li>
-                                    </ul>
-                                    <h3>
-                                        Redirecting to SSO POC landing page after <span id="countdown">15</span> seconds
-                                    </h3>
-                                    <!-- JavaScript part -->
-                                    <script type="text/javascript">            
-                                        // Total seconds to wait
-                                        var seconds = 15;            
-                                        function countdown() {
-                                            seconds = seconds - 1;
-                                            if (seconds < 0) {
-                                                // Chnage your redirection link here
-                                                window.location = "/content/girlscouts-vtk/sso/landing.html";
-                                            } else {
-                                                // Update remaining seconds
-                                                document.getElementById("countdown").innerHTML = seconds;
-                                                // Count down using javascript
-                                                window.setTimeout("countdown()", 1000);
-                                            }
-                                        }
-                                        function afterLogout() {      
-                                            countdown();
-                                            // Handle removal/deletion of any session cookies
-                                            // Define any additional logic to perform on the logged out user's browser
-                                        }
-                                        afterLogout();
-                                    </script>
-								</div>
+                                <div class="text parbase section" data-sly-use.ssoUtil="org.girlscouts.vtk.sling.model.VTKSSOUtil">
+                                    <div data-sly-text=${ssoUtil.errorMessage @ context='html'}></div>
+                                </div>
                             </div>
                         </div>
                         <!--PAGE STRUCTURE: MIDDLE CONTENT STOP-->
@@ -208,11 +153,9 @@
         <!-- web/app/src/main/content/jcr_root/apps/girlscouts/components/page/footer.jsp -->
         <div id="footer" class="hide-for-small row">
             <div class="large-24 footer-navigation medium-24 navigation-bar columns nav small-24">
-              <div class="footerLinks">
-                Privacy Policy
-                
-                Terms and Conditions
-                
+                <div class="footerLinks">
+                    Privacy Policy
+                    Terms and Conditions
                 </div>
             </div>
         </div>
@@ -241,6 +184,19 @@
                 <!--<![endif]-->
             </div>
         </div>
+        <script type="text/javascript">
+            var resizeWindow = function () {
+                if (fixVerticalSizing) {
+                    var currentMainHeight = $('#main').height();
+                    var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
+                    if (targetMainHeight > 1.1 * currentMainHeight) {
+                        $('#main').height(targetMainHeight);
+                    }
+                }
+            };
+            window.onload = resizeWindow;
+            $(window).resize(resizeWindow);
+        </script>
     </div>
 </div>
 <div id="gsModal"></div>

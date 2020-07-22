@@ -22,7 +22,6 @@ public class GirlScoutsSSOConfigurationServiceImpl extends BasicGirlScoutsServic
     private Integer sessionExpiration;
 
 
-
     @Activate
     private void activate(ComponentContext context) {
         this.context = context;
