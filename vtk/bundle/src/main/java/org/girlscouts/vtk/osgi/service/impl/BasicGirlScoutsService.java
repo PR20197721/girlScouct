@@ -25,6 +25,15 @@ public class BasicGirlScoutsService {
         }
     }
 
+    protected Integer getIntegerConfig(String property) {
+        if (this.context != null) {
+            Dictionary properties = this.context.getProperties();
+            return Integer.valueOf(String.valueOf(properties.get(property)));
+        } else {
+            return null;
+        }
+    }
+
     protected String[] getMultiValueConfig(String property) {
         if (this.context != null) {
             Dictionary properties = this.context.getProperties();

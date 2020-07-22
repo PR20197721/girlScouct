@@ -16,8 +16,8 @@
     <!-- apps/girlscouts/components/page/headlibs.jsp -->
     <script src="https://cdns.gigya.com/js/gigya.saml.js?apiKey=3_NLXR60j9urobE-Xha85pPHh1aIok8tcX3EleNguNPoil0e_8omSl6c4jE1Ip33E0">
     {
-        loginURL:"https://my-dev.girlscouts.org/content/gslearn/sso/login.html",
-        logoutURL: "https://my-dev.girlscouts.org/content/gslearn/sso/logout.html"
+        loginURL:"http://localhost:4503/content/girlscouts-vtk/sso/login.html",
+        logoutURL: "http://localhost:4503/content/girlscouts-vtk/sso/logout.html"
     }
 	</script>
     <link rel="stylesheet" href="/etc.clientlibs/foundation/clientlibs/main.min.css" type="text/css"/>
@@ -71,11 +71,11 @@
                     <!-- Modern Browser -->
                     <!--[if gt IE 8]><!-->
                     <nav class="hide-for-small logoLarge logoLargePadding">
-                        <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
+                        <img src="/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
                              alt="Home" id="logoImg"/>
                     </nav>
                     <nav class="show-for-small logoSmall">
-                        <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
+                        <img src="/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
                              alt="Home" width="38" height="38"/>
                     </nav>
                     <!--<![endif]-->
@@ -190,7 +190,7 @@
                 <!-- Modern Browser -->
                 <!--[if gt IE 8]><!-->
                 <nav class="show-for-small mobileFooterLogo">
-                    <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
+                    <img src="/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
                          alt="Home" width="188" height="73"/>
                 </nav>
                 <!--<![endif]-->

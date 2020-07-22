@@ -65,11 +65,11 @@
                     <!-- Modern Browser -->
                     <!--[if gt IE 8]><!-->
                     <nav class="hide-for-small logoLarge logoLargePadding">
-                        <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
+                        <img src="/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
                              alt="Home" id="logoImg"/>
                     </nav>
                     <nav class="show-for-small logoSmall">
-                        <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
+                        <img src="/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
                              alt="Home" width="38" height="38"/>
                     </nav>
                     <!--<![endif]-->
@@ -164,7 +164,7 @@
                                     <p><a href="javascript:void(0);" onclick="logout()" >Logout</a></p>
                                     <script>
                                         function logout(){
-                                            window.location='/system/sling/logout.html?resource=/content/gslearn/sso/landing';
+                                            window.location='/system/sling/logout.html?resource=/content/girlscouts-vtk/sso/landing';
                                         }
                                     </script>
                                 </div>
@@ -214,7 +214,7 @@
                 <!-- Modern Browser -->
                 <!--[if gt IE 8]><!-->
                 <nav class="show-for-small mobileFooterLogo">
-                    <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
+                    <img src="/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
                          alt="Home" width="188" height="73"/>
                 </nav>
                 <!--<![endif]-->

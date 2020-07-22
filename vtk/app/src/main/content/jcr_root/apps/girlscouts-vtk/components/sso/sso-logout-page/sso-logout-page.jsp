@@ -65,11 +65,11 @@
                     <!-- Modern Browser -->
                     <!--[if gt IE 8]><!-->
                     <nav class="hide-for-small logoLarge logoLargePadding">
-                        <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
+                        <img src="/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
                              alt="Home" id="logoImg"/>
                     </nav>
                     <nav class="show-for-small logoSmall">
-                        <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
+                        <img src="/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
                              alt="Home" width="38" height="38"/>
                     </nav>
                     <!--<![endif]-->
@@ -173,7 +173,7 @@
                                             seconds = seconds - 1;
                                             if (seconds < 0) {
                                                 // Chnage your redirection link here
-                                                window.location = "https://my-dev.girlscouts.org/content/gslearn/sso/landing.html";
+                                                window.location = "/content/girlscouts-vtk/sso/landing.html";
                                             } else {
                                                 // Update remaining seconds
                                                 document.getElementById("countdown").innerHTML = seconds;
@@ -235,7 +235,7 @@
                 <!-- Modern Browser -->
                 <!--[if gt IE 8]><!-->
                 <nav class="show-for-small mobileFooterLogo">
-                    <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
+                    <img src="/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png"
                          alt="Home" width="188" height="73"/>
                 </nav>
                 <!--<![endif]-->
