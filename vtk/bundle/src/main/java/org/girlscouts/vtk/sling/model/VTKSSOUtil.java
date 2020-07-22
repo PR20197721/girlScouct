@@ -86,6 +86,7 @@ public class VTKSSOUtil {
     public String getFirstName(){
         return this.firstName;
     }
+
     public String getPrincipalName(){
         return this.principalName;
     }
