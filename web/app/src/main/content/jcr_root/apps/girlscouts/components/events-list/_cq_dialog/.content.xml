@@ -49,24 +49,29 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <featuretitle
+                            <feedtype
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                fieldLabel="Feature Title"
-                                name="./featuretitle"/>
-                            <eventcounts
+                                sling:resourceType="granite/ui/components/foundation/form/radiogroup"
+                                text="Feed Type"
+                                name="./feedType"
+                                vertical="{Boolean}true">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <latestevents
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="/libs/granite/ui/components/foundation/form/radio"
+                                        checked="{Boolean}true"
+                                        text="Latest events"
+                                        value="latestevents"/>
+                                    <tags
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="/libs/granite/ui/components/foundation/form/radio"
+                                        text="Tags"
+                                        value="tags"/>
+                                </items>
+                            </feedtype>
+                            <separator1
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                fieldDescription="(Please provide only numbers.)"
-                                fieldLabel="Number of Events"
-                                max="{Long}100"
-                                name="./eventcount"/>
-                            <url
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="girlscouts/components/form/pathfield"
-                                fieldDescription="(Provide the URL for the Title to be linked too)"
-                                fieldLabel="Url"
-                                name="./urltolink"/>
+                                sling:resourceType="core/wcm/components/separator/v1/separator"/>
                             <tags
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="cq/gui/components/coral/common/form/tagfield"
@@ -80,23 +85,43 @@
                                     jcr:primaryType="nt:unstructured"
                                     cq-msm-lockable="cq:tags"/> 
                             </tags>
+                            <separator2
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="core/wcm/components/separator/v1/separator"/>
+                            <featuretitle
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldLabel="Feature Title"
+                                name="./featuretitle"/>
+                            <featuretitlelink
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="girlscouts/components/form/pathfield"
+                                fieldLabel="Feature Title Link"
+                                name="./urltolink"/>
+                            <eventcount
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="(Please provide only numbers.)"
+                                fieldLabel="Number of Events"
+                                max="{Long}100"
+                                name="./eventcount"/>
                             <filter
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/radiogroup"
-                                text="Filtered By">
+                                text="Filtered By"
+                                name="./filter"
+                                vertical="{Boolean}true">
                                 <items jcr:primaryType="nt:unstructured">
                                     <start
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="/libs/granite/ui/components/foundation/form/radio"
                                         checked="{Boolean}true"
-                                        name="./filter"
                                         renderReadOnly="{Boolean}true"
                                         text="Starting Date: displays events that start after current date"
                                         value="start"/>
                                     <end
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="/libs/granite/ui/components/foundation/form/radio"
-                                        name="./filter"
                                         renderReadOnly="{Boolean}true"
                                         text="Ending Date: displays events that end after current date"
                                         value="end"/>

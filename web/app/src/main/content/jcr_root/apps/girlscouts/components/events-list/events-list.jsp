@@ -26,6 +26,7 @@
 	int eventCount = Integer.parseInt(properties.get("eventcount", "0"));
 	int daysofevents = Integer.parseInt(properties.get("daysofevents", "0"));
 	String filterProp = properties.get("filter", "end"); // filtered by start or end date of the events. by cwu
+	String feedType = properties.get("feedType", "latestevents");
 
 	// Upcoming Events
 	SearchResultsInfo srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
@@ -40,7 +41,7 @@
 	List<String> taggedEventsList = new ArrayList<>(taggedEvents);
 
 	// Select Events based upon config
-	List<String> results = !taggedEventsList.isEmpty() ? taggedEventsList : srchInfoList;
+	List<String> results = feedType.equals("tags") ? taggedEventsList : srchInfoList;
 
 	Date today = new Date();
 	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -56,7 +57,7 @@
 	<div class="large-1 columns small-2 medium-1">
 		<img src="<%=iconImg%>" onerror="this.style.display='none'" width="32" height="32" alt="feature icon" />
 	</div>
-	<div class="column large-23 small-22 medium-23" >
+	<div class="column large-23 small-22 medium-23">
 		<div class="row collapse">
 			<h2 class="columns large-24 medium-24">
 				<a href="<%=eventsLink%>" style="color: #414141"><%=featureTitle%></a>
