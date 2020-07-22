@@ -76,7 +76,7 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
 		requestParams.add(new NameValuePair("oid", webToLeadConfig.getOID()));
 		logger.info("OrgId :" + webToLeadConfig.getOID());
 
-		final String sfCampaignId = "00N0f00000Eoc8U";
+		final String sfCampaignIdKey = "00N0f00000Eoc8U";
 
 		for (Iterator<String> itr = FormsHelper.getContentRequestParameterNames(request); itr.hasNext();) {
 			final String paraName = itr.next();
@@ -84,10 +84,9 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
 			RequestParameter[] paras = request.getRequestParameters(paraName);
 			for (RequestParameter paraValue : paras) {
 				if (paraValue.isFormField()) {
-					if (!paraName.equals("Campaign_ID")) {
-						requestParams.add(new NameValuePair(paraName, paraValue.getString()));
-					} else {
-						requestParams.add(new NameValuePair(sfCampaignId, paraValue.getString()));
+					requestParams.add(new NameValuePair(paraName, paraValue.getString()));
+					if (paraName.equals("Campaign_ID")) {
+						requestParams.add(new NameValuePair(sfCampaignIdKey, paraValue.getString()));
 					}
 
 				}
