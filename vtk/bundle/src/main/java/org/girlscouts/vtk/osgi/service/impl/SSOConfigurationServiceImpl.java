@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
-import org.girlscouts.vtk.osgi.conf.GirlScoutsSSOConfigurationServiceConfig;
-import org.girlscouts.vtk.osgi.service.GirlScoutsSSOConfigurationService;
+import org.girlscouts.vtk.osgi.conf.SSOConfigurationServiceConfig;
+import org.girlscouts.vtk.osgi.service.SSOConfigurationService;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -9,10 +9,10 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(service = {GirlScoutsSSOConfigurationService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsSSOConfigurationServiceImpl")
-@Designate(ocd = GirlScoutsSSOConfigurationServiceConfig.class)
-public class GirlScoutsSSOConfigurationServiceImpl extends BasicGirlScoutsService implements GirlScoutsSSOConfigurationService {
-    private static Logger log = LoggerFactory.getLogger(GirlScoutsSSOConfigurationServiceImpl.class);
+@Component(service = {SSOConfigurationService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.SSOConfigurationServiceImpl")
+@Designate(ocd = SSOConfigurationServiceConfig.class)
+public class SSOConfigurationServiceImpl extends BasicGirlScoutsService implements SSOConfigurationService {
+    private static Logger log = LoggerFactory.getLogger(SSOConfigurationServiceImpl.class);
 
     private String apiKey;
     private String spName;

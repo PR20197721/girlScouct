@@ -1,6 +1,6 @@
 package org.girlscouts.vtk.osgi.service;
 
-public interface GirlScoutsSSOConfigurationService {
+public interface SSOConfigurationService {
 
     public String getApiKey();
 

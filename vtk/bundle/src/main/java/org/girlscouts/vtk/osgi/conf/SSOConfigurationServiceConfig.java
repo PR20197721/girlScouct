@@ -5,7 +5,7 @@ import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 @ObjectClassDefinition(name = "Girl Scouts VTK Manual Troop Load Service configuration", description = "Girl Scouts VTK Manual Troop Load Service configuration")
-public @interface GirlScoutsSSOConfigurationServiceConfig {
+public @interface SSOConfigurationServiceConfig {
     @AttributeDefinition(name = "API Key", type = AttributeType.STRING) String apiKey();
     @AttributeDefinition(name = "SP Name", description = "Service Provider Name", type = AttributeType.STRING) String spName();
     @AttributeDefinition(name = "Log In Path", description = "Fully qualified path to log in page", type = AttributeType.STRING) String logInPath();

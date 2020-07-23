@@ -129,10 +129,10 @@
                         <div id="mainContent">
                             <div class="par parsys">
                                 <div class="title section">
-                                    <h1>SAML landing page</h1>
+                                    <h1>SAML error page</h1>
                                 </div>
                                 <div class="text parbase section" data-sly-use.ssoUtil="org.girlscouts.vtk.sling.model.VTKSSOUtil">
-                                    <div data-sly-text=${ssoUtil.errorMessage @ context='html'}></div>
+                                    ${ssoUtil.errorDescription @context='unsafe'}
                                 </div>
                             </div>
                         </div>

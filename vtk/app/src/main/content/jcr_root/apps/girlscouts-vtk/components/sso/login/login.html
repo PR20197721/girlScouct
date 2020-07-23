@@ -129,9 +129,9 @@
                         <!-- apps/girlscouts/components/three-column-page/middle.jsp -->
                         <div id="mainContent">
                             <div class="par parsys" data-sly-use.ssoUtil="org.girlscouts.vtk.sling.model.VTKSSOUtil">
-                                ${ssoUtil.apiScript}
+                                ${ssoUtil.apiScript @context = 'unsafe'}
                                 <div id="container"></div>
-                                ${ssoUtil.logInScript}
+                                ${ssoUtil.logInScript @context = 'unsafe'}
         					</div>
                         </div>
                         <!--PAGE STRUCTURE: MIDDLE CONTENT STOP-->
