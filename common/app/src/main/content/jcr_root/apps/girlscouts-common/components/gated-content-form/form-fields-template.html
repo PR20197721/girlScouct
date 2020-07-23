@@ -1,0 +1,10 @@
+<template
+	data-sly-template.inputField=${@fieldId,fieldClass,fieldType,fieldPlaceholder,maxLength,minLength,fieldName,fieldPattern,fValue,required})>
+<input id="${fieldId}" class="${fieldClass}" value="${fValue}"
+	type="${fieldType}" placeholder="${fieldPlaceholder}"
+	pattern="${fieldPattern}" maxlength="${maxLength}" name="${fieldName}"
+	min="${minLength}" data-sly-attribute.required="${required?'true':''}"> </template>
+
+<template
+	data-sly-template.labelField=${@fieldId,fieldClass,forAttr,fieldVal})>
+<label for="${forAttr}" class="${fieldClass}">${fieldVal}</label> </template>
