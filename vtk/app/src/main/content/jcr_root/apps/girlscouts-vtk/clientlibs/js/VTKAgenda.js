@@ -327,7 +327,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 
         this.add(new CQ.Ext.form.Label({text: "Duration", hidden: true}));
         this.durationField = new CQ.Ext.form.NumberField({
-            maxValue: 60,
+            maxValue: 100,
             width: 30,
             allowNegative: false,
             allowDecimals: false,
