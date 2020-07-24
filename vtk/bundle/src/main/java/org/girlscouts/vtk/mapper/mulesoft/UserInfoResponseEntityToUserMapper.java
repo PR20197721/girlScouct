@@ -46,7 +46,7 @@ public class UserInfoResponseEntityToUserMapper {
                     log.error("Error occurred mapping Phone to User ", ex);
                 }
                 try {
-                    user.setContactId(entity.getSfContactId());
+                    user.setContactId(entity.getPrimaryContact().getGlobalId());
                 } catch (Exception ex) {
                     log.error("Error occurred mapping Contact Id to User ", ex);
                 }

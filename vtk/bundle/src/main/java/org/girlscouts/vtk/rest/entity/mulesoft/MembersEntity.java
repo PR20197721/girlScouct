@@ -35,6 +35,8 @@ public class MembersEntity {
     private int age;
     @SerializedName("Address")
     private AddressEntity address;
+    @SerializedName("PrimaryGuardian")
+    private PrimaryGuardianEntity primaryGuardian;
 
     public int getYearsAsGirl() {
         return yearsAsGirl;
@@ -162,5 +164,13 @@ public class MembersEntity {
 
     public void setAddress(AddressEntity address) {
         this.address = address;
+    }
+
+    public PrimaryGuardianEntity getPrimaryGuardian() {
+        return primaryGuardian;
+    }
+
+    public void setPrimaryGuardian(PrimaryGuardianEntity primaryGuardian) {
+        this.primaryGuardian = primaryGuardian;
     }
 }

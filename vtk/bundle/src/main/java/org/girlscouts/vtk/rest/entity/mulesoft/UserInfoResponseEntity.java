@@ -37,6 +37,8 @@ public class UserInfoResponseEntity {
     private String returnStatus;
     @SerializedName("ErrorMessage")
     private String errorMessage;
+    @SerializedName("PrimaryContact")
+    private PrimaryContactEntity primaryContact;
 
     public boolean isSmsOptIn() {
         return smsOptIn;
@@ -164,5 +166,13 @@ public class UserInfoResponseEntity {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public PrimaryContactEntity getPrimaryContact() {
+        return primaryContact;
+    }
+
+    public void setPrimaryContact(PrimaryContactEntity primaryContact) {
+        this.primaryContact = primaryContact;
     }
 }
