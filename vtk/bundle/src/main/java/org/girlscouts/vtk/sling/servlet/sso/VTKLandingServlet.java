@@ -11,6 +11,7 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
+import org.girlscouts.vtk.osgi.service.MulesoftService;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -38,6 +39,9 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
     @Reference
     private CouncilMapper councilMapper;
 
+    @Reference
+    private MulesoftService mulesoftService;
+
     @Activate
     private void activate() {
         log.debug("Girl Scouts VTK Landing Servlet activated");
@@ -56,6 +60,7 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
             final UserManager userManager = resourceResolver.adaptTo(UserManager.class);
             final User user = (User) userManager.getAuthorizable(jcrSession.getUserID());
             if(!isActiveVTKSession(request)){
+                ApiConfig apiConfig = mulesoftService.getApiConfig(user);
                 String principalName=user.getPrincipal().getName();
                 String lastName=user.getProperty("./profile/familyName")!=null?user.getProperty("./profile/familyName")[0].getString():null;
                 String firstName=user.getProperty("./profile/givenName")!=null?user.getProperty("./profile/givenName")[0].getString():null;

@@ -1,18 +1,17 @@
 package org.girlscouts.vtk.osgi.service;
 
-import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.rest.entity.salesforce.*;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopLeadersResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopMembersResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.UserInfoResponseEntity;
 
 public interface MulesoftRestClient {
-    JWTAuthEntity getJWTAuth(String accessToken);
 
-    UserInfoResponseEntity getUserInfo(ApiConfig apiConfig);
+    UserInfoResponseEntity getUser(String gsGlobalId);
 
-    UserInfoResponseEntity getUserInfoById(ApiConfig apiConfig, String userId);
+    TroopInfoResponseEntity getTroops(String gsGlobalId);
 
-    TroopInfoResponseEntity getTroopInfoByUserId(ApiConfig apiConfig, String userId);
+    TroopMembersResponseEntity getMembers(String troopId);
 
-    ContactsInfoResponseEntity getContactsByTroopId(ApiConfig apiConfig, String sfTroopId);
-
-    TroopLeadersInfoResponseEntity getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId);
+    TroopLeadersResponseEntity getTroopLeaders(String troopId);
 }

@@ -14,7 +14,7 @@ import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.conf.MulesoftServiceConfig;
 import org.girlscouts.vtk.osgi.service.*;
-import org.girlscouts.vtk.rest.entity.salesforce.*;
+import org.girlscouts.vtk.rest.entity.mulesoft.UserInfoResponseEntity;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -68,28 +68,37 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
     }
 
     @Override
-    public User getUserDetails(String gsGlobalId) {
-        User user = new User();
+    public User getUserDetails(org.apache.jackrabbit.api.security.user.User user) {
+        User vtkUser = new User();
         try {
-            UserInfoResponseEntity userInfoResponseEntity = null;
-            if (isLoadFromFile) {
-                userInfoResponseEntity = fileClient.getUserInfo(gsGlobalId);
-            } else {
-                userInfoResponseEntity = restClient.getUserInfo(gsGlobalId);
-            }
-            user = UserInfoResponseEntityToUserMapper.map(userInfoResponseEntity);
-            if (apiConfig.isDemoUser()) {
-                user.setAdminCouncilId(demoCouncilCode);
-            }
-            user.setApiConfig(apiConfig);
-            user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
-            try {
-                user.setTimezone(getUserTimezone(userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode()));
-            }catch(Exception e){
+            String gsGlobalId = user.getProperty("./profile/GSGlobalID")!=null ? user.getProperty("./profile/GSGlobalID")[0].getString() : null;
+            String email = user.getProperty("./profile/email") != null ? user.getProperty("./profile/email")[0].getString() : null;
+            if(gsGlobalId != null){
+                Boolean isDemo = false;
+                if(email != null && email.endsWith("@vtkdemo.girlscouts.org")){
+                    isDemo = true;
+                }
+                UserInfoResponseEntity userInfoResponseEntity = null;
+                if (isLoadFromFile || isDemo) {
+                    userInfoResponseEntity = fileClient.getUserInfo(gsGlobalId, isDemo);
+                } else {
+                    userInfoResponseEntity = restClient.getUser(gsGlobalId);
+                }
+                user = UserInfoResponseEntityToUserMapper.map(userInfoResponseEntity);
+                if (apiConfig.isDemoUser()) {
+                    user.setAdminCouncilId(demoCouncilCode);
+                }
+                user.setApiConfig(apiConfig);
+                user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
+                try {
+                    user.setTimezone(getUserTimezone(userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode()));
+                }catch(Exception e){
 
+                }
+                apiConfig.setUser(user);
+                addMoreInfo(apiConfig, userInfoResponseEntity);
             }
-            apiConfig.setUser(user);
-            addMoreInfo(apiConfig, userInfoResponseEntity);
+
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
@@ -265,6 +274,14 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
             log.error("Error occurred: ", e);
         }
         return contacts;
+    }
+
+    @Override
+    public ApiConfig getApiConfig(org.apache.jackrabbit.api.security.user.User user) {
+        ApiConfig apiConfig = new ApiConfig();
+        User vtkUser = getUserDetails(user);
+        apiConfig.setUser(vtkUser);
+        return apiConfig;
     }
 
     private void addMoreInfo(ApiConfig apiConfig, UserInfoResponseEntity userInfoResponseEntity) {

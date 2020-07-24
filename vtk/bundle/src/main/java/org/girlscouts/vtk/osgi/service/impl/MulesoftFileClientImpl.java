@@ -2,13 +2,11 @@ package org.girlscouts.vtk.osgi.service.impl;
 
 import com.google.gson.Gson;
 import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.osgi.conf.GirlScoutsSalesForceFileClientConfig;
+import org.girlscouts.vtk.osgi.conf.MulesoftFileClientConfig;
 import org.girlscouts.vtk.osgi.service.GirlScoutsRepoFileIOService;
-import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceFileClient;
-import org.girlscouts.vtk.rest.entity.salesforce.ContactsInfoResponseEntity;
-import org.girlscouts.vtk.rest.entity.salesforce.TroopInfoResponseEntity;
-import org.girlscouts.vtk.rest.entity.salesforce.TroopLeadersInfoResponseEntity;
-import org.girlscouts.vtk.rest.entity.salesforce.UserInfoResponseEntity;
+import org.girlscouts.vtk.osgi.service.MulesoftFileClient;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.UserInfoResponseEntity;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -17,9 +15,9 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(service = {GirlScoutsSalesForceFileClient.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.GirlScoutsSalesForceFileClientImpl")
-@Designate(ocd = GirlScoutsSalesForceFileClientConfig.class)
-public class MulesoftFileClientImpl extends BasicGirlScoutsService implements GirlScoutsSalesForceFileClient {
+@Component(service = {MulesoftFileClient.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.MulesoftFileClientImpl")
+@Designate(ocd = MulesoftFileClientConfig.class)
+public class MulesoftFileClientImpl extends BasicGirlScoutsService implements MulesoftFileClient {
     private static Logger log = LoggerFactory.getLogger(MulesoftFileClientImpl.class);
     @Reference
     GirlScoutsRepoFileIOService girlScoutsRepoFileIOService;
@@ -37,16 +35,11 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Gi
     }
 
     @Override
-    public UserInfoResponseEntity getUserInfo(ApiConfig apiConfig) {
-        return getUserInfoById(apiConfig, apiConfig.getUserId());
-    }
-
-    @Override
-    public UserInfoResponseEntity getUserInfoById(ApiConfig apiConfig, String userId) {
+    public UserInfoResponseEntity getUserInfo(String gsGlobalId, Boolean isDemo) {
         UserInfoResponseEntity user = null;
         String path = "";
         try {
-            path = getPath(apiConfig, userId, "user");
+            path = getPath(gsGlobalId, isDemo,  "user");
             log.debug("Loading user file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
@@ -58,11 +51,11 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Gi
     }
 
     @Override
-    public TroopInfoResponseEntity getTroopInfoByUserId(ApiConfig apiConfig, String userId) {
+    public TroopInfoResponseEntity getTroopInfoByUserId(String gsGlobalId, Boolean isDemo) {
         TroopInfoResponseEntity troopInfoResponseEntity = null;
         String path = "";
         try {
-            path = getPath(apiConfig, userId, "troops");
+            path = getPath(gsGlobalId, isDemo, "troops");
             log.debug("Loading troops file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             troopInfoResponseEntity = new Gson().fromJson(json, TroopInfoResponseEntity.class);
@@ -150,21 +143,14 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Gi
             log.error("Error occurred getting independent registered member dummy user from repository ", e);
         }
         return user;
+
     }
 
-    private String getPath(ApiConfig apiConfig, String sfUserId,  String serviceName) {
-        String path = "";
-        if (!apiConfig.isDemoUser()) {
-            String userFolder = apiConfig.getId();
-            if (userFolder != null) {
-                userFolder = userFolder.replace(" ", "_");
-            } else {
-                userFolder = "no_name";
-            }
-            path = getConfig("localJsonPath") + "/" + userFolder + "/" + serviceName + ".json";
+    private String getPath(String id,  Boolean isDemo, String serviceName) {
+        if (!isDemo) {
+            return getConfig("localJsonPath") + "/" + id + "/" + serviceName + ".json";
         } else {
-            path = localJsonPath + localDemoFolder + "/" + apiConfig.getDemoUserName() + "/" + serviceName + ".json";
+            return localJsonPath + localDemoFolder + "/" + id + "/" + serviceName + ".json";
         }
-        return path;
     }
 }
