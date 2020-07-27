@@ -121,7 +121,6 @@
 					// need to look for the event starting/ending date is great then TODAYS date, if end date is not there, else start >= todays date.
 					GSDateTime gsToday = new GSDateTime();
 					GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-					int count = 0;
 					if (eventCount > results.size()) {
 						eventCount = results.size();
 					}
@@ -134,18 +133,15 @@
 							today = formatter.parse(formatter.format(cal1.getTime()));
 						}
 						for (String result : results) {
-							if (count == eventCount) {
-								break;
-							}
 							Node node = resourceResolver.getResource(result).adaptTo(Node.class);
 							Date fromdate = null;
 							try {
 								if (node.hasNode("jcr:content/data")) {
 									Node propNode = node.getNode("jcr:content/data");
-									if(propNode.hasProperty("visibleDate")){
+									if (propNode.hasProperty("visibleDate")) {
 										String visibleDate = propNode.getProperty("visibleDate").getString();
 										GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
-										if(vis.isAfter(gsToday)){
+										if (vis.isAfter(gsToday)) {
 											continue;
 										}
 									}
@@ -170,14 +166,15 @@
 										renderMap.put("href", result + ".html");
 										renderMap.put("title", propNode.getProperty("../jcr:title").getString());
 										renderMaps.add(renderMap);
-										count++;
 									}
 								}
 							} catch (Exception e) {}
 						}
 					}
 
-					// Sort
+					// Get unique and Sort
+					HashSet<String> unique = new HashSet<>();
+					renderMaps.removeIf(m -> !unique.add((String)m.get("href")));
 					renderMaps.sort((m1, m2) -> {
 						Date d1 = (Date)m1.get("date");
 						Date d2 = (Date)m2.get("date");
