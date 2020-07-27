@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface MulesoftService {
 
-    User getUserDetails(org.apache.jackrabbit.api.security.user.User user);
+    User getUser(org.apache.jackrabbit.api.security.user.User user);
 
-    List<Troop> getTroopInfoByUserId(ApiConfig apiConfig, String userId);
+    List<Troop> getTroops(User user);
 
-    List<Contact> getContactsForTroop(ApiConfig apiConfig, Troop troop);
+    List<Contact> getContactsForTroop(Troop troop);
 
     List<Contact> getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId);
 

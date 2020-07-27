@@ -34,6 +34,7 @@ public class Troop extends JcrNode implements Serializable {
     private String participationCode;
     private String councilPath;
     private String hash;
+    private Boolean isDemoTroop = Boolean.FALSE;
     private Boolean isIRM = Boolean.FALSE;
     private Boolean isSUM = Boolean.FALSE;
     private Map<Date, YearPlanComponent> schedule;
@@ -280,6 +281,14 @@ public class Troop extends JcrNode implements Serializable {
 
     public void setIsLoadedManualy(Boolean loadedManualy) {
         this.isLoadedManualy = loadedManualy;
+    }
+
+    public Boolean getIsDemoTroop() {
+        return isDemoTroop;
+    }
+
+    public void setIsDemoTroop(Boolean demoTroop) {
+        isDemoTroop = demoTroop;
     }
 
     public void clearSchedule(){

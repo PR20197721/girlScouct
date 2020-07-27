@@ -8,7 +8,7 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.exception.VtkException;
 import org.girlscouts.vtk.models.*;
 import org.girlscouts.vtk.osgi.component.dao.*;
-import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
+import org.girlscouts.vtk.osgi.service.MulesoftService;
 import org.girlscouts.vtk.utils.ActivityDateComparator;
 import org.girlscouts.vtk.utils.ActivityNumberComparator;
 import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
@@ -39,7 +39,7 @@ public class MeetingUtil {
     @Reference
     private MeetingAidUtil meetingAidUtil;
     @Reference
-    private GirlScoutsSalesForceService gsSalesForceService;
+    private MulesoftService mulesoftService;
 
     public java.util.List<MeetingE> updateMeetingPos(java.util.List<MeetingE> orgMeetings, java.util.List<Integer> newPoss) {
         java.util.List<MeetingE> newMeeting = new java.util.ArrayList<MeetingE>();// orgMeetings.size());
@@ -861,7 +861,7 @@ public class MeetingUtil {
                 i++;
             }
         }
-        java.util.List<org.girlscouts.vtk.models.Contact> contacts = gsSalesForceService.getContactsForTroop(user.getApiConfig(), troop);
+        java.util.List<org.girlscouts.vtk.models.Contact> contacts = mulesoftService.getContactsForTroop(troop);
         contacts = contacts.stream().filter(e -> "GIRL".equals(e.getRole().trim().toUpperCase())).collect(java.util.stream.Collectors.toList());
         String path = troop.getPath() + "/yearPlan/" + YEAR_PLAN_EVENT + "/" + mid + "/attendance";
         java.util.List<String> Attendances = new java.util.ArrayList<String>();
@@ -962,7 +962,7 @@ public class MeetingUtil {
             }
             Set<String> achievers = new HashSet<String>();
             List<String> contactIds = new ArrayList<String>();
-            List<Contact> contacts = gsSalesForceService.getContactsForTroop(user.getApiConfig(), troop);
+            List<Contact> contacts = mulesoftService.getContactsForTroop(troop);
             for (int i = 0; i < contacts.size(); i++) {
                 contactIds.add(contacts.get(i).getId());
             }
@@ -1098,8 +1098,8 @@ public class MeetingUtil {
         }
         Note note = new Note();
         note.setMessage(message);
-        note.setCreatedByUserId(user.getApiConfig().getUser().getSfUserId());
-        note.setCreatedByUserName(user.getApiConfig().getUser().getName());
+        note.setCreatedByUserId(user.getSfUserId());
+        note.setCreatedByUserName(user.getName());
         note.setCreateTime(new java.util.Date().getTime());
         note.setRefId(meeting.getUid());
         note.setPath(meeting.getPath() + "/notes/" + note.getUid());

@@ -49,8 +49,8 @@ public class Emailer {
                 email.addTo(emr.getTo());
             }
             try {
-                if (user.getApiConfig().getUser().getEmail() != null && user.getApiConfig().getUser().getEmail().trim().length() > 0) {
-                    email.addReplyTo(user.getApiConfig().getUser().getEmail());
+                if (user.getEmail() != null && user.getEmail().trim().length() > 0) {
+                    email.addReplyTo(user.getEmail());
 
                 }
             } catch (Exception e) {

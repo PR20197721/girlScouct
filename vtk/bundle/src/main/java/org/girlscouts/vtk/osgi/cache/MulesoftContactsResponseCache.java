@@ -1,11 +1,11 @@
 package org.girlscouts.vtk.osgi.cache;
 
-import org.girlscouts.vtk.rest.entity.salesforce.ContactsInfoResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopMembersResponseEntity;
 
 public interface MulesoftContactsResponseCache {
 
     boolean contains(String key);
-    ContactsInfoResponseEntity read(String key);
-    void write(String key, ContactsInfoResponseEntity entity);
+    TroopMembersResponseEntity read(String key);
+    void write(String key, TroopMembersResponseEntity entity);
 
 }

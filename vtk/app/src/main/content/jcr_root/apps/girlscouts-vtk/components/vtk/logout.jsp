@@ -1,6 +1,6 @@
 <%@ page import="org.girlscouts.vtk.osgi.component.util.UserUtil,org.girlscouts.vtk.models.Troop,org.girlscouts.vtk.models.User" %>
 <%@ page import="org.girlscouts.vtk.osgi.component.ConfigManager" %>
-<%@ page import="org.girlscouts.vtk.osgi.component.CouncilMapper" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.CouncilMapper, org.girlscouts.vtk.auth.models.ApiConfig" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%
@@ -10,9 +10,11 @@
     HttpSession session = request.getSession();
     String councilId = request.getParameter("cid");
     User user = null;
+    ApiConfig apiConfig = null;
     Troop troop = null;
     if (session != null) {
-        user = ((org.girlscouts.vtk.models.User) session.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
+        apiConfig = session.getAttribute(ApiConfig.class.getName());
+        user = apiConfig.getUser();
         troop = (Troop) session.getValue("VTK_troop");
     }
     if (user != null){

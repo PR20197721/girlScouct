@@ -119,7 +119,7 @@
         if (!vtkNotesInstances) {
             appVTK = initNotes;
 
-            appVTK.getNotes('<%=meeting.getUid()%>', '<%=user.getApiConfig().getUser().getSfUserId()%>').done(function (json) {
+            appVTK.getNotes('<%=meeting.getUid()%>', '<%=user.getSfUserId()%>').done(function (json) {
                 appVTK.interateNotes(json);
             });
 

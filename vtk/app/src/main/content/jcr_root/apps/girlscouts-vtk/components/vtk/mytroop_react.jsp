@@ -14,7 +14,7 @@
 		contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
 	}
 	if( contacts==null ){
-		contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
+		contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(apiConfig, selectedTroop);
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}

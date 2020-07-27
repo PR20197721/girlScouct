@@ -25,8 +25,8 @@
         year= VtkUtil.getYearPlanBase(null, null);
     else
         year = "/vtk"+ year+ "/";
-    if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
-        out.println("You do not have access to this page [" + user.getApiConfig().getUserId() + "].");
+    if( !allowedReportUsers.contains(user.getSfUserId()) ){
+        out.println("You do not have access to this page [" + user.getSfUserId() + "].");
         return;
     }
     out.println("Meeting Report generated on " + new java.util.Date()+ " \nTroop,Meeting, Achievement record for the Troop & Meeting pair  ");

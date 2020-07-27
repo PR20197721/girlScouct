@@ -144,7 +144,7 @@
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (user.isAdmin() || !(user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                <% if (user.isAdmin() || !(apiConfig.isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
@@ -203,7 +203,7 @@
                             <li><a title="Add Activity" onclick="newActivity()">Add Activity</a></li>
                             <%
                                 java.util.Map archivedPlans = troopDAO.getArchivedYearPlans(user, selectedTroop);
-                                if (!isParent && new java.util.Date().after(new java.util.Date(configManager.getConfig("startShowingArchiveCmd"))) && !user.getApiConfig().isDemoUser() && archivedPlans != null && archivedPlans.size() > 0) {
+                                if (!isParent && new java.util.Date().after(new java.util.Date(configManager.getConfig("startShowingArchiveCmd"))) && !apiConfig.isDemoUser() && archivedPlans != null && archivedPlans.size() > 0) {
                             %>
                             <li><a title="Past Years"
                                    onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')">PAST YEARS</a>
@@ -319,7 +319,7 @@
                         <% } %>
                     </li>
                     <% } %>
-                    <% if (user.isAdmin() || !(user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                    <% if (user.isAdmin() || !(apiConfig.isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
                     <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
                     </li>
@@ -443,7 +443,7 @@
                     <%
                         if (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") && activeTab != null && "plan".equals(activeTab)) {
                             java.util.Map archivedPlans = troopDAO.getArchivedYearPlans(user, selectedTroop);
-                            if (!isParent && new java.util.Date().after(new java.util.Date(configManager.getConfig("startShowingArchiveCmd"))) && !user.getApiConfig().isDemoUser() && archivedPlans != null && archivedPlans.size() > 0) {
+                            if (!isParent && new java.util.Date().after(new java.util.Date(configManager.getConfig("startShowingArchiveCmd"))) && !apiConfig.isDemoUser() && archivedPlans != null && archivedPlans.size() > 0) {
                     %>
                     <div class="past_years">
                         <a title="Past Years" href="javascript:void(0)"
@@ -473,7 +473,7 @@
                 </div>
                 <div class="columns small-6 medium-5">
                     <ul class="inline-list" id="util-links">
-                        <% if ("myTroop".equals(activeTab) && ((user.getApiConfig().isDemoUser() && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) || VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_TROOP_IMG_ID))) { %>
+                        <% if ("myTroop".equals(activeTab) && ((apiConfig.isDemoUser() && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) || VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_TROOP_IMG_ID))) { %>
                         <li><a
                                 title="print" href="/content/girlscouts-vtk/controllers/vtk.include.troopRoster.pdf"
                                 target="_blank"><i class="icon-printer"></i></a></li>
@@ -493,23 +493,24 @@
                         <%} %>
                         <% if ("plan".equals(activeTab)) {%>
                         <%if (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) {%>
-                        <li><a
-                                <%
-                                    if (user.getApiConfig().isDemoUser()) {
-                                        ;
-                                    } else if (selectedTroop.getYearPlan() != null && planView != null && planView.getSearchDate() != null && planView.getSearchDate().after(new java.util.Date("1/1/1977"))) {
-                                %>
-                                onclick="vtkTrackerPushAction('DownloadCalendar');self.location = '/content/girlscouts-vtk/en/cal.ics'"
-                                <%
-                                } else {
-                                %>
-                                onclick="alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
-                                <% } %> title="download the calendar"><i
-                                class="icon-download"></i></a></li>
+                        <li>
+                            <a <%
+                                if (!apiConfig.isDemoUser()) {
+                                     if (selectedTroop.getYearPlan() != null && planView != null && planView.getSearchDate() != null && planView.getSearchDate().after(new java.util.Date("1/1/1977"))) {%>
+                                        onclick="vtkTrackerPushAction('DownloadCalendar');self.location = '/content/girlscouts-vtk/en/cal.ics'"
+                                     <% } else { %>
+                                        onclick="alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
+                                     <% }
+                                }%> title="download the calendar">
+                                <i class="icon-download"></i>
+                            </a>
+                        </li>
                         <%}//edn if archive%>
-                        <li><a
-                                onclick="window.print();vtkTrackerPushAction('Print');"
-                                title="print"><i class="icon-printer"></i></a></li>
+                        <li>
+                            <a onclick="window.print();vtkTrackerPushAction('Print');" title="print">
+                                <i class="icon-printer"></i>
+                            </a>
+                        </li>
                         <% } %>
                     </ul>
                 </div>

@@ -46,8 +46,7 @@
             Contact caregiver = VtkUtil.getSubContact( gsContact, 1);
 
             //check permission again:must be TL
-            if(!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
-                    user.getApiConfig()==null || user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
+            if(!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) || apiConfig == null ||  user.getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
 
             csv.append("\n");
 

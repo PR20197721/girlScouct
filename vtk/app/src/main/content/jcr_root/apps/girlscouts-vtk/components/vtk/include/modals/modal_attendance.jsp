@@ -7,7 +7,7 @@
 <cq:defineObjects/>
 <%@include file="../session.jsp" %>
 <%
-    java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
+    java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(apiConfig, selectedTroop);
     String YEAR_PLAN_EVENT = "meetingEvents";
     String eventType = request.getParameter("eType");
     if (eventType != null && eventType.equals("ACTIVITY"))

@@ -33,7 +33,7 @@
             if (caregiver == null) continue;
             //check permission again:must be TL
             if (!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
-                    user.getApiConfig() == null || user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId()))) {
+                    apiConfig == null || user.getContactId().equals(caregiver.getContactId()))) {
                 continue;
             }
             if ("Girl".equals(gsContact.getRole())) {

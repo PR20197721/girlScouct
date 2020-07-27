@@ -1,6 +1,6 @@
 package org.girlscouts.vtk.osgi.cache;
 
-import org.girlscouts.vtk.rest.entity.salesforce.TroopInfoResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
 
 public interface MulesoftTroopsResponseCache {
 

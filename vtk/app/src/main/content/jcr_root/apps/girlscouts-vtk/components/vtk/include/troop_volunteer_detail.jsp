@@ -14,7 +14,7 @@
                     }
                     Contact caregiver = VtkUtil.getSubContact(contact, 1);
                     if (!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
-                            user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId()))) {
+                            user.getContactId().equals(caregiver.getContactId()))) {
                         continue;
                     }
         %>
