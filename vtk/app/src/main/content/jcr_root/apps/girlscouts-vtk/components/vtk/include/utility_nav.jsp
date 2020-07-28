@@ -121,10 +121,7 @@
         </div>
     </div>
 </div>
-<% if (true) {//(SHOW_BETA || sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) && sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) {
-%>
 <script>resetIsLoggedIn();</script>
 <iframe style="display:none;" id="myframe"
         src="<%=sling.getService(ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
-<%} %> 
 

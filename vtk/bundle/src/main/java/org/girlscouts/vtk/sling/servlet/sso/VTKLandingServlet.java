@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.Session;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 @Component(service = Servlet.class, property = {
@@ -63,7 +64,7 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
             String vtkRedirect = "/content/girlscouts-vtk/en/vtk.html";
             if(!isActiveVTKSession(request)){
                 ApiConfig apiConfig = mulesoftService.getApiConfig(aemUser);
-                if(apiConfig.getUser() != null && apiConfig.getUser().getTroops() != null) {
+                if(apiConfig != null && apiConfig.getUser() != null && apiConfig.getUser().getTroops() != null && apiConfig.getUser().getTroops().size() != 0) {
                     String principalName = aemUser.getPrincipal().getName();
                     String lastName = aemUser.getProperty("./profile/familyName") != null ? aemUser.getProperty("./profile/familyName")[0].getString() : null;
                     String firstName = aemUser.getProperty("./profile/givenName") != null ? aemUser.getProperty("./profile/givenName")[0].getString() : null;
@@ -84,16 +85,19 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
                     response.sendRedirect(vtkRedirect);
                     log.debug("Creating VTK session for: principalName=" + principalName + ", firstName=" + firstName + ", lastName=" + lastName + ", gsGlobalId=" + gsGlobalId + ", email=" + email + ", gsUserType=" + gsUserType);
                 }else{
-                    VtkError error = new VtkError();
-                    if(apiConfig.getUser() == null){
-                        error.setDescription("Unable to get user details");
-                    }else {
-                        if (apiConfig.getUser().getTroops() == null) {
-                            error.setDescription("Unable to get troop details");
+                    if(apiConfig == null) {
+                        returnError( response,  httpSession,  vtkRedirect, "Unable to initialize vtk session");
+                    }else{
+                        if(apiConfig.getUser() == null){
+                            returnError( response,  httpSession,  vtkRedirect, "Unable to get user details");
+                        }else {
+                            httpSession.setAttribute(org.girlscouts.vtk.models.User.class.getName(), apiConfig.getUser());
+                            if (apiConfig.getUser().getTroops() == null || apiConfig.getUser().getTroops().size() == 0) {
+                                returnError( response,  httpSession,  vtkRedirect, "Unable to get troop details");
+                            }
                         }
                     }
-                    httpSession.setAttribute("fatalError", error);
-                    response.sendRedirect(vtkRedirect);
+
                 }
             }else{
                 if (isDemoUser(aemUser)) {
@@ -136,6 +140,12 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
         }
     }
 
+    private void returnError(SlingHttpServletResponse response, HttpSession httpSession, String vtkRedirect, String  description) throws IOException {
+        VtkError error = new VtkError();
+        error.setDescription("Unable to get troop details");
+        httpSession.setAttribute("fatalError", error);
+        response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");
+    }
     private boolean isActiveVTKSession(SlingHttpServletRequest request) {
         Boolean isActiveVtkSession = false;
         if(request.getSession().getAttribute(ApiConfig.class.getName()) != null && request.getSession().getAttribute("VTK_troop") != null){

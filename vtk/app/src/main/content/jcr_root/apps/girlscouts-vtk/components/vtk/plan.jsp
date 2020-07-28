@@ -959,7 +959,7 @@
                     if (date.toString() == 'NaN') {
                         date = new Date(this.props.date).getTime();
                     }
-                    var src = "<%=relayUrl %>/content/girlscouts-vtk/en/vtk.details.html?elem=" + date;
+                    var src = "/content/girlscouts-vtk/en/vtk.details.html?elem=" + date;
                     return (
 
                         //React.createElement("a", {href: src}, this.props.name +":Outdoor available? "+this.props.isOutdoorAvailable+" Outdoor selected? : "+ this.props.isOutdoor)

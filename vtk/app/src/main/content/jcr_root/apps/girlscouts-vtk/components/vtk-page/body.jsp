@@ -12,27 +12,34 @@
     Design newCurrentDesign = null;
     String councilId = null;
     String branch = "";
-    try {
-        if (!apiConfig.getUser().isAdmin()) {
-            councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
-        } else {
-            councilId = apiConfig.getUser().getAdminCouncilId();
-        }
-        branch = mapper.getCouncilBranch(councilId);
-    } catch (Exception e) {
-        Cookie[] cookies = request.getCookies();
-        String refererCouncil = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("vtk_referer_council")) {
-                    refererCouncil = cookie.getValue();
+    Boolean isDemoUser = false;
+    if(apiConfig == null){
+        councilId = "999";
+        branch = "/content/vtkcontent";
+    }else {
+        isDemoUser = apiConfig.isDemoUser();
+        try {
+            if (!apiConfig.getUser().isAdmin()) {
+                councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
+            } else {
+                councilId = apiConfig.getUser().getAdminCouncilId();
+            }
+            branch = mapper.getCouncilBranch(councilId);
+        } catch (Exception e) {
+            Cookie[] cookies = request.getCookies();
+            String refererCouncil = null;
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("vtk_referer_council")) {
+                        refererCouncil = cookie.getValue();
+                    }
                 }
             }
-        }
-        if (refererCouncil != null && !refererCouncil.isEmpty() && refererCouncil.length() > 0) {
-            branch = "/content/" + refererCouncil;
-        } else {
-            branch = mapper.getCouncilBranch();
+            if (refererCouncil != null && !refererCouncil.isEmpty() && refererCouncil.length() > 0) {
+                branch = "/content/" + refererCouncil;
+            } else {
+                branch = mapper.getCouncilBranch();
+            }
         }
     }
     // TODO: language
@@ -62,7 +69,7 @@
             if (newCurrentDesign != null) {
                 request.setAttribute("newCurrentDesign", newCurrentDesign);
             }
-            if (apiConfig.isDemoUser()) {
+            if (isDemoUser) {
         %>
         <cq:include script="headerDemo.jsp"/>
         <%
