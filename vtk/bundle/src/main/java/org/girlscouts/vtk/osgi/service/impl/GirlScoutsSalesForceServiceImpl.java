@@ -320,7 +320,32 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     private void setTroopsForUser(ApiConfig apiConfig, User user, UserInfoResponseEntity userInfoResponseEntity) {
         List<Troop> parentTroops = new ArrayList<Troop>();
         List<Troop> mergedTroops = new ArrayList<>();
-        if(!user.isActive()) {
+        Boolean isIRM = false;
+
+        ParentEntity[] campsTroops = userInfoResponseEntity.getCamps();
+        if (campsTroops != null && campsTroops.length > 0) {
+            for (ParentEntity entity : campsTroops) {
+                if (entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
+                    Troop troop = ParentEntityToTroopMapper.map(entity);
+                    //Independent Registered Member
+                    if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
+                        isIRM = true;
+                        setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
+                    } else {
+                        troop.setRole("PA");
+                        setTroopPath(troop);
+                        parentTroops.add(troop);
+                    }
+                    troop.setSfUserId(user.getSfUserId());
+                } else {
+                    log.debug("Skipping parent troop: {}", entity.toString());
+                }
+            }
+        }
+        List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
+        Boolean isIRMParentOfRenewedGirl = isIRM && !parentTroops.isEmpty();
+
+        if (!user.isActive() && !isIRMParentOfRenewedGirl) {
             mergedTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
             /*Set<Troop> removeNonRenewedParents = new HashSet<>();
             for (Troop troop : mergedTroops) {
@@ -331,26 +356,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
             mergedTroops.removeAll(removeNonRenewedParents);*/
         } else {
-            ParentEntity[] campsTroops = userInfoResponseEntity.getCamps();
-            if (campsTroops != null && campsTroops.length > 0) {
-                for (ParentEntity entity : campsTroops) {
-                    if (entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
-                        Troop troop = ParentEntityToTroopMapper.map(entity);
-                        //Independent Registered Member
-                        if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                            setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
-                        } else {
-                            troop.setRole("PA");
-                            setTroopPath(troop);
-                            parentTroops.add(troop);
-                        }
-                        troop.setSfUserId(user.getSfUserId());
-                    } else {
-                        log.debug("Skipping parent troop: {}", entity.toString());
-                    }
-                }
-            }
-            List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
             mergedTroops = mergeTroops(parentTroops, additionalTroops);
         }
         //Service Unit Manager
@@ -393,7 +398,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         List<Contact> contacts = getContactsForTroop(apiConfig, troop);
         String parentsCouncilCode = userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode();
         for(Contact contact:contacts){
-            if(contact != null && "Girl".equals(contact.getRole())){
+            if(contact != null && "Girl".equals(contact.getRole()) && !contact.isRenewalDue()){ 
                 Troop dummyIRMTroop = ParentEntityToTroopMapper.map(entity);
                 try {
                     dummyIRMTroop.setCouncilCode(parentsCouncilCode);
