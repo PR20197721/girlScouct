@@ -265,7 +265,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 
         } catch (Exception e) {
             log.error("Bulk Editor failed due to: " + e.getMessage());
-            htmlResponse.setStatus(200, "Error occured : " + e.getMessage());
+            htmlResponse.setStatus(200, "Error occured at line 1: " + e.getMessage());
         } finally {
             try {
                 rr.close();
