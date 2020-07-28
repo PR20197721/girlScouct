@@ -15,7 +15,7 @@ public interface MulesoftService {
 
     List<Contact> getContactsForTroop(Troop troop);
 
-    List<Contact> getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId);
+    List<Contact> getTroopLeaders(Troop troop);
 
     ApiConfig getApiConfig(org.apache.jackrabbit.api.security.user.User user);
 }

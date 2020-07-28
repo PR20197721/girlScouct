@@ -2,8 +2,14 @@ package org.girlscouts.vtk.mapper.mulesoft;
 
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.VolunteerJobsEntity;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class TroopEntityToTroopMapper {
     private static Logger log = LoggerFactory.getLogger(TroopEntityToTroopMapper.class);
@@ -37,20 +43,27 @@ public class TroopEntityToTroopMapper {
                 log.error("Error occurred mapping CouncilCode to Troop ", ex);
             }
             try {
-                troop.setGradeLevel(entity.getParentEntity().getGradeLevel());
-                troop.setSfTroopAge(entity.getParentEntity().getGradeLevel());
+                troop.setGradeLevel(entity.getProgramGradeLevel());
             } catch (Exception ex) {
                 log.error("Error occurred mapping GradeLevel to Troop ", ex);
             }
-            try {
-                troop.setRole(entity.getJobCode());
-            } catch (Exception ex) {
-                log.error("Error occurred mapping JobCode to Troop ", ex);
-            }
-            try {
-                troop.setParticipationCode(entity.getParentEntity().getParticipationCode());
-            } catch (Exception ex) {
-                log.error("Error occurred mapping Participation Code to Troop ", ex);
+            List<VolunteerJobsEntity> jobs = entity.getVolunteerJobs();
+            if(jobs != null){
+                for(VolunteerJobsEntity jobEntity:jobs){
+                    try {
+                        String endDate = jobEntity.getEndDate();
+                        String startDate = jobEntity.getStartDate();
+                        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM/dd");
+                        DateTime start = formatter.parseDateTime(endDate);
+                        DateTime end = formatter.parseDateTime(startDate);
+                        if (start.isBeforeNow() && end.isAfterNow() && "Troop/Program Leader".equals(jobEntity.getJobCode())) {
+                            troop.setRole("DP");
+                            troop.setParticipationCode("Troop");
+                        }
+                    }catch(Exception e){
+                        log.error("Error occurred mapping jobs to participation code and role ", e);
+                    }
+                }
             }
             return troop;
         } catch (Exception e) {

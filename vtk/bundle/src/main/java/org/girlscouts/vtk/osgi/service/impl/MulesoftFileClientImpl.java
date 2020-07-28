@@ -1,11 +1,12 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
 import com.google.gson.Gson;
-import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.osgi.conf.MulesoftFileClientConfig;
 import org.girlscouts.vtk.osgi.service.GirlScoutsRepoFileIOService;
 import org.girlscouts.vtk.osgi.service.MulesoftFileClient;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopLeadersResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopMembersResponseEntity;
 import org.girlscouts.vtk.rest.entity.mulesoft.UserInfoResponseEntity;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
@@ -35,7 +36,7 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     }
 
     @Override
-    public UserInfoResponseEntity getUserInfo(String gsGlobalId, Boolean isDemo) {
+    public UserInfoResponseEntity getUser(String gsGlobalId, Boolean isDemo) {
         UserInfoResponseEntity user = null;
         String path = "";
         try {
@@ -51,7 +52,7 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     }
 
     @Override
-    public TroopInfoResponseEntity getTroopInfoByUserId(String gsGlobalId, Boolean isDemo) {
+    public TroopInfoResponseEntity getTroops(String gsGlobalId, Boolean isDemo) {
         TroopInfoResponseEntity troopInfoResponseEntity = null;
         String path = "";
         try {
@@ -66,15 +67,15 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     }
 
     @Override
-    public ContactsInfoResponseEntity getContactsByTroopId(ApiConfig apiConfig, String sfTroopId) {
-        ContactsInfoResponseEntity contactsInfoResponseEntity = null;
+    public TroopMembersResponseEntity getMembers(String sfTroopId, Boolean isDemo) {
+        TroopMembersResponseEntity contactsInfoResponseEntity = null;
         String path = "";
         try {
-            path = getPath(apiConfig, apiConfig.getUser().getSfUserId(), "contacts");
+            path = getPath(sfTroopId, isDemo, "contacts");
             log.debug("Loading contacts file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
-            contactsInfoResponseEntity = new Gson().fromJson(json, ContactsInfoResponseEntity.class);
+            contactsInfoResponseEntity = new Gson().fromJson(json, TroopMembersResponseEntity.class);
         } catch (Exception e) {
             log.error("Error occurred getting contacts info by troop id from repository ", e);
         }
@@ -82,15 +83,15 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     }
 
     @Override
-    public TroopLeadersInfoResponseEntity getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId) {
-        TroopLeadersInfoResponseEntity troopLeadersInfoResponseEntity = null;
+    public TroopLeadersResponseEntity getTroopLeaders(String sfTroopId, Boolean isDemo) {
+        TroopLeadersResponseEntity troopLeadersInfoResponseEntity = null;
         String path = "";
         try {
-            path = getPath(apiConfig, apiConfig.getUser().getSfUserId(), "troop_leaders");
+            path = getPath(sfTroopId, isDemo, "troop_leaders");
             log.debug("Loading troop_leaders file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
-            troopLeadersInfoResponseEntity = new Gson().fromJson(json, TroopLeadersInfoResponseEntity.class);
+            troopLeadersInfoResponseEntity = new Gson().fromJson(json, TroopLeadersResponseEntity.class);
         } catch (Exception e) {
             log.error("Error occurred getting troop leader info by troop id from repository ", e);
         }
@@ -114,15 +115,15 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     }
 
     @Override
-    public ContactsInfoResponseEntity getServiceUnitManagerContacts() {
-        ContactsInfoResponseEntity contactsInfoResponseEntity = null;
+    public TroopMembersResponseEntity getServiceUnitManagerContacts() {
+        TroopMembersResponseEntity contactsInfoResponseEntity = null;
         String path = "";
         try {
             path = localJsonPath + localDummyFolder + "/su_contacts.json";
             log.debug("Loading contacts file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
-            contactsInfoResponseEntity = new Gson().fromJson(json, ContactsInfoResponseEntity.class);
+            contactsInfoResponseEntity = new Gson().fromJson(json, TroopMembersResponseEntity.class);
         } catch (Exception e) {
             log.error("Error occurred getting service unit manager dummy contacts info from repository ", e);
         }

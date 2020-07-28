@@ -100,24 +100,6 @@
         return;
     }
     List<Troop> userTroops = apiConfig.getUser().getTroops();
-    if (apiConfig.getUser().isAdmin() && (userTroops == null || userTroops.size() <= 0)) {
-        Troop dummyVTKAdminTroop = new Troop();
-        dummyVTKAdminTroop.setPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_ADMIN_PERMISSIONS));
-        dummyVTKAdminTroop.setTroopId("none");
-        dummyVTKAdminTroop.setSfTroopName("vtk_virtual_troop");
-        dummyVTKAdminTroop.setSfCouncil(user.getAdminCouncilId());
-        dummyVTKAdminTroop.setSfUserId("none");
-        dummyVTKAdminTroop.setSfTroopId("none");
-        dummyVTKAdminTroop.setGradeLevel("CA");
-        dummyVTKAdminTroop.setCouncilCode(user.getAdminCouncilId());
-        dummyVTKAdminTroop.setTroopName("vtk_virtual_troop");
-        String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + dummyVTKAdminTroop.getSfCouncil();
-        dummyVTKAdminTroop.setCouncilPath(councilPath);
-        String troopPath = councilPath + "/troops/" + dummyVTKAdminTroop.getSfTroopId();
-        dummyVTKAdminTroop.setPath(troopPath);
-        // user.setPermissions(user_troop.getPermissionTokens());
-        userTroops.add(dummyVTKAdminTroop);
-    }
     if ((userTroops == null || userTroops.size() <= 0 || (userTroops.get(0).getType() == 1))) {
         int vtkSignupYear = VtkUtil.getCurrentGSYear() + 1;
 %>
@@ -166,75 +148,75 @@
                     selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
                 }
             } catch (VtkException ec) {
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-        <%=ec.getMessage() %>
-        <br/>Please notify Girlscouts VTK support
-    </p>
-</div>
-<%
-    return;
-} catch (IllegalAccessException ex) {
-    ex.printStackTrace();
-%>
-<span class="error">Sorry, you have no access to view year plan.</span>
-<%
-        return;
-    }
-    if (selectedTroopRepoData == null) {
-        try {
-            troopUtil.createCouncil(user, selectedTroop);
-        } catch (Exception e) {
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-        <%=e.getMessage() %>
-        <br/>Please notify Girlscouts VTK support
-    </p>
-</div>
-<%
-                e.printStackTrace();
+                %>
+                <div id="panelWrapper" class="row meeting-detail content">
+                    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+                        <%=ec.getMessage() %>
+                        <br/>Please notify Girlscouts VTK support
+                    </p>
+                </div>
+                <%
+                return;
+            } catch (IllegalAccessException ex) {
+                ex.printStackTrace();
+                %>
+                <span class="error">Sorry, you have no access to view year plan.</span>
+                <%
                 return;
             }
+            if (selectedTroopRepoData == null) {
+                try {
+                    troopUtil.createCouncil(user, selectedTroop);
+                } catch (Exception e) {
+                        %>
+                        <div id="panelWrapper" class="row meeting-detail content">
+                            <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+                                <%=e.getMessage() %>
+                                <br/>Please notify Girlscouts VTK support
+                            </p>
+                        </div>
+                        <%
+                        e.printStackTrace();
+                        return;
+                    }
+                } else {
+                    selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
+                    selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
+                }
+            }
+            if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("true")) {
+                selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
+                selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
+                selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_REPORT_ID);
+                selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_EDIT_FINANCE_ID);
+                selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
+                session.setAttribute("showGamma", "true");
+            } else if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("false")) {
+                selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
+                selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
+                selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_VIEW_REPORT_ID);
+                selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_EDIT_FINANCE_ID);
+                selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
+                session.setAttribute("showGamma", null);
+            }
+            session.setAttribute("VTK_troop", selectedTroop);
+            if (session.getAttribute("USER_TROOP_LIST") == null) {
+                session.setAttribute("USER_TROOP_LIST", userTroops);
+            }
+            //check valid cache url /myvtk/
+            if (!VtkUtil.isValidUrl(user, selectedTroop, request.getRequestURI(), councilMapper.getCouncilName(selectedTroop.getSfCouncil()))) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                return;
+            }
+            request.setAttribute("vtk-request-user", user);
+            request.setAttribute("vtk-request-troop", selectedTroop);
         } else {
-            selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
-            selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());
-        }
-    }
-    if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("true")) {
-        selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
-        selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
-        selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_VIEW_REPORT_ID);
-        selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_EDIT_FINANCE_ID);
-        selectedTroop.getPermissionTokens().add(PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
-        session.setAttribute("showGamma", "true");
-    } else if (request.getParameter("showGamma") != null && request.getParameter("showGamma").equals("false")) {
-        selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
-        selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
-        selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_VIEW_REPORT_ID);
-        selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_EDIT_FINANCE_ID);
-        selectedTroop.getPermissionTokens().remove(PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
-        session.setAttribute("showGamma", null);
-    }
-    session.setAttribute("VTK_troop", selectedTroop);
-    if (session.getAttribute("USER_TROOP_LIST") == null) {
-        session.setAttribute("USER_TROOP_LIST", userTroops);
-    }
-    //check valid cache url /myvtk/
-    if (!VtkUtil.isValidUrl(user, selectedTroop, request.getRequestURI(), councilMapper.getCouncilName(selectedTroop.getSfCouncil()))) {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        return;
-    }
-    request.setAttribute("vtk-request-user", user);
-    request.setAttribute("vtk-request-troop", selectedTroop);
-} else {
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-        <br/>Please notify Girlscouts VTK support
-    </p>
-</div>
-<%
-    }
-%>                  
+        %>
+        <div id="panelWrapper" class="row meeting-detail content">
+            <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+                <br/>Please notify Girlscouts VTK support
+            </p>
+        </div>
+        <%
+            }
+        %>

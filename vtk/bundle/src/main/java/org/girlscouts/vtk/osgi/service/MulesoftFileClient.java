@@ -1,22 +1,23 @@
 package org.girlscouts.vtk.osgi.service;
 
-import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopLeadersResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopMembersResponseEntity;
 import org.girlscouts.vtk.rest.entity.mulesoft.UserInfoResponseEntity;
 
 public interface MulesoftFileClient {
 
-    UserInfoResponseEntity getUserInfo(String gsGlobalId, Boolean isDemo);
+    UserInfoResponseEntity getUser(String gsGlobalId, Boolean isDemo);
 
-    TroopInfoResponseEntity getTroopInfoByUserId(String gsGlobalId, Boolean isDemo);
+    TroopInfoResponseEntity getTroops(String gsGlobalId, Boolean isDemo);
 
-    ContactsInfoResponseEntity getContactsByTroopId(ApiConfig apiConfig, String sfTroopId);
+    TroopMembersResponseEntity getMembers(String sfTroopId, Boolean isDemo);
 
-    TroopLeadersInfoResponseEntity getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId);
+    TroopLeadersResponseEntity getTroopLeaders(String sfTroopId, Boolean isDemo);
 
     TroopInfoResponseEntity getServiceUnitManagerTroops();
 
-    ContactsInfoResponseEntity getServiceUnitManagerContacts();
+    TroopMembersResponseEntity getServiceUnitManagerContacts();
 
     UserInfoResponseEntity getIndependentRegisteredMember();
 }

@@ -6,7 +6,7 @@ import com.google.common.cache.LoadingCache;
 import org.girlscouts.vtk.osgi.cache.MulesoftTroopsResponseCache;
 import org.girlscouts.vtk.osgi.conf.MulesoftTroopsResponseCacheConfig;
 import org.girlscouts.vtk.osgi.service.impl.BasicGirlScoutsService;
-import org.girlscouts.vtk.rest.entity.salesforce.TroopInfoResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -87,7 +87,7 @@ public class MulesoftTroopsResponseCacheImpl extends BasicGirlScoutsService impl
 
     @Override
     public void write(String key, TroopInfoResponseEntity entity) {
-        if(this.isCacheEnabled && key != null && entity != null && entity.getTroops() != null && entity.getTroops().length>0) {
+        if(this.isCacheEnabled && key != null && entity != null && entity.getTroops() != null && entity.getTroops().size()>0) {
             try {
                 log.debug("Writing "+key+" to cache.");
                 this.cache.put(key, entity);

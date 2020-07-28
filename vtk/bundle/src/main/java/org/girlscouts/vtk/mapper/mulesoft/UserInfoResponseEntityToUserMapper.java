@@ -45,23 +45,16 @@ public class UserInfoResponseEntityToUserMapper {
                 } catch (Exception ex) {
                     log.error("Error occurred mapping Phone to User ", ex);
                 }
-                try {
-                    user.setContactId(entity.getPrimaryContact().getGlobalId());
-                } catch (Exception ex) {
-                    log.error("Error occurred mapping Contact Id to User ", ex);
-                }
+
                 try {
                     String renewalDate = entity.getRenewalDate();
-                    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM/dd");
-                    DateTime dt = formatter.parseDateTime(renewalDate);
-                	user.setActive(dt.isAfterNow());
+                    if(renewalDate != null) {
+                        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM/dd");
+                        DateTime dt = formatter.parseDateTime(renewalDate);
+                        user.setActive(dt.isAfterNow());
+                    }
                 } catch (Exception ex) {
                     log.error("Error occurred mapping ActiveDP to User ", ex);
-                }
-                try {
-                    user.setAdmin(entity.getProductAccess().isVtkAdmin());
-                } catch (Exception ex) {
-                    log.error("Error occurred mapping admin flag to User ", ex);
                 }
                 try {
                     user.setAdminCouncilId(entity.getPrimaryCouncil());
@@ -69,10 +62,27 @@ public class UserInfoResponseEntityToUserMapper {
                     log.error("Error occurred mapping admin council code to User ", ex);
                 }
                 try {
-                    user.setServiceUnitManager(entity.getProductAccess().isSu());
+                    if(entity.getPrimaryContact() != null) {
+                        user.setContactId(entity.getPrimaryContact().getGlobalId());
+                    }
                 } catch (Exception ex) {
-                    log.error("Error occurred mapping admin council code to User ", ex);
+                    log.error("Error occurred mapping Contact Id to User ", ex);
                 }
+                if(entity.getProductAccess() != null ){
+                    try {
+                        user.setAdmin(entity.getProductAccess().isVtkAdmin());
+                    } catch (Exception ex) {
+                        log.error("Error occurred mapping admin flag to User ", ex);
+                    }
+                    try {
+                        user.setServiceUnitManager(entity.getProductAccess().isSu());
+                    } catch (Exception ex) {
+                        log.error("Error occurred mapping admin council code to User ", ex);
+                    }
+                }
+
+
+
                 return user;
             }
         } catch (Exception e) {

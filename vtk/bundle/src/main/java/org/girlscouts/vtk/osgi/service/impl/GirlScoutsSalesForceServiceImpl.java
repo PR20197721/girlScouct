@@ -99,7 +99,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             if (apiConfig.isDemoUser()) {
                 user.setAdminCouncilId(demoCouncilCode);
             }
-            user.setApiConfig(apiConfig);
             user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
             try {
                 user.setTimezone(getUserTimezone(userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode()));
@@ -120,7 +119,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         try {
             UserInfoResponseEntity userInfoResponseEntity = sfRestClient.getUserInfoById(apiConfig, userId);
             user = UserInfoResponseEntityToUserMapper.map(userInfoResponseEntity);
-            user.setApiConfig(apiConfig);
             user.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
             try {
                 user.setTimezone(getUserTimezone(userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode()));
@@ -313,7 +311,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             setTroopsForUser(apiConfig, apiConfig.getUser(), userInfoResponseEntity);
             apiConfig.setTroops(apiConfig.getUser().getTroops());
             apiConfig.setUser(apiConfig.getUser());
-            apiConfig.getUser().setApiConfig(apiConfig);
         }
     }
 

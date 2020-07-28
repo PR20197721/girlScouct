@@ -80,7 +80,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                 }
                 UserInfoResponseEntity userInfoResponseEntity = null;
                 if (isLoadFromFile || isDemo) {
-                    userInfoResponseEntity = fileClient.getUserInfo(gsGlobalId, isDemo);
+                    userInfoResponseEntity = fileClient.getUser(gsGlobalId, isDemo);
                 } else {
                     userInfoResponseEntity = restClient.getUser(gsGlobalId);
                 }
@@ -108,7 +108,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         try {
             TroopInfoResponseEntity troopInfoResponseEntity = null;
             if (user.isDemo() || isLoadFromFile) {
-                troopInfoResponseEntity = fileClient.getTroopInfoByUserId(user.getSfUserId(), user.isDemo());
+                troopInfoResponseEntity = fileClient.getTroops(user.getSfUserId(), user.isDemo());
             } else {
                 if(troopsCache.contains(user.getSfUserId())){
                     troopInfoResponseEntity = troopsCache.read(user.getSfUserId());
@@ -147,37 +147,28 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                 troopMembersResponseEntity = fileClient.getServiceUnitManagerContacts();
             } else {
                 if (troop.getIsDemoTroop() || isLoadFromFile) {
-                    troopMembersResponseEntity = fileClient.getContactsByTroopId(apiConfig, troop.getSfTroopId());
+                    troopMembersResponseEntity = fileClient.getMembers(troop.getSfTroopId(), troop.getIsDemoTroop());
                 } else {
-                    if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                        if(irmContactsCache.contains(troop.getIrmTroopId())){
-                            troopMembersResponseEntity =  irmContactsCache.read(troop.getIrmTroopId());
-                        }else{
-                            troopMembersResponseEntity = restClient.getMembers(troop.getIrmTroopId());
-                            irmContactsCache.write(troop.getIrmTroopId(), troopMembersResponseEntity);
-                        }
-                    } else {
-                        if(contactsCache.contains(troop.getSfTroopId())){
-                            troopMembersResponseEntity =  contactsCache.read(troop.getSfTroopId());
-                        }else{
-                            troopMembersResponseEntity = restClient.getMembers(troop.getSfTroopId());
-                            contactsCache.write(troop.getSfTroopId(), troopMembersResponseEntity);
-                        }
+                    if(contactsCache.contains(troop.getSfTroopId())){
+                        troopMembersResponseEntity =  contactsCache.read(troop.getSfTroopId());
+                    }else{
+                        troopMembersResponseEntity = restClient.getMembers(troop.getSfTroopId());
+                        contactsCache.write(troop.getSfTroopId(), troopMembersResponseEntity);
                     }
                 }
             }
             if (troopMembersResponseEntity != null) {
-                ContactEntity[] entities = troopMembersResponseEntity.getContacts();
+                List<MembersEntity> entities = troopMembersResponseEntity.getMembers();
                 if (entities != null) {
-                    for (ContactEntity entity : entities) {
-                        Contact contact = ContactEntityToContactMapper.map(entity);
+                    for (MembersEntity entity : entities) {
+                        Contact contact = TroopMemberEntityToContactMapper.map(entity, troopMembersResponseEntity.getTroop());
                         if (troop.getParticipationCode() == null || (troop.getParticipationCode() != null && !irmCouncilCode.equals(troop.getParticipationCode()))){
                             //Not IRM
                             contacts.add(contact);
                         }else{
                             //IRM
                             //Fetching all IRM girls who have current user set as preferred contact to generate dummy troops for parent
-                            if(!troop.getIsIRM() && isChildOfParent(contact.getContacts(), apiConfig.getUser().getContactId())){
+                            if(!troop.getIsIRM() && isChildOfParent(contact.getContacts(), troop.getSfUserId())){
                                 contacts.add(contact);
                             }else{
                                 //Fetching specific girl info for her dummy troop?
@@ -188,7 +179,6 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                         }
                     }
                 }
-                addRenewals(contacts, troopMembersResponseEntity);
             }
         } catch (Exception e) {
             log.error("Error occurred: ", e);
@@ -211,58 +201,22 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         return false;
     }
 
-    private void addRenewals(List<Contact> contacts, ContactsInfoResponseEntity contactsInfoResponseEntity) {
-        CampaignMemberEntity[] cmEntities = contactsInfoResponseEntity.getCampaignMembers();
-        if (cmEntities != null) {
-            Map<String, Map> renewals = new TreeMap<>();
-            for (CampaignMemberEntity entity : cmEntities) {
-                try {
-                    String cId = entity.getSfContactId();
-                    Map cDetails = renewals.get(cId);
-                    if (cDetails == null) {
-                        cDetails = new TreeMap<String, Object>();
-                    }
-                    cDetails.put("Display_Renewal__c", entity.isDisplayRenewal());
-                    CampaignMemberEntity.Membership membership = entity.getMembership();
-                    if (membership != null) {
-                        cDetails.put("Membership__r", membership.getMembershipYear());
-                    }
-                    renewals.put(cId, cDetails);
-                } catch (Exception e) {
-                    log.error("Error occured while processing renewals entity: ", e);
-                }
-            }
-            for (Contact contact : contacts) {
-                try {
-                    Boolean isRenewal = (Boolean) renewals.get(contact.getId()).get("Display_Renewal__c");
-                    contact.setRenewalDue(isRenewal == null ? false : isRenewal);
-                    Map<String, Object> renewal = renewals.get(contact.getId());
-                    if (renewal != null) {
-                        Integer membershipYear = (Integer) renewal.get("Membership__r");
-                        contact.setMembershipYear(membershipYear);
-                    }
-                } catch (Exception e) {
-                    log.error("Error occured: ", e);
-                }
-            }
-        }
-    }
 
     @Override
-    public List<Contact> getTroopLeaderInfoByTroopId(ApiConfig apiConfig, String sfTroopId) {
+    public List<Contact> getTroopLeaders(Troop troop) {
         List<Contact> contacts = new ArrayList<Contact>();
         try {
-            TroopLeadersInfoResponseEntity troopLeadersInfoResponseEntity = null;
-            if (apiConfig.isDemoUser() || isLoadFromFile) {
-                troopLeadersInfoResponseEntity = sfFileClient.getTroopLeaderInfoByTroopId(apiConfig, sfTroopId);
+            TroopLeadersResponseEntity troopLeadersInfoResponseEntity = null;
+            if (troop.getIsDemoTroop() || isLoadFromFile) {
+                troopLeadersInfoResponseEntity = fileClient.getTroopLeaders(troop.getSfTroopId(), troop.getIsDemoTroop());
             } else {
-                troopLeadersInfoResponseEntity = sfRestClient.getTroopLeaderInfoByTroopId(apiConfig, sfTroopId);
+                troopLeadersInfoResponseEntity = restClient.getTroopLeaders(troop.getSfTroopId());
             }
             if (troopLeadersInfoResponseEntity != null) {
-                TroopLeaderEntity[] entities = troopLeadersInfoResponseEntity.getTroopLeaders();
+                List<DPInfoEntity> entities = troopLeadersInfoResponseEntity.getTroopLeaders();
                 if (entities != null) {
-                    for (TroopLeaderEntity entity : entities) {
-                        Contact contact = TroopLeaderEntityToContactMapper.map(entity);
+                    for (DPInfoEntity entity : entities) {
+                        Contact contact = DPInfoEntityToContactMapper.map(entity);
                         contacts.add(contact);
                     }
                 }
@@ -295,13 +249,6 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         return apiConfig;
     }
 
-    private void addMoreInfo(UserInfoResponseEntity userInfoResponseEntity) {
-        if (userInfoResponseEntity != null) {
-
-
-        }
-    }
-
     private void setTroopsForUser(User user, UserInfoResponseEntity userInfoResponseEntity) {
         List<Troop> parentTroops = new ArrayList<Troop>();
         List<Troop> mergedTroops = new ArrayList<>();
@@ -311,10 +258,10 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
             List<AffiliationsEntity> affiliations = userInfoResponseEntity.getAffiliations();
             if (affiliations != null && affiliations.size() > 0) {
                 for (AffiliationsEntity entity : affiliations) {
-                    if (entity.getProgramGradeLevel() != null && entity.getCouncilCode() != null && entity.getType() != null && (irmCouncilCode.equals(entity.getType()) || "Troop".equals(entity.getType()))) {
+                    if (entity.getProgramGradeLevel() != null && entity.getCouncilCode() != null && entity.getType() != null && ("IRG".equals(entity.getType()) || "Troop".equals(entity.getType()))) {
                         Troop troop = AffiliationsEntityToTroopMapper.map(entity);
                         //Independent Registered Member
-                        if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
+                        if (troop.getParticipationCode() != null && "IRG".equals(troop.getParticipationCode())) {
                             setDummyIRMTroops(user, userInfoResponseEntity, parentTroops, entity, troop);
                         } else {
                             troop.setRole("PA");
@@ -342,10 +289,30 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
             }
         }
         mergedTroops.removeAll(invalidTroops);
+        if((mergedTroops == null || mergedTroops.size() == 0) && user.isAdmin()){
+            Troop dummyVTKAdminTroop = new Troop();
+            dummyVTKAdminTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+            dummyVTKAdminTroop.setTroopId("none");
+            dummyVTKAdminTroop.setSfTroopName("vtk_virtual_troop");
+            dummyVTKAdminTroop.setSfCouncil(user.getAdminCouncilId());
+            dummyVTKAdminTroop.setSfUserId("none");
+            dummyVTKAdminTroop.setSfTroopId("none");
+            dummyVTKAdminTroop.setCouncilCode(user.getAdminCouncilId());
+            dummyVTKAdminTroop.setTroopName("vtk_virtual_troop");
+            dummyVTKAdminTroop.setGradeLevel("CA");
+            String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + dummyVTKAdminTroop.getSfCouncil();
+            dummyVTKAdminTroop.setCouncilPath(councilPath);
+            String troopPath = councilPath + "/troops/" + dummyVTKAdminTroop.getSfTroopId();
+            dummyVTKAdminTroop.setPath(troopPath);
+            mergedTroops.add(dummyVTKAdminTroop);
+        }
         for (Troop troop : mergedTroops) {
             if (user.isDemo()) {
                 troop.setCouncilCode(demoCouncilCode);
                 troop.setSfCouncil(demoCouncilCode);
+                troop.setIsDemoTroop(true);
+            }else{
+                troop.setIsDemoTroop(false);
             }
             troop.setSfUserId(user.getSfUserId());
             setTroopPermissions(troop, user.isAdmin());
@@ -399,6 +366,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                 dummyIRMTroop.setRole("PA");
                 dummyIRMTroop.setGradeLevel(troop.getGradeLevel());
                 dummyIRMTroop.setIsIRM(true);
+                dummyIRMTroop.setIsDemoTroop(false);
                 setTroopPath(dummyIRMTroop);
                 parentTroops.add(dummyIRMTroop);
             }
@@ -415,9 +383,9 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
     private List<Troop> getServiceUnitManagerTroops(String userId) {
         List<Troop> troops = new ArrayList<Troop>();
         try {
-            TroopInfoResponseEntity troopInfoResponseEntity = sfFileClient.getServiceUnitManagerTroops();
+            TroopInfoResponseEntity troopInfoResponseEntity = fileClient.getServiceUnitManagerTroops();
             if (troopInfoResponseEntity != null) {
-                TroopEntity[] entities = troopInfoResponseEntity.getTroops();
+                List<TroopEntity> entities = troopInfoResponseEntity.getTroops();
                 if (entities != null) {
                     for (TroopEntity entity : entities) {
                         Troop troop = TroopEntityToTroopMapper.map(entity);
@@ -427,6 +395,8 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                         troop.setIsSUM(true);
                         troop.setParticipationCode(sumCouncilCode);
                         troop.setSfCouncil(sumCouncilCode);
+                        troop.setIsDemoTroop(false);
+                        troop.setIsIRM(false);
                         setTroopPath(troop);
                         troops.add(troop);
                     }

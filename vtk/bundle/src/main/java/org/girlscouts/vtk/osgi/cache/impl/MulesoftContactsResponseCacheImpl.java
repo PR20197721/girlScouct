@@ -4,9 +4,9 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.girlscouts.vtk.osgi.cache.MulesoftContactsResponseCache;
-import org.girlscouts.vtk.osgi.conf.SalesForceContactsResponseCacheConfig;
+import org.girlscouts.vtk.osgi.conf.MulesoftContactsResponseCacheConfig;
 import org.girlscouts.vtk.osgi.service.impl.BasicGirlScoutsService;
-import org.girlscouts.vtk.rest.entity.salesforce.ContactsInfoResponseEntity;
+import org.girlscouts.vtk.rest.entity.mulesoft.TroopMembersResponseEntity;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -17,12 +17,12 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.TimeUnit;
 
 @Component(service = {MulesoftContactsResponseCache.class}, immediate = true, name = "org.girlscouts.vtk.osgi.cache.impl.MulesoftContactsResponseCacheImpl")
-@Designate(ocd = SalesForceContactsResponseCacheConfig.class)
+@Designate(ocd = MulesoftContactsResponseCacheConfig.class)
 public class MulesoftContactsResponseCacheImpl extends BasicGirlScoutsService implements MulesoftContactsResponseCache{
 
     private static Logger log = LoggerFactory.getLogger(MulesoftContactsResponseCacheImpl.class);
 
-    private LoadingCache<String, ContactsInfoResponseEntity> cache;
+    private LoadingCache<String, TroopMembersResponseEntity> cache;
 
     boolean isCacheEnabled;
     int maxSize;
@@ -50,8 +50,8 @@ public class MulesoftContactsResponseCacheImpl extends BasicGirlScoutsService im
             this.expireAfter = 720;
         }
         if(this.isCacheEnabled) {
-            cache = CacheBuilder.newBuilder().maximumSize(this.maxSize).expireAfterWrite(this.expireAfter, TimeUnit.MINUTES).build(new CacheLoader<String, ContactsInfoResponseEntity>() {
-                public ContactsInfoResponseEntity load(String key) {
+            cache = CacheBuilder.newBuilder().maximumSize(this.maxSize).expireAfterWrite(this.expireAfter, TimeUnit.MINUTES).build(new CacheLoader<String, TroopMembersResponseEntity>() {
+                public TroopMembersResponseEntity load(String key) {
                     return null;
                 }
             });
@@ -73,7 +73,7 @@ public class MulesoftContactsResponseCacheImpl extends BasicGirlScoutsService im
     }
 
     @Override
-    public ContactsInfoResponseEntity read(String key) {
+    public TroopMembersResponseEntity read(String key) {
         if(this.isCacheEnabled && key != null) {
             try{
                 log.debug("Reading "+key+" from cache.");
@@ -86,8 +86,8 @@ public class MulesoftContactsResponseCacheImpl extends BasicGirlScoutsService im
     }
 
     @Override
-    public void write(String key, ContactsInfoResponseEntity entity) {
-        if(this.isCacheEnabled && key != null && entity != null && entity.getContacts() != null && entity.getContacts().length > 0) {
+    public void write(String key, TroopMembersResponseEntity entity) {
+        if(this.isCacheEnabled && key != null && entity != null && entity.getMembers() != null && entity.getMembers().size() > 0) {
             try {
                 log.debug("Writing "+key+" to cache.");
                 this.cache.put(key, entity);
