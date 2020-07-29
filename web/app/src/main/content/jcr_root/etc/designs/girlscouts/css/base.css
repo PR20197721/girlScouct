@@ -1359,6 +1359,7 @@ form#contact-us textarea {
 
 .events-list {
     display: table;
+    min-width: 100%;
 }
 
 .events-list .content {
