@@ -87,7 +87,7 @@
 	if (!"0".equals(width)) {
 		// newWidth expands width to accomodate for paddings
 		int newWidth = Integer.parseInt(width) + Integer.parseInt(piLeft) + Integer.parseInt(piRight);
-		styleImage += "width:" + newWidth + "px;";
+		styleImage += "width:" + newWidth + "px; max-width: max-content;";
 	}
 	
     Image image = new Image(resource, "image");
@@ -107,13 +107,16 @@
             image.setSuffix(currentDesign.getId());
         }
         image.addCssClass(ddClassName);
+        //GSWP-2212,2210-When applied image styles
+        image.addAttribute("style", styleImage);
+        //GSWP-2212,2210-End-When applied image styles
         image.setSelector(".img");
         image.setDoctype(Doctype.fromRequest(request));
 
         String divId = "cq-textimage-jsp-" + resource.getPath();
         String imageHeight = image.get(image.getItemName(Image.PN_HEIGHT));
         // div around image for additional formatting
-        %><div class="image-<%=imageAlignment%>" id="<%= divId %>" style="<%= styleImage %>"><%
+        %><div class="image-<%=imageAlignment%>" id="<%= divId %>"><%
         %><% image.draw(out); %><%
     	
         if (caption.length() > 0) {

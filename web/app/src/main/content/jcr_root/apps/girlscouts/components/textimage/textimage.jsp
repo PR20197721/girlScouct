@@ -102,9 +102,9 @@
 	if (!"0".equals(width)) {
 		// newWidth expands width to accomodate for paddings
 		int newWidth = Integer.parseInt(width) + Integer.parseInt(piLeft) + Integer.parseInt(piRight);
-		styleImage += "width:" + newWidth + "px;";
+		styleImage += "width:" + newWidth + "px; max-width: max-content;";
 	}
-	
+
     Image image = new Image(resource, "image");
     image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
     // don't draw the placeholder in case UI mode touch it will be handled afterwards
@@ -122,13 +122,16 @@
             image.setSuffix(currentDesign.getId());
         }
         image.addCssClass(ddClassName);
+        //GSWP-2212-When applied both styleImage (width) and image dropdown
+        image.addAttribute("style", styleImage);
+        //GSWP-2212-When applied both styleImage (width) and image dropdown
         image.setSelector(".img");
         image.setDoctype(Doctype.fromRequest(request));
 
         String divId = "cq-textimage-jsp-" + resource.getPath();
         String imageHeight = image.get(image.getItemName(Image.PN_HEIGHT));
         // div around image for additional formatting
-        %><div class="image-<%=imageAlignment%>" id="<%= divId %>" style="<%= styleImage %>"><%
+        %><div class="image-<%=imageAlignment%>" id="<%= divId %>"><%
         %><% image.draw(out); %><%
 		
         if (caption.length() > 0) {
