@@ -227,8 +227,8 @@ export namespace Actions {
                 }),
                 user_variable,
                 survey,
-                videos
-
+                videos,
+                role: response[0].data.role
             };
 
             dispatch({type: ActionsTypes.FETCHING_DONE, payload: data});
