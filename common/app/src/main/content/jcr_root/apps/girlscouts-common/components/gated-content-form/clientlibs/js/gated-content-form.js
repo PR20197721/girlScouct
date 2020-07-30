@@ -271,7 +271,7 @@ function generateSelector(param1, param2) {
     }
     var ext = [];
     $.each(param1, function(i, val) {
-        ext.push("a[href$='" + val + "'i]");
+        ext.push("a[href$='" + val.replace(/'/g, "\\'") + "'i]");
     });
     ext = ext.toString();
 
