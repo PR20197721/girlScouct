@@ -41,7 +41,7 @@ public class MulesoftActivitiesRestClientImpl extends BasicGirlScoutsService imp
 
     @Override
     public ActivityEntity[] getEvents(Date asOfDate) {
-        String modifiedTime = dateFormat.format(asOfDate);
+        String modifiedTime = DATE_FORMAT.format(asOfDate);
         String url = this.restEndPoint+"?modifiedTime="+modifiedTime;
         try {
             String json = doGet(url);

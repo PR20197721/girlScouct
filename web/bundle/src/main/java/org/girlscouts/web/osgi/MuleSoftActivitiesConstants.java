@@ -4,5 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public interface MuleSoftActivitiesConstants {
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    String CONFIG_PATH = "/etc/data-import/girlscouts/salesforce-events";
 }
