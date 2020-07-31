@@ -221,7 +221,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
                             final CSVReader csvR = new CSVReaderBuilder(bufferReader).withCSVParser(parser).build();
                             String[] headerArr = csvR.readNext();
                             if (headerArr != null) {
-
+                            try{
                                 List<String> headers = new LinkedList<String>(Arrays.asList(headerArr));
                                 try{
                                     //GS - We can't make lots of asset packages
@@ -244,7 +244,10 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
                                 } finally {
                                     //adminResolver.close();
                                 }
-
+                            } catch(Exception e){
+                        		log.error("Error occured at line 1: " + e.getMessage());
+                                htmlResponse.setStatus(200, "Error occured at line 1: " + e.getMessage());
+                            }
 
                             } else {
                                 htmlResponse.setStatus(200, "Empty document");
@@ -265,7 +268,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 
         } catch (Exception e) {
             log.error("Bulk Editor failed due to: " + e.getMessage());
-            htmlResponse.setStatus(200, "Error occured : " + e.getMessage());
+            htmlResponse.setStatus(200, "Error occured: " + e.getMessage());
         } finally {
             try {
                 rr.close();
