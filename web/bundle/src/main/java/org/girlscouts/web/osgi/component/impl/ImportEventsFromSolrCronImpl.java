@@ -364,6 +364,10 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
             ValueMap props = rr.getResource(CONFIG_PATH).adaptTo(ValueMap.class);
             if (props.containsKey(LAST_UPD_PROP_NAME)) {
                 return props.get(LAST_UPD_PROP_NAME, Date.class);
+            }else{
+                DateFormat DATE_FORMAT = new SimpleDateFormat(AEM_DATE_FORMAT_PATTERN);
+                return DATE_FORMAT.parse("2008-04-23T18:25:43.511Z");
+
             }
         } catch (Exception e) {
             log.error("Failed to read TimeStamp" + CONFIG_PATH);

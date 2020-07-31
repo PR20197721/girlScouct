@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component(service = {MulesoftActivitiesRestClient.class}, immediate = true, name = "org.girlscouts.web.osgi.service.impl.MulesoftActivitiesRestClientImpl")
@@ -41,7 +43,8 @@ public class MulesoftActivitiesRestClientImpl extends BasicGirlScoutsService imp
 
     @Override
     public ActivityEntity[] getEvents(Date asOfDate) {
-        String modifiedTime = DATE_FORMAT.format(asOfDate);
+        DateFormat ACTIVITY_DATE_FORMAT = new SimpleDateFormat(ACTIVITY_DATE_FORMAT_PATTERN);
+        String modifiedTime = ACTIVITY_DATE_FORMAT.format(asOfDate);
         String url = this.restEndPoint+"?modifiedTime="+modifiedTime;
         try {
             String json = doGet(url);
