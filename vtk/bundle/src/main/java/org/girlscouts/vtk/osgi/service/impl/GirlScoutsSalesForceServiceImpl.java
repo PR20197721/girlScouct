@@ -208,15 +208,18 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         if (troop.getParticipationCode() == null || (troop.getParticipationCode() != null && !irmCouncilCode.equals(troop.getParticipationCode()))){
                             //Not IRM
                             contacts.add(contact);
+                            log.debug("Added non IRM contact  "+contact.getContactId());
                         }else{
                             //IRM
                             //Fetching all IRM girls who have current user set as preferred contact to generate dummy troops for parent
                             if(!troop.getIsIRM() && isChildOfParent(contact.getContacts(), apiConfig.getUser().getContactId())){
                                 contacts.add(contact);
+                                log.debug("Added IRM contact  "+contact.getFirstName()+" "+contact.getLastName()+" for "+apiConfig.getUser().getSfUserId());
                             }else{
                                 //Fetching specific girl info for her dummy troop?
                                 if(troop.getSfTroopId().equals(irmCouncilCode+"_"+contact.getId())) {
                                     contacts.add(contact);
+                                    log.debug("Added IRM contact  "+contact.getFirstName()+" "+contact.getLastName()+" for "+troop.getSfTroopId());
                                 }
                             }
                         }
@@ -394,11 +397,13 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
 
     private void setDummyIRMTroops(ApiConfig apiConfig, User user, UserInfoResponseEntity userInfoResponseEntity, List<Troop> parentTroops, ParentEntity entity, Troop troop) {
         //Generating dummy troops for each IRM girl under user
+        log.debug("Getting dummy IRM troops for "+user.getSfUserId());
         troop.setIrmTroopId(troop.getSfTroopId());
         List<Contact> contacts = getContactsForTroop(apiConfig, troop);
+        log.debug("Retrieved "+contacts.size()+" contacts");
         String parentsCouncilCode = userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode();
         for(Contact contact:contacts){
-            if(contact != null && "Girl".equals(contact.getRole()) && !contact.isRenewalDue()){ 
+            if(contact != null && "Girl".equals(contact.getRole()) && contact.getMembershipYear() != VtkUtil.getCurrentGSYear()+1){
                 Troop dummyIRMTroop = ParentEntityToTroopMapper.map(entity);
                 try {
                     dummyIRMTroop.setCouncilCode(parentsCouncilCode);
@@ -429,6 +434,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 dummyIRMTroop.setIsIRM(true);
                 setTroopPath(dummyIRMTroop);
                 parentTroops.add(dummyIRMTroop);
+                log.debug("added "+dummyIRMTroop.getPath()+" to parent troops");
             }
         }
     }
