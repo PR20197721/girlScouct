@@ -398,7 +398,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         List<Contact> contacts = getContactsForTroop(apiConfig, troop);
         String parentsCouncilCode = userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode();
         for(Contact contact:contacts){
-            if(contact != null && "Girl".equals(contact.getRole()) && !contact.isRenewalDue()){ 
+            if (contact != null && "Girl".equals(contact.getRole()) && contact.getMembershipYear() != VtkUtil.getCurrentGSYear() + 1) { 
                 Troop dummyIRMTroop = ParentEntityToTroopMapper.map(entity);
                 try {
                     dummyIRMTroop.setCouncilCode(parentsCouncilCode);
