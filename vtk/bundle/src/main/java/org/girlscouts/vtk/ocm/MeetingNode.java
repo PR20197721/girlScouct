@@ -31,6 +31,8 @@ public class MeetingNode extends YearPlanComponentNode implements Serializable {
     private String meetingPlanType, meetingPlanTypeAlt;
     @Field
     private String catTags, catTagsAlt;
+    @Field
+    private Boolean isArchived;
 
     public Integer getPosition() {
         return position == null ? 0 : position;
@@ -182,5 +184,20 @@ public class MeetingNode extends YearPlanComponentNode implements Serializable {
 
     public void setAidPaths(List<String> aidPaths) {
         this.aidPaths = aidPaths;
+    }
+
+    public Boolean getIsArchived() {
+        return isArchived;
+    }
+
+    public void setIsArchived(Boolean archived) {
+        this.isArchived = archived;
+    }
+    public Boolean getArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.isArchived = archived;
     }
 }

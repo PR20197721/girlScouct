@@ -26,8 +26,8 @@
 %><%@ page import="com.day.cq.commons.Doctype,
 				   org.apache.sling.settings.SlingSettingsService,
 				   org.apache.sling.api.SlingHttpServletRequest,
-				   com.day.cq.commons.Externalizer,
-				   java.util.Set"%><%
+				   com.day.cq.commons.Externalizer,org.apache.commons.lang3.StringUtils,
+				   java.util.Set,org.apache.sling.api.resource.ResourceResolver,java.util.Iterator"%><%
 	Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
 	Boolean isProd = set.contains("prod");
     String xs = Doctype.isXHTML(request) ? "/" : "";
@@ -49,27 +49,33 @@
 	if(ogImage == null || "".equals(ogImage.trim())){
 		String pageImagePath = currentPage.getPath() + "/jcr:content/content/hero/par/image";
 		String ragImagePath = currentPage.getPath() + "/jcr:content/image";
+		String contentMiddlePar = currentPage.getPath() + "/jcr:content/content/middle/par";
+		String contentPar = currentPage.getPath() + "/jcr:content/content/par";
 	    Session session = (Session)resourceResolver.adaptTo(Session.class);
-	    if (session.nodeExists(pageImagePath)) {	    
-	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content/content/hero/par/image.img.png");
-			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+	    if (session.nodeExists(pageImagePath)) {
+	    	ogImage = currentPage.getPath() + "/jcr:content/content/hero/par/image.img.png";
 	    } else if (session.nodeExists(ragImagePath)) {
 			ValueMap imageProps = resourceResolver.resolve(ragImagePath).adaptTo(ValueMap.class);
 			String ragImage = imageProps.get("fileReference",""); 
 			if(!ragImage.equals("")) {
-		    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
-				Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-				ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+		    	ogImage = currentPage.getPath() + "/jcr:content.img.png";
+			}else if(session.nodeExists(contentPar)){
+				ogImage = getOgImage(contentPar,resourceResolver);
+			}else if(session.nodeExists(contentMiddlePar)){
+				ogImage = getOgImage(contentMiddlePar,resourceResolver);
 			}
+			
+	    }else if(session.nodeExists(contentMiddlePar)){
+	    	ogImage = getOgImage(contentMiddlePar,resourceResolver);
+	    }else if(session.nodeExists(contentPar)){
+	    	ogImage = getOgImage(contentPar,resourceResolver);
 	    }
 	}
 	// resolve only if this is relative path
-	if(ogImage.startsWith("/")) {
-		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, ogImage);
+	if(ogImage.startsWith("/") || (!StringUtils.isBlank(ogImage))) {
+        ogImage = reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort() + ogImage;
 	}
-	ogImage = ogImage.replace(":80/","/");
+	ogImage = ogImage.replace(":80/","/").replace(":443/","/");
 	String canonicalUrl = properties.get("canonicalUrl", "");
 	if("".equals(canonicalUrl) == false){
 		// resolve only if this is relative path
@@ -89,6 +95,26 @@
 	if(!"".equals(properties.get("fbAppId",""))){
 		fbAppId = properties.get("fbAppId","");
 	}
+
+%>
+<%!
+
+String getOgImage(String par,ResourceResolver resourceResolver){
+	String ogImage="";		
+	Resource contentParResource = resourceResolver.getResource(par);
+	if(null != contentParResource){
+		Iterator<Resource> itr = contentParResource.listChildren();
+		while(itr.hasNext()){
+			Resource childResource = itr.next();
+			if(childResource.isResourceType("gsusa/components/image") || childResource.isResourceType("girlscouts/components/image")){
+				ValueMap imageProps = resourceResolver.resolve(childResource.getPath()).adaptTo(ValueMap.class);
+				ogImage = imageProps.get("fileReference",""); 
+				break;
+			}
+		}
+	}		
+	return ogImage;
+} 
 
 %><head>
  <cq:include path="base" resourceType="girlscouts-common/components/base" />
@@ -156,9 +182,8 @@
     <cq:include script="stats.jsp"/>
     <% if (favIcon != null) {
     	if(favIcon.startsWith("/")) {
-            Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-			favIcon = externalizer.absoluteLink((SlingHttpServletRequest)request, reqProtocol, favIcon);
-			favIcon = favIcon.replace(":80/","/");
+            favIcon = reqProtocol + "://" + request.getServerName() + ":" + request.getServerPort() + favIcon;
+			favIcon = favIcon.replace(":80/","/").replace(":443/","/");
         }
     	%>
     <link rel="icon" type="image/vnd.microsoft.icon" href="<%=favIcon%>"<%=xs%>>

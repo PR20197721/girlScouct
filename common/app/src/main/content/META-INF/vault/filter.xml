@@ -2,12 +2,13 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/dam/gui/content/commons"/>
     <filter root="/apps/wcm/core/content/common"/>
+    <filter root="/apps/core/wcm/components/separator"/>
     <filter root="/apps/clientlibs"/>
     <filter root="/apps/cq/core"/>
     <filter root="/apps/cq/gui/components/authoring/dialog" />
     <filter root="/apps/cq/gui/components/authoring/editors/clientlibs/sites/page/core/js/layer/PageLayerManager.js"/>
-    <filter root="/apps/cq/gui/components/common/admin/listview/startDateCell"/>
-    <filter root="/apps/cq/gui/components/coral/common/admin/timeline/events/version"/>
+    <!-- <filter root="/apps/cq/gui/components/common/admin/listview/startDateCell"/> -->
+    <filter root="/apps/cq/gui/components/coral/common/admin/timeline/events/version" mode="replace"/>
     <filter root="/apps/cq/inbox"/>
     <filter root="/apps/cq/ui/widgets/source/form/rte/plugins/LinkPlugin.js"/>
     <filter root="/apps/cq/xssprotection"/>
@@ -24,7 +25,7 @@
     <filter root="/apps/granite/core/content/cug-login"/>
     <filter root="/apps/settings/cq"/>
     <filter root="/apps/wcm"/>
-    <filter root="/apps/wcm/core/content/common/availablecolumns/startDate"/>
+    <!-- <filter root="/apps/wcm/core/content/common/availablecolumns/startDate"/> -->
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/badge-image-schema"/>
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/default"/>
     <filter root="/conf/global/settings/workflow/models" mode="merge"/>

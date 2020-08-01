@@ -10,13 +10,11 @@ import java.util.Set;
 public interface MeetingDAO {
     java.util.List<Meeting> getAllMeetings(User user, Troop troop, String gradeLevel) throws IllegalAccessException;
 
-    java.util.List<MeetingE> getAllEventMeetings(User user, Troop troop, String yearPlanId) throws IllegalAccessException;
-
     Meeting getMeeting(User user, Troop troop, String path) throws IllegalAccessException, VtkException;
 
     java.util.List<MeetingE> getAllEventMeetings_byPath(User user, Troop troop, String yearPlanPath) throws IllegalAccessException;
 
-    java.util.List<MeetingE> getAllUsersEventMeetings(User user, Troop troop, String yearPlanId) throws IllegalStateException, IllegalAccessException;
+    Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
 
     Meeting addActivity(User user, Troop troop, Meeting meeting, Activity activity) throws IllegalAccessException;
 
@@ -28,7 +26,9 @@ public interface MeetingDAO {
 
     List<Asset> getAllResources(User user, Troop troop, String path) throws IllegalAccessException;
 
-    java.util.List<Asset> getGlobalResources(String resourceTags); // delim
+    java.util.List<Asset> getGlobalResources(String resourceTags); // delim ';'
+
+    Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
 
     java.util.List<Milestone> getCouncilMilestones(String councilCode);
 
@@ -62,6 +62,8 @@ public interface MeetingDAO {
     int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException;
 
     java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException;
+
+    java.util.List<Meeting> getAllActiveMeetings(User user, Troop troop) throws IllegalAccessException;
 
     java.util.List<Note> getNotes(User user, Troop troop, String path) throws IllegalAccessException, VtkException;
 

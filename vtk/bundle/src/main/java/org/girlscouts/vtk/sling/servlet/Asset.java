@@ -60,7 +60,7 @@ public class Asset extends SlingAllMethodsServlet {
                         String loc = request.getParameter("loc");
                         String name = request.getParameter("id");
                         if (request.getParameter("newvalue") != null) {
-                            loc = "/content/dam/girlscouts-vtk/local/icon/meetings";
+                            loc = "/content/girlscouts-vtk/service/meeting/icon.";
                             name = name + ".png";
 
                         } else if (request.getParameter("upldTroopPic") != null) {

@@ -61,6 +61,32 @@
 					<template jcr:primaryType="nt:unstructured"
 						sling:resourceType="granite/ui/components/coral/foundation/form/pathbrowser"
 						fieldLabel="Email Template" name="./template" />
+                    <noLiveCopyNotificationSubject
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="No Live Copy Established Notification Subject"
+                        name="./noLiveCopyNotificationSubject"
+                        value="Your site did not receive the recent updated page rollout"/>
+                    <noLiveCopyNotificationMessage
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                        customStart="false"
+                        defaultValue="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>Upon completing the recent page rollout it's been determined that your council either deleted the page or disabled inheritance at the page level. Since there is no live copy established on your site for this page, your site was unable to receive the updated rollout.&lt;/p>&#xa;&lt;p>&lt;strong>National page URL:&lt;/strong> &lt;%template-page%>&lt;/p>&#xa;&lt;p>If you'd like to receive this update, we will need to roll out this page as a new page to your site. Please forward this email to &lt;a class=&quot;sc-dEfkYy jDnahj&quot; href=&quot;mailto:gsusawebplatformteam@girlscouts.org&quot; title=&quot;mailto:gsusawebplatformteam@girlscouts.org&quot;>gsusawebplatformteam@girlscouts.org&lt;/a> to request a new page rollout.&lt;/p>"
+                        fieldLabel="No Live Copy Established Notification Message"
+                        height="{Long}300"
+                        name="./noLiveCopyNotificationMessage"
+                        useFixedInlineToolbar="true"
+                        value="&lt;p>Dear Council, &lt;/p>&#xa;&lt;p>Upon completing the recent page rollout it's been determined that your council either deleted the page or disabled inheritance at the page level. Since there is no live copy established on your site for this page, your site was unable to receive the updated rollout.&lt;/p>&#xa;&lt;p>&lt;strong>National page URL:&lt;/strong> &lt;%template-page%>&lt;/p>&#xa;&lt;p>If you'd like to receive this update, we will need to roll out this page as a new page to your site. Please forward this email to &lt;a class=&quot;sc-dEfkYy jDnahj&quot; href=&quot;mailto:gsusawebplatformteam@girlscouts.org&quot; title=&quot;mailto:gsusawebplatformteam@girlscouts.org&quot;>gsusawebplatformteam@girlscouts.org&lt;/a> to request a new page rollout.&lt;/p>">
+                        <rtePlugins
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                        <specialCharsConfig
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
+                        <uiSettings
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                    </noLiveCopyNotificationMessage>
 				</items>
 			</columns>
 		</items>

@@ -20,9 +20,10 @@
                     <url
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
-                        fieldLabel="URL"
-                        fieldDescription="Enter the short URL. e.g. for http://www.girlscouts.org/camp enter /content/gsusa/camp"
+                        fieldLabel="Vanity URL"
+                        fieldDescription="Enter the short/vanity URL (e.g. for http://www.girlscouts.org/camp enter /content/gsusa/camp, cannot be an external site). Vanity paths not ending in a file extension (e.g. pdf) must be completely lower case."
                         name="./jcr:content/sling:vanityPath"
+                        vtype="vanityPathValidator"
                         xtype="textfield"/>
                     <target
                         jcr:primaryType="cq:Widget"

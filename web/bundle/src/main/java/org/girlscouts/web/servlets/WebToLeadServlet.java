@@ -19,6 +19,7 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -28,6 +29,7 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
+import org.girlscouts.common.webtolead.config.WebToLeadConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,6 +79,9 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 	private PostMethod method = null;
 	private String errormsg = "";
 	
+	@Reference
+	private WebToLeadConfig webToLeadConfig;
+	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
     
@@ -97,6 +102,8 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response)
 					throws ServletException, IOException {
+		
+		data.add(new NameValuePair("oid",webToLeadConfig.getOID()));
 		if (ResourceUtil.isNonExistingResource(request.getResource())) {
 			logger.error("Received fake request!");
 			response.setStatus(500);

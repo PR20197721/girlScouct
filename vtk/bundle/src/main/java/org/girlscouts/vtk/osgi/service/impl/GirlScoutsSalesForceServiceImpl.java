@@ -14,10 +14,7 @@ import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.conf.GirlScoutsSalesForceServiceConfig;
-import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceFileClient;
-import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceRestClient;
-import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
-import org.girlscouts.vtk.osgi.service.GirlScoutsTroopOCMService;
+import org.girlscouts.vtk.osgi.service.*;
 import org.girlscouts.vtk.rest.entity.salesforce.*;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
@@ -51,6 +48,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     CouncilMapper councilMapper;
     @Reference
     ResourceResolverFactory resolverFactory;
+    @Reference
+    GirlScoutsManualTroopLoadService girlScoutsManualTroopLoadService;
 
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
@@ -162,6 +161,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         }
                         troop.setParticipationCode("Troop");
                         troop.setSfUserId(userId);
+                        setTroopPath(troop);
                         troops.add(troop);
                     }
                 }
@@ -310,39 +310,53 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     private void addMoreInfo(ApiConfig apiConfig, UserInfoResponseEntity userInfoResponseEntity) {
         if (apiConfig.getUser() != null && userInfoResponseEntity != null) {
             apiConfig.setUserId(apiConfig.getUser().getSfUserId());
-            ParentEntity[] campsTroops = userInfoResponseEntity.getCamps();
-            setTroopsForUser(apiConfig, apiConfig.getUser(), userInfoResponseEntity, campsTroops);
+            setTroopsForUser(apiConfig, apiConfig.getUser(), userInfoResponseEntity);
             apiConfig.setTroops(apiConfig.getUser().getTroops());
             apiConfig.setUser(apiConfig.getUser());
             apiConfig.getUser().setApiConfig(apiConfig);
         }
     }
 
-    private void setTroopsForUser(ApiConfig apiConfig, User user, UserInfoResponseEntity userInfoResponseEntity, ParentEntity[] campsTroops) {
+    private void setTroopsForUser(ApiConfig apiConfig, User user, UserInfoResponseEntity userInfoResponseEntity) {
         List<Troop> parentTroops = new ArrayList<Troop>();
-        if (campsTroops != null && campsTroops.length > 0) {
-            for (ParentEntity entity : campsTroops) {
-                if(entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
-                    Troop troop = ParentEntityToTroopMapper.map(entity);
-                    //Independent Registered Member
-                    if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                        setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
-                    } else {
-                        troop.setRole("PA");
-                        parentTroops.add(troop);
-                    }
-                    troop.setSfUserId(user.getSfUserId());
-                }else{
-                    log.debug("Skipping parent troop: {}", entity.toString());
+        List<Troop> mergedTroops = new ArrayList<>();
+        if(!user.isActive()) {
+            mergedTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
+            /*Set<Troop> removeNonRenewedParents = new HashSet<>();
+            for (Troop troop : mergedTroops) {
+                if ((!user.isActive() && "PA".equals(troop.getRole())) ||troop.getSfTroopName() == null || troop.getRole() == null || troop.getGradeLevel() == null || troop.getCouncilCode() == null || !isValidParticipationCode(troop)) {
+                    log.debug("Ignoring troop "+troop.getSfTroopId()+ ". Check all required parameters.");
+                    removeNonRenewedParents.add(troop);
                 }
             }
+            mergedTroops.removeAll(removeNonRenewedParents);*/
+        } else {
+            ParentEntity[] campsTroops = userInfoResponseEntity.getCamps();
+            if (campsTroops != null && campsTroops.length > 0) {
+                for (ParentEntity entity : campsTroops) {
+                    if (entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
+                        Troop troop = ParentEntityToTroopMapper.map(entity);
+                        //Independent Registered Member
+                        if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
+                            setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
+                        } else {
+                            troop.setRole("PA");
+                            setTroopPath(troop);
+                            parentTroops.add(troop);
+                        }
+                        troop.setSfUserId(user.getSfUserId());
+                    } else {
+                        log.debug("Skipping parent troop: {}", entity.toString());
+                    }
+                }
+            }
+            List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
+            mergedTroops = mergeTroops(parentTroops, additionalTroops);
         }
-        List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
         //Service Unit Manager
         if (user.isServiceUnitManager()) {
-            additionalTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
+            mergedTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
         }
-        List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
         Set<Troop> invalidTroops = new HashSet<>();
         for (Troop troop : mergedTroops) {
             if (troop.getSfTroopName() == null || troop.getRole() == null || troop.getGradeLevel() == null || troop.getCouncilCode() == null || !isValidParticipationCode(troop)) {
@@ -358,7 +372,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
             troop.setSfUserId(user.getSfUserId());
             setTroopPermissions(troop, user.isAdmin());
-            setTroopPaths(troop);
+            if(!girlScoutsManualTroopLoadService.isActive() || apiConfig.isDemoUser()) {
+                setTroopPath(troop);
+            }
             troop.setHash(troopHashGenerator.hash(troop.getPath()));
             if(girlScoutsTroopOCMService.read(troop.getPath()) == null){
                 girlScoutsTroopOCMService.create(troop);
@@ -406,12 +422,13 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 dummyIRMTroop.setRole("PA");
                 dummyIRMTroop.setGradeLevel(troop.getGradeLevel());
                 dummyIRMTroop.setIsIRM(true);
+                setTroopPath(dummyIRMTroop);
                 parentTroops.add(dummyIRMTroop);
             }
         }
     }
 
-    private void setTroopPaths(Troop troop) {
+    private void setTroopPath(Troop troop) {
         String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + troop.getSfCouncil();
         troop.setCouncilPath(councilPath);
         String troopPath = councilPath + "/troops/" + troop.getSfTroopId();
@@ -432,6 +449,8 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         troop.setId(sumCouncilCode + "_" + userId);
                         troop.setIsSUM(true);
                         troop.setParticipationCode(sumCouncilCode);
+                        troop.setSfCouncil(sumCouncilCode);
+                        setTroopPath(troop);
                         troops.add(troop);
                     }
                 }

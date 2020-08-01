@@ -1,0 +1,3 @@
+#base=js
+
+vanityurl.validation.js

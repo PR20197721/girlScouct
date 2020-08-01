@@ -16,6 +16,7 @@ public class Meeting extends YearPlanComponent implements Serializable {
     private String catTags, catTagsAlt;
     private List<String> aidPaths;
     private List<String> resourcePaths;
+    private Boolean isArchived;
 
     public Meeting() {
         setPath("/meeting");
@@ -191,8 +192,24 @@ public class Meeting extends YearPlanComponent implements Serializable {
         isAchievement = achievement;
     }
 
+    public Boolean getIsArchived() {
+        return isArchived;
+    }
+
+    public void setIsArchived(Boolean archived) {
+        isArchived = archived;
+    }
+    public Boolean getArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(Boolean archived) {
+        isArchived = archived;
+    }
+
     @Override
     public String toString() {
         return "Meeting{" + "path='" + this.getPath() + '\'' + '}';
     }
+
 }

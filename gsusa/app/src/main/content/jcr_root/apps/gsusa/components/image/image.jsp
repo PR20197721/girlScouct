@@ -26,7 +26,15 @@
 
 <%
 	String styleImage = "";
-
+	//GSWP-2140-case1-For new image component dragged and dropped, Left dropdown is selected by default
+	String imageAlignment = properties.get("./imageAlignment", "left");
+	String additionalCss = properties.get("./additionalCss", "");
+	//GSWP-2140-case3-For old/existing image component, where Additional CSS has left value, you should keep that, and leave Image Alignment dropdown empty
+	if ((!additionalCss.isEmpty()) && (additionalCss.indexOf("left") >=0 || additionalCss.indexOf("center") >=0 || additionalCss.indexOf("right") >=0)) {
+	    //if additional css has multiple values seperated by space
+	    String[] additionalCssValues = additionalCss.split("\\s+");
+	    imageAlignment = Arrays.asList(additionalCssValues).contains("left")? "left" : Arrays.asList(additionalCssValues).contains("center")? "center" : "right";
+	}
 	String additionalCssStyle = properties.get("./additionalCssStyle", "");	
 	if(additionalCssStyle.length() > 0) {
 		styleImage = additionalCssStyle + ";"; //style=\""+additionalCssStyle+"\"";
@@ -66,7 +74,7 @@
 	}
 %>
 
-<div id="<%= "cq-image-jsp-" + resource.getPath() %>" style="<%= styleImage %>" >
+<div class="<%= "image-" + imageAlignment %>" id="<%= "cq-image-jsp-" + resource.getPath() %>" >
 <% 
 		Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
@@ -77,6 +85,9 @@
 		    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
 		    image.addCssClass(styleClass);
 		    image.setSuffix(suffix);
+		    //GSWP-2140-When applied both styleImage (width) and image dropdown  
+		    image.addAttribute("style", styleImage);
+		 	//GSWP-2140-End-When applied both styleImage (width) and image dropdown
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));

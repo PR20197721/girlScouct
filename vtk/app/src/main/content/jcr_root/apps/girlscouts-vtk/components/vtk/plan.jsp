@@ -10,6 +10,13 @@
     String sectionClassDefinition = "meeting-detail";
 %>
 <%@include file="include/bodyTop.jsp" %>
+<%if(selectedTroop.getIsLoadedManualy()){%>
+<div class="column small-24 large-centered large-20">
+    <div class="demo-info-message">
+        <p>This is your 2019 - 2020 Year Plan. This plan will archive on July 20 in preparation for our release of new content on July 21. Until that time you are not able to record attendance or achievements.</p>
+    </div>
+</div>
+<%}%>
 <%@include file="include/modals/modal_help.jsp" %>
 <%@include file="include/loader.jsp" %>
 <%PlanView planView = meetingUtil.planView(user, selectedTroop, request);%>
@@ -903,7 +910,7 @@
                     '<div class="scroll content">' +
                     '<section class="content">' +
                     '<div style="text-align:center">' +
-                    '<img src="/content/dam/girlscouts-vtk/local/icon/meetings/' + binder.id + '.png" />' +
+                    '<img src="/content/girlscouts-vtk/service/meeting/icon.' + binder.id + '.png" />' +
                     '<h3>' + binder.reqTitle + '</h3><br />' +
                     '</div>' +
                     '<div>' + binder.req +
@@ -922,7 +929,7 @@
                 displayName: "MeetingImg",
                 render: function () {
                     var _this = this;
-                    var src = "/content/dam/girlscouts-vtk/local/icon/meetings/" + this.props.mid + ".png";
+                    var src = "/content/girlscouts-vtk/service/meeting/icon." + this.props.mid + ".png";
                     var imgReturn = "";
                     var onClick = function () {
                     };
