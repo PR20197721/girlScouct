@@ -22,94 +22,94 @@
 %><%@include file="/libs/foundation/global.jsp"%>
 <%@ include file="/apps/gsusa/components/global.jsp"%>
 <cq:includeClientLib categories="apps.gsusa.components.textimage" /><%
-    boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
-    final WCMMode wcmMode = WCMMode.fromRequest(request);
-    
-    String completePath = currentNode.getPath();
-    String additionalCSS = properties.get("./additionalCss", "");
-    boolean nowrap = additionalCSS.contains("nowrap") ? true : false;
-    boolean nopadding = additionalCSS.contains("nopadding") ? true : false;
-    String imageAlignment = properties.get("./imageAlignment", "left");
+	boolean isAuthoringUIModeTouch = Placeholder.isAuthoringUIModeTouch(slingRequest);
+	final WCMMode wcmMode = WCMMode.fromRequest(request);
+	
+	String completePath = currentNode.getPath();
+	String additionalCSS = properties.get("./additionalCss", "");
+	boolean nowrap = additionalCSS.contains("nowrap") ? true : false;
+	boolean nopadding = additionalCSS.contains("nopadding") ? true : false;
+	String imageAlignment = properties.get("./imageAlignment", "left");
 
-    String styleImage = "";
-    String styleCaption = "";
-    String styleComponent = ""; 
+	String styleImage = "";
+	String styleCaption = "";
+	String styleComponent = ""; 
 
-    // padding for the component
-    String pcTop = properties.get("./pctop", "0");
-    String pcBottom = properties.get("./pcbottom", "0");
-    String pcLeft = properties.get("./pcleft", "0");
-    String pcRight = properties.get("./pcright", "0");
+	// padding for the component
+	String pcTop = properties.get("./pctop", "0");
+	String pcBottom = properties.get("./pcbottom", "0");
+	String pcLeft = properties.get("./pcleft", "0");
+	String pcRight = properties.get("./pcright", "0");
 
-    if (!nopadding) styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";    
-    
+	if (!nopadding) styleComponent += "padding: " + pcTop + "px " + pcRight + "px " + pcBottom + "px " + pcLeft + "px;";	
+	
 %><div style="<%= styleComponent %>">
 <%
-    
-    // padding for the image
-    String piTop = properties.get("./pitop", "0");
-    String piBottom = properties.get("./pibottom", "0");
-    String piLeft = properties.get("./pileft", "0");
-    String piRight = properties.get("./piright", "0");
+	
+	// padding for the image
+	String piTop = properties.get("./pitop", "0");
+	String piBottom = properties.get("./pibottom", "0");
+	String piLeft = properties.get("./pileft", "0");
+	String piRight = properties.get("./piright", "0");
 
-    // Previously, image bottom was padded with <br> for whatever reason
-    // This runs once for old text image component and replaces <br> with padding that can be changed by the user
-    Node node = resource.adaptTo(Node.class);
-    if (node.hasProperty("./runOnce")) {
-        //node.getProperty("runOnce").remove(); 
-    } else {
-        node.setProperty("runOnce", "corrected");
-        if (node.hasNode("image")) {    // if it has image node, then it's an old component
-            node.setProperty("pibottom", "24");
-            piBottom = "24";
-        }
-    }
-    try {
-        if (wcmMode == WCMMode.EDIT || wcmMode == WCMMode.PREVIEW) {
-            node.getSession().save();    
-        }
-    } catch(Exception e){
-        e.printStackTrace();        
-    }
-    
-	//GSWP-2212- To get original width and height
-	Image image = new Image(resource, "image");
-	Long originalWidth=0L;
-	Long originalHeight=0L;
+	// Previously, image bottom was padded with <br> for whatever reason
+	// This runs once for old text image component and replaces <br> with padding that can be changed by the user
+	Node node = resource.adaptTo(Node.class);
+	if (node.hasProperty("./runOnce")) {
+		//node.getProperty("runOnce").remove(); 
+	} else {
+		node.setProperty("runOnce", "corrected");
+		if (node.hasNode("image")) {	// if it has image node, then it's an old component
+			node.setProperty("pibottom", "24");
+			piBottom = "24";
+		}
+	}
 	try {
-        Resource metaDataResource = slingRequest.getResourceResolver().getResource(image.getFileReference());
-        AssetDetails assetDetails = new AssetDetails(metaDataResource);
-        originalHeight = assetDetails.getHeight();
-        originalWidth = assetDetails.getWidth();
-    } catch(Exception e) {
-        e.printStackTrace();
-    }
+		if (wcmMode == WCMMode.EDIT || wcmMode == WCMMode.PREVIEW) {
+			node.getSession().save();	
+		}
+	} catch(Exception e){
+		e.printStackTrace();		
+	}
+	
+	//GSWP-2212- To get original width and height
+		Image image = new Image(resource, "image");
+		Long originalWidth=0L;
+		Long originalHeight=0L;
+		try {
+	        Resource metaDataResource = slingRequest.getResourceResolver().getResource(image.getFileReference());
+	        AssetDetails assetDetails = new AssetDetails(metaDataResource);
+	        originalHeight = assetDetails.getHeight();
+	        originalWidth = assetDetails.getWidth();
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
 	//GSWP-2212- End-To get original width and height
-
-    String width = properties.get("./image/width", "0");
-    String caption = properties.get("./image/jcr:description", "");    
+	
+	String width = properties.get("./image/width", "0");
+	String caption = properties.get("./image/jcr:description", "");	
 	String imgHeight = properties.get("./image/height", "0");
-
-    //styleImage = "margin: 0px !important;";
-    String padding = piTop + piBottom + piLeft + piRight;
-    if (!padding.equals("0000")) {    // paddings are set, override custom style
-        styleImage += "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";
-    }
-    if (caption.length() > 0) {
-        styleCaption = "padding: 0px 5px 0px 5px;";
-    } 
-    if (!"0".equals(width)) {
-        // newWidth expands width to accomodate for paddings
-        int newWidth = Integer.parseInt(width) + Integer.parseInt(piLeft) + Integer.parseInt(piRight);
-        styleImage += "width:" + newWidth + "px; max-width:" + originalWidth + "px;";
-    }
-
+	
+	//styleImage = "margin: 0px !important;";
+	String padding = piTop + piBottom + piLeft + piRight;
+	if (!padding.equals("0000")) {	// paddings are set, override custom style
+		styleImage += "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";
+	}
+	if (caption.length() > 0) {
+		styleCaption = "padding: 0px 5px 0px 5px;";
+	} 
+	if (!"0".equals(width)) {
+		// newWidth expands width to accomodate for paddings
+		int newWidth = Integer.parseInt(width) + Integer.parseInt(piLeft) + Integer.parseInt(piRight);
+		styleImage += "width:" + newWidth + "px; max-width:" + originalWidth + "px;";
+	}
+	
 	if (!"0".equals(imgHeight)) {
 		// newImageHeight expands height to accomodate for paddings
 		int newImageHeight = Integer.parseInt(imgHeight) + Integer.parseInt(piTop) + Integer.parseInt(piBottom);
 		styleImage += "height:" + newImageHeight + "px; max-height:" + originalHeight + "px;";
-        }
-
+    }
+	
     image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
     // don't draw the placeholder in case UI mode touch it will be handled afterwards
     if (isAuthoringUIModeTouch) {
@@ -126,7 +126,7 @@
             image.setSuffix(currentDesign.getId());
         }
         image.addCssClass(ddClassName);
-        //GSWP-2212,2210-When applied image styles
+      	//GSWP-2212,2210-When applied image styles
         image.addAttribute("style", styleImage);
         //GSWP-2212,2210-End-When applied image styles
         image.setSelector(".img");
@@ -136,11 +136,11 @@
         // div around image for additional formatting
         %><div class="image-<%=imageAlignment%>" id="<%= divId %>"><%
         %><% image.draw(out); %><%
-        
+    	
         if (caption.length() > 0) {
-            %><div class="textimage-caption" style="<%= styleCaption %>">
-                <cq:text property="image/jcr:description" placeholder="" tagName="small" escapeXml="true"/><%
-            %></div><% 
+        	%><div class="textimage-caption" style="<%= styleCaption %>">
+        		<cq:text property="image/jcr:description" placeholder="" tagName="small" escapeXml="true"/><%
+        	%></div><% 
         } %>
         </div>
         <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>
@@ -150,14 +150,14 @@
        String placeholder = (isAuthoringUIModeTouch && !image.hasContent())
                ? Placeholder.getDefaultPlaceholder(slingRequest, component, "", ddClassName)
                : "";
-        String text = properties.get("text","");
-        if(text != null && !text.equals("")){%>
-            <cq:text property="text" tagClass="text" escapeXml="true" placeholder="<%= placeholder %>"/>
-            <div class="clear"></div>
-        <%}else{%>
-            <div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>    
-        <%}%>
+		String text = properties.get("text","");
+		if(text != null && !text.equals("")){%>
+			<cq:text property="text" tagClass="text" escapeXml="true" placeholder="<%= placeholder %>"/>
+			<div class="clear"></div>
+		<%}else{%>
+			<div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div>	
+		<%}%>
 
-    <%-- fix CQ "new" bar misbehave --%>
-    <div style="clear:both"></div>
+	<%-- fix CQ "new" bar misbehave --%>
+	<div style="clear:both"></div>
 </div>
