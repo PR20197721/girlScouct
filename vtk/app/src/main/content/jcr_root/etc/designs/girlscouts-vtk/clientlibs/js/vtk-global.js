@@ -287,15 +287,20 @@ function callExecuteBannerSlider(tabNavLoaded) {
             })
         });
 
-
-        //VTK BANNER SLIDER SETTING
-        $('.vtk-banner-container').slick({
-            slidesToScroll: 1,
-            adaptiveHeight: true,
-            autoplaySpeed: 10000,
-            autoplay: true,
-        });
-
+        // https://stackoverflow.com/questions/11071314/javascript-execute-after-all-images-have-loaded/60949881#60949881
+        // Initialize slick after first image has loaded
+        Promise.all(Array.from(document.querySelector('.vtk-banner-image img'))
+            .filter(img => !img.complete)
+            .map(img => new Promise(resolve => { img.onload = img.onerror = resolve; })))
+            .then(() => {
+                //VTK BANNER SLIDER SETTING
+                $('.vtk-banner-container').slick({
+                    slidesToScroll: 1,
+                    adaptiveHeight: true,
+                    autoplaySpeed: 10000,
+                    autoplay: true
+                });
+            });
     }
 
     var bannerLoaded = $.ajax({
