@@ -1,13 +1,17 @@
 package org.girlscouts.web.osgi.component.impl;
 
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.Replicator;
 import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.*;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.common.exception.GirlScoutsException;
 import org.girlscouts.common.osgi.service.GSEmailService;
+import org.girlscouts.common.util.PageReplicationUtil;
 import org.girlscouts.web.osgi.MuleSoftActivitiesConstants;
 import org.girlscouts.web.osgi.component.GirlscoutsVtkConfigProvider;
 import org.girlscouts.web.osgi.service.MulesoftActivitiesRestClient;
@@ -38,7 +42,7 @@ import static com.day.cq.wcm.api.NameConstants.NT_PAGE;
 
 @Component(immediate = true, service = Runnable.class)
 @Designate(ocd = ImportEventsFromSolrCronImpl.Config.class)
-public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitiesConstants {
+public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitiesConstants, PageReplicationConstants {
     @ObjectClassDefinition(name = "Mulesoft events import job Cron Configuration")
     public static @interface Config {
         @AttributeDefinition(name = "Cron-job expression") String scheduler_expression() default "0 0 3 * * ?";
@@ -60,6 +64,8 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
     protected SlingSettingsService settingsService;
     @Reference
     private GirlscoutsVtkConfigProvider vtkConfigProvider;
+    @Reference
+    protected Replicator replicator;
     private Map<String, String> councilMap;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
     private String host = "";
@@ -115,18 +121,32 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                         List<String> toActivate = new LinkedList<>();
                         List<String> toDelete = new LinkedList<>();
                         for (ActivityEntity activity : activities) {
-                            try {
-                                log.debug("Processing action " + activity.getAction() + " for : " + activity.getPayload().toString());
-                                if ("PUT".equals(activity.getAction())) {
-                                    toActivate.add(createUpdateActivity(activity.getPayload(), rr));
-                                } else {
-                                    if ("DELETE".equals(activity.getAction())) {
-                                        toDelete.add(deleteActivity(activity.getPayload(), rr));
+                            if(activity.getPayload() != null) {
+                                try {
+                                    log.debug("Processing action " + activity.getAction() + " for : " + activity.getPayload().toString());
+                                    if ("PUT".equals(activity.getAction())) {
+                                        toActivate.add(createUpdateActivity(activity.getPayload(), rr));
+                                    } else {
+                                        if ("DELETE".equals(activity.getAction())) {
+                                            toDelete.add(deleteActivity(activity.getPayload(), rr));
+                                        }
                                     }
+                                } catch (Exception e) {
+                                    log.error("Error Occurred while processing eid="+activity.getPayload().getId()+", title="+activity.getPayload().getTitle(), e);
                                 }
-                            } catch (Exception e) {
-                                log.error("Error Occurred: ", e);
                             }
+                        }
+                        if(toActivate!= null && toActivate.size()>0) {
+                            log.debug("creating delayed activation node for " + toActivate.size() + " activities");
+                            Node dateRolloutNode = PageReplicationUtil.getDateRolloutNode(rr.adaptTo(Session.class), rr, true);
+                            dateRolloutNode.setProperty(PARAM_CRAWL, true);
+                            dateRolloutNode.setProperty(PARAM_ACTIVATE, true);
+                            dateRolloutNode.setProperty(PARAM_UPDATE_REFERENCES, false);
+                            dateRolloutNode.setProperty(PARAM_STATUS, STATUS_DELAYED);
+                            dateRolloutNode.setProperty(WORKFLOW_INITIATOR_NAME, "ActivityImportCronJob");
+                            dateRolloutNode.setProperty(PARAM_PAGES, toActivate.toArray(new String[toActivate.size()]));
+                            dateRolloutNode.getSession().save();
+                            log.debug("created delayed activation node at " + dateRolloutNode.getPath());
                         }
                     } else {
                         log.debug("No activities returned from MuleSoft API for modifiedDate=" + modifiedDate);
@@ -145,7 +165,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                     log.error("Exception is thrown closing resource resolver: ", e);
                 }
             }
-
+            log.debug("Solr Event import cron job completed");
         }
     }
 
@@ -310,8 +330,27 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
 
     private String deleteActivity(PayloadEntity payload, ResourceResolver rr) {
         try {
+            String councilName = councilMap.get(payload.getCouncilCode());
+            if (councilName == null) {
+                throw new GirlScoutsException(null, "No mapping found for council code: " + payload.getCouncilCode());
+            }
+            int year = getYear(payload);
+            String parentPath = "/content/" + councilName + "/en/sf-events-repository/" + year;
+            Page page = getEvent(parentPath, payload.getId(),rr);
+            if(page != null){
+                try {
+                    replicator.replicate(rr.adaptTo(Session.class), ReplicationActionType.DEACTIVATE, page.getPath());
+                    PageManager pageManager = rr.adaptTo(PageManager.class);
+                    pageManager.delete(page,false, true);
+                    return page.getPath();
+                } catch (Exception e) {
+                    log.error("Error occurred: ", e);
+                }
+            }else{
+                log.debug("Could not locate activity with eid="+payload.getId()+" in "+parentPath);
+            }
         } catch (Exception e) {
-            log.error("Error occured while deleting activity: " + payload.toString());
+            log.error("Error occured while deleting activity: eid="+payload.getId()+", title="+payload.getTitle());
         }
         return null;
     }
