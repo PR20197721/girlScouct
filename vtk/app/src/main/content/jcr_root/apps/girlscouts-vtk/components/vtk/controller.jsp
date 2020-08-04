@@ -278,9 +278,9 @@
             emr.setMeetingId(meetingId);
             emr.setTemplate(template);
             emr.setEmailToSelf("true");
-            emr.setTo(user.getApiConfig().getUser().getEmail());
+            emr.setTo(user.getEmail());
             if (email_to_gp.equals("true")) {
-                java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
+                java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(apiConfig, selectedTroop);
                 String emails = null;
                 for (int i = 0; i < contacts.size(); i++) {
                     String contactEmail = contacts.get(i).getEmail();

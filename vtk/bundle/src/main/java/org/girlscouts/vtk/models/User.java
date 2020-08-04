@@ -1,12 +1,9 @@
 package org.girlscouts.vtk.models;
 
-import org.girlscouts.vtk.auth.models.ApiConfig;
-
 import java.io.Serializable;
 import java.util.List;
 
 public class User implements Serializable {
-    private ApiConfig apiConfig;
     private String sid;
     private String currentYear;
     private int currentFinanceYear;
@@ -25,16 +22,9 @@ public class User implements Serializable {
     private boolean isActive;
     private boolean isAdmin;
     private boolean isServiceUnitManager;
+    private boolean isDemo;
     private String adminCouncilId;
     private List<Troop> troops;
-
-    public ApiConfig getApiConfig() {
-        return apiConfig;
-    }
-
-    public void setApiConfig(ApiConfig apiConfig) {
-        this.apiConfig = apiConfig;
-    }
 
     public String getSid() {
         return sid;
@@ -194,5 +184,13 @@ public class User implements Serializable {
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+    }
+
+    public boolean isDemo() {
+        return isDemo;
+    }
+
+    public void setDemo(boolean demo) {
+        isDemo = demo;
     }
 }

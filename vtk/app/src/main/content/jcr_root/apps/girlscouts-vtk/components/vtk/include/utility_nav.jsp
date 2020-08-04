@@ -14,7 +14,7 @@
                 <ul id="sub-nav" class="inline-list hide-for-print">
                     <%
                         if ("reports".equals(activeTab) &&
-                                user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId() > 0) { %>
+                                user.isAdmin() && user.getAdminCouncilId() != null && user.getAdminCouncilId().length() > 0) { %>
                     <li><a href="/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.xls"
                            title="download admin report">download</a></li>
                     <% }
@@ -121,10 +121,7 @@
         </div>
     </div>
 </div>
-<% if (true) {//(SHOW_BETA || sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) && sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) {
-%>
 <script>resetIsLoggedIn();</script>
 <iframe style="display:none;" id="myframe"
         src="<%=sling.getService(ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
-<%} %> 
 
