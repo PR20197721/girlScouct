@@ -334,6 +334,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                             notifyCouncils.add(relationPagePath);
                             rolloutLog.add("The page " + relationPagePath + " has Break Inheritance checked off. Will not roll out");
                             log.info("The page {} has Break Inheritance checked. Will not roll out", relationPagePath);
+                            noLiveCopyCouncils.add(relationPagePath);//change for 2204 for the case when inheritance is broken.
                         } else {
                             String versionableNodePath = relationPageResource.getPath() + "/jcr:content";
                             try {
@@ -373,7 +374,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                     } else {
                         log.info("Resource {} not found.", relationPagePath);
                         log.info("Will NOT rollout to this page");
-                        noLiveCopyCouncils.add(relationPagePath);
+                        if(relationPageResource == null || relationPageResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                        	log.error(relationPagePath + "Resource does not exist");
+                        	relationManager.detach(relationPageResource, true);
+                        	relation.getLiveCopy().addExclusion(relationPagePath);
+                        }else {
+                            noLiveCopyCouncils.add(relationPagePath);
+                        }
                         rolloutLog.add("Resource " + relationPagePath + " not found.");
                         rolloutLog.add("Will NOT rollout to this page");
                     }
