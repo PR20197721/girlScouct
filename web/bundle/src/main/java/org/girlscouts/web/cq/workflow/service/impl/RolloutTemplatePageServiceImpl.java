@@ -321,19 +321,23 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         for (String councilPath : submittedCouncils) {
             log.info("Looking up live relationships in {}", councilPath);
             RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource, councilPath, null);
+            boolean hasValidRelationship = false;
+            String relationPagePath =  null;
             while (relationsIterator.hasNext()) {
                 try {
                     LiveRelationship relation = (LiveRelationship) relationsIterator.next();
-                    String relationPagePath = relation.getTargetPath();
+                    relationPagePath = relation.getTargetPath();
                     log.info("Attempting to roll out to: {}", relationPagePath);
                     rolloutLog.add("Attempting to roll out to: " + relationPagePath);
                     Resource relationPageResource = rr.resolve(relationPagePath);
                     if (relationPageResource != null && !relationPageResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-                        processedRelationCouncils.add(councilPath);
+                    	hasValidRelationship= true;// this marker is required as there are non-existing node relationships 
+                    	processedRelationCouncils.add(councilPath);
                         if (PageReplicationUtil.isPageInheritanceBroken(relationPageResource, rolloutLog)) {
                             notifyCouncils.add(relationPagePath);
                             rolloutLog.add("The page " + relationPagePath + " has Break Inheritance checked off. Will not roll out");
                             log.info("The page {} has Break Inheritance checked. Will not roll out", relationPagePath);
+                            noLiveCopyCouncils.add(relationPagePath);//change for 2204 for the case when inheritance is broken.
                         } else {
                             String versionableNodePath = relationPageResource.getPath() + "/jcr:content";
                             try {
@@ -373,13 +377,16 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                     } else {
                         log.info("Resource {} not found.", relationPagePath);
                         log.info("Will NOT rollout to this page");
-                        noLiveCopyCouncils.add(relationPagePath);
                         rolloutLog.add("Resource " + relationPagePath + " not found.");
                         rolloutLog.add("Will NOT rollout to this page");
                     }
                 } catch (Exception e) {
                     log.error("Girlscouts Rollout Service encountered error: ", e);
                 }
+            } 
+            if(!hasValidRelationship) {
+            	log.info("No matching livecopy exists at target, page might be deleted or page is non existent at : "+relationPagePath);
+            	noLiveCopyCouncils.add(relationPagePath);
             }
         }
         submittedCouncils.removeAll(processedRelationCouncils);
