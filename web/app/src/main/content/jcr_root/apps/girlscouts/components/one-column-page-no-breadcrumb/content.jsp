@@ -8,5 +8,7 @@
 				<cq:include path="content/middle/par" resourceType="foundation/components/parsys" />
 			</div>
 		</div>
+	<div class="wrapper clearfix"></div>
+    	<cq:include path="content/bottom/par" resourceType="girlscouts-common/components/styled-parsys" />
         <!--PAGE STRUCTURE: MAIN CONTENT STOP-->
 </div>
