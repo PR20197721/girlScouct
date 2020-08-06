@@ -322,7 +322,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             log.info("Looking up live relationships in {}", councilPath);
             RangeIterator relationsIterator = relationManager.getLiveRelationships(sourcePageResource, councilPath, null);
             boolean hasValidRelationship = false;
-            String relationPagePath =  null;
+            String relationPagePath =  councilPath;
             while (relationsIterator.hasNext()) {
                 try {
                     LiveRelationship relation = (LiveRelationship) relationsIterator.next();
