@@ -7,6 +7,8 @@ import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.commons.ReferenceSearch;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlEntry;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
 import org.apache.sling.api.resource.Resource;
@@ -75,7 +77,7 @@ public class TrashcanUtil implements TrashcanConstants {
             if(resultSet != null && resultSet.size() > 0) {
                 StringBuffer sb = new StringBuffer();
                 for(String key:resultSet){
-                    if(!key.equals(payloadResource.getPath())) {
+                	if(!key.equals(payloadResource.getPath()) && !StringUtils.startsWith(key,"/content/trashcan")) {
                         sb.append("<li>" + key + "</li>");
                     }
                 }
