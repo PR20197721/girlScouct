@@ -10,11 +10,11 @@ public @interface GirlscoutsVtkConfigProviderConfiguration {
 	@AttributeDefinition(name = "Hello Url", description = "Hello Url", type = AttributeType.STRING)
 	String helloUrl();
 
-	@AttributeDefinition(name = "Callback URL", description = "Callback URL", type = AttributeType.STRING)
-	String callbackUrl();
+	@AttributeDefinition(name = "VTK Log In URL", type = AttributeType.STRING)
+	String loginUrl();
 
-	@AttributeDefinition(name = "Community URL", description = "Community URL", type = AttributeType.STRING)
-	String communityUrl();
+	@AttributeDefinition(name = "VTK Log Out URL", type = AttributeType.STRING)
+	String logoutUrl();
 
 	@AttributeDefinition(name = "is Demo Site", description = "Is Demo Site?", type = AttributeType.BOOLEAN)
 	String isDemoSite();

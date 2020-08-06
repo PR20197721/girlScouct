@@ -192,7 +192,6 @@
                             Volunteer Toolkit Training
                         </div>
                         <div style="clear:both"></div>
-                        <!--                         <div class="login"><span>Hello Vanessa.</span><a href="javascript:void(0)" onclick="girlscouts.components.login.signOut();" class="signout link-login">SIGN OUT</a></div> -->
                         <div class="demo">
                             <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a>
                         </div>

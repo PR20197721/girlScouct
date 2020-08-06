@@ -9,7 +9,7 @@ $(document).ready(function(){
             // Update remaining seconds
             document.getElementById("countdown").innerHTML = seconds;
             // Count down using javascript
-            window.setTimeout("countdown()", 1000);
+            window.setTimeout(countdown, 1000);
         }
     }
     function afterLogout() {

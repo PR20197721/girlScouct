@@ -45,7 +45,7 @@
     // Why so heavy?  Do we need to load all services here or maybe on demand is better?
 
     int timeout = session.getMaxInactiveInterval();
-    response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
+    response.setHeader("Refresh", timeout + "; URL = /system/sling/logout?resource=/content/girlscouts-vtk");
     ApiConfig apiConfig = null;
     try {
         if (session.getAttribute(ApiConfig.class.getName()) != null) {
