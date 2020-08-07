@@ -237,7 +237,7 @@ public class VtkUtil implements ConfigListener {
     }
 
     /*GS Year starts July 1 */
-    public static int getCurrentGSYear() throws ParseException {
+    public static int getCurrentGSYear() {
         String _gsNewYear = gsNewYear;
         if (_gsNewYear == null || _gsNewYear.length() != 4) {
             _gsNewYear = "0701";
@@ -247,7 +247,11 @@ public class VtkUtil implements ConfigListener {
         int currentYear = now.get(Calendar.YEAR);
         Calendar newYear = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        newYear.setTime(sdf.parse(currentYear + _gsNewYear));
+        try {
+            newYear.setTime(sdf.parse(currentYear + _gsNewYear));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         
         return now.before(newYear) ? currentYear - 1 : currentYear;
     }
