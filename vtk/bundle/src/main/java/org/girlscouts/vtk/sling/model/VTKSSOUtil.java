@@ -141,7 +141,10 @@ public class VTKSSOUtil {
     }
 
     public String getLogInScript() {
-        return "<script>gigya.socialize.addEventHandlers({onLogin: function() { gigya.fidm.saml.continueSSO(\"" + getSPName() + "\");}});gigya.accounts.showScreenSet({screenSet: '"+getScreenSet()+"', containerID: \"container\", sessionExpiration: '"+getSessionExpiration()+"'});</script>";
+        return "<script>gigya.socialize.addEventHandlers({" +
+                "onLogin: function() { gigya.fidm.saml.continueSSO(\"" + getSPName() + "\");}," +
+                "callback: gigyaCallback" +
+                "});</script>";
     }
     public String getProxyScript(){
         return "<script src=\"https://cdns.gigya.com/js/gigya.saml.js?apiKey="+getApiKey()+"\">{loginURL:\""+getLogInPath()+"\",logoutURL:\""+getLogOutPath()+"\"}</script>";
