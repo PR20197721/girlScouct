@@ -25,7 +25,7 @@ $(document).ready(function(){
         }, false);
     });
 });
-function gigyaCallback(response){
+function handleGigyaCallback(response){
     if(response != null){
         if(response.errorCode == 0){
             console.log("call "+response.callId+" successful");
@@ -46,19 +46,19 @@ function login(){
         gigya.accounts.login({
             "loginID":loginID,
             "password":password,
-            "callback":gigyaCallback,
+            "callback":handleGigyaCallback,
             "sessionExpiration":-2
         });
     }else{
         gigya.accounts.login({
             "loginID":loginID,
             "password":password,
-            "callback":gigyaCallback
+            "callback":handleGigyaCallback
         });
     }
 
 }
 function forgotPassword(){
     var email = $('#forgot-password-email').val();
-    gigya.accounts.resetPassword({"loginID":email, "callback":gigyaCallback});
+    gigya.accounts.resetPassword({"loginID":email, "callback":handleGigyaCallback});
 }

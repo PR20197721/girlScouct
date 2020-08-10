@@ -142,8 +142,9 @@ public class VTKSSOUtil {
 
     public String getLogInScript() {
         return "<script>gigya.socialize.addEventHandlers({" +
-                "onLogin: function() { gigya.fidm.saml.continueSSO(\"" + getSPName() + "\");}," +
-                "callback: gigyaCallback" +
+                "onLogin: function() { " +
+                "gigya.fidm.saml.continueSSO(\"" + getSPName() + "\");}," +
+                "callback: handleGigyaCallback" +
                 "});</script>";
     }
     public String getProxyScript(){
