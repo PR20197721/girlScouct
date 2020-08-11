@@ -45,7 +45,16 @@ class AgendaItemSelected extends React.Component<AgendaItemSelectedTimeProps, Ag
             {value: 45, text: '00:45'},
             {value: 50, text: '00:50'},
             {value: 55, text: '00:55'},
-            {value: 60, text: '00:60'}
+            {value: 60, text: '00:60'},
+            {value: 65, text: '01:05'},
+            {value: 70, text: '01:10'},
+            {value: 75, text: '01:15'},
+            {value: 80, text: '01:20'},
+            {value: 85, text: '01:25'},
+            {value: 90, text: '01:30'},
+            {value: 95, text: '01:35'},
+            {value: 100,text: '01:40'}
+                                  
         ];
 
 
