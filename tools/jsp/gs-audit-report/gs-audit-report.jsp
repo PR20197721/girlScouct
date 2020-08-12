@@ -311,8 +311,9 @@ out.println(csv.toString().trim());
 	}
 
 	private Map<String, Set<String>> getComponentRelations(Resource srcRes, String targetPath, ResourceResolver rr) {
+        Logger complog = LoggerFactory.getLogger(this.getClass());
 		Map<String, Set<String>> componentRelationsMap = new HashMap<String, Set<String>>();
-		Set<String> srcComponents = getComponents(srcRes);
+        Set<String> srcComponents = getComponents(srcRes);
 		if (srcComponents != null && srcComponents.size() > 0) {
 			for (String component : srcComponents) {
 				Resource componentRes = rr.resolve(component);
@@ -329,7 +330,11 @@ out.println(csv.toString().trim());
 							while (relationIterator.hasNext()) {
 								LiveRelationship relation = (LiveRelationship) relationIterator.next();
 								String relationPath = relation.getTargetPath();
-								componentRelations.add(relationPath);
+                                Resource targetPathResource = rr.resolve(relationPath);
+                                if (!targetPathResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                                    //complog.info("EXISTING::"+ relationPath);
+									componentRelations.add(relationPath);
+                                }
 							}
 
 							componentRelationsMap.put(component, componentRelations);
@@ -407,20 +412,23 @@ out.println(csv.toString().trim());
 
 	private Map<String, String> getComponentInheritanceMap(Map<String, Set<String>> componentRelations,
 			String targetPath, ResourceResolver rr) {
-
+		Logger compInheritLog = LoggerFactory.getLogger(this.getClass());
 		boolean inheritanceBroken = false;
 		String inheritanceStatus = "No";
 		Map<String, String> map = new HashMap<>();
 		String componentArray[] = { "image", "text", "accordion" };
 		if (componentRelations != null && componentRelations.size() > 0) {
 			for (String component : componentRelations.keySet()) {
-				String cmpRes = StringUtils.substringAfterLast(component, "/");
-				if (Stream.of(componentArray).anyMatch(cmpRes::startsWith)) {
-					inheritanceBroken = isInheritanceBroken(targetPath, componentRelations, component, rr);
-					inheritanceStatus = inheritanceBroken == true ? "No" : "Yes";
-					map.put(cmpRes, inheritanceStatus);
-				}
-
+               	//compInheritLog.info("component relation value:"+ componentRelations.get(component));
+				String cmpRes = "";
+                if (componentRelations.get(component) != null && componentRelations.get(component).size() > 0) {
+					cmpRes = StringUtils.substringAfterLast(component, "/");
+					if (Stream.of(componentArray).anyMatch(cmpRes::startsWith)) {
+	                    inheritanceBroken = isInheritanceBroken(targetPath, componentRelations, component, rr);
+	                    inheritanceStatus = inheritanceBroken == true ? "No" : "Yes";
+	                    map.put(cmpRes, inheritanceStatus);
+					}
+		        }
 			}
 		}
 		return map;
@@ -450,6 +458,9 @@ out.println(csv.toString().trim());
 												return true;
 											}
 										}
+									}
+									else {
+										return true;
 									}
 								}
 							} catch (Exception e) {
