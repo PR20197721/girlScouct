@@ -153,14 +153,16 @@ try {
 						String userTxtCmp = "No";
 						String userAccCmp = "No";
 						for (String customComponent : customComponentsSet) {
-							customComponent = StringUtils.substringAfterLast(customComponent, "/");
-							if (Pattern.matches("image.*", customComponent)) {
+							Resource customCmpRes = resourceResolver.getResource(customComponent);
+				            Node customCmpNode = customCmpRes.adaptTo(Node.class);
+				            customComponent = StringUtils.substringAfterLast(customComponent, "/");
+							if (Pattern.matches("image.*", customComponent) && customCmpNode.hasProperty("sling:resourceType")) {
 								userImgCmp = "Yes";
-							} else if (Pattern.matches("textimage.*", customComponent)) {
+							} else if (Pattern.matches("textimage.*", customComponent) && customCmpNode.hasProperty("sling:resourceType")) {
 								userTxtImgCmp = "Yes";
-							} else if (Pattern.matches("text.*", customComponent)) {
+							} else if (Pattern.matches("text.*", customComponent) && customCmpNode.hasProperty("sling:resourceType")) {
 								userTxtCmp = "Yes";
-							} else if (Pattern.matches("accordion.*", customComponent)) {
+							} else if (Pattern.matches("accordion.*", customComponent) && customCmpNode.hasProperty("sling:resourceType")) {
 								userAccCmp = "Yes";
 							}
 						}
@@ -194,7 +196,11 @@ try {
 									if (null != cmpMap && !cmpMap.isEmpty()) {
 
 										for (Map.Entry<String, String> entry : cmpMap.entrySet()) {
-											if (Pattern.matches("image.*", entry.getKey())) {
+											Resource inheritedCmpRes = resourceResolver.getResource(entry.getKey());
+											Node inheritedCmpNode = inheritedCmpRes.adaptTo(Node.class);
+											String inheritedComponent = StringUtils.substringAfterLast(entry.getKey(), "/");
+
+											if (Pattern.matches("image.*", inheritedComponent) && inheritedCmpNode.hasProperty("sling:resourceType")) {
 												imgComponent = "Yes";
 												if (imgComponentInheritance.equals("")) {
 													imgComponentInheritance = entry.getValue();
@@ -202,7 +208,7 @@ try {
 												if (!entry.getValue().equals("Yes")) {
 													imgComponentInheritance = "No";
 												}
-											} else if (Pattern.matches("textimage.*", entry.getKey())) {
+											} else if (Pattern.matches("textimage.*", inheritedComponent) && inheritedCmpNode.hasProperty("sling:resourceType")) {
 												txtImgComponent = "Yes";
 												if (txtImgComponentInheritance.equals("")) {
 													txtImgComponentInheritance = entry.getValue();
@@ -210,7 +216,7 @@ try {
 												if (!entry.getValue().equals("Yes")) {
 													txtImgComponentInheritance = "No";
 												}
-											} else if (Pattern.matches("text.*", entry.getKey())) {
+											} else if (Pattern.matches("text.*", inheritedComponent) && inheritedCmpNode.hasProperty("sling:resourceType")) {
 												txtComponent = "Yes";
 												if (txtComponentInheritance.equals("")) {
 													txtComponentInheritance = entry.getValue();
@@ -218,7 +224,7 @@ try {
 												if (!entry.getValue().equals("Yes")) {
 													txtComponentInheritance = "No";
 												}
-											} else if (Pattern.matches("accordion.*", entry.getKey())) {
+											} else if (Pattern.matches("accordion.*", inheritedComponent) && inheritedCmpNode.hasProperty("sling:resourceType")) {
 												accordionComponent = "Yes";
 												if (accordionComponentInheritance.equals("")) {
 													accordionComponentInheritance = entry.getValue();
@@ -424,11 +430,11 @@ out.println(csv.toString().trim());
                 if (componentRelations.get(component) != null && componentRelations.get(component).size() > 0) {
 					cmpRes = StringUtils.substringAfterLast(component, "/");
 					if (Stream.of(componentArray).anyMatch(cmpRes::startsWith)) {
-	                    inheritanceBroken = isInheritanceBroken(targetPath, componentRelations, component, rr);
-	                    inheritanceStatus = inheritanceBroken == true ? "No" : "Yes";
-	                    map.put(cmpRes, inheritanceStatus);
+                        inheritanceBroken = isInheritanceBroken(targetPath, componentRelations, component, rr);
+                        inheritanceStatus = inheritanceBroken == true ? "No" : "Yes";
+						map.put(String.join(", ", componentRelations.get(component)), inheritanceStatus);
 					}
-		        }
+               }
 			}
 		}
 		return map;
@@ -535,6 +541,8 @@ out.println(csv.toString().trim());
 										} else {
 											log.info("Component {} is custom.", childResource.getPath());
 											customComponents.add(childResource.getPath());
+						                    categorizeRelationComponents(customComponents, activeLiveSyncComponents,
+													inactiveLiveSyncComponents, childResource, true);
 										}
 									}
 								}
