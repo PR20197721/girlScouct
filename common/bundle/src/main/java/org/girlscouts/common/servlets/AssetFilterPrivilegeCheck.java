@@ -33,11 +33,7 @@ import com.google.gson.JsonObject;
 @Properties({ @Property(name = "sling.servlet.paths", value = "/bin/getAssetFilter.html"),
 		@Property(name = "sling.servlet.methods", value = "GET"),
 		@Property(name = "service.description", value = "User privilege check for Image Servlet"), 
-        @Property(name="DropdownExclusionValues", value={ "Products", "Paragraphs", 
-        		  "Content Fragments", "Experience Fragments", "Paragraphs", "Design Packages", 
-        		  "Adaptive Forms", "Manuscript", "UGC", "Interactive Communications" })
-        }
-        )
+        })
 public class AssetFilterPrivilegeCheck extends SlingAllMethodsServlet implements OptingServlet {
 	protected static final String EXTENSION = "html";
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
