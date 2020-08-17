@@ -155,14 +155,16 @@ try {
 						for (String customComponent : customComponentsSet) {
 							Resource customCmpRes = resourceResolver.getResource(customComponent);
 				            Node customCmpNode = customCmpRes.adaptTo(Node.class);
-				            customComponent = StringUtils.substringAfterLast(customComponent, "/");
-							if (Pattern.matches("image.*", customComponent) && customCmpNode.hasProperty("sling:resourceType")) {
+							String customComponentName = StringUtils.substringAfterLast(customComponent, "/");
+							boolean imageInsideTxtImg = Pattern.matches("textimage.*", StringUtils.substringAfterLast(StringUtils.substringBeforeLast(customComponent, "/image"), "/"));
+                            if (Pattern.matches("image.*", customComponentName) && customCmpNode.hasProperty("sling:resourceType") 
+								&& !imageInsideTxtImg) {
 								userImgCmp = "Yes";
-							} else if (Pattern.matches("textimage.*", customComponent) && customCmpNode.hasProperty("sling:resourceType")) {
+							} else if (Pattern.matches("textimage.*", customComponentName) && customCmpNode.hasProperty("sling:resourceType")) {
 								userTxtImgCmp = "Yes";
-							} else if (Pattern.matches("text.*", customComponent) && customCmpNode.hasProperty("sling:resourceType")) {
+							} else if (Pattern.matches("text.*", customComponentName) && customCmpNode.hasProperty("sling:resourceType")) {
 								userTxtCmp = "Yes";
-							} else if (Pattern.matches("accordion.*", customComponent) && customCmpNode.hasProperty("sling:resourceType")) {
+							} else if (Pattern.matches("accordion.*", customComponentName) && customCmpNode.hasProperty("sling:resourceType")) {
 								userAccCmp = "Yes";
 							}
 						}
@@ -199,8 +201,9 @@ try {
 											Resource inheritedCmpRes = resourceResolver.getResource(entry.getKey());
 											Node inheritedCmpNode = inheritedCmpRes.adaptTo(Node.class);
 											String inheritedComponent = StringUtils.substringAfterLast(entry.getKey(), "/");
-
-											if (Pattern.matches("image.*", inheritedComponent) && inheritedCmpNode.hasProperty("sling:resourceType")) {
+											boolean imgInsideTxtImg = Pattern.matches("textimage.*", StringUtils.substringAfterLast(StringUtils.substringBeforeLast(entry.getKey(), "/image"), "/"));
+                                            if (Pattern.matches("image.*", inheritedComponent) && inheritedCmpNode.hasProperty("sling:resourceType")
+												&& !imgInsideTxtImg) {
 												imgComponent = "Yes";
 												if (imgComponentInheritance.equals("")) {
 													imgComponentInheritance = entry.getValue();
