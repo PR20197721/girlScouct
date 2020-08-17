@@ -1357,6 +1357,11 @@ form#contact-us textarea {
     margin: 0;
 }*/
 
+.events-list {
+    display: table;
+    min-width: 100%;
+}
+
 .events-list .content {
   /*
         margin: 20px 38px 20px 30px;

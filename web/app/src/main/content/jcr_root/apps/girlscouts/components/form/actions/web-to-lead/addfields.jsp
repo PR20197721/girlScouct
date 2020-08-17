@@ -8,7 +8,7 @@
                    java.util.HashMap,
                    com.day.cq.wcm.foundation.forms.FormsConstants,
                    com.day.cq.wcm.foundation.forms.FormResourceEdit,
-                   org.girlscouts.web.webtolead.config.WebToLeadConfig"%><%
+                   org.girlscouts.common.webtolead.config.WebToLeadConfig"%><%
 %><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
     
