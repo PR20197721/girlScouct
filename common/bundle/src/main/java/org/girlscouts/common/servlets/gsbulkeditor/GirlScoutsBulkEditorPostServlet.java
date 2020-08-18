@@ -660,8 +660,8 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
                         List<String> tagTitleList = new LinkedList<String>(Arrays.asList(value.split(";")));
                         for(String tagTitle : tagTitleList){
                             Set<String> keys = existingCategories.keySet();
-                            if(!keys.contains(tagTitle)){
-                                existingCategories.put(tagTitle, null);
+                            if(!keys.contains(tagTitle.trim())){
+                                existingCategories.put(tagTitle.trim(), null);
                             }
                         }
                         event.setCategories(tagTitleList);
@@ -669,8 +669,8 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
                         List<String> tagTitleList = new LinkedList<String>(Arrays.asList(value.split(";")));
                         for(String tagTitle : tagTitleList){
                             Set<String> keys = existingProgramLevels.keySet();
-                            if(!keys.contains(tagTitle)){
-                                existingProgramLevels.put(tagTitle, null);
+                            if(!keys.contains(tagTitle.trim())){
+                                existingProgramLevels.put(tagTitle.trim(), null);
                             }
                         }
                         event.setProgramLevels(tagTitleList);
@@ -1283,7 +1283,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
     }
     private String getJcrName(String title){
         if(title != null){
-            String name = title.toLowerCase().replaceAll("[^A-Za-z0-9]","-");
+            String name = title.trim().toLowerCase().replaceAll("[^A-Za-z0-9]","-");
             return name;
         }
 
@@ -1293,7 +1293,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
         String[] result = new String[tagNames.size()];
         int i = 0;
         for(String tagName : tagNames){
-            Tag tag = map.get(tagName);
+            Tag tag = map.get(tagName.trim());
             String tagId = tag.getTagID();
             result[i] = tagId;
             i++;
