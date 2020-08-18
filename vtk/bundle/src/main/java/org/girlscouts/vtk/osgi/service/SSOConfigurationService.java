@@ -10,8 +10,4 @@ public interface SSOConfigurationService {
 
     public String getLogOutPath();
 
-    public String getScreenSet();
-
-    public Integer getSessionExpiration();
-
 }

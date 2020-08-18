@@ -132,14 +132,6 @@ public class VTKSSOUtil {
         return ssoConfig.getLogOutPath();
     }
 
-    public String getScreenSet() {
-        return ssoConfig.getScreenSet();
-    }
-
-    public Integer getSessionExpiration() {
-        return ssoConfig.getSessionExpiration();
-    }
-
     public String getLogInScript() {
         return "<script>gigya.socialize.addEventHandlers({" +
                 "onLogin: function() {gigya.fidm.saml.continueSSO(\"" + getSPName() + "\")}});</script>";

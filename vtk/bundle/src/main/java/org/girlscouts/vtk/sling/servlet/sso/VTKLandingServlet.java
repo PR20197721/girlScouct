@@ -61,11 +61,12 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
             HttpSession httpSession = request.getSession();
             final UserManager userManager = resourceResolver.adaptTo(UserManager.class);
             final User aemUser = (User) userManager.getAuthorizable(jcrSession.getUserID());
+            String principalName = aemUser.getPrincipal().getName();
+            log.debug("Processing user {}",principalName);
             String vtkRedirect = "/content/girlscouts-vtk/en/vtk.html";
             if(!isActiveVTKSession(request)){
                 ApiConfig apiConfig = mulesoftService.getApiConfig(aemUser);
                 if(apiConfig != null && apiConfig.getUser() != null && apiConfig.getUser().getTroops() != null && apiConfig.getUser().getTroops().size() != 0) {
-                    String principalName = aemUser.getPrincipal().getName();
                     String lastName = aemUser.getProperty("./profile/familyName") != null ? aemUser.getProperty("./profile/familyName")[0].getString() : null;
                     String firstName = aemUser.getProperty("./profile/givenName") != null ? aemUser.getProperty("./profile/givenName")[0].getString() : null;
                     String gsGlobalId = aemUser.getProperty("./profile/GSGlobalID") != null ? aemUser.getProperty("./profile/GSGlobalID")[0].getString() : null;

@@ -275,6 +275,11 @@
 				<artifactId>mapstruct</artifactId>
 				<version>${org.mapstruct.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.sling</groupId>
+                <artifactId>org.apache.sling.query</artifactId>
+                <version>3.0.0</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -371,6 +376,5 @@
 		<module>web</module>
 		<module>gsusa</module>
 		<module>vtk</module>
-		<module>gsactivities</module>
 	</modules>
 </project>

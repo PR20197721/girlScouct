@@ -36,14 +36,14 @@ public class MulesoftActivitiesRestClientImpl extends BasicGirlScoutsService imp
     private void activate(ComponentContext context) {
         this.context = context;
         this.restEndPoint = getConfig("restEndPoint");
-        this.client_id = getConfig("client_id");
-        this.client_secret = getConfig("client_secret");
+        this.client_id = getConfig("clientId");
+        this.client_secret = getConfig("clientSecret");
         log.info("MuleSoft Activities Rest Client Activated.");
     }
 
     @Override
     public ActivityEntity[] getEvents(Date asOfDate) {
-        DateFormat ACTIVITY_DATE_FORMAT = new SimpleDateFormat(ACTIVITY_DATE_FORMAT_PATTERN);
+        DateFormat ACTIVITY_DATE_FORMAT = new SimpleDateFormat(MODIFIED_DATE_FORMAT);
         String modifiedTime = ACTIVITY_DATE_FORMAT.format(asOfDate);
         String url = this.restEndPoint+"?modifiedTime="+modifiedTime;
         try {

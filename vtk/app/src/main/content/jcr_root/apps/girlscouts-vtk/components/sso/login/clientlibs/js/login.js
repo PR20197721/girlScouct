@@ -24,12 +24,18 @@ $(document).ready(function(){
             form.classList.add('was-validated');
         }, false);
     });
+    gigya.socialize.addEventHandlers({
+        onLogin: function() {
+            gigya.fidm.saml.continueSSO();
+        }
+    });
 });
 function handleGigyaCallback(response){
     if(response != null){
         if(response.errorCode == 0){
             console.log("call "+response.callId+" successful");
             $('#error').html("");
+            gigya.fidm.saml.continueSSO();
         } else {
             console.log("login failed errorCode="+response.errorCode+" errorMessage="+response.errorMessage);
             if (response.errorCode == 403042) {

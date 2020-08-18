@@ -334,11 +334,11 @@ public class GSEmailServiceImpl implements GSEmailService {
                     gateway.send(email);
                     log.debug("Email sent successfully.");
                     break;
-                } catch (MailingException me) {
+                } catch (Exception me) {
                     if (i == EMAIL_RETRIES - 1) {
-                        log.error("Email sending failed. No more retries");
+                        log.error("Email sending failed. No more retries", me);
                     } else {
-                        log.debug("Email sending failed. Retries left: " + (EMAIL_RETRIES - i));
+                        log.debug("Email sending failed. Retries left: " + (EMAIL_RETRIES - i), me);
                     }
                 }
             }
