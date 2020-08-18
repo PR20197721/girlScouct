@@ -21,28 +21,23 @@
                         }
                     }
                 }
+
                 List<Meeting> raw_meetings = null;
                 try {
-                    raw_meetings = meetingUtil.getMeetings(user, selectedTroop, level);
-
-                } catch (IllegalAccessException illegalUserEx) {
-                    //TODO
+                    raw_meetings = meetingUtil.getAllActiveMeetings(user, selectedTroop, level);
                 } catch (Exception genException) {
-                    //TODO
+                    log.error("Error occurred: ", genException);
                 }
+
                 List<String> meetingPlanTypes = null;
                 if (raw_meetings != null) {
                     meetingPlanTypes = VtkUtil.getDistinctMeetingPlanTypes(raw_meetings);
                     Map<String, List<Meeting>> sortMeetingByMeetingType = VtkUtil.sortMeetingByMeetingType(raw_meetings, meetingPlanTypes);
-            %>
-            <%@include file="resource_overview_types.jsp" %>
-            <%
-                }
-                VtkUtil.sortMeetingsByName(raw_meetings);
-                for (Meeting meeting : raw_meetings) {
-            %>
-            <%@include file="resource_overview.jsp" %>
-            <%
+            		%><%@include file="resource_overview_types.jsp"%><%
+                    VtkUtil.sortMeetingsByName(raw_meetings);
+                    for (Meeting meeting : raw_meetings) {
+                        %><%@include file="resource_overview.jsp"%><%
+                    }
                 }
             %>
         </div>
