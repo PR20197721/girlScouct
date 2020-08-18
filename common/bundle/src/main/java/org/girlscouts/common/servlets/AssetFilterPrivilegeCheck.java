@@ -40,8 +40,8 @@ public class AssetFilterPrivilegeCheck extends SlingAllMethodsServlet implements
 	private List<String> privilegedGroup = new ArrayList<String>();
 	protected void activate(ComponentContext componentContext) {
 		logger.info("ImageSelectorPrivilegeCheck Servlet Activated.");
-		privilegedGroup.add("administrators");
-		privilegedGroup.add("content-analysts");
+		privilegedGroup.add("gs-reviewers");
+		privilegedGroup.add("gs-authors");
 	}
 
 	public boolean accepts(SlingHttpServletRequest request) {
