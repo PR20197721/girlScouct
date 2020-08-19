@@ -20,11 +20,11 @@
             String refId = selectedTroop.getYearPlan().getRefId();
             if (!refId.isEmpty()) {
                 level = refId.substring(refId.lastIndexOf("/"));
-                String regex = "\\/content\\/girlscouts-vtk\\/yearPlanTemplates\\/library\\/(.*)\\/yearPlan.*";
+                String regex = "\\/content\\/girlscouts-vtk\\/yearPlanTemplates\\/(library|yearplan20\\d\\d)\\/(.*)\\/yearPlan.*";
                 Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(refId);
                 if (matcher.find()) {
-                    level = matcher.group(1);
+                    level = matcher.group(2);
                 }
             }
         }
