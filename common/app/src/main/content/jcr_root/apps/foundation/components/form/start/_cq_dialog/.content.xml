@@ -274,11 +274,34 @@
                                                 fieldLabel="Campaign ID"
                                                 name="./campaignID"
                                                 wrapperClass="hide gs-hide-show web-to-lead"/>
+                                            <lead-types
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/foundation/form/select"
+                                                    class="cq-dialog-dropdown-showhide"
+                                                    wrapperClass="hide gs-hide-show web-to-lead"
+                                                    fieldLabel="Lead Type"
+                                                    name="./leadType">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <direct-contact
+                                                            jcr:primaryType="nt:unstructured"
+                                                            text="Direct Contact (Salesforce Forms)"
+                                                            value="DirectContact"/>
+                                                    <general-lead
+                                                            jcr:primaryType="nt:unstructured"
+                                                            text="General Lead Form (Intake into SFMC to be Qualified)"
+                                                            value="General"/>
+                                                    <newsletter-signup
+                                                            jcr:primaryType="nt:unstructured"
+                                                            text="Newsletter Signup (Intake into SFMC to sign them up for General News / Information)"
+                                                            value="Newsletter"/>
+                                                </items>
+                                            </lead-types>
                                         </items>
                                         <layout
                                             jcr:primaryType="nt:unstructured"
                                             sling:resourceType="granite/ui/components/foundation/layouts/collapsible"/>
                                     </gsmail>
+
                                 </items>
                             </action-config>
                         </items>

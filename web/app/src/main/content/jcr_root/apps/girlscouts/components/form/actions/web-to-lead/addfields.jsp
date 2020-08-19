@@ -1,31 +1,69 @@
 <%@include file="/libs/foundation/global.jsp"
-%><%@ page session="false" %><%
-%><%@ page import="java.util.List,
-                org.apache.sling.api.resource.ResourceUtil,
-                   org.apache.commons.lang3.StringEscapeUtils,
-                   org.apache.sling.api.resource.Resource,
-                   org.apache.sling.api.resource.ValueMap,
-                   java.util.HashMap,
-                   com.day.cq.wcm.foundation.forms.FormsConstants,
-                   com.day.cq.wcm.foundation.forms.FormResourceEdit,
-                   org.girlscouts.common.webtolead.config.WebToLeadConfig"%><%
-%><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
-%><sling:defineObjects/><%
-    
-	WebToLeadConfig webToLeadConfig = sling.getService(WebToLeadConfig.class);	
-    final ValueMap props = ResourceUtil.getValueMap(resource);
-	String campaignID = props.get("campaignID", "");
-	//String organizationID = webToLeadConfig.getOID();
-	String campaignIDFieldName1 = webToLeadConfig.getCampaignIDPrimaryName();
-	String campaignIDFieldName2 = webToLeadConfig.getCampaignIDSecondaryName();
-	String apiURL = webToLeadConfig.getAPIURL();
-    if(!campaignID.isEmpty()){
 %>
+<%@ page session="false" %>
+<%
+%>
+<%@ page import="com.day.cq.wcm.foundation.forms.FormResourceEdit,
+                 com.day.cq.wcm.foundation.forms.FormsConstants,
+                 org.apache.commons.lang3.StringEscapeUtils,
+                 org.apache.sling.api.resource.Resource,
+                 org.apache.sling.api.resource.ResourceUtil,
+                 org.apache.sling.api.resource.ValueMap,
+                 org.girlscouts.common.webtolead.config.WebToLeadConfig" %>
+<%
+%>
+<%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %>
+<%
+%><sling:defineObjects/><%
+    final ValueMap props = ResourceUtil.getValueMap(resource);
+    String campaignID = props.get("campaignID", "");
+    String apiURL = webToLeadConfig.getAPIURL();
+    String utm_campaign = request.getParameter("utm_campaign") != null ? request.getParameter("utm_campaign") : null;
+    String utm_medium = request.getParameter("utm_medium") != null ? request.getParameter("utm_medium") : null;
+    String utm_source = request.getParameter("utm_source") != null ? request.getParameter("utm_source") : null;
+    String leadType = properties.get("leadType", "");
+    CouncilCodeToPathMapper councilCodeToPathMapper = sling.getService(CouncilCodeToPathMapper.class);
+    Page site = currentPage.getAbsoluteParent(1);
+    String councilCode = councilCodeToPathMapper.getCouncilCode(site.getPath());
+    if (councilCode != null) {
+        %>
+        <input name="CouncilCode" value="<%=xssAPI.encodeForHTMLAttr(councilCode)%>" type="hidden">
+        <%
+    }
+    if (utm_campaign != null) {
+        %>
+        <input name="UTM_Campaign" value="<%=xssAPI.encodeForHTMLAttr(utm_campaign)%>" type="hidden">
+        <%
+    }
+    if (utm_medium != null) {
+        %>
+        <input name="UTM_Medium" value="<%=xssAPI.encodeForHTMLAttr(utm_medium)%>" type="hidden">
+        <%
+    }
+    if (utm_source != null) {
+        %>
+        <input name="UTM_Source" value="<%=xssAPI.encodeForHTMLAttr(utm_source)%>" type="hidden">
+        <%
+    }
+    if (leadType != null) {
+        %>
+        <input name="leadType" value="<%=xssAPI.encodeForHTMLAttr(leadType)%>" type="hidden">
+        <%
+    }
+    if (!campaignID.isEmpty()) {
+        %>
+        <input type=hidden name="Campaign_ID" value="<%=campaignID%>"/>
+        <%
+    }
+    if (leadType.equals("General")) {
 
-<!-- CAMPAIGN ID -->
-<input type=hidden name="<%=campaignIDFieldName1%>" value="<%=campaignID%>" />
-<input type=hidden name="<%=campaignIDFieldName2%>" value="<%=campaignID%>" />
-<!-- API URL -->
-<input type=hidden name="apiUrl" value="<%=apiURL%>" />
+    } else {
+        if (leadType.equals("DirectContact")) {
 
-<%  } %>
+        } else {
+            if (leadType.equals("Newsletter")) {
+                
+            }
+        }
+    }
+%>

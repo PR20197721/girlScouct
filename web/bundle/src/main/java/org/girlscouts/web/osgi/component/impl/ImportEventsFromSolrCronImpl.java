@@ -11,6 +11,7 @@ import org.apache.sling.api.resource.*;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.common.exception.GirlScoutsException;
+import org.girlscouts.common.osgi.component.CouncilCodeToPathMapper;
 import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.common.util.PageReplicationUtil;
 import org.girlscouts.web.osgi.MuleSoftActivitiesConstants;
@@ -70,7 +71,9 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
     private PageReplicator pageReplicator;
     @Reference
     protected Replicator replicator;
-    private Map<String, String> councilMap;
+    @Reference
+    CouncilCodeToPathMapper councilMapper;
+
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
     private String host = "";
     private List<String> emails;
@@ -88,24 +91,6 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
 
         } catch (UnknownHostException e) {
             log.error("Girl Scouts Solr Events import encountered error: ", e);
-        }
-        councilMap = new HashMap<String, String>();
-        String[] mappings = vtkConfigProvider.getCouncilMapping();
-        if (mappings != null) {
-            for (String mapping : mappings) {
-                try {
-                    String[] configRecord = mapping.split("::");
-                    if (configRecord.length >= 2) {
-                        councilMap.put(configRecord[0], configRecord[1]);
-                    } else {
-                        log.error("Malformatted council mapping record: " + mapping);
-                    }
-                } catch (Exception e) {
-                    log.error("Girl Scouts Solr Events import encountered error: ", e);
-                }
-            }
-        } else {
-            log.warn("No mappings set");
         }
         log.info(this.getClass().getName() + " activated.");
     }
@@ -241,7 +226,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
             if (StringUtils.isBlank(payload.getCouncilCode()) || StringUtils.isBlank(payload.getId()) || StringUtils.isBlank(payload.getTitle()) || StringUtils.isBlank(payload.getStart())) {
                 throw new GirlScoutsException(null, "Required fields (councilCode/id/title/start) missing.");
             }
-            String councilName = councilMap.get(payload.getCouncilCode());
+            String councilName = councilMapper.getCouncilPath(payload.getCouncilCode());
             if (councilName == null) {
                 throw new GirlScoutsException(null, "No mapping found for council code: " + payload.getCouncilCode());
             }
@@ -379,7 +364,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
     private String getCouncilSiteTimezone(PayloadEntity payload, ResourceResolver rr) {
         String councilTimezone = "";
         try {
-            String councilName = councilMap.get(payload.getCouncilCode());
+            String councilName = councilMapper.getCouncilPath(payload.getCouncilCode());
             if (councilName != null && councilName.trim().length() > 0) {
                 String councilSite = "/content/" + councilName;
                 Resource councilSiteRes = rr.resolve(councilSite + "/en/jcr:content");
@@ -457,7 +442,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
     private String deleteActivity(PayloadEntity payload, ResourceResolver rr) throws GirlScoutsException {
         String deletedPath = payload.getTitle();
         try {
-            String councilName = councilMap.get(payload.getCouncilCode());
+            String councilName = councilMapper.getCouncilPath(payload.getCouncilCode());
             if (councilName == null) {
                 throw new GirlScoutsException(null, "No mapping found for council code: " + payload.getCouncilCode());
             }
