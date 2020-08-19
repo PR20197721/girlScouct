@@ -109,7 +109,7 @@ try {
 				}
 
 				for (String targetPath : relations) {
-					Resource targetResource = resourceResolver.resolve(targetPath);
+					Resource targetResource = resourceResolver.getResource(targetPath);
 					if (targetResource != null
 							&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 						//page is available
@@ -431,11 +431,13 @@ out.println(csv.toString().trim());
                	//compInheritLog.info("component relation value:"+ componentRelations.get(component));
 				String cmpRes = "";
                 if (componentRelations.get(component) != null && componentRelations.get(component).size() > 0) {
-					cmpRes = StringUtils.substringAfterLast(component, "/");
-					if (Stream.of(componentArray).anyMatch(cmpRes::startsWith)) {
-                        inheritanceBroken = isInheritanceBroken(targetPath, componentRelations, component, rr);
-                        inheritanceStatus = inheritanceBroken == true ? "No" : "Yes";
-						map.put(String.join(", ", componentRelations.get(component)), inheritanceStatus);
+					for (String targetComponentPath : componentRelations.get(component)) {
+                        cmpRes = StringUtils.substringAfterLast(targetComponentPath, "/");
+                        if (Stream.of(componentArray).anyMatch(cmpRes::startsWith)) {
+                            inheritanceBroken = isInheritanceBroken(targetPath, componentRelations, component, rr);
+                            inheritanceStatus = inheritanceBroken == true ? "No" : "Yes";
+                            map.put(targetComponentPath, inheritanceStatus);
+                        }
 					}
                }
 			}
@@ -575,4 +577,3 @@ out.println(csv.toString().trim());
 		}
 		return false;
 	}%>
-
