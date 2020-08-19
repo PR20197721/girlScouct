@@ -12,13 +12,16 @@
 		});
 		function hideDisplayOptions(displayAllOptions) {
 			showAllOptions = displayAllOptions;
-			var hideList = ["Products", "Paragraphs", "Content Fragments", "Experience Fragments", "Paragraphs", "Design Packages", "Adaptive Forms", "Manuscript", "UGC", "Interactive Communications"];
-			if (!displayAllOptions) {
+			//var hideList = ["Products", "Paragraphs", "Content Fragments", "Experience Fragments", "Paragraphs", "Design Packages", "Adaptive Forms", "Manuscript", "UGC", "Interactive Communications"];
+            var hideList = ["Images", "Videos", "Documents", "Pages"];
+            if (displayAllOptions) {
 				$(".coral3-SelectList-item").each(function() {
 					$(".coral3-SelectList-item").each(function() {
 						if (hideList.indexOf($(this).attr('value')) > -1) {
-							$(this).hide();
-						}
+							$(this).show();
+                        }else{
+                            $(this).hide();
+                        }
 					});
 				});
 			}

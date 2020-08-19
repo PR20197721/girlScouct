@@ -60,7 +60,7 @@ public class AssetFilterPrivilegeCheck extends SlingAllMethodsServlet implements
 		boolean displayAllOptions = false;
 		User currentUser = request.getResourceResolver().adaptTo(User.class);
 		if (currentUser.isAdmin()) {
-			displayAllOptions = true;
+			displayAllOptions = false;
 		} else {
 			Iterator<Group> currentUserGroupsIterator = null;
 			try {
