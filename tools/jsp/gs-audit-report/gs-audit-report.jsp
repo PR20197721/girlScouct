@@ -109,7 +109,7 @@ try {
 				}
 
 				for (String targetPath : relations) {
-					Resource targetResource = resourceResolver.resolve(targetPath);
+					Resource targetResource = resourceResolver.getResource(targetPath);
 					if (targetResource != null
 							&& !targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 						//page is available
