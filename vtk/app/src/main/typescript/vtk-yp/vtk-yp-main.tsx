@@ -327,7 +327,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
 
 
         function gradeLevelSelector(){
-            if (data.isIRM() || data.isSUM() || data.getLevel() === 'multi-level'){
+            if (data.isIRM() || data.isSUM() || data.getDefaultLevel() === 'multi-level'){
                 console.log("selecting tab "+data.getLevel());
                 $("li.grade-level").each(function( index ) {
                     if($(this).find('a').data('grade-level') == data.getLevel()){
