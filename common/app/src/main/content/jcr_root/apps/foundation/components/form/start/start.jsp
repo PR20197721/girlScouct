@@ -1,6 +1,6 @@
 <%@page session="false" %>
 <%@include file="/libs/foundation/global.jsp" %>
-<%@ page import="com.day.cq.wcm.api.WCMMode,
+<%@page import="com.day.cq.wcm.api.WCMMode,
                  com.day.cq.wcm.foundation.Placeholder,
                  com.day.cq.wcm.foundation.forms.*,
                  org.apache.commons.lang3.StringUtils,
@@ -12,13 +12,12 @@
                  org.slf4j.Logger,
                  org.slf4j.LoggerFactory,
                  java.util.Iterator,
-                 java.util.Set, org.girlscouts.common.osgi.component.CouncilCodeToPathMapper" %>
+                 java.util.Set" %>
+<cq:setContentBundle/>
+<cq:include script="abacus.jsp"/>
 <%
-%><cq:setContentBundle/>
-<cq:include script="abacus.jsp"/><%
     Logger logger = LoggerFactory.getLogger(this.getClass().getName());
     FormsHelper.startForm(slingRequest, new JspSlingHttpServletResponseWrapper(pageContext));
-    String actionType = (String) properties.get("actionType", "");
     String gsRedirect = (String) properties.get("redirect", "");
     if (!StringUtils.isBlank(gsRedirect)) {
         gsRedirect = gsRedirect.trim();
@@ -31,8 +30,8 @@
         if (gsRedirect.indexOf('.', lastSlash) == -1) {
             gsRedirect = gsRedirect + ".html";
         }
-%>
-<input name=":gsredirect" value="<%=xssAPI.encodeForHTMLAttr(gsRedirect)%>" type="hidden"><%
+        %>
+        <input class="form_field" name=":gsredirect" value="<%=xssAPI.encodeForHTMLAttr(gsRedirect)%>" type="hidden"/><%
     }
     // we create the form div our selfs, and turn decoration on again.
 %>
@@ -43,14 +42,16 @@
     // check if we have validation erros
 	Set<String> runModes = sling.getService(SlingSettingsService.class).getRunModes();
     if (runModes.contains("author")) {
+        %>
+        <input class="form_field" name="isAuthor" value="true" type="hidden"/>
+        <%
     	logger.info("WCMMODE is edit");
 	 	Resource formStartResource = resource;
-	    ValueMap vm = properties;
 	    StringBuilder sb = new StringBuilder();
 	    sb.append("/etc/importers/bulkeditor.html?rootPath=");
-	    String actionPath = (String)vm.get("action", "");
-
-        String storeContent = (String)vm.get("storeContent", "false");
+	    String actionPath = (String) properties.get("action", "");
+        String actionType = (String) properties.get("actionType", "");
+        String storeContent = (String)properties.get("storeContent", "false");
         logger.info("ACTION PATH {}", actionPath);
 	    if ((actionPath.trim().length() != 0) && (actionType.trim().endsWith("store") || (actionType.trim().endsWith("mail") && storeContent.equals("true")))) {
             logger.info("Action is GSSTORE");	    
@@ -124,10 +125,12 @@
             <%
 	    }       
     }
-
+    %>
+    <div class="form-error-container">
+    <%
     final ValidationInfo info = ValidationInfo.getValidationInfo(request);
     if ( info != null ) {
-        %><p class="form_error"><fmt:message key="Please correct the errors and send your information again."/></p><%
+        %><p class="form_error form_error_title"><fmt:message key="Please correct the errors and send your information again."/></p><%
         final String[] msgs = info.getErrorMessages(null);
         if ( msgs != null ) {
             for(int i=0;i<msgs.length;i++) {
@@ -135,5 +138,5 @@
             }
         }
     }
-%>
-</div>
+    %>
+    </div>

@@ -9,7 +9,7 @@ import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.girlscouts.common.osgi.configuration.WebToLeadConfig;
+import org.girlscouts.common.osgi.component.WebToLead;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -39,16 +39,13 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
 	private static final Logger logger = LoggerFactory.getLogger(GatedContentFormServlet.class);
 	private List<NameValuePair> requestParams = new LinkedList<>();
 	private int statusCode;
-    private String oid;
-    private String apiURL;
 
-	@Reference
-	private WebToLeadConfig webToLeadConfig;
+    @Reference
+    private WebToLead webToLead;
 
     @Activate
-    private void activate(WebToLeadConfig config) {
-        this.oid = config.oid();
-        this.apiURL = config.apiURL();
+    private void activate() {
+        logger.debug("Activated");
     }
 
 	@Override
@@ -59,10 +56,9 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
 	@Override
 	protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         List<NameValuePair> requestParams = new LinkedList<>();
-		String endPoint = this.apiURL;
-		logger.info("End Point configured :" + endPoint);
-		requestParams.add(new NameValuePair("oid", this.oid));
-		logger.info("OrgId :" + this.oid);
+		logger.info("End Point configured :" + webToLead.getApiURL());
+		requestParams.add(new NameValuePair("oid", webToLead.getOID()));
+		logger.info("OrgId :" + webToLead.getOID());
 		for (Iterator<String> itr = FormsHelper.getContentRequestParameterNames(request); itr.hasNext();) {
 			final String paraName = itr.next();
 			RequestParameter[] paras = request.getRequestParameters(paraName);
@@ -74,7 +70,7 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
 		}
 		logger.info("Request Parameters :" + requestParams);
 		response.setContentType("text/html");
-		statusCode = getResponse(endPoint);
+		statusCode = getResponse(webToLead.getApiURL());
 		if (statusCode == HttpStatus.SC_OK) {
 			response.getWriter().write("success");
 			logger.info("Gated content form response code :" + HttpStatus.SC_OK);

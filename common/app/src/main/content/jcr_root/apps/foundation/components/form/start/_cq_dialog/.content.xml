@@ -102,7 +102,7 @@
                                     <client-validation
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/foundation/form/checkbox"
-                                        fieldDescription="Check the box to enable selection.（If not checked, all ads displayed by default)"
+                                        fieldDescription="Check the box to enable selection."
                                         name="./clientValidation"
                                         text="Client Validation"
                                         uncheckedValue="{Boolean}false"
@@ -276,7 +276,7 @@
                                                 wrapperClass="hide gs-hide-show web-to-lead"/>
                                             <lead-types
                                                     jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/foundation/form/select"
+                                                    sling:resourceType="granite/ui/components/coral/foundation/form/select"
                                                     class="cq-dialog-dropdown-showhide"
                                                     wrapperClass="hide gs-hide-show web-to-lead"
                                                     fieldLabel="Lead Type"

@@ -35,7 +35,7 @@ public class CouncilCodeToPathMapperImpl implements CouncilCodeToPathMapper {
                     String[] configRecord = mapping.split("::");
                     if (configRecord.length >= 2) {
                         councilCodeToPath.put(configRecord[0], configRecord[1]);
-                        pathToCouncilCode.put(configRecord[1], configRecord[0]);
+                        pathToCouncilCode.put("/content/"+configRecord[1], configRecord[0]);
                     } else {
                         log.error("Malformatted council mapping record: " + mapping);
                     }
