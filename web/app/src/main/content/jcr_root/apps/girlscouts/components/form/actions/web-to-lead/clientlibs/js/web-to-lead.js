@@ -149,7 +149,7 @@ $(document).ready(function () {
         var formId = form.attr("id");
         action = action.replace(".html", ".webtolead.html");
         $.post(action, form.serialize())
-            .done(function (response, status, xhr) {
+            .success(function (response, status, xhr) {
                 var ct = xhr.getResponseHeader("content-type") || "";
                 if (ct.indexOf('html') > -1) {
                     var responseForm = $(response).find("#" + formId);

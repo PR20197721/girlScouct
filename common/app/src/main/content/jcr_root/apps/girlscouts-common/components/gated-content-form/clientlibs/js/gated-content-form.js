@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var ageLimit = $("#ageLimit").data("config");
     var remember = $("#remember").data("config");
     var cookieExpirationPeriod = $("#cookieExpirationPeriod").data("config");
@@ -9,10 +9,10 @@ $(document).ready(function() {
     var gatedFormDownload = "";
     var selector = generateSelector(extensions, filesList);
     var action = $("#gated-content-form-action").attr("action");
-    $(selector).click(function(e) {
-    	if(!e.target.hasAttribute("target")){
-    		e.target.setAttribute("target", "_blank");
-    	}
+    $(selector).click(function (e) {
+        if (!e.target.hasAttribute("target")) {
+            e.target.setAttribute("target", "_blank");
+        }
         var gsathomeDataFound = false;
         var gsathomeCookie = getCookie('gsathome');
         if (gsathomeCookie) {
@@ -30,18 +30,41 @@ $(document).ready(function() {
                     FirstName: gsathomeData[1],
                     LastName: gsathomeData[2],
                     Phone: gsathomeData[3],
-                	ZipCode: gsathomeData[4],
-                    IsMember:gsathomeData[5],
+                    ZipCode: gsathomeData[4],
+                    IsMember: gsathomeData[5],
                     PageURL: gatedFormPage,
                     DownloadURL: gatedFormDownload,
                     CampaignID: salesforceCampaignId
-                }, function(response) {
-                    if (response === 'success') {
-                        return true;
-                    } else {
-                        alert(response);
-                    }
-                });
+                })
+                    .success(function (response, status, xhr) {
+                        var body = $(response).find("body");
+                        if (body != null && body.length > 0) {
+                            var responseText = $(body).text();
+                            if (responseText != null) {
+                                if (responseText.contains("SUCCESS")) {
+                                    $('#gsathome-main').hide();
+                                    $('#gsathome-download').show();
+                                    if (remember) {
+                                        setCookie("gsathome", btoa(gatedFormEmail + "|" + gatedFormFirstName + "|" + gatedFormLastName + "|" + gatedFormPhone + "|" + gatedFormZIPCode + "|" + gatedFormIsMember), cookieExpirationPeriod);
+                                    }
+                                } else {
+                                    if (responseText.contains("ERROR")) {
+                                        var errorDetails = responseText.trim().split("|");
+                                        if (errorDetails != null && errorDetails.length >= 2) {
+                                            alert(errorDetails[1]);
+                                        } else {
+                                            alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .fail(function () {
+                        if (responseText.contains("ERROR")) {
+                            alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
+                        }
+                    });
             }
         } else {
             $('#gsathome-age-check').show();
@@ -54,7 +77,7 @@ $(document).ready(function() {
 
     })
 
-    $("#gsathome-age-gate-month").on("change keyup paste", function(e) {
+    $("#gsathome-age-gate-month").on("change keyup paste", function (e) {
         var output, $this = $(this),
             input = $this.val();
         if (e.keyCode != 8) {
@@ -67,7 +90,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#gsathome-age-gate-day").on("change keyup paste", function(e) {
+    $("#gsathome-age-gate-day").on("change keyup paste", function (e) {
         var output, $this = $(this),
             input = $this.val();
         if (e.keyCode != 8) {
@@ -80,7 +103,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#gsathome-age-gate-year").on("change keyup paste", function(e) {
+    $("#gsathome-age-gate-year").on("change keyup paste", function (e) {
         var output, $this = $(this),
             input = $this.val();
         if (e.keyCode != 8) {
@@ -94,7 +117,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#gsathome-age-form-continue-button").click(function() {
+    $("#gsathome-age-form-continue-button").click(function () {
         var month = $("#gsathome-age-gate-month").val();
         var day = $("#gsathome-age-gate-day").val();
         var year = $("#gsathome-age-gate-year").val();
@@ -122,7 +145,7 @@ $(document).ready(function() {
     });
 
 
-    $("#gsathome-main-form #zipcode").on("change keyup paste", function(e) {
+    $("#gsathome-main-form #zipcode").on("change keyup paste", function (e) {
         var output, $this = $(this),
             input = $this.val();
         if (e.keyCode != 8) {
@@ -134,8 +157,8 @@ $(document).ready(function() {
         }
     });
 
-    $("#gsathome-main-form #phone").each(function() {
-        $(this).on("change keyup paste", function(e) {
+    $("#gsathome-main-form #phone").each(function () {
+        $(this).on("change keyup paste", function (e) {
             var output,
                 $this = $(this),
                 input = $this.val();
@@ -162,7 +185,7 @@ $(document).ready(function() {
     });
 
 
-    $('#gsathome-main-form').submit(function(event) {
+    $('#gsathome-main-form').submit(function (event) {
         event.preventDefault();
         var me = event.target;
         var gatedFormEmail = $(me).find("[name='email']").val();
@@ -171,7 +194,7 @@ $(document).ready(function() {
         var gatedFormPhone = $(me).find("[name='phone']").val();
         var gatedFormZIPCode = $(me).find("[name='zipcode']").val();
         var gatedFormIsMember = $(me).find("[name='is-member']:checked").val();
-        gatedFormIsMember = gatedFormIsMember==='Yes'?'Yes':'No';
+        gatedFormIsMember = gatedFormIsMember === 'Yes' ? 'Yes' : 'No';
 
         $.post(action, {
             Email: gatedFormEmail,
@@ -179,103 +202,120 @@ $(document).ready(function() {
             LastName: gatedFormLastName,
             Phone: gatedFormPhone,
             ZipCode: gatedFormZIPCode,
-            IsMember:gatedFormIsMember,
+            IsMember: gatedFormIsMember,
             PageURL: gatedFormPage,
             DownloadURL: gatedFormDownload,
             CampaignID: salesforceCampaignId
-        }, function(result) {
-            if (result == 'success') {
-                $('#gsathome-main').hide();
-                $('#gsathome-download').show();
-                if (remember) {
-                    setCookie("gsathome", btoa(gatedFormEmail + "|" + gatedFormFirstName + "|" + gatedFormLastName + "|" + gatedFormPhone + "|" + gatedFormZIPCode + "|" + gatedFormIsMember), cookieExpirationPeriod);
+        })
+            .success(function (response, status, xhr) {
+                var body = $(response).find("body");
+                if (body != null && body.length > 0) {
+                    var responseText = $(body).text();
+                    if (responseText != null) {
+                        if (responseText.contains("SUCCESS")) {
+                            $('#gsathome-main').hide();
+                            $('#gsathome-download').show();
+                            if (remember) {
+                                setCookie("gsathome", btoa(gatedFormEmail + "|" + gatedFormFirstName + "|" + gatedFormLastName + "|" + gatedFormPhone + "|" + gatedFormZIPCode + "|" + gatedFormIsMember), cookieExpirationPeriod);
+                            }
+                        } else {
+                            if (responseText.contains("ERROR")) {
+                                var errorDetails = responseText.trim().split("|");
+                                if (errorDetails != null && errorDetails.length >= 2) {
+                                    alert(errorDetails[1]);
+                                } else {
+                                    alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
+                                }
+                            }
+                        }
+                    }
                 }
-            } else {
-                alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
-            }
+            })
+            .fail(function () {
+                if (responseText.contains("ERROR")) {
+                    alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
+                }
+            });
+
+    })
+
+    function isUndefined(param) {
+        return param === null || param === undefined || param === "";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function getAge(birthDateString) {
+        var today = new Date();
+        var birthDate = new Date(birthDateString);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
+    function isValidDate(dateString) {
+        // First check for the pattern
+        if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
+            return false;
+
+        // Parse the date parts to integers
+        var parts = dateString.split("/");
+        var day = parseInt(parts[1], 10);
+        var month = parseInt(parts[0], 10);
+        var year = parseInt(parts[2], 10);
+
+        // Check the ranges of month and year
+        if (year < 1000 || year > 3000 || month == 0 || month > 12)
+            return false;
+
+        var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        // Adjust for leap years
+        if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+            monthLength[1] = 29;
+
+        // Check the range of the day
+        return day > 0 && day <= monthLength[month - 1];
+    };
+
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function generateSelector(param1, param2) {
+
+        if (!isUndefined(param1) && !isUndefined(param2)) {
+            param1 = param1.split(",");
+            param2 = param2.split(",");
+            param1 = $.merge(param1, param2);
+        } else if (!isUndefined(param1)) {
+            param1 = param1.split(",");
+        } else if (!isUndefined(param2)) {
+            param1 = param2.split(",");
+        }
+        var ext = [];
+        $.each(param1, function (i, val) {
+            ext.push("a[href$='" + val.replace(/'/g, "\\'") + "'i]");
         });
-        return false;
-    });
+        ext = ext.toString();
 
-})
-
-function isUndefined(param) {
-    return param === null || param === undefined || param === "";
-}
-
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        return ext;
     }
-    return null;
-}
-
-function getAge(birthDateString) {
-    var today = new Date();
-    var birthDate = new Date(birthDateString);
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-    }
-    return age;
-}
-
-function isValidDate(dateString) {
-    // First check for the pattern
-    if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
-        return false;
-
-    // Parse the date parts to integers
-    var parts = dateString.split("/");
-    var day = parseInt(parts[1], 10);
-    var month = parseInt(parts[0], 10);
-    var year = parseInt(parts[2], 10);
-
-    // Check the ranges of month and year
-    if (year < 1000 || year > 3000 || month == 0 || month > 12)
-        return false;
-
-    var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-    // Adjust for leap years
-    if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
-        monthLength[1] = 29;
-
-    // Check the range of the day
-    return day > 0 && day <= monthLength[month - 1];
-};
-
-function setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
-
-function generateSelector(param1, param2) {
-
-    if (!isUndefined(param1) && !isUndefined(param2)) {
-        param1 = param1.split(",");
-        param2 = param2.split(",");
-        param1 = $.merge(param1, param2);
-    } else if (!isUndefined(param1)) {
-        param1 = param1.split(",");
-    } else if (!isUndefined(param2)) {
-        param1 = param2.split(",");
-    }
-    var ext = [];
-    $.each(param1, function(i, val) {
-        ext.push("a[href$='" + val.replace(/'/g, "\\'") + "'i]");
-    });
-    ext = ext.toString();
-
-    return ext;
-}
