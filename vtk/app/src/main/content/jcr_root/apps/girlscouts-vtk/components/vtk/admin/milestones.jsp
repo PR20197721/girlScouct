@@ -7,7 +7,7 @@
         src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <%
     String activeTab = "admin_milestones";
-    String councilCode = userTroops.get(0).getCouncilCode();
+    String councilCode = apiConfig.getUser().getAdminCouncilId();
     if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
         councilCode = user.getAdminCouncilId();
         sessionlog.error("User Council Code: " + councilCode);
