@@ -57,18 +57,18 @@ public class AssetFilterPrivilegeCheck extends SlingAllMethodsServlet implements
 			throws ServletException, IOException {
 		logger.debug("ImageSelectorPrivilegeCheck  Servlet processing.");
 		JsonObject json = new JsonObject();
-		boolean displayAllOptions = false;
+		boolean displayLimitedOptions = false;
 		User currentUser = request.getResourceResolver().adaptTo(User.class);
 		if (currentUser.isAdmin()) {
-			displayAllOptions = true;
+			displayLimitedOptions = false;
 		} else {
 			Iterator<Group> currentUserGroupsIterator = null;
 			try {
 				currentUserGroupsIterator = currentUser.memberOf();
 				while(currentUserGroupsIterator.hasNext()) {
 					Group groupCurrentUser = (Group) currentUserGroupsIterator.next();
-					displayAllOptions=getAssetFiter(currentUserGroupsIterator,groupCurrentUser, displayAllOptions);
-					if(displayAllOptions) {
+					displayLimitedOptions=getAssetFiter(currentUserGroupsIterator,groupCurrentUser, displayLimitedOptions);
+					if(displayLimitedOptions) {
 					  break;	
 					}
 				}
@@ -76,7 +76,7 @@ public class AssetFilterPrivilegeCheck extends SlingAllMethodsServlet implements
 				logger.error("Error in getting the groups ", e);
 			}	
 		}
-		json.addProperty("displayAllOptions", displayAllOptions);
+		json.addProperty("displayLimitedOptions", displayLimitedOptions);
 		response.setStatus(SlingHttpServletResponse.SC_OK);
 		response.setContentType("application/json");
 		response.getWriter().write(new Gson().toJson(json));
