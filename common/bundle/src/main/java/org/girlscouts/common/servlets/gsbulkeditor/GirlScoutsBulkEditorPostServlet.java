@@ -537,7 +537,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
 
                 while(listOfChildren.hasNext()){
                     Tag tempTag = listOfChildren.next();
-                    existingCategories.put(tempTag.getTitle(), tempTag);
+                    existingCategories.put(tempTag.getTitle().trim(), tempTag);
                 }
 
             } else{
@@ -550,7 +550,7 @@ public class GirlScoutsBulkEditorPostServlet extends SlingAllMethodsServlet {
                 Iterator<Tag> listOfChildren = programLevelTag.listChildren();
                 while(listOfChildren.hasNext()){
                     Tag tempTag = listOfChildren.next();
-                    existingProgramLevels.put(tempTag.getTitle(), tempTag);
+                    existingProgramLevels.put(tempTag.getTitle().trim(), tempTag);
                 }
             } else{
                 programLevelTag = tagManager.createTag(programLevelTagId, "Program Level", "");
