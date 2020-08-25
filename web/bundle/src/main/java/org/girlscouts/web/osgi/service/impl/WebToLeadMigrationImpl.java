@@ -50,11 +50,9 @@ public class WebToLeadMigrationImpl  implements WebToLeadMigration {
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            log.debug("node="+path);
+            log.debug("Form: "+path);
             Resource formResource = rr.resolve(path);
-            log.debug("formResource="+formResource);
             FormStructureHelper formStructureHelper = formStructureHelperFactory.getFormStructureHelper(formResource);
-            log.debug("formStructureHelper="+formStructureHelper);
             Iterable<Resource> iterable = formStructureHelper.getFormElements(formResource);
             Iterator it = iterable.iterator();
             while(it.hasNext()){
@@ -64,15 +62,18 @@ public class WebToLeadMigrationImpl  implements WebToLeadMigration {
                 if(fieldProps.containsKey("name")) {
                     String fieldName = fieldProps.get("name", String.class);
                     if(fieldNameMap.containsKey(fieldName)) {
+                        log.debug("Updating Field: "+formField.getPath()+", property:"+fieldName+" to "+ fieldNameMap.get(fieldName));
                         if(!dryRun) {
-                            log.debug("Updating "+fieldName+" to "+ fieldNameMap.get(fieldName));
                             fieldProps.put("name", fieldNameMap.get(fieldName));
                         }
                     }
                 }
-                if(!dryRun) {
-                    formField.getResourceResolver().commit();
-                }
+            }
+            if(!dryRun) {
+                log.debug("saving");
+                rr.commit();
+            }else{
+                log.debug("Dry Run: Will not save!");
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
