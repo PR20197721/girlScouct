@@ -67,7 +67,7 @@
 	<cq:include script="share-modal.jsp" />
 </script>
 
-<div id="booth-finder-details" data-fb-id="<%= currentSite.get("facebookId", "") %>"  data-num-per-page="<%= properties.get("numPerPage", 50)%>" data-res-path="<%= resource.getPath() %>">
+<div id="booth-finder-details" data-fb-id="<%= currentSite.get("facebookId", "") %>"  data-num-per-page="<%= properties.get("numPerPage", 50)%>" data-res-path="<%= resource.getPath() %>"></div>
 
 <%!
 	public String escapeDoubleQuotesAddCouncil(String str) {
