@@ -36,7 +36,7 @@ public class WebToLeadMigrationImpl  implements WebToLeadMigration {
 
     @Activate
     private void activate(ComponentContext context) {
-        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
+        this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
         String[] fieldNameMapping = {"00N0f00000Eoc8W::GirlAge","00N0f00000Eoc8X::GirlFirstName","00N0f00000Eoc8Y::GirlLastName","00N0f00000Eoc8Z::Grade","00NG000000FHH1I::Alum","00NG000000FHH2f::University","city::City","email::Email","email_address::Email","first-name::FirstName","first_name::FirstName","firstname::FirstName","girl-first-name::GirlFirstName","girl-last-name::GirlLastName","Girl_Age__c::GirlAge","girl_first_name::GirlFirstName","girl_last_name::GirlLastName","girlfirstname::GirlFirstName","girllastname::GirlLastName","grade::Grade","Grade__c::Grade","grade_c::Grade","las_name::LastName","last-name::LastName","last_name::LastName","lastname::LastName","phone::Phone","Phone-Number::Phone","Phone_Number::Phone","phonenumber::Phone","School::SchoolName","school::SchoolName","School-Attending::SchoolName","School__c::SchoolName","schoolattending::SchoolName","state::State","title::Title","University_Name::University","universityname::University","zip::ZipCode","zip_code::ZipCode"};
         for(String map:fieldNameMapping){
             String[]pair = map.split("::");
@@ -60,6 +60,7 @@ public class WebToLeadMigrationImpl  implements WebToLeadMigration {
             while(it.hasNext()){
                 Resource formField = (Resource)it.next();
                 ModifiableValueMap fieldProps = formField.adaptTo(ModifiableValueMap.class);
+                fieldProps.put("leadType","General");
                 if(fieldProps.containsKey("name")) {
                     String fieldName = fieldProps.get("name", String.class);
                     if(fieldNameMap.containsKey(fieldName)) {

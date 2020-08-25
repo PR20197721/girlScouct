@@ -1,12 +1,9 @@
-<%@page session="false" import="com.day.cq.wcm.foundation.forms.FormStructureHelper,
-                                com.day.cq.wcm.foundation.forms.FormStructureHelperFactory,
-                                org.apache.sling.jcr.api.SlingRepository, org.slf4j.Logger, org.slf4j.LoggerFactory, javax.jcr.Node, javax.jcr.NodeIterator, javax.jcr.Session, javax.jcr.query.*, java.util.HashMap, java.util.Iterator, java.util.Map, java.util.concurrent.TimeUnit, org.apache.sling.api.resource.*, org.girlscouts.web.osgi.service.WebToLeadMigration" %>
+<%@page session="false" import="org.apache.sling.jcr.api.SlingRepository, org.slf4j.Logger, org.slf4j.LoggerFactory, javax.jcr.Node, javax.jcr.NodeIterator, javax.jcr.Session, javax.jcr.query.*, java.util.concurrent.TimeUnit, org.girlscouts.web.osgi.service.WebToLeadMigration" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%!
     public static final String THREAD_NAME = "web-update-web-to-lead-thread";
     public static final String RUNNABLE_NAME = "runnable";
-    public static WebToLeadMigration webToLeadMigration;
 %>
 <%!
     public class MigrateWebToLeadForms implements Runnable {
@@ -15,11 +12,14 @@
         private volatile boolean stop;
         private boolean dryRun = true;
         private SlingRepository repository;
+        private WebToLeadMigration webToLeadMigration;
 
-        public MigrateWebToLeadForms(ServletContext ctxt, boolean dryRun, SlingRepository repository) {
+
+        public MigrateWebToLeadForms(ServletContext ctxt, boolean dryRun, SlingRepository repository, WebToLeadMigration webToLeadMigration) {
             this.repository = repository ;
             this.ctxt = ctxt;
             this.dryRun = dryRun;
+            this.webToLeadMigration = webToLeadMigration;
         }
 
         public void requestStop() {
@@ -98,7 +98,6 @@
 %>
 <%
     ServletContext ctxt = application.getContext("/apps/girlscouts/components/web-to-lead-vs2-migration");
-    webToLeadMigration = sling.getService(WebToLeadMigration.class);
     String cmd = (request.getParameter("cmd") != null) ? request.getParameter("cmd") : "";
     boolean threadExists = ctxt.getAttribute(THREAD_NAME) != null;
     boolean threadIsAlive = threadExists && ((Thread) (ctxt.getAttribute(THREAD_NAME))).isAlive();
@@ -113,7 +112,8 @@
 } else {
     if (!threadIsAlive && "run".equals(cmd)) {
         SlingRepository repository = sling.getService(SlingRepository.class);
-        MigrateWebToLeadForms wft = new MigrateWebToLeadForms(getServletContext(), dryRun, repository);
+        WebToLeadMigration webToLeadMigration = sling.getService(WebToLeadMigration.class);
+        MigrateWebToLeadForms wft = new MigrateWebToLeadForms(getServletContext(), dryRun, repository, webToLeadMigration);
         Thread t = new Thread(wft);
         ctxt.setAttribute(THREAD_NAME, t);
         ctxt.setAttribute(RUNNABLE_NAME, wft);
