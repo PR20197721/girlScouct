@@ -40,7 +40,7 @@ public class Troop extends JcrNode implements Serializable {
     private Boolean isLoadedManualy = Boolean.FALSE;
 
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private transient final Logger log = LoggerFactory.getLogger(getClass());
 
     public Troop() {
         this.type = 0;

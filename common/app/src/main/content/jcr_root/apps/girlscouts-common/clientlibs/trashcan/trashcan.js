@@ -107,6 +107,7 @@
                         payloadJSON.action = "restore";
                         var item = $(items[0]);
                         var itemPath = item.data("foundation-collection-item-id");
+                        itemPath = encodeURIComponent(itemPath);
                         header = "Restoring from trashcan"
                         message = "<p>Following item will be restored from trashcan:</p><ol><li>"+item.data("foundation-collection-item-id")+"</li></ol>";
                         itemsJSON.push({source:itemPath, target:restorePath})
@@ -117,7 +118,8 @@
                         for(var i=0; i<items.length; i++){
                             var item = $(items[i]);
                             var itemPath = item.data("foundation-collection-item-id");
-                            message += "<li>"+itemPath+"</li>";
+                            itemPath = encodeURIComponent(itemPath);
+                            message += "<li>"+decodeURIComponent(itemPath)+"</li>";
                             itemsJSON.push({source:itemPath, target:null})
                         }
                         message += "</ol>";

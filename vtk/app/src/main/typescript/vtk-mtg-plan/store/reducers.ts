@@ -15,6 +15,7 @@ let InitialState = {
     modal: {},
     survey: {},
     videos: {},
+    role: undefined
 };
 
 interface modal {
