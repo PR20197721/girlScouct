@@ -52,13 +52,18 @@ public class WebToLeadMigrationImpl  implements WebToLeadMigration {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             log.debug("Form: "+path);
             Resource formResource = rr.resolve(path);
+            ModifiableValueMap formProps = formResource.adaptTo(ModifiableValueMap.class);
+            if(!formProps.containsKey("leadType")){
+                if(!dryRun) {
+                    formProps.put("leadType", "General");
+                }
+            }
             FormStructureHelper formStructureHelper = formStructureHelperFactory.getFormStructureHelper(formResource);
             Iterable<Resource> iterable = formStructureHelper.getFormElements(formResource);
             Iterator it = iterable.iterator();
             while(it.hasNext()){
                 Resource formField = (Resource)it.next();
                 ModifiableValueMap fieldProps = formField.adaptTo(ModifiableValueMap.class);
-                fieldProps.put("leadType","General");
                 if(fieldProps.containsKey("name")) {
                     String fieldName = fieldProps.get("name", String.class);
                     if(fieldNameMap.containsKey(fieldName)) {

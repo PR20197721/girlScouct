@@ -40,7 +40,7 @@ $(document).ready(function () {
     function validateAndSubmit(form) {
         try {
             var dataValidationErrors = [];
-            var leadTypeVal = getFormFieldValue(form, "leadType");
+            var leadTypeVal = getFormFieldValue(form, "LeadType");
             var emailVal = getFormFieldValue(form, "Email");
             var councilCode = getFormFieldValue(form, "CouncilCode");
             //Always required
@@ -97,12 +97,12 @@ $(document).ready(function () {
 
     }
     function checkFormConfiguration(form) {
-        var leadTypeVal = getFormFieldValue(form, "leadType");
+        var leadTypeVal = getFormFieldValue(form, "LeadType");
         var emailField = form.find("input[name='Email']");
         var councilCode = getFormFieldValue(form, "CouncilCode");
         var formErrors = [];
         if (isBlank(leadTypeVal)) {
-            formErrors.push("leadType");
+            formErrors.push("LeadType");
         }
         if (emailField.length == 0) {
             formErrors.push("Email");

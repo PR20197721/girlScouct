@@ -13,7 +13,7 @@
 <%
     final ValueMap props = ResourceUtil.getValueMap(resource);
     String campaignID = props.get("campaignID", "");
-    String leadType = properties.get("leadType", "");
+    String leadType = props.get("leadType", "");
     CouncilCodeToPathMapper councilCodeToPathMapper = sling.getService(CouncilCodeToPathMapper.class);
     Page site = currentPage.getAbsoluteParent(1);
     String councilCode = councilCodeToPathMapper.getCouncilCode(site.getPath());
@@ -24,7 +24,7 @@
     }
     if (!StringUtils.isBlank(leadType)) {
         %>
-        <input class="form_field" name="leadType" value="<%=xssAPI.encodeForHTMLAttr(leadType)%>" type="hidden"/>
+        <input class="form_field" name="LeadType" value="<%=xssAPI.encodeForHTMLAttr(leadType)%>" type="hidden"/>
         <%
     }
     if (!StringUtils.isBlank(campaignID)) {

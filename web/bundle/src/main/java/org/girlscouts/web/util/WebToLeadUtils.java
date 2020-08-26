@@ -10,7 +10,7 @@ public class WebToLeadUtils {
 
     public static List<String> validateForm(SlingHttpServletRequest request){
         List<String> errors = new ArrayList<>();
-        String leadType = request.getParameter("leadType");
+        String leadType = request.getParameter("LeadType");
         String email = request.getParameter("Email");
         String councilCode = request.getParameter("CouncilCode");
         if (StringUtils.isBlank(leadType)){
