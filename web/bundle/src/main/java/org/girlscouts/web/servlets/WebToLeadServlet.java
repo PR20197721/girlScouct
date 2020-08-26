@@ -15,7 +15,6 @@ import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.apache.sling.auth.core.AuthUtil;
 import org.girlscouts.common.osgi.component.WebToLead;
 import org.girlscouts.web.util.WebToLeadUtils;
 import org.osgi.framework.Constants;
@@ -98,19 +97,6 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
                 return;
             } else {
                 respond(new WebToLeadResponse("success", null),response);
-            }
-
-            String redirectTo = request.getParameter(":gsredirect");
-            if (redirectTo != null && !redirectTo.trim().isEmpty()) {
-                if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
-                    int pos = redirectTo.indexOf('?');
-                    redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + "200";
-                    response.sendRedirect(redirectTo);
-                } else {
-                    logger.error("Invalid redirect specified: {}", new Object[]{redirectTo});
-                    response.sendError(403);
-                }
-                return;
             }
         }
     }

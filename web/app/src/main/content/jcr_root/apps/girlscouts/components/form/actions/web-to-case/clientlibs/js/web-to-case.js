@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var form = $('form#web-to-lead');
+    var form = $('form#web-to-case');
     var isAuthor = $("input[name='isAuthor']").val();
 
     if (isAuthor == "true") {
@@ -49,32 +49,27 @@ $(document).ready(function () {
                 }
             }
             var dataValidationErrors = [];
-
             //Always required
-            if (!isValidFieldValue(formValCollection, "LeadType")) {
-                dataValidationErrors.push("Missing value for required field: Lead Type");
+            if (!isValidFieldValue(formValCollection, "email")) {
+                dataValidationErrors.push("Missing value for required field: email");
             }
-            if (!isValidFieldValue(formValCollection, "Email")) {
-                dataValidationErrors.push("Missing value for required field: Email");
+            if (!isValidFieldValue(formValCollection, "name")) {
+                dataValidationErrors.push("Missing value for required field: name");
             }
-            if (!isValidFieldValue(formValCollection, "CouncilCode")) {
-                dataValidationErrors.push("Missing value for required field: Council Code");
+            if (!isValidFieldValue(formValCollection, "phone")) {
+                dataValidationErrors.push("Missing value for required field: phone");
             }
-            //End Always required
-            var leadTypeVal = getFormFieldValue(form, "LeadType");
-            if (leadTypeVal == "DirectContact" || leadTypeVal == "General") {
-                if (!isValidFieldValue(formValCollection, "ZipCode")) {
-                    dataValidationErrors.push("Missing value for required field: Zip Code");
-                }
-                if (!isValidFieldValue(formValCollection, "FirstName")) {
-                    dataValidationErrors.push("Missing value for required field: First Name");
-                }
-                if (!isValidFieldValue(formValCollection, "LastName")) {
-                    dataValidationErrors.push("Missing value for required field: Last Name");
-                }
-                if (!isValidFieldValue(formValCollection, "CampaignID")) {
-                    dataValidationErrors.push("Missing value for required field: Campaign ID");
-                }
+            if (!isValidFieldValue(formValCollection, "type")) {
+                dataValidationErrors.push("Missing value for required field: type");
+            }
+            if (!isValidFieldValue(formValCollection, "subject")) {
+                dataValidationErrors.push("Missing value for required field: subject");
+            }
+            if (!isValidFieldValue(formValCollection, "description")) {
+                dataValidationErrors.push("Missing value for required field: description");
+            }
+            if (!isValidFieldValue(formValCollection, "g-recaptcha-response")) {
+                dataValidationErrors.push("Missing value for required field: Google reCAPTCHA");
             }
             if (dataValidationErrors.length == 0) {
                 submitForm(form);
@@ -84,6 +79,16 @@ $(document).ready(function () {
         } catch (err) {
             console.log(err);
         }
+    }
+    function isValidFieldValue(formValCollection, name){
+        if(formValCollection != null){
+            for(var i=0; i<formValCollection.length; i++){
+                if(formValCollection[i].name == name){
+                    return !isBlank(formValCollection[i].value);
+                }
+            }
+        }
+        return false;
     }
     function displayErrors(errors, form){
         var errorMessage = "";
@@ -101,44 +106,39 @@ $(document).ready(function () {
 
     }
     function checkFormConfiguration(form) {
-        var leadTypeVal = getFormFieldValue(form, "LeadType");
-        var emailField = form.find("input[name='Email']");
-        var councilCode = getFormFieldValue(form, "CouncilCode");
+        var emailField = form.find("input[name='email']");
+        var nameField = form.find("input[name='name']");
+        var phoneField = form.find("input[name='phone']");
+        var typeField = form.find("select[name='type']");
+        var subjectField = form.find("input[name='subject']");
+        var descriptionField = form.find("textarea[name='description']");
+        var g_recaptcha_response = form.find("div[name=':g-recaptcha-response']");
+
         var formErrors = [];
-        if (isBlank(leadTypeVal)) {
-            formErrors.push("LeadType");
-        }
         if (emailField.length == 0) {
-            formErrors.push("Email");
+            formErrors.push("email");
         }
-        if (isBlank(councilCode)) {
-            formErrors.push("CouncilCode");
+        if (nameField.length == 0) {
+            formErrors.push("name");
         }
-        if (leadTypeVal == "DirectContact" || leadTypeVal == "General") {
-            var zipCode = form.find("input[name='ZipCode']");
-            var firstName = form.find("input[name='FirstName']");
-            var lastName = form.find("input[name='LastName']");
-            var campaignId = form.find("input[name='CampaignID']");
-            if (zipCode.length == 0) {
-                formErrors.push("ZipCode");
-            }
-            if (firstName.length == 0) {
-                formErrors.push("FirstName");
-            }
-            if (lastName.length == 0) {
-                formErrors.push("LastName");
-            }
-            if (campaignId.length == 0) {
-                formErrors.push("CampaignID");
-            }
+        if (phoneField.length == 0) {
+            formErrors.push("phone");
         }
+        if (typeField.length == 0) {
+            formErrors.push("type");
+        }
+        if (subjectField.length == 0) {
+            formErrors.push("subject");
+        }
+        if (descriptionField.length == 0) {
+            formErrors.push("description");
+        }
+        if (g_recaptcha_response.length == 0) {
+            formErrors.push("Google reCAPTCHA");
+        }
+
         if (formErrors.length > 0) {
-            var errorMessage = "";
-            if (!isBlank(leadTypeVal)) {
-                errorMessage += "<div>Lead type " + leadTypeVal + " requires fields with following names:</div>";
-            } else {
-                errorMessage += "<div>Missing requires fields with following names:</div>";
-            }
+            var errorMessage = "<div>Missing requires fields with following names:</div>";
             errorMessage += "<ul>";
             for (var i = 0; i < formErrors.length; i++) {
                 errorMessage += "<li> " + formErrors[i] + "</li>";
@@ -151,7 +151,7 @@ $(document).ready(function () {
     function submitForm(form) {
         var action = form.attr("action");
         var formId = form.attr("id");
-        action = action.replace(".html", ".webtolead.html");
+        action = action.replace(".html", ".webtocase.html");
         $.post(action, form.serialize())
             .success(function (response, status, xhr) {
                 var ct = xhr.getResponseHeader("content-type") || "";
@@ -182,17 +182,6 @@ $(document).ready(function () {
             .fail(function () {
                 $("#validation-errors").html("Unexpected error occurred.");
             });
-    }
-
-    function isValidFieldValue(formValCollection, name){
-        if(formValCollection != null){
-            for(var i=0; i<formValCollection.length; i++){
-                if(formValCollection[i].name == name){
-                    return !isBlank(formValCollection[i].value);
-                }
-            }
-        }
-        return false;
     }
 
     function isBlank(val) {

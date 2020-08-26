@@ -153,6 +153,38 @@ public class GSEmailServiceImpl implements GSEmailService {
     }
 
     @Override
+    public void sendEmail(String subject, List<String> toAddresses, List<String> bccAddresses, String body, String fromAddress)
+            throws EmailException, MessagingException {
+        if (toAddresses != null && !toAddresses.isEmpty() && subject != null && subject.trim().length() > 0) {
+            HtmlEmail email = new HtmlEmail();
+            if (subject != null) {
+                email.setSubject(subject);
+            }
+            if(fromAddress != null){
+                email.addReplyTo(fromAddress);
+            }
+            setRecipients(toAddresses, email);
+            setBccRecipients(bccAddresses, email);
+            setBody(body, null, email);
+            email.setHtmlMsg(body);
+            MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+            try {
+                log.info("Girlscouts Email Service: Sending email message subject:{}, toAddresses:{}, body:{}", subject,
+                        toAddresses.toArray(new String[toAddresses.size()]), body);
+                sendLater(email);
+                log.info("Girlscouts Email Service: Email message sent successfully");
+            } catch (MailingException e) {
+                log.error("Girlscouts Email Service: Failed to send email message subject:%s, toAddresses:{}, body:{}",
+                        subject, toAddresses.toArray(new String[toAddresses.size()]), body, e);
+                throw e;
+            }
+        } else {
+            throw new EmailException(
+                    "To addresses or subject are null [subject=" + subject + ", toAddresses=" + toAddresses + "]");
+        }
+    }
+
+    @Override
     public void sendEmail(String subject, List<String> toAddresses, String body, Set<GSEmailAttachment> attachments)
             throws EmailException, MessagingException {
         if (toAddresses != null && !toAddresses.isEmpty() && subject != null && subject.trim().length() > 0) {
@@ -236,6 +268,18 @@ public class GSEmailServiceImpl implements GSEmailService {
                 }
             }
             email.setTo(emailRecipients);
+        }
+    }
+
+    private void setBccRecipients(List<String> bccAddresses, HtmlEmail email) throws AddressException, EmailException {
+        if (bccAddresses != null) {
+            ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+            for (String address : bccAddresses) {
+                if (address != null && !address.isEmpty()) {
+                    emailRecipients.add(new InternetAddress(address));
+                }
+            }
+            email.setBcc(emailRecipients);
         }
     }
 
