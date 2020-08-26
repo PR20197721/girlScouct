@@ -126,14 +126,13 @@
             nodeItr= parNode.getNodes();
             currNode = nodeItr.nextNode();
         }
-    }catch(Exception e){
-        //logger.error("Error getting first page component: ",e);
-    }
-
-    if(showButton){
+	if(showButton){
         if(currNode.hasProperty("sling:resourceType") && "girlscouts/components/image".equals(currNode.getProperty("sling:resourceType").getString()) && currentNode.getPath().equals(currNode.getPath())){
         %>
             <cq:include path="<%= buttonPath %>" resourceType="girlscouts/components/print-css" />
        <% }
     }
+    }catch(Exception e){
+        //logger.error("Error getting first page component: ",e);
+    } 
     %>
