@@ -6,7 +6,7 @@ import org.apache.sling.api.resource.ModifiableValueMap;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.web.osgi.service.WebToLeadMigration;
+import org.girlscouts.web.osgi.service.WebToCaseMigration;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@Component(service = {WebToLeadMigration.class}, immediate = true, name = "org.girlscouts.web.osgi.service.impl.WebToLeadMigrationImpl")
-@Designate(ocd = WebToLeadMigrationImpl.Config.class)
-public class WebToLeadMigrationImpl  implements WebToLeadMigration {
+@Component(service = {WebToCaseMigration.class}, immediate = true, name = "org.girlscouts.web.osgi.service.impl.WebToCaseMigrationImpl")
+@Designate(ocd = WebToCaseMigrationImpl.Config.class)
+public class WebToCaseMigrationImpl implements WebToCaseMigration {
 
     @Reference
     private ResourceResolverFactory resolverFactory;
@@ -37,7 +37,7 @@ public class WebToLeadMigrationImpl  implements WebToLeadMigration {
     @Activate
     private void activate(ComponentContext context) {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-        String[] fieldNameMapping = {"00N0f00000Eoc8W::GirlAge","00N0f00000Eoc8X::GirlFirstName","00N0f00000Eoc8Y::GirlLastName","00N0f00000Eoc8Z::Grade","00NG000000FHH1I::Alum","00NG000000FHH2f::University","city::City","email::Email","email_address::Email","first-name::FirstName","first_name::FirstName","firstname::FirstName","girl-first-name::GirlFirstName","girl-last-name::GirlLastName","Girl_Age__c::GirlAge","girl_first_name::GirlFirstName","girl_last_name::GirlLastName","girlfirstname::GirlFirstName","girllastname::GirlLastName","grade::Grade","Grade__c::Grade","grade_c::Grade","las_name::LastName","last-name::LastName","last_name::LastName","lastname::LastName","phone::Phone","Phone-Number::Phone","Phone_Number::Phone","phonenumber::Phone","School::SchoolName","school::SchoolName","School-Attending::SchoolName","School__c::SchoolName","schoolattending::SchoolName","state::State","title::Title","University_Name::University","universityname::University","zip::ZipCode","zip_code::ZipCode"};
+        String[] fieldNameMapping = {"00NG000000DdNmL::00N22000000ltnr","00NG000000DdNmN::00N22000000ltnt","00NG000000DdNmM::00N22000000ltns"};
         for(String map:fieldNameMapping){
             String[]pair = map.split("::");
             fieldNameMap.put(pair[0], pair[1]);
@@ -46,18 +46,13 @@ public class WebToLeadMigrationImpl  implements WebToLeadMigration {
     }
 
     @Override
-    public void migrateWebToLeadForm(String path, boolean dryRun) {
+    public void migrateWebToCaseForm(String path, boolean dryRun) {
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             log.debug("Form: "+path);
             Resource formResource = rr.resolve(path);
             ModifiableValueMap formProps = formResource.adaptTo(ModifiableValueMap.class);
-            if(!formProps.containsKey("leadType")){
-                if(!dryRun) {
-                    formProps.put("leadType", "General");
-                }
-            }
             FormStructureHelper formStructureHelper = formStructureHelperFactory.getFormStructureHelper(formResource);
             Iterable<Resource> iterable = formStructureHelper.getFormElements(formResource);
             Iterator it = iterable.iterator();
@@ -93,7 +88,7 @@ public class WebToLeadMigrationImpl  implements WebToLeadMigration {
         }
     }
 
-    @ObjectClassDefinition(name = "Web To Lead Migration Configuration")
+    @ObjectClassDefinition(name = "Web To Case Migration configuration")
     public @interface Config {
 
     }
