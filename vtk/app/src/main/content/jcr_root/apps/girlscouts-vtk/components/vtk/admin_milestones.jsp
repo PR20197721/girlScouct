@@ -7,7 +7,7 @@
 <%
     String activeTab = "milestones";
     boolean showVtkNav = true;
-    String councilCode = userTroops.get(0).getCouncilCode();
+    String councilCode = apiConfig.getUser().getAdminCouncilId();
     if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
         councilCode = user.getAdminCouncilId();
         sessionlog.error("User Council Code: " + councilCode);

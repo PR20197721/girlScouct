@@ -261,7 +261,7 @@ function callExecuteBannerSlider(tabNavLoaded) {
         // Initialize slick after banner images have loaded
         // Use overflow hidden to gracefully hide loading images
         $('.vtk-banner-container').parent().attr('style', 'height:0; overflow:hidden;');
-		Promise.all(Array.from(document.querySelectorAll('.vtk-banner-image img'))
+		    Promise.all(Array.from(document.querySelectorAll('.vtk-banner-image img'))
             .filter(img => !img.complete)
             .map(img => new Promise(resolve => { img.onload = img.onerror = resolve; })))
             .then(() => {
@@ -306,7 +306,7 @@ function callExecuteBannerSlider(tabNavLoaded) {
             })
         });
 
-		loadSlick();
+		    loadSlick();
     }
 
     var bannerLoaded = $.ajax({

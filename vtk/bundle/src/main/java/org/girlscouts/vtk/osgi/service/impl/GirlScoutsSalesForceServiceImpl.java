@@ -323,16 +323,16 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     private void setTroopsForUser(ApiConfig apiConfig, User user, UserInfoResponseEntity userInfoResponseEntity) {
         List<Troop> parentTroops = new ArrayList<Troop>();
         List<Troop> mergedTroops = new ArrayList<>();
-        Boolean isIRM = false;
+        Boolean isParent = false;
 
         ParentEntity[] campsTroops = userInfoResponseEntity.getCamps();
         if (campsTroops != null && campsTroops.length > 0) {
             for (ParentEntity entity : campsTroops) {
                 if (entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
+                    isParent = true;
                     Troop troop = ParentEntityToTroopMapper.map(entity);
                     //Independent Registered Member
                     if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
-                        isIRM = true;
                         setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
                     } else {
                         troop.setRole("PA");
@@ -346,9 +346,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
         }
         List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
-        Boolean isIRMParentOfRenewedGirl = isIRM && !parentTroops.isEmpty();
+        Boolean isParentOfRenewedGirl = isParent && !parentTroops.isEmpty();
 
-        if (!user.isActive() && !isIRMParentOfRenewedGirl) {
+        if (!user.isActive() && !isParentOfRenewedGirl) {
             mergedTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
             /*Set<Troop> removeNonRenewedParents = new HashSet<>();
             for (Troop troop : mergedTroops) {

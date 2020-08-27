@@ -23,8 +23,9 @@
         if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("PA")) {
             isParent = true;
         }
+		boolean isIRM = "IRM".equals(selectedTroop.getParticipationCode());
         boolean isTroopLeader = false;
-        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || "IRM".equals(selectedTroop.getParticipationCode()) || "SUM".equals(selectedTroop.getCouncilCode())) {
+        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || isIRM || "SUM".equals(selectedTroop.getCouncilCode())) {
             isTroopLeader = true;
         }
         String vtk_cache_uri = "/content/girlscouts-vtk/en";
@@ -482,7 +483,7 @@
                                 href="/content/girlscouts-vtk/controllers/vtk.include.troopRosterCsvRpt.html"
                                 target="_blank"><i class="icon-download"></i></a></li>
                         <%}
-                        	if(isParent && "myTroop".equals(activeTab)){ %>
+                        	if(isParent && !isIRM && "myTroop".equals(activeTab)){ %>
                         		 <li style="margin-right:15px"><a
                                 	title="Girl Scout Achievement Report"
                                 	href="/content/girlscouts-vtk/controllers/vtk.include.gsachievementRptCsv.html"

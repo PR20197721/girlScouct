@@ -51,7 +51,7 @@
         }
         String branch = null;
         try {
-            councilId = userTroops.get(0).getCouncilCode();
+            councilId = apiConfig.getUser().getAdminCouncilId();
             branch = councilMapper.getCouncilBranch(councilId);
         } catch (Exception e) {
             String refererCouncil = VtkUtil.getCouncilInClient(request);

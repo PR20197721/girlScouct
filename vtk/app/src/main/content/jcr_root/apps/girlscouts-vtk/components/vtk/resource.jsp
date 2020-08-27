@@ -8,7 +8,7 @@
     String branch = "/content/vtkcontent", councilName = "vtkcontent";
     try {
         apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
-        String councilId = userTroops.get(0).getCouncilCode();
+        String councilId = apiConfig.getUser().getAdminCouncilId();
         branch = sling.getService(CouncilMapper.class).getCouncilBranch(councilId);
         councilName = sling.getService(CouncilMapper.class).getCouncilName(councilId);
     } catch (Exception e) {
