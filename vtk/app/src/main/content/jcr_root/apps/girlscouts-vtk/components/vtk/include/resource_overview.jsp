@@ -1,5 +1,5 @@
 <div class="__resource-item columns small-22 small-centered" style="display:none"
-     data-value="<%=meeting.getMeetingPlanType() + (meeting.getMeetingPlanTypeAlt() != null ? ", " + meeting.getMeetingPlanTypeAlt() : "") %>" data-id="<%=meeting.getId()%>" data-path="<%=meeting.getPath()%>">
+     data-value="<%=meeting.getMeetingPlanType() + (meeting.getMeetingPlanTypeAlt() != null ? " " + meeting.getMeetingPlanTypeAlt() : "") %>" data-id="<%=meeting.getId()%>" data-path="<%=meeting.getPath()%>">
     <%
         String formattedCats = meeting.getCatTags() == null ? "" : meeting.getCatTags().replaceAll("_", " ").replaceAll(",", ", ").trim();
         formattedCats = formattedCats.endsWith(",") ? formattedCats.substring(0, formattedCats.length() - 1) : formattedCats;
