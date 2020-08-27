@@ -256,6 +256,25 @@ function callExecuteBannerSlider(tabNavLoaded) {
 
     tabNavLoaded = tabNavLoaded || new $.Deferred().resolve();
 
+    async function loadSlick() {
+        // https://stackoverflow.com/questions/11071314/javascript-execute-after-all-images-have-loaded/60949881#60949881
+        // Initialize slick after banner images have loaded
+        // Use overflow hidden to gracefully hide loading images
+        $('.vtk-banner-container').parent().attr('style', 'height:0; overflow:hidden;');
+		    Promise.all(Array.from(document.querySelectorAll('.vtk-banner-image img'))
+            .filter(img => !img.complete)
+            .map(img => new Promise(resolve => { img.onload = img.onerror = resolve; })))
+            .then(() => {
+                //VTK BANNER SLIDER SETTING
+                $('.vtk-banner-container').slick({
+                    slidesToScroll: 1,
+                    adaptiveHeight: true,
+                    autoplaySpeed: 10000,
+                    autoplay: true
+                }).parent().removeAttr('style');
+            });
+    }
+
     function processVtkBannerResponse(result) {
 
         if ($("#vtk_banner2234").data('cached') === 'no') {
@@ -287,20 +306,7 @@ function callExecuteBannerSlider(tabNavLoaded) {
             })
         });
 
-        // https://stackoverflow.com/questions/11071314/javascript-execute-after-all-images-have-loaded/60949881#60949881
-        // Initialize slick after first image has loaded
-        Promise.all(Array.from(document.querySelector('.vtk-banner-image img'))
-            .filter(img => !img.complete)
-            .map(img => new Promise(resolve => { img.onload = img.onerror = resolve; })))
-            .then(() => {
-                //VTK BANNER SLIDER SETTING
-                $('.vtk-banner-container').slick({
-                    slidesToScroll: 1,
-                    adaptiveHeight: true,
-                    autoplaySpeed: 10000,
-                    autoplay: true
-                });
-            });
+		    loadSlick();
     }
 
     var bannerLoaded = $.ajax({
