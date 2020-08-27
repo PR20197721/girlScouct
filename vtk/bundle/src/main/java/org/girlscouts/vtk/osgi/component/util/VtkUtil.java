@@ -568,7 +568,9 @@ public class VtkUtil implements ConfigListener {
 
     public static List<String> getDistinctMeetingPlanTypes(List<Meeting> meetings) {
         List<String> meetingTypes = meetings.stream().map(e -> e.getMeetingPlanType()).collect(Collectors.toList());
-        return meetingTypes.stream().distinct().sorted().collect(Collectors.toList());
+        List<String> meetingAltTypes = meetings.stream().map(e -> e.getMeetingPlanTypeAlt()).collect(Collectors.toList());
+        meetingTypes.addAll(meetingAltTypes);
+        return meetingTypes.stream().filter(Objects::nonNull).distinct().sorted().collect(Collectors.toList());
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
@@ -579,7 +581,7 @@ public class VtkUtil implements ConfigListener {
     public static Map<String, List<Meeting>> sortMeetingByMeetingType(List<Meeting> meetings, List<String> meetingPlanTypes) {
         Map<String, List<Meeting>> orderedMeetingsByType = new TreeMap();
         for (String meetingType : meetingPlanTypes) {
-            List<Meeting> meetingsByType = meetings.stream().filter(meeting -> meetingType.equals(meeting.getMeetingPlanType())).collect(Collectors.toList());
+            List<Meeting> meetingsByType = meetings.stream().filter(meeting -> meetingType.equals(meeting.getMeetingPlanType()) || meetingType.equals(meeting.getMeetingPlanTypeAlt())).collect(Collectors.toList());
             //sort by name
             Collections.sort(meetingsByType, java.util.Comparator.comparing(Meeting::getName));
             orderedMeetingsByType.put(meetingType, meetingsByType);
