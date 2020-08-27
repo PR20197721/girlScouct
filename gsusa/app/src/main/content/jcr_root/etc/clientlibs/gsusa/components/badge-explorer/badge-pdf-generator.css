@@ -16,12 +16,9 @@
 	clear: both;
 	display: flex;
 	justify-content: space-between;
-}
-
-.BadgePdfHeader{
 	background-color: #23ae57;
 	font-size: 20px;
-	line-height: 28px;
+	line-height: 18px;
 	height: 35px;
 	overflow: hidden;
 	color: white;
@@ -31,7 +28,7 @@
 	background-color: #23ae57;
 	display: block;
 	padding: 3px 5px;
-	height: 25px;
+	height: 30px;
 	overflow: hidden;
 }
 
