@@ -570,7 +570,7 @@ public class VtkUtil implements ConfigListener {
         List<String> meetingTypes = meetings.stream().map(e -> e.getMeetingPlanType()).collect(Collectors.toList());
         List<String> meetingAltTypes = meetings.stream().map(e -> e.getMeetingPlanTypeAlt()).collect(Collectors.toList());
         meetingTypes.addAll(meetingAltTypes);
-        return meetingTypes.stream().distinct().sorted().collect(Collectors.toList());
+        return meetingTypes.stream().filter(Objects::nonNull).distinct().sorted().collect(Collectors.toList());
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
