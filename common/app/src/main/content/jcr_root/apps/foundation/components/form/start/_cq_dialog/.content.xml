@@ -168,11 +168,6 @@
                                             jcr:title="Action Configuration"
                                             sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
                                         <items jcr:primaryType="nt:unstructured">
-                                            <request-url-field
-                                                    jcr:primaryType="nt:unstructured"
-                                                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                    fieldLabel="Request URL"
-                                                    name="./requestURL"/>
                                             <confirmation-bcc
                                                     jcr:primaryType="nt:unstructured"
                                                     sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
