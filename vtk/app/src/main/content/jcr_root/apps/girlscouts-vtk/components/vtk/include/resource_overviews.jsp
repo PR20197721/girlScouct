@@ -56,7 +56,7 @@
         $(".arrow.open").removeClass('open').addClass('close');
         hideMeetingItem();
         meetingType = ('' + meetingType).replace(new RegExp(':', 'g'), '\\:');
-        var items = $('[data-value="' + meetingType + '"]');
+        var items = $('[data-value*="' + meetingType + '"]');
         showFirstSix(items);
         meeTingTypeStatus = meetingType;
     }
@@ -121,7 +121,7 @@
         $('.__view-all').click(function (e) {
             var items;
             if (meeTingTypeStatus) {
-                items = $('.__resource-item[data-value="' + meeTingTypeStatus + '"]')
+                items = $('.__resource-item[data-value*="' + meeTingTypeStatus + '"]')
             } else {
                 items = $('.__resource-item');
             }
