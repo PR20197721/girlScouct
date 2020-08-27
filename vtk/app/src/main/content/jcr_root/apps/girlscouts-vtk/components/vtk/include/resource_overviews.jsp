@@ -56,7 +56,7 @@
         $(".arrow.open").removeClass('open').addClass('close');
         hideMeetingItem();
         meetingType = ('' + meetingType).replace(new RegExp(':', 'g'), '\\:');
-        var items = $("[data-value= " + meetingType + "]");
+        var items = $('[data-value="' + meetingType + '"]');
         showFirstSix(items);
         meeTingTypeStatus = meetingType;
     }
