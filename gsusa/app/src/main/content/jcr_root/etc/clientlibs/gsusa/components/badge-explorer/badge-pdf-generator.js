@@ -323,7 +323,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 				pageNumberElement
 					.append($('<div>').addClass('PDFPageNumberWrapper').css({
 						'padding-top': (MAX_PDF_PAGE_HEIGHT - runningTotalHeight) + 'px',
-						'padding-left' : '630px',
+						'padding-left' : '580px',
 						bottom: 0,
 						right: 0
 					})
@@ -347,7 +347,7 @@ window.BadgePdfGenerator = (function(window, $, document){
 			.append($('<div>').addClass('PDFPageNumberWrapper').css({
 				bottom: 0,
 				'padding-top': (MAX_PDF_PAGE_HEIGHT - runningTotalHeight) + 'px',
-				'padding-left' : '630px',
+				'padding-left' : '580px',
 				right: 0
 			})
 				.append($('<span>').addClass('PDFCurrentPageNumber').text(++pageNumber))
