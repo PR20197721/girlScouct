@@ -1138,6 +1138,12 @@ public class MeetingUtil {
         return meetings;
     }
 
+    public List<Meeting> getAllActiveMeetings(User user, Troop troop, String level) throws IllegalAccessException {
+        List<Meeting> meetings = meetingDAO.getAllActiveMeetings(user, troop, level);
+        Collections.sort(meetings, java.util.Comparator.comparing(Meeting::getMeetingPlanType));
+        return meetings;
+    }
+
     public void setSelectedSubActivity(User user, Troop troop, String meetingPath, String activityPath, String subActivityPath) throws IllegalAccessException, IllegalStateException, VtkException {
         List<MeetingE> meetingEs = troop.getYearPlan().getMeetingEvents();
         for (MeetingE meetingE:meetingEs) {

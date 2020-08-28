@@ -4,11 +4,10 @@ import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class Troop extends JcrNode implements Serializable {
+public class Troop extends JcrNode {
     private YearPlan yearPlan;
     private String sfUserId;
     private String sfTroopId;
@@ -41,7 +40,7 @@ public class Troop extends JcrNode implements Serializable {
     private Boolean isLoadedManualy = Boolean.FALSE;
 
 
-    private transient final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     public Troop() {
         this.type = 0;
@@ -383,5 +382,8 @@ public class Troop extends JcrNode implements Serializable {
         return schedule;
     }
 
-
+    @Override
+    public String toString() {
+        return "Troop{" + "yearPlan=" + yearPlan + ", sfUserId='" + sfUserId + '\'' + ", sfTroopId='" + sfTroopId + '\'' + ", sfTroopName='" + sfTroopName + '\'' + ", sfTroopAge='" + sfTroopAge + '\'' + ", sfCouncil='" + sfCouncil + '\'' + ", sfParentId='" + sfParentId + '\'' + ", irmTroopId='" + irmTroopId + '\'' + ", currentTroop='" + currentTroop + '\'' + ", errCode='" + errCode + '\'' + ", refId='" + refId + '\'' + ", troopId='" + troopId + '\'' + ", troopName='" + troopName + '\'' + ", gradeLevel='" + gradeLevel + '\'' + ", councilId='" + councilId + '\'' + ", councilCode='" + councilCode + '\'' + ", type=" + type + ", permissionTokens=" + permissionTokens + ", role='" + role + '\'' + ", isRefresh=" + isRefresh + ", retrieveTime=" + retrieveTime + ", sendingEmail=" + sendingEmail + ", participationCode='" + participationCode + '\'' + ", councilPath='" + councilPath + '\'' + ", hash='" + hash + '\'' + ", isIRM=" + isIRM + ", isSUM=" + isSUM + ", schedule=" + schedule + ", isLoadedManualy=" + isLoadedManualy + '}';
+    }
 }
