@@ -218,4 +218,9 @@ public class Contact extends JcrNode implements java.io.Serializable, Comparable
         }
         return getId().compareTo(other.getId());
     }
+
+    @Override
+    public String toString() {
+        return "Contact{" + "age=" + age + ", type=" + type + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", address='" + address + '\'' + ", address1='" + address1 + '\'' + ", city='" + city + '\'' + ", state='" + state + '\'' + ", zip='" + zip + '\'' + ", suite='" + suite + '\'' + ", role='" + role + '\'' + ", dob='" + dob + '\'' + ", country='" + country + '\'' + ", contactId='" + contactId + '\'' + ", contacts=" + contacts + ", accountId='" + accountId + '\'' + ", renewalDue=" + renewalDue + ", emailOptIn=" + emailOptIn + ", txtOptIn=" + txtOptIn + ", membershipYear_girl=" + membershipYear_girl + ", membershipYear_adult=" + membershipYear_adult + ", membershipYear=" + membershipYear + '}';
+    }
 }
