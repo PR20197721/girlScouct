@@ -373,5 +373,8 @@ public class Troop extends JcrNode {
         return schedule;
     }
 
-
+    @Override
+    public String toString() {
+        return "Troop{" + "yearPlan=" + yearPlan + ", sfUserId='" + sfUserId + '\'' + ", sfTroopId='" + sfTroopId + '\'' + ", sfTroopName='" + sfTroopName + '\'' + ", sfTroopAge='" + sfTroopAge + '\'' + ", sfCouncil='" + sfCouncil + '\'' + ", sfParentId='" + sfParentId + '\'' + ", irmTroopId='" + irmTroopId + '\'' + ", currentTroop='" + currentTroop + '\'' + ", errCode='" + errCode + '\'' + ", refId='" + refId + '\'' + ", troopId='" + troopId + '\'' + ", troopName='" + troopName + '\'' + ", gradeLevel='" + gradeLevel + '\'' + ", councilId='" + councilId + '\'' + ", councilCode='" + councilCode + '\'' + ", type=" + type + ", permissionTokens=" + permissionTokens + ", role='" + role + '\'' + ", isRefresh=" + isRefresh + ", retrieveTime=" + retrieveTime + ", sendingEmail=" + sendingEmail + ", participationCode='" + participationCode + '\'' + ", councilPath='" + councilPath + '\'' + ", hash='" + hash + '\'' + ", isIRM=" + isIRM + ", isSUM=" + isSUM + ", schedule=" + schedule + ", isLoadedManualy=" + isLoadedManualy + '}';
+    }
 }

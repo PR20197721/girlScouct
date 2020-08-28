@@ -368,7 +368,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         Set<Troop> invalidTroops = new HashSet<>();
         for (Troop troop : mergedTroops) {
             if (troop.getSfTroopName() == null || troop.getRole() == null || troop.getGradeLevel() == null || troop.getCouncilCode() == null || !isValidParticipationCode(troop)) {
-                log.debug("Ignoring troop "+troop.getSfTroopId()+ ". Check all required parameters.");
+                log.debug("Ignoring troop "+troop.getSfTroopId()+ ". Check all required parameters. "+troop.toString());
                 invalidTroops.add(troop);
             }
         }
@@ -402,9 +402,13 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         List<Contact> contacts = getContactsForTroop(apiConfig, troop);
         log.debug("Retrieved "+contacts.size()+" contacts");
         String parentsCouncilCode = userInfoResponseEntity.getUsers()[0].getContact().getOwner().getCouncilCode();
+        log.debug("parentsCouncilCode "+parentsCouncilCode);
         for(Contact contact:contacts){
-            if(contact != null && "Girl".equals(contact.getRole()) && contact.getMembershipYear() != VtkUtil.getCurrentGSYear()+1){
+            log.debug("contact "+contact);
+            log.debug("VtkUtil.getCurrentGSYear() "+VtkUtil.getCurrentGSYear());
+            if(contact != null && "Girl".equals(contact.getRole()) && contact.getMembershipYear() >= VtkUtil.getCurrentGSYear()+1){
                 Troop dummyIRMTroop = ParentEntityToTroopMapper.map(entity);
+                log.debug("creating dummyIRMTroop "+dummyIRMTroop);
                 try {
                     dummyIRMTroop.setCouncilCode(parentsCouncilCode);
                     dummyIRMTroop.setSfCouncil(parentsCouncilCode);
@@ -433,6 +437,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 dummyIRMTroop.setGradeLevel(troop.getGradeLevel());
                 dummyIRMTroop.setIsIRM(true);
                 setTroopPath(dummyIRMTroop);
+                log.debug("created dummyIRMTroop "+dummyIRMTroop);
                 parentTroops.add(dummyIRMTroop);
                 log.debug("added "+dummyIRMTroop.getPath()+" to parent troops");
             }
