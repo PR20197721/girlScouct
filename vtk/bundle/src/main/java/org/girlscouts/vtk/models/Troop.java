@@ -4,11 +4,10 @@ import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class Troop extends JcrNode implements Serializable {
+public class Troop extends JcrNode {
     private YearPlan yearPlan;
     private String sfUserId;
     private String sfTroopId;
@@ -40,7 +39,7 @@ public class Troop extends JcrNode implements Serializable {
     private Boolean isLoadedManualy = Boolean.FALSE;
 
 
-    private transient final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     public Troop() {
         this.type = 0;
