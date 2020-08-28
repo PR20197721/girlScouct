@@ -41,7 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component(service = Servlet.class, property = {Constants.SERVICE_DESCRIPTION + "=Girl Scouts Web to Case Servlet", "sling.servlet.methods=" + HttpConstants.METHOD_POST, "sling.servlet.extensions=html", "sling.servlet.selectors=webtocase", "sling.servlet.resourceTypes=foundation/components/form/start"})
-public class WebtoCaseServlet extends SlingAllMethodsServlet implements OptingServlet {
+public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingServlet {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
     private String oid;
     private String apiURL;
@@ -49,15 +49,31 @@ public class WebtoCaseServlet extends SlingAllMethodsServlet implements OptingSe
     private WebToCase webToCase;
     @Reference
     private GSEmailService gsEmailService;
-    protected static final String CONFIRM_MAILTO_PROPERTY = "confirmationmailto";
-    protected static final String CONFIRMATION_SUBJECT_PROPERTY = "confirmationSubject";
-    protected static final String CONFIRMATION_FROM_PROPERTY = "confirmationFrom";
-    protected static final String TEMPLATE_PATH_PROPERTY = "templatePath";
+
+    private final String CONFIRM_MAILTO_PROPERTY = "confirmationmailto";
+    private final String CONFIRMATION_SUBJECT_PROPERTY = "confirmationSubject";
+    private final String CONFIRMATION_FROM_PROPERTY = "confirmationFrom";
+    private final String TEMPLATE_PATH_PROPERTY = "templatePath";
+
+    private final Set<String> expectedParams = new HashSet<>();
 
     @Activate
     private void activate() {
         this.oid = webToCase.getOID();
         this.apiURL = webToCase.getApiURL();
+        this.expectedParams.add("orgid");
+        this.expectedParams.add("00N22000000ltnH");
+        this.expectedParams.add("00N22000000ltnp");
+        this.expectedParams.add("CouncilCode");
+        this.expectedParams.add("origin");
+        this.expectedParams.add("status");
+        this.expectedParams.add("name");
+        this.expectedParams.add("email");
+        this.expectedParams.add("phone");
+        this.expectedParams.add("type");
+        this.expectedParams.add("subject");
+        this.expectedParams.add("description");
+        this.expectedParams.add("g-recaptcha-response");
     }
 
     @Override
@@ -99,11 +115,22 @@ public class WebtoCaseServlet extends SlingAllMethodsServlet implements OptingSe
             for (Iterator<String> itr = FormsHelper.getContentRequestParameterNames(request); itr.hasNext(); ) {
                 final String paraName = itr.next();
                 RequestParameter[] paras = request.getRequestParameters(paraName);
+                String description ="";
                 for (RequestParameter paraValue : paras) {
                     if (paraValue.isFormField()) {//do not support file upload
-                        data.add(new NameValuePair(paraName, paraValue.getString()));//add to encription
+                        if(expectedParams.contains(paraName)){
+                            if("description".equals(paraName.toLowerCase())) {
+                                description = paraValue.getString();
+                            }else{
+                                data.add(new NameValuePair(paraName, paraValue.getString()));
+                            }
+                        }else{
+                            //additional fields that are not expected by salesforce will be appended to description
+                            description+="\r\n"+paraName+": "+paraValue.getString();
+                        }
                     }
                 }
+                data.add(new NameValuePair("description",description));
             }
             callHttpClient(data, errors, debug);
             if (errors.size() > 0) {

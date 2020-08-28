@@ -31,6 +31,8 @@ public class VTKDataMigrationUtil{
 
         @AttributeDefinition(name = "Path to User Id Mapping File", type = AttributeType.STRING) String userIdMappingFile() default "/content/dam/vtk-vs2-data-migration/user-id.csv";
 
+        @AttributeDefinition(name = "Path to Contact Id Mapping File", type = AttributeType.STRING) String contactIdMappingFile() default "/content/dam/vtk-vs2-data-migration/contact-id.csv";
+
     }
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -40,6 +42,7 @@ public class VTKDataMigrationUtil{
 
     private String troopIdMappingFile;
     private String userIdMappingFile;
+    private String contactIdMappingFile;
 
     private Map<String, String> troopIdMapping = new HashMap<String, String>();
     private Map<String, String> userIdMapping = new HashMap<String, String>();
@@ -49,64 +52,24 @@ public class VTKDataMigrationUtil{
     void activate(VTKDataMigrationUtilConfiguration config) {
         this.troopIdMappingFile = config.troopIdMappingFile();
         this.userIdMappingFile = config.userIdMappingFile();
+        this.contactIdMappingFile = config.contactIdMappingFile();
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             Resource csvResource = rr.resolve(this.troopIdMappingFile);
             if(csvResource != null && !ResourceUtil.isNonExistingResource(csvResource)){
-                Asset asset = csvResource.adaptTo(Asset.class);
-                BufferedReader br = null;
-                try {
-                    br = new BufferedReader(new InputStreamReader(asset.getRendition("original").getStream()));
-                    String line = "";
-                    String cvsSplitBy = ",";
-                    while ((line = br.readLine()) != null) {
-                        String[] mappingArray = line.split(cvsSplitBy);
-                        if(mappingArray != null && mappingArray.length >=2){
-                            troopIdMapping.put(mappingArray[0],mappingArray[1]);
-                        }
-                    }
-                } catch (Exception e) {
-                    log.error("Error occurred:",e);
-                } finally {
-                    if (br != null) {
-                        try {
-                            br.close();
-                        } catch (IOException e) {
-                            log.error("Error occurred:",e);
-                        }
-                    }
-                }
+                loadContents(csvResource, troopIdMapping);
                 log.debug("Loaded {} mappings for troop id", troopIdMapping.size());
             }
             csvResource = rr.resolve(this.userIdMappingFile);
             if(csvResource != null && !ResourceUtil.isNonExistingResource(csvResource)){
-                Asset asset = csvResource.adaptTo(Asset.class);
-                BufferedReader br = null;
-                try {
-                    br = new BufferedReader(new InputStreamReader(asset.getRendition("original").getStream()));
-                    String line = "";
-                    String cvsSplitBy = ",";
-                    while ((line = br.readLine()) != null) {
-                        String[] mappingArray = line.split(cvsSplitBy);
-                        if(mappingArray != null && mappingArray.length >=3){
-                            userIdMapping.put(mappingArray[0],mappingArray[2]);
-                            contactIdMapping.put(mappingArray[1],mappingArray[2]);
-                        }
-                    }
-                } catch (Exception e) {
-                    log.error("Error occurred:",e);
-                } finally {
-                    if (br != null) {
-                        try {
-                            br.close();
-                        } catch (IOException e) {
-                            log.error("Error occurred:",e);
-                        }
-                    }
-                }
+                loadContents(csvResource, userIdMapping);
                 log.debug("Loaded {} mappings for user id", userIdMapping.size());
+            }
+            csvResource = rr.resolve(this.contactIdMappingFile);
+            if(csvResource != null && !ResourceUtil.isNonExistingResource(csvResource)){
+                loadContents(csvResource, contactIdMapping);
                 log.debug("Loaded {} mappings for contact id", contactIdMapping.size());
             }
         } catch (Exception e) {
@@ -121,6 +84,32 @@ public class VTKDataMigrationUtil{
             }
         }
         log.info("Girl Scouts VTK VS 2.0 Data Migration activated.");
+    }
+
+    private void loadContents(Resource csvResource, Map<String, String> troopIdMapping) {
+        Asset asset = csvResource.adaptTo(Asset.class);
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new InputStreamReader(asset.getRendition("original").getStream()));
+            String line;
+            String cvsSplitBy = ",";
+            while ((line = br.readLine()) != null) {
+                String[] mappingArray = line.split(cvsSplitBy);
+                if (mappingArray != null && mappingArray.length >= 2) {
+                    troopIdMapping.put(mappingArray[0], mappingArray[1]);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error occurred:", e);
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    log.error("Error occurred:", e);
+                }
+            }
+        }
     }
 
     public Map<String,String> getTroopIdMapping(){

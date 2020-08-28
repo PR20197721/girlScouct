@@ -1,5 +1,5 @@
 <%@page session="false" %><%@include file="/libs/foundation/global.jsp"%>
-VTK Year Plan Data Migration Script: <br/>
+Join/Volunteer Migration Script: <br/>
 <form id="form" method="post">
 <%
 ServletContext ctxt = application.getContext("/apps/girlscouts/components/join-volunteer-vs2-migration");

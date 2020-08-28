@@ -1,5 +1,5 @@
 <%@page session="false" %><%@include file="/libs/foundation/global.jsp"%>
-VTK Year Plan Data Migration Script: <br/>
+Web To Lead Migration Script: <br/>
 <form id="form" method="post">
 <%
 ServletContext ctxt = application.getContext("/apps/girlscouts/components/web-to-lead-vs2-migration");

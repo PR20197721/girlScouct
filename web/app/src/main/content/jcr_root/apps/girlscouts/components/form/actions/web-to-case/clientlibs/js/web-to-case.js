@@ -10,32 +10,6 @@ $(document).ready(function () {
         validateAndSubmit(form);
         return false;
     });
-    setUTMParamValues(form);
-
-    function setUTMParamValues(form) {
-        var utm_campaign = getUrlParam("utm_campaign");
-        var utm_medium = getUrlParam("utm_medium");
-        var utm_source = getUrlParam("utm_source");
-        if(!isBlank(utm_campaign)){
-            var utmCampaignField = form.find("input[name='UTM_Campaign']");
-            if(utmCampaignField){
-                $(utmCampaignField[0]).val(utm_campaign);
-            }
-        }
-        if(!isBlank(utm_medium)){
-            var utmMediumField = form.find("input[name='UTM_Medium']");
-            if(utmMediumField){
-                $(utmMediumField[0]).val(utm_medium);
-            }
-        }
-        if(!isBlank(utm_source)){
-            var utmSourceField = form.find("input[name='UTM_Source']");
-            if(utmSourceField){
-                $(utmSourceField[0]).val(utm_source);
-            }
-        }
-    }
-
 
     function validateAndSubmit(form) {
         try {
