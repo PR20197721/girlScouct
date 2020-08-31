@@ -11,7 +11,6 @@
                 org.slf4j.LoggerFactory,
                 java.text.DecimalFormat,
                 java.util.HashSet,
-                java.util.List,
                 java.util.Set" %>
 <%!
     // put all static in util classes
@@ -31,10 +30,11 @@
     CouncilMapper councilMapper = sling.getService(CouncilMapper.class);
     HttpSession session = request.getSession();
     Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
-    User user = user = ((User) session.getAttribute(User.class.getName()));
     int vtkSignupYear = VtkUtil.getCurrentGSYear() + 1;
     Logger sessionlog = LoggerFactory.getLogger(this.getClass().getName());
     sessionlog.debug("session.jsp");
+    ApiConfig apiConfig = null;
+    User user = null;
     if (session.getAttribute("fatalError") != null) {
         sessionlog.error("fatal error is set in session " + session.getAttribute("fatalError"));
 %>
@@ -43,21 +43,20 @@
 } else {
     boolean isMultiUserFullBlock = true;
     // Why so heavy?  Do we need to load all services here or maybe on demand is better?
-
     int timeout = session.getMaxInactiveInterval();
     response.setHeader("Refresh", timeout + "; URL = /system/sling/logout?resource=/content/girlscouts-vtk");
-    ApiConfig apiConfig = null;
     try {
         if (session.getAttribute(ApiConfig.class.getName()) != null) {
             apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
+            user = apiConfig.getUser();
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             VtkError error = new VtkError();
             error.setDescription("Unable to get session information");
             session.setAttribute("fatalError", error);
-            %>
-            <%@include file="vtkError.jsp" %>
-            <%
+%>
+<%@include file="vtkError.jsp" %>
+<%
         }
     } catch (ClassCastException cce) {
         session.invalidate();
@@ -65,14 +64,13 @@
         try {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } catch (Exception setStatusException) {
-            sessionlog.error("Error occured:",setStatusException);
+            sessionlog.error("Error occured:", setStatusException);
         }
         out.println("Your session has timed out.  Please login.");
         return;
     }
-    List<Troop> userTroops = apiConfig.getUser().getTroops();
+    List<Troop> userTroops = user.getTroops();
     if ((userTroops == null || userTroops.size() <= 0 || (userTroops.get(0).getType() == 1))) {
-
         VtkError error = new VtkError();
         error.setDescription("Unable to get user troop information");
         session.setAttribute("fatalError", error);
@@ -81,7 +79,6 @@
 <%
         return;
     }
-
     user.setSid(session.getId());
     if (selectedTroop == null) {
         if (userTroops != null && userTroops.size() > 0) {
@@ -121,9 +118,9 @@
 <%
     return;
 } catch (IllegalAccessException ex) {
-        VtkError error = new VtkError();
-        error.setDescription("Sorry, you have no access to view year plan.");
-        session.setAttribute("fatalError", error);
+    VtkError error = new VtkError();
+    error.setDescription("Sorry, you have no access to view year plan.");
+    session.setAttribute("fatalError", error);
 %>
 <%@include file="vtkError.jsp" %>
 <%
@@ -137,12 +134,12 @@
             VtkError error = new VtkError();
             error.setDescription("Unable to create council record");
             session.setAttribute("fatalError", error);
-            %>
-            <%@include file="vtkError.jsp" %>
-            <%
-                sessionlog.error("Error occured:",e);
+%>
+<%@include file="vtkError.jsp" %>
+<%
+                sessionlog.error("Error occured:", e);
                 return;
-        }
+            }
         } else {
             selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
             selectedTroop.setCurrentTroop(selectedTroopRepoData.getCurrentTroop());

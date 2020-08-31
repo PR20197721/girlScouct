@@ -66,12 +66,14 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
             String vtkRedirect = "/content/girlscouts-vtk/en/vtk.html";
             if(!isActiveVTKSession(request)){
                 ApiConfig apiConfig = mulesoftService.getApiConfig(aemUser);
+                log.debug("apiConfig="+apiConfig);
                 if(apiConfig != null && apiConfig.getUser() != null && apiConfig.getUser().getTroops() != null && apiConfig.getUser().getTroops().size() != 0) {
                     String lastName = aemUser.getProperty("./profile/familyName") != null ? aemUser.getProperty("./profile/familyName")[0].getString() : null;
                     String firstName = aemUser.getProperty("./profile/givenName") != null ? aemUser.getProperty("./profile/givenName")[0].getString() : null;
                     String gsGlobalId = aemUser.getProperty("./profile/GSGlobalID") != null ? aemUser.getProperty("./profile/GSGlobalID")[0].getString() : null;
                     String email = aemUser.getProperty("./profile/email") != null ? aemUser.getProperty("./profile/email")[0].getString() : null;
                     String gsUserType = aemUser.getProperty("./profile/gsUserType") != null ? aemUser.getProperty("./profile/gsUserType")[0].getString() : null;
+                    log.debug("AEM User In Session: firstName:"+firstName+", lastName:"+lastName+", gsGlobalId="+gsGlobalId+", email="+email+", gsUserType="+gsUserType);
                     httpSession.setAttribute(ApiConfig.class.getName(), apiConfig);
                     Troop selectedTroop = apiConfig.getUser().getTroops().get(0);
                     httpSession.setAttribute("VTK_troop", apiConfig.getUser().getTroops().get(0));

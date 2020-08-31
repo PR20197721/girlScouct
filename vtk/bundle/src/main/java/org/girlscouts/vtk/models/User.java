@@ -193,4 +193,9 @@ public class User implements Serializable {
     public void setDemo(boolean demo) {
         isDemo = demo;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "sid='" + sid + '\'' + ", currentYear='" + currentYear + '\'' + ", currentFinanceYear=" + currentFinanceYear + ", gSFinanceCutOffDate=" + gSFinanceCutOffDate + ", name='" + name + '\'' + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", assistantPhone='" + assistantPhone + '\'' + ", homePhone='" + homePhone + '\'' + ", contactId='" + contactId + '\'' + ", sfUserId='" + sfUserId + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", timezone='" + timezone + '\'' + ", isActive=" + isActive + ", isAdmin=" + isAdmin + ", isServiceUnitManager=" + isServiceUnitManager + ", isDemo=" + isDemo + ", adminCouncilId='" + adminCouncilId + '\'' + ", troops=" + troops + '}';
+    }
 }

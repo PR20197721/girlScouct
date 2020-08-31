@@ -1,7 +1,7 @@
 <%
-    String activeTab = "plan";
-    boolean showVtkNav = true;
-    boolean isParent = "PA".equals(selectedTroop.getRole());
+        String activeTab = "plan";
+        boolean showVtkNav = true;
+        boolean isParent = "PA".equals(selectedTroop.getRole());
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
@@ -9,7 +9,7 @@
     String sectionClassDefinition = "meeting-detail";
 %>
 <%@include file="include/bodyTop.jsp" %>
-<%if(selectedTroop.getIsLoadedManualy()){%>
+<%if (selectedTroop.getIsLoadedManualy()) {%>
 <div class="column small-24 large-centered large-20">
     <div class="demo-info-message">
         <p>This is your 2019 - 2020 Year Plan. This plan will archive on July 20 in preparation for our release of new content on July 21. Until that time you are not able to record attendance or achievements.</p>

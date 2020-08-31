@@ -49,7 +49,7 @@ public class UserInfoResponseEntityToUserMapper {
                 try {
                     String renewalDate = entity.getRenewalDate();
                     if(renewalDate != null) {
-                        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM/dd");
+                        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
                         DateTime dt = formatter.parseDateTime(renewalDate);
                         user.setActive(dt.isAfterNow());
                     }

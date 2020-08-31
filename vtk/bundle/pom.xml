@@ -371,6 +371,7 @@
                             org.apache.sling.models.annotations.injectorspecific,
                             org.ietf.jgss,
                             org.joda.time,
+                            org.joda.time.format,
                             org.json,
                             org.mozilla.javascript,
                             org.osgi.framework,

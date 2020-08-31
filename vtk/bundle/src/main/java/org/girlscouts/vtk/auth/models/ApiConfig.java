@@ -228,4 +228,9 @@ public class ApiConfig implements Serializable {
     public void setFilters(TreeMap<String, MeetingFilter.FilterOption> filters) {
         this.filters = filters;
     }
+
+    @Override
+    public String toString() {
+        return "ApiConfig{" + "errors=" + errors + ", accessToken='" + accessToken + '\'' + ", instanceUrl='" + instanceUrl + '\'' + ", tokenType='" + tokenType + '\'' + ", id='" + id + '\'' + ", refreshToken='" + refreshToken + '\'' + ", userId='" + userId + '\'' + ", webServicesUrl='" + webServicesUrl + '\'' + ", user=" + user + ", troops=" + troops + ", callbackUrl='" + callbackUrl + '\'' + ", clientId='" + clientId + '\'' + ", clientSecret='" + clientSecret + '\'' + ", OAuthUrl='" + OAuthUrl + '\'' + ", lastTimeTokenRefreshed=" + lastTimeTokenRefreshed + ", vtkApiTroopUri='" + vtkApiTroopUri + '\'' + ", vtkApiUserUri='" + vtkApiUserUri + '\'' + ", vtkApiContactUri='" + vtkApiContactUri + '\'' + ", vtkApiTroopLeadersUri='" + vtkApiTroopLeadersUri + '\'' + ", isFail=" + isFail + ", accessTokenValid=" + accessTokenValid + ", demoUser=" + demoUser + ", useAsDemo=" + useAsDemo + ", demoUserName='" + demoUserName + '\'' + ", filters=" + filters + '}';
+    }
 }
