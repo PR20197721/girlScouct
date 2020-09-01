@@ -11,7 +11,6 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.CouncilRptBean;
-import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.osgi.service.impl.BasicGirlScoutsService;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
@@ -36,8 +35,6 @@ public class CouncilRpt extends BasicGirlScoutsService {
     private MessageGatewayService messageGatewayService;
     @Reference
     private SlingSettingsService slingSettings;
-    @Reference
-    private GirlScoutsSalesForceService gsSalesForceService;
     @Reference
     private ResourceResolverFactory resolverFactory;
     private Map<String, Object> resolverParams = new HashMap<String, Object>();

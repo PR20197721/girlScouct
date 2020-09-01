@@ -2,12 +2,12 @@
 <%@ page import="org.girlscouts.vtk.models.Achievement,
                  org.girlscouts.vtk.models.Attendance,
                  org.girlscouts.vtk.models.Contact,
-                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+                 org.girlscouts.vtk.osgi.service.MulesoftService" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../session.jsp" %>
 <%
-    java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(apiConfig, selectedTroop);
+    java.util.List<Contact> contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop);
     String YEAR_PLAN_EVENT = "meetingEvents";
     String eventType = request.getParameter("eType");
     if (eventType != null && eventType.equals("ACTIVITY"))

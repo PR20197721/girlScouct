@@ -1,12 +1,11 @@
 <%@ page
-        import="org.girlscouts.vtk.osgi.component.util.CouncilRpt, org.girlscouts.vtk.models.CouncilRptBean,  org.girlscouts.vtk.models.User,org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,java.util.Map, org.apache.commons.lang3.StringUtils, org.girlscouts.vtk.auth.models.ApiConfig" %>
+        import="org.girlscouts.vtk.osgi.component.util.CouncilRpt, org.girlscouts.vtk.models.CouncilRptBean,  org.girlscouts.vtk.models.User,java.util.Map, org.apache.commons.lang3.StringUtils, org.girlscouts.vtk.auth.models.ApiConfig" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <!-- %@include file="include/session.jsp"% -->
 <%
     String activeTab = "reports";
     String sectionClassDefinition = "reports";
-    GirlScoutsSalesForceService gsSalesForceService = sling.getService(GirlScoutsSalesForceService.class);
 %>
 <%@include file="include/bodyTop.jsp" %>
 <div class="column medium-23 medium-centered">

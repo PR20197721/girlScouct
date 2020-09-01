@@ -9,13 +9,15 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.girlscouts.common.osgi.service.impl.BasicGirlScoutsService;
 import org.girlscouts.web.osgi.MuleSoftActivitiesConstants;
-import org.girlscouts.web.osgi.config.MulesoftActivitiesRestClientConfig;
 import org.girlscouts.web.osgi.service.MulesoftActivitiesRestClient;
 import org.girlscouts.web.rest.entity.mulesoft.ActivityEntity;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component(service = {MulesoftActivitiesRestClient.class}, immediate = true, name = "org.girlscouts.web.osgi.service.impl.MulesoftActivitiesRestClientImpl")
-@Designate(ocd = MulesoftActivitiesRestClientConfig.class)
+@Designate(ocd = MulesoftActivitiesRestClientImpl.Config.class)
 public class MulesoftActivitiesRestClientImpl extends BasicGirlScoutsService implements MulesoftActivitiesRestClient, MuleSoftActivitiesConstants {
     private static Logger log = LoggerFactory.getLogger(MulesoftActivitiesRestClientImpl.class);
     private String restEndPoint;
@@ -95,5 +97,12 @@ public class MulesoftActivitiesRestClientImpl extends BasicGirlScoutsService imp
         log.debug("Mulesoft Response: " + response);
         EntityUtils.consume(entity);
         return json;
+    }
+
+    @ObjectClassDefinition(name = "MuleSoft Activities Rest client configuration", description = "MuleSoft Activities Rest client configuration")
+    public @interface Config {
+        @AttributeDefinition(name = "MuleSoft Activities rest service url", type = AttributeType.STRING) String restEndPoint();
+        @AttributeDefinition(name = "MuleSoft Activities rest service client id", type = AttributeType.STRING) String clientId();
+        @AttributeDefinition(name = "MuleSoft Activities rest service client secret", type = AttributeType.STRING) String clientSecret();
     }
 }

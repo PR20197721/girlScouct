@@ -2,19 +2,21 @@ package org.girlscouts.web.osgi.component.impl;
 
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.web.osgi.component.GirlscoutsDnsProvider;
-import org.girlscouts.web.osgi.component.configuration.GirlscoutsDnsProviderConfig;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component(service = {GirlscoutsDnsProvider.class}, immediate = true, name = "org.girlscouts.web.osgi.component.impl.GirlscoutsDnsProviderImpl")
-@Designate(ocd = GirlscoutsDnsProviderConfig.class)
+@Designate(ocd = GirlscoutsDnsProviderImpl.Config.class)
 public class GirlscoutsDnsProviderImpl implements GirlscoutsDnsProvider{
     private ComponentContext context;
     private Map<String, String> councilMapping;
@@ -55,5 +57,8 @@ public class GirlscoutsDnsProviderImpl implements GirlscoutsDnsProvider{
         }
     }
 
-
+    @ObjectClassDefinition(name = "Girl Scouts DNS Mapping Configuration", description = "Girl Scouts DNS Mapping Configuration")
+    public @interface Config {
+        @AttributeDefinition(name = "Get Council DNS mapping", description = "Get Council DNS mapping to council names", type = AttributeType.STRING) String[] dnsMapping();
+    }
 }

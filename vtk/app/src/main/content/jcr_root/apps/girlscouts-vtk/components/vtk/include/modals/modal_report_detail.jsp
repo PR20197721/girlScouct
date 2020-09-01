@@ -1,9 +1,5 @@
-<%@ page import="java.util.*,
-        org.girlscouts.vtk.auth.models.ApiConfig,
-        org.girlscouts.vtk.models.*,
-        org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
-        org.slf4j.Logger,
-        org.slf4j.LoggerFactory" %>
+<%@ page import="org.girlscouts.vtk.osgi.service.MulesoftService,
+        java.util.StringTokenizer" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../../include/session.jsp"%>
@@ -32,7 +28,7 @@
     <div class="content">
         <h4 id="troopName">
             <%
-                java.util.List<Contact> leaders = sling.getService(GirlScoutsSalesForceService.class).getTroopLeaderInfoByTroopId(apiConfig, troopId);
+                java.util.List<Contact> leaders = sling.getService(MulesoftService.class).getTroopLeaders(selectedTroop);
                 if( leaders!=null ){
                     for( int i=0;i<leaders.size();i++){
                         Contact leader = leaders.get(i);

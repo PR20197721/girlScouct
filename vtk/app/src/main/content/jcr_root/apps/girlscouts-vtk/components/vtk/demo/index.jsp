@@ -1,9 +1,9 @@
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig,
                 org.girlscouts.vtk.models.Troop,
                 org.girlscouts.vtk.models.User,
-                org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
-<%@ page import="org.girlscouts.vtk.osgi.component.util.VtkUtil" %>
-<%@ page import="java.util.List, java.util.Set" %>
+                org.girlscouts.vtk.osgi.service.MulesoftService" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Set, org.apache.jackrabbit.api.security.user.UserManager, javax.jcr.Session" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
 <cq:defineObjects/>
@@ -25,7 +25,10 @@
     apiConfig.setDemoUser(true);
     apiConfig.setDemoUserName(contactId);
 //getUser
-    User user = sling.getService(GirlScoutsSalesForceService.class).getUser(apiConfig);
+    final UserManager userManager = resourceResolver.adaptTo(UserManager.class);
+    final Session jcrSession = resourceResolver.adaptTo(Session.class);
+    final org.apache.jackrabbit.api.security.user.User aemUser = (org.apache.jackrabbit.api.security.user.User) userManager.getAuthorizable(jcrSession.getUserID());
+    User user = sling.getService(MulesoftService.class).getUser(aemUser);
     List<Troop> userTroops = user.getTroops();
     user.setName(contactId);
     for (Troop troop:userTroops) {

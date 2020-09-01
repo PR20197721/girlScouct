@@ -17,7 +17,6 @@
                 org.girlscouts.vtk.osgi.component.util.VtkYearPlanChangeException,
                 org.girlscouts.vtk.mapper.vtk.CollectionModelToEntityMapper,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
-                org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
                 org.joda.time.LocalDate" %>
 <%@ page import="java.util.*, org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper, org.girlscouts.vtk.osgi.component.util.Emailer, org.girlscouts.vtk.utils.ActivityNumberComparator" %>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -280,7 +279,7 @@
             emr.setEmailToSelf("true");
             emr.setTo(user.getEmail());
             if (email_to_gp.equals("true")) {
-                java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(apiConfig, selectedTroop);
+                java.util.List<Contact> contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop);
                 String emails = null;
                 for (int i = 0; i < contacts.size(); i++) {
                     String contactEmail = contacts.get(i).getEmail();

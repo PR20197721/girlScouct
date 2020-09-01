@@ -1,7 +1,7 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect.BiMap" %>
 <%@ page
-        import="com.google.common.collect.HashBiMap, org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+        import="com.google.common.collect.HashBiMap, org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.osgi.service.MulesoftService" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery-te-1.4.0.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
@@ -10,7 +10,7 @@
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = null;
     java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
     boolean isSUM = (selectedTroop.getCouncilCode() != null && "SUM".equals(selectedTroop.getCouncilCode())) ? true : false;
-    contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(apiConfig, selectedTroop);
+    contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop);
     if (contacts != null) {
         session.setAttribute("vtk_cachable_contacts", contacts);
     }
