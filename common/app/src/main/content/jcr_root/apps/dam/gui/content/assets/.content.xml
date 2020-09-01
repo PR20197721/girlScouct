@@ -343,7 +343,7 @@
                     <granite:data jcr:primaryType="nt:unstructured" href="/etc/servlets/trashcan.workflow"/>
                 </restorefromtrashcan>
                 <downloadassettrackingreport
-                    granite:rel=".cq-damadmin-admin-actions-download-assettracking-report-activator"
+                    granite:rel="cq-damadmin-admin-actions-download-assettracking-report-activator"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="granite/ui/components/coral/foundation/collection/action"
                     activeSelectionCount="multiple"

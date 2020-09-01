@@ -8,9 +8,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.servlet.ServletException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -22,12 +24,11 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.day.cq.search.QueryBuilder;
-import com.day.cq.search.Query;
-import com.day.cq.search.PredicateGroup;
-import com.day.cq.search.result.SearchResult;
-import com.day.cq.search.result.Hit;
 
+import com.day.cq.search.PredicateGroup;
+import com.day.cq.search.Query;
+import com.day.cq.search.QueryBuilder;
+import com.day.cq.search.result.SearchResult;
 import com.day.text.csv.Csv;
 
 @SlingServlet(label = "Girl Scouts Assets Tracking Report Servlet", description = "Generates a csv report of assets historical data", paths = {}, methods = {
@@ -61,7 +62,8 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 		processRequest(request, response);
 	}
 
-	private void processRequest(SlingHttpServletRequest request, SlingHttpServletResponse response) {
+	private void processRequest(SlingHttpServletRequest request, SlingHttpServletResponse response)
+			throws IOException, ServletException {
 		logger.info("Processing Request");
 		ResourceResolver resourceResolver = request.getResourceResolver();
 		Session session = resourceResolver.adaptTo(Session.class);
@@ -75,7 +77,6 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 					logger.error(e.getMessage(), e);
 				}
 			}
-
 			final Csv csv = new Csv();
 			Writer writer;
 			try {
@@ -85,7 +86,10 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 				String disposition = "attachment; fileName=references.csv";
 				response.setHeader("Content-Disposition", disposition);
 				List<List<String>> table = new ArrayList<List<String>>();
+				// List<String> assetPaths = new ArrayList<String>();
 				List<String> assetPaths = null;
+				String[] header = { "Asset", "Date-Time", "Component", "Action" };
+				csv.writeRow(header);
 				ResourceResolver resolver = request.getResourceResolver();
 				for (String path : paths) {
 					Resource target = resolver.resolve(path);
@@ -105,30 +109,52 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 							}
 						}
 					}
+					if (null != assetPaths && !assetPaths.isEmpty()) {
+						for (String str : assetPaths) {
+							Map<String, String> map = new HashMap<String, String>();
+							map.put("path", str);
+							map.put("property", "councilPageUrl");
+							map.put("property.operation", "exists");
+							Query query = queryBuilder.createQuery(PredicateGroup.create(map), session);
+							SearchResult result = query.getResult();
+							Iterator<Resource> it = result.getResources();
+							if (it != null) {
+								while (it.hasNext()) {
+									Resource resource = it.next();
+									logger.info("In getResource, returning {}", resource.getPath());
+									List<String> row = new ArrayList<String>();
+									Node prppertyNode = null;
+									String dateTime = null;
+									String componentPath = null;
+									String eventType = null;
+									try {
+										prppertyNode = resource.adaptTo(Node.class);
+										dateTime = prppertyNode.getProperty("assetUsedDate").getValue().getString();
+										componentPath = prppertyNode.getProperty("componentPath").getValue()
+												.getString();
+										eventType = prppertyNode.getProperty("eventType").getValue().getString();
+									} catch (Exception e) {
 
-				}
-
-				if (null != assetPaths && !assetPaths.isEmpty()) {
-					for (String str : assetPaths) {
-						Map<String, String> map = new HashMap<String, String>();
-						map.put("path", str);
-						map.put("property", "councilPageUrl");
-						map.put("property.operation", "exists");
-
-						Query query = queryBuilder.createQuery(PredicateGroup.create(map), session);
-
-						SearchResult result = query.getResult();
-
-						if (!result.getHits().isEmpty()) {
-							
+									}
+									logger.debug("Date string form the node--->"+dateTime);
+									String date = getDateLiterals(dateTime);
+									String assetpath = StringUtils.substring(resource.getPath(), 0,
+											resource.getPath().indexOf("jcr:content"));
+									row.add(assetpath);
+									row.add(date);
+									row.add(componentPath);
+									row.add(eventType);
+									csv.writeRow(row.toArray(new String[row.size()]));
+								}
+							}
 						}
-
 					}
 				}
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
+			} finally {
+				csv.close();
 			}
-
 		}
 	}
 
@@ -166,5 +192,21 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 			}
 		}
 		return results;
+	}
+
+	private String getDateLiterals(String dateString) {
+		String dateTime = dateString.substring(0, 19);
+		dateTime = dateTime.replace("T", " ");
+		/*String[] dateAndTime = dateTime.split(" ");
+		String[] elements = dateAndTime[0].split("-");
+		String result = new String();
+		for (int i = 2; i > -1; i--) {
+			if (i != 0) {
+				result = result + elements[i] + "-";
+			} else {
+				result = result + elements[i];
+			}
+		}*/
+		return dateTime;
 	}
 }
