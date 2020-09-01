@@ -7,7 +7,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.girlscouts.vtk.osgi.conf.MulesoftRestClientConfig;
 import org.girlscouts.vtk.osgi.service.MulesoftRestClient;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopLeadersResponseEntity;
@@ -16,14 +15,17 @@ import org.girlscouts.vtk.rest.entity.mulesoft.UserInfoResponseEntity;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 @Component(service = {MulesoftRestClient.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.MulesoftRestClientImpl")
-@Designate(ocd = MulesoftRestClientConfig.class)
+@Designate(ocd = MulesoftRestClientImpl.Config.class)
 public class MulesoftRestClientImpl extends BasicGirlScoutsService implements MulesoftRestClient {
 
     private static Logger log = LoggerFactory.getLogger(MulesoftRestClientImpl.class);
@@ -147,4 +149,23 @@ public class MulesoftRestClientImpl extends BasicGirlScoutsService implements Mu
         EntityUtils.consume(entity);
         return json;
     }
+
+    @ObjectClassDefinition(name = "Girl Scouts VTK Mulesoft Rest client configuration", description = "Girl Scouts VTK Mulesoft Rest client configuration")
+    public @interface Config {
+        @AttributeDefinition(name = "Mulesoft rest endpoint url", type = AttributeType.STRING) String endpoint();
+
+        @AttributeDefinition(name = "Mulesoft user info api", type = AttributeType.STRING) String userInfo();
+
+        @AttributeDefinition(name = "Mulesoft troop info api", type = AttributeType.STRING) String troopInfo();
+
+        @AttributeDefinition(name = "Mulesoft troop leader info api", type = AttributeType.STRING) String troopLeaderInfo();
+
+        @AttributeDefinition(name = "Mulesoft contacts info api", type = AttributeType.STRING) String contactsInfo();
+
+        @AttributeDefinition(name = "Girl Scouts Client Id", description = "Girl Scouts Client Id", type = AttributeType.STRING) String client_id();
+
+        @AttributeDefinition(name = "Girl Scouts Client Secret", description = "Girl Scouts Client Secret", type = AttributeType.STRING) String client_secret();
+
+    }
+
 }

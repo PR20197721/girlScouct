@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.sling.servlet.sso;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.jackrabbit.api.security.user.User;
 import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -12,6 +13,7 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.exception.VtkError;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.osgi.component.CouncilMapper;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.service.MulesoftService;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Activate;
@@ -22,8 +24,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.jcr.Session;
 import javax.servlet.Servlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component(service = Servlet.class, property = {
@@ -74,9 +80,13 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
                     String email = aemUser.getProperty("./profile/email") != null ? aemUser.getProperty("./profile/email")[0].getString() : null;
                     String gsUserType = aemUser.getProperty("./profile/gsUserType") != null ? aemUser.getProperty("./profile/gsUserType")[0].getString() : null;
                     log.debug("AEM User In Session: firstName:"+firstName+", lastName:"+lastName+", gsGlobalId="+gsGlobalId+", email="+email+", gsUserType="+gsUserType);
+                    setNameInCookie(firstName, lastName, response);
                     httpSession.setAttribute(ApiConfig.class.getName(), apiConfig);
-                    Troop selectedTroop = apiConfig.getUser().getTroops().get(0);
+                    log.debug("setting current user as: "+apiConfig.getUser());
+                    httpSession.setAttribute(org.girlscouts.vtk.models.User.class.getName(), apiConfig.getUser());
+                    log.debug("setting current troop as: "+apiConfig.getUser().getTroops().get(0));
                     httpSession.setAttribute("VTK_troop", apiConfig.getUser().getTroops().get(0));
+                    Troop selectedTroop = apiConfig.getUser().getTroops().get(0);
                     String councilId = selectedTroop.getCouncilCode();
                     String userRole = selectedTroop.getRole();
                     userRole = userRole == null ? "" : userRole;
@@ -114,9 +124,12 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
                             if (userTroops.size() > 0) {
                                 try {
                                     Troop selectedTroop = userTroops.get(0);
-                                    if (httpSession.getAttribute("VTK_troop") != null) {
-                                        selectedTroop = (Troop) httpSession.getAttribute("VTK_troop");
+                                    if (VtkUtil.getTroop(httpSession) != null) {
+                                        selectedTroop = VtkUtil.getTroop(httpSession);
                                     } else {
+                                        log.debug("setting current user as: "+apiConfig.getUser());
+                                        httpSession.setAttribute(org.girlscouts.vtk.models.User.class.getName(), apiConfig.getUser());
+                                        log.debug("setting current troop as: "+apiConfig.getUser().getTroops().get(0));
                                         httpSession.setAttribute("VTK_troop", selectedTroop);
                                     }
                                     String councilId = selectedTroop.getCouncilCode();
@@ -143,6 +156,24 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
         }
     }
 
+    private void setNameInCookie(String firstName, String lastName, SlingHttpServletResponse response) {
+        try {
+            String name = "";
+            if(!StringUtils.isBlank(firstName)){
+                name+=firstName+" ";
+            }
+            if(!StringUtils.isBlank(lastName)){
+                name+=lastName+" ";
+            }
+            Cookie nameCookie = new Cookie("girl-scout-name", URLEncoder.encode(name, StandardCharsets.UTF_8.toString()));
+            nameCookie.setPath("/");
+            response.addCookie(nameCookie);
+        } catch (UnsupportedEncodingException e) {
+            log.error("Error occurred:", e);
+        }
+
+    }
+
     private void returnError(SlingHttpServletResponse response, HttpSession httpSession, String vtkRedirect, String  description) throws IOException {
         VtkError error = new VtkError();
         error.setDescription("Unable to get troop details");
@@ -151,7 +182,7 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
     }
     private boolean isActiveVTKSession(SlingHttpServletRequest request) {
         Boolean isActiveVtkSession = false;
-        if(request.getSession().getAttribute(ApiConfig.class.getName()) != null && request.getSession().getAttribute("VTK_troop") != null){
+        if(request.getSession().getAttribute(ApiConfig.class.getName()) != null && VtkUtil.getTroop(request.getSession()) != null){
             isActiveVtkSession = true;
         }
         return isActiveVtkSession;

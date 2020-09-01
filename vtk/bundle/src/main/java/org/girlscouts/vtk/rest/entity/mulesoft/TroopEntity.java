@@ -66,4 +66,9 @@ public class TroopEntity {
     public void setParentAccount(ParentAccountEntity parentAccount) {
         this.parentAccount = parentAccount;
     }
+
+    @Override
+    public String toString() {
+        return "TroopEntity{" + "volunteerJobs=" + volunteerJobs + ", parentAccount=" + parentAccount + ", programGradeLevel='" + programGradeLevel + '\'' + ", name='" + name + '\'' + ", id='" + id + '\'' + ", councilCode='" + councilCode + '\'' + '}';
+    }
 }

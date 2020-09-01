@@ -4,20 +4,22 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.girlscouts.vtk.osgi.cache.MulesoftTroopsResponseCache;
-import org.girlscouts.vtk.osgi.conf.MulesoftTroopsResponseCacheConfig;
 import org.girlscouts.vtk.osgi.service.impl.BasicGirlScoutsService;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
+import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
 @Component(service = {MulesoftTroopsResponseCache.class}, immediate = true, name = "org.girlscouts.vtk.osgi.cache.impl.MulesoftTroopsResponseCacheImpl")
-@Designate(ocd = MulesoftTroopsResponseCacheConfig.class)
+@Designate(ocd = MulesoftTroopsResponseCacheImpl.Config.class)
 public class MulesoftTroopsResponseCacheImpl extends BasicGirlScoutsService implements MulesoftTroopsResponseCache {
 
     private static Logger log = LoggerFactory.getLogger(MulesoftTroopsResponseCacheImpl.class);
@@ -96,5 +98,14 @@ public class MulesoftTroopsResponseCacheImpl extends BasicGirlScoutsService impl
 
             }
         }
+    }
+
+    @ObjectClassDefinition(name = "Girl Scouts VTK Contacts cache configuration", description = "Girl Scouts VTK Contacts cache configuration")
+    public @interface Config {
+        @AttributeDefinition(name = "Enable Caching", description = "Check to enable caching", type = AttributeType.BOOLEAN) boolean isCacheEnabled();
+
+        @AttributeDefinition(name = "Max Size", description = "Specifies the maximum number of entries the cache may contain.", type = AttributeType.INTEGER) int maxSize();
+
+        @AttributeDefinition(name = "Expiration Period (in min)", description = "Specifies that each entry should be automatically removed from the cache once a fixed duration has elapsed after the entry's creation, or the most recent replacement of its value.", type = AttributeType.INTEGER) int expireAfter();
     }
 }

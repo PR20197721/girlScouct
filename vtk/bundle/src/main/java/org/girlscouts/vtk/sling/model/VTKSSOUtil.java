@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.apache.jackrabbit.api.security.user.User;
 import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.models.annotations.Model;
 import org.apache.sling.models.annotations.injectorspecific.OSGiService;
@@ -14,12 +15,14 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.jcr.Session;
+import javax.servlet.http.HttpSession;
 
 @Model(adaptables = SlingHttpServletRequest.class)
 public class VTKSSOUtil {
     private static final Logger log = LoggerFactory.getLogger(VTKSSOUtil.class);
     @Self
     private SlingHttpServletRequest request;
+    private SlingHttpServletResponse response;
     @OSGiService
     private SSOConfigurationService ssoConfig;
 
@@ -49,6 +52,20 @@ public class VTKSSOUtil {
         }catch(Exception e){
             log.error("Error occurred:",e);
         }
+    }
+
+    public Boolean invalidateSession(){
+        Boolean result = false;
+        try {
+            HttpSession httpSession = request.getSession();
+            if (httpSession != null) {
+                httpSession.invalidate();
+                result = true;
+            }
+        }catch(Exception e){
+            log.error("Error occurred:", e );
+        }
+        return result;
     }
 
     public Integer getErrorCode() {

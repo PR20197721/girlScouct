@@ -13,7 +13,7 @@
     <%
         HttpSession session = request.getSession();
         ApiConfig apiConfig = session.getAttribute(ApiConfig.class.getName());
-        User user = apiConfig.getUser();
+        User user = VtkUtil.getUser(session);
         //security concern.
         String cid = user.getAdminCouncilId();
         if (!(user.isAdmin() && StringUtils.isNotBlank(user.getAdminCouncilId()))) {

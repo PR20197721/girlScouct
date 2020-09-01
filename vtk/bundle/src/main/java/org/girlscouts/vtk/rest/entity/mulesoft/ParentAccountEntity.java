@@ -34,4 +34,9 @@ public class ParentAccountEntity {
     public void setCouncilCode(String councilCode) {
         this.councilCode = councilCode;
     }
+
+    @Override
+    public String toString() {
+        return "ParentAccountEntity{" + "name='" + name + '\'' + ", id='" + id + '\'' + ", councilCode='" + councilCode + '\'' + '}';
+    }
 }

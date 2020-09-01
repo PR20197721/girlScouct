@@ -19,8 +19,9 @@
     </div>
 </div>
 <div class="content">
-    <div id="error">
-    </div>
+    <sly data-sly-test="${ssoUtil.invalidateSession}">
+        <div class="page-title">You have been logged out of VTK</div>
+    </sly>
 </div>
 <div class="footer">
     <span>© 2020 Girl Scouts of the United States of America. A 501(c)(3) Organization. All rights reserved.</span>

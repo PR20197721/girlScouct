@@ -15,6 +15,7 @@ public class TroopEntityToTroopMapper {
     private static Logger log = LoggerFactory.getLogger(TroopEntityToTroopMapper.class);
 
     public static Troop map(TroopEntity entity) {
+        log.debug("mapping troop entity: "+entity);
         try {
             Troop troop = new Troop();
             try {
@@ -44,6 +45,7 @@ public class TroopEntityToTroopMapper {
             }
             try {
                 troop.setGradeLevel(entity.getProgramGradeLevel());
+                troop.setSfTroopAge(entity.getProgramGradeLevel());
             } catch (Exception ex) {
                 log.error("Error occurred mapping GradeLevel to Troop ", ex);
             }
@@ -53,18 +55,19 @@ public class TroopEntityToTroopMapper {
                     try {
                         String endDate = jobEntity.getEndDate();
                         String startDate = jobEntity.getStartDate();
-                        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy/MM/dd");
-                        DateTime start = formatter.parseDateTime(endDate);
-                        DateTime end = formatter.parseDateTime(startDate);
+                        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+                        DateTime start = formatter.parseDateTime(startDate);
+                        DateTime end = formatter.parseDateTime(endDate);
                         if (start.isBeforeNow() && end.isAfterNow() && "Troop/Program Leader".equals(jobEntity.getJobCode())) {
                             troop.setRole("DP");
-                            troop.setParticipationCode("Troop");
                         }
+                        troop.setParticipationCode("Troop");
                     }catch(Exception e){
                         log.error("Error occurred mapping jobs to participation code and role ", e);
                     }
                 }
             }
+            log.debug("mapped entity to troop: "+troop);
             return troop;
         } catch (Exception e) {
             log.error("Error occurred mapping TroopEntity to Troop ", e);

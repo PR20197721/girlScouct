@@ -7,13 +7,18 @@ import java.util.List;
 public class TroopInfoResponseEntity {
 
     @SerializedName("troops")
-    private List<TroopEntity> troops;
+    private List<TroopWrapperEntity> troops;
 
-    public List<TroopEntity> getTroops() {
+    public List<TroopWrapperEntity> getTroops() {
         return troops;
     }
 
-    public void setTroops(List<TroopEntity> troops) {
+    public void setTroops(List<TroopWrapperEntity> troops) {
         this.troops = troops;
+    }
+
+    @Override
+    public String toString() {
+        return "TroopInfoResponseEntity{" + "troops=" + troops + '}';
     }
 }

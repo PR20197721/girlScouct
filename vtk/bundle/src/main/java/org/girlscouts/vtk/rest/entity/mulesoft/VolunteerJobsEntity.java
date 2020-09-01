@@ -43,4 +43,9 @@ public class VolunteerJobsEntity {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    @Override
+    public String toString() {
+        return "VolunteerJobsEntity{" + "startDate='" + startDate + '\'' + ", name='" + name + '\'' + ", jobCode='" + jobCode + '\'' + ", endDate='" + endDate + '\'' + '}';
+    }
 }

@@ -29,12 +29,13 @@
     final TroopDAO troopDAO = sling.getService(TroopDAO.class);
     CouncilMapper councilMapper = sling.getService(CouncilMapper.class);
     HttpSession session = request.getSession();
-    Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
-    int vtkSignupYear = VtkUtil.getCurrentGSYear() + 1;
+    Integer vtkSignupYear = null;
     Logger sessionlog = LoggerFactory.getLogger(this.getClass().getName());
     sessionlog.debug("session.jsp");
     ApiConfig apiConfig = null;
     User user = null;
+    Troop selectedTroop = null;
+    List<Troop> userTroops = null;
     if (session.getAttribute("fatalError") != null) {
         sessionlog.error("fatal error is set in session " + session.getAttribute("fatalError"));
 %>
@@ -49,6 +50,9 @@
         if (session.getAttribute(ApiConfig.class.getName()) != null) {
             apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
             user = apiConfig.getUser();
+            userTroops = user.getTroops();
+            selectedTroop = (Troop) session.getAttribute("VTK_troop");
+            vtkSignupYear = VtkUtil.getCurrentGSYear() + 1;
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             VtkError error = new VtkError();
@@ -69,7 +73,6 @@
         out.println("Your session has timed out.  Please login.");
         return;
     }
-    List<Troop> userTroops = user.getTroops();
     if ((userTroops == null || userTroops.size() <= 0 || (userTroops.get(0).getType() == 1))) {
         VtkError error = new VtkError();
         error.setDescription("Unable to get user troop information");
