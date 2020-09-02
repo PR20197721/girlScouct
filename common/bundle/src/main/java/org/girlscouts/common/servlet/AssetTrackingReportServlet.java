@@ -96,7 +96,9 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 					assetPaths = new ArrayList<String>();
 					if (!target.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 						if (target.isResourceType("dam:Asset")) {
-							assetPaths.add(path);
+							if(path.startsWith("/content/dam/girlscouts-shared")) {
+							 assetPaths.add(path);
+							}
 						} else {
 							int level = getLevel(path);
 							if (level > 4) {
@@ -110,50 +112,54 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 						}
 					}
 					if (null != assetPaths && !assetPaths.isEmpty()) {
-						for (String str : assetPaths) {
-							Map<String, String> map = new HashMap<String, String>();
-							map.put("path", str);
-							map.put("property", "councilPageUrl");
-							map.put("property.operation", "exists");
-							Query query = queryBuilder.createQuery(PredicateGroup.create(map), session);
-							SearchResult result = query.getResult();
-							Iterator<Resource> it = result.getResources();
-							if (it != null) {
-								while (it.hasNext()) {
-									Resource resource = it.next();
-									logger.info("In getResource, returning {}", resource.getPath());
-									List<String> row = new ArrayList<String>();
-									Node prppertyNode = null;
-									String dateTime = null;
-									String componentPath = null;
-									String eventType = null;
-									try {
-										prppertyNode = resource.adaptTo(Node.class);
-										dateTime = prppertyNode.getProperty("assetUsedDate").getValue().getString();
-										componentPath = prppertyNode.getProperty("componentPath").getValue()
-												.getString();
-										eventType = prppertyNode.getProperty("eventType").getValue().getString();
-									} catch (Exception e) {
-
-									}
-									logger.debug("Date string form the node--->"+dateTime);
-									String date = getDateLiterals(dateTime);
-									String assetpath = StringUtils.substring(resource.getPath(), 0,
-											resource.getPath().indexOf("jcr:content"));
-									row.add(assetpath);
-									row.add(date);
-									row.add(componentPath);
-									row.add(eventType);
-									csv.writeRow(row.toArray(new String[row.size()]));
-								}
-							}
-						}
+						writeToFile(session, csv, assetPaths);
 					}
 				}
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
 			} finally {
 				csv.close();
+			}
+		}
+	}
+
+	private void writeToFile(Session session, final Csv csv, List<String> assetPaths) throws IOException {
+		for (String str : assetPaths) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("path", str);
+			map.put("property", "councilPageUrl");
+			map.put("property.operation", "exists");
+			Query query = queryBuilder.createQuery(PredicateGroup.create(map), session);
+			SearchResult result = query.getResult();
+			Iterator<Resource> it = result.getResources();
+			if (it != null) {
+				while (it.hasNext()) {
+					Resource resource = it.next();
+					logger.info("In getResource, returning {}", resource.getPath());
+					List<String> row = new ArrayList<String>();
+					Node prppertyNode = null;
+					String dateTime = null;
+					String componentPath = null;
+					String eventType = null;
+					try {
+						prppertyNode = resource.adaptTo(Node.class);
+						dateTime = prppertyNode.getProperty("assetUsedDate").getValue().getString();
+						componentPath = prppertyNode.getProperty("componentPath").getValue()
+								.getString();
+						eventType = prppertyNode.getProperty("eventType").getValue().getString();
+					} catch (Exception e) {
+
+					}
+					logger.debug("Date string form the node--->"+dateTime);
+					String date = getDateLiterals(dateTime);
+					String assetpath = StringUtils.substring(resource.getPath(), 0,
+							resource.getPath().indexOf("jcr:content"));
+					row.add(assetpath);
+					row.add(date);
+					row.add(componentPath);
+					row.add(eventType);
+					csv.writeRow(row.toArray(new String[row.size()]));
+				}
 			}
 		}
 	}
@@ -183,7 +189,9 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 					while (it.hasNext()) {
 						Resource child = it.next();
 						if (child.isResourceType("dam:Asset")) {
-							results.add(child.getPath());
+							if(child.getPath().startsWith("/content/dam/girlscouts-shared")) {
+							   results.add(child.getPath());
+							}
 						} else {
 							results.addAll(getAssets(child));
 						}
