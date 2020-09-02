@@ -331,6 +331,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 if (entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
                     isParent = true;
                     Troop troop = ParentEntityToTroopMapper.map(entity);
+                    
                     //Independent Registered Member
                     if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
                         setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
@@ -348,8 +349,11 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
         Boolean isParentOfRenewedGirl = isParent && !parentTroops.isEmpty();
 
-        if (!user.isActive() && !isParentOfRenewedGirl) {
-            mergedTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
+        List<Troop> manuallyLoadedTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
+        Boolean isTroopLeader = manuallyLoadedTroops.stream().anyMatch(t -> "DP".equals(t.getRole()));
+        if (!user.isActive() && (!isParentOfRenewedGirl || isTroopLeader)) {
+            // Troop leaders
+            mergedTroops = manuallyLoadedTroops;
             /*Set<Troop> removeNonRenewedParents = new HashSet<>();
             for (Troop troop : mergedTroops) {
                 if ((!user.isActive() && "PA".equals(troop.getRole())) ||troop.getSfTroopName() == null || troop.getRole() == null || troop.getGradeLevel() == null || troop.getCouncilCode() == null || !isValidParticipationCode(troop)) {
@@ -359,6 +363,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
             mergedTroops.removeAll(removeNonRenewedParents);*/
         } else {
+            // All parents, including IRM, excluding troop leaders
             mergedTroops = mergeTroops(parentTroops, additionalTroops);
         }
         //Service Unit Manager
