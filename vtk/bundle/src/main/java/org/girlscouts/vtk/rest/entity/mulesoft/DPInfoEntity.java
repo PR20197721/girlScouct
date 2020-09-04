@@ -24,4 +24,9 @@ public class DPInfoEntity {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    @Override
+    public String toString() {
+        return "DPInfoEntity{" + "firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + '}';
+    }
 }

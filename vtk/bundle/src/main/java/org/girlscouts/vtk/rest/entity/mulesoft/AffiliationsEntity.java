@@ -73,4 +73,9 @@ public class AffiliationsEntity {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
+
+    @Override
+    public String toString() {
+        return "AffiliationsEntity{" + "type='" + type + '\'' + ", startDate='" + startDate + '\'' + ", programGradeLevel='" + programGradeLevel + '\'' + ", name='" + name + '\'' + ", endDate='" + endDate + '\'' + ", councilCode='" + councilCode + '\'' + ", accountId='" + accountId + '\'' + '}';
+    }
 }

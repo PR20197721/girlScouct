@@ -861,7 +861,7 @@ public class MeetingUtil {
                 i++;
             }
         }
-        java.util.List<org.girlscouts.vtk.models.Contact> contacts = mulesoftService.getContactsForTroop(troop);
+        java.util.List<org.girlscouts.vtk.models.Contact> contacts = mulesoftService.getContactsForTroop(troop, user);
         contacts = contacts.stream().filter(e -> "GIRL".equals(e.getRole().trim().toUpperCase())).collect(java.util.stream.Collectors.toList());
         String path = troop.getPath() + "/yearPlan/" + YEAR_PLAN_EVENT + "/" + mid + "/attendance";
         java.util.List<String> Attendances = new java.util.ArrayList<String>();
@@ -962,7 +962,7 @@ public class MeetingUtil {
             }
             Set<String> achievers = new HashSet<String>();
             List<String> contactIds = new ArrayList<String>();
-            List<Contact> contacts = mulesoftService.getContactsForTroop(troop);
+            List<Contact> contacts = mulesoftService.getContactsForTroop(troop, user);
             for (int i = 0; i < contacts.size(); i++) {
                 contactIds.add(contacts.get(i).getId());
             }

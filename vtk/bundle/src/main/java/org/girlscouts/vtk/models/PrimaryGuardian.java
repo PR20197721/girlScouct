@@ -1,24 +1,15 @@
-package org.girlscouts.vtk.rest.entity.mulesoft;
+package org.girlscouts.vtk.models;
 
-import com.google.gson.annotations.SerializedName;
 
-public class PrimaryContactEntity {
+public class PrimaryGuardian {
 
-    @SerializedName("LastName")
     private String lastName;
-    @SerializedName("GlobalId")
     private String globalId;
-    @SerializedName("FirstName")
     private String firstName;
-    @SerializedName("Phone")
     private String phone;
-    @SerializedName("MobilePhone")
     private String mobilePhone;
-    @SerializedName("SMSOptIn")
     private boolean smsOptIn;
-    @SerializedName("Email")
     private String email;
-    @SerializedName("EmailOptIn")
     private boolean emailOptIn;
 
     public String getLastName() {
@@ -87,6 +78,6 @@ public class PrimaryContactEntity {
 
     @Override
     public String toString() {
-        return "PrimaryContactEntity{" + "lastName='" + lastName + '\'' + ", globalId='" + globalId + '\'' + ", firstName='" + firstName + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", smsOptIn=" + smsOptIn + ", email='" + email + '\'' + ", emailOptIn=" + emailOptIn + '}';
+        return "PrimaryGuardian{" + "lastName='" + lastName + '\'' + ", globalId='" + globalId + '\'' + ", firstName='" + firstName + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", smsOptIn=" + smsOptIn + ", email='" + email + '\'' + ", emailOptIn=" + emailOptIn + '}';
     }
 }

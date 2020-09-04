@@ -173,4 +173,9 @@ public class MembersEntity {
     public void setPrimaryGuardian(PrimaryGuardianEntity primaryGuardian) {
         this.primaryGuardian = primaryGuardian;
     }
+
+    @Override
+    public String toString() {
+        return "MembersEntity{" + "yearsAsGirl=" + yearsAsGirl + ", yearsAsAdult=" + yearsAsAdult + ", smsOptIn=" + smsOptIn + ", role=" + role + ", promptForRenewal=" + promptForRenewal + ", phone='" + phone + '\'' + ", mostRecentMembershipYear='" + mostRecentMembershipYear + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", lastName='" + lastName + '\'' + ", globalId='" + globalId + '\'' + ", firstName='" + firstName + '\'' + ", emailOptIn=" + emailOptIn + ", email='" + email + '\'' + ", birthdate='" + birthdate + '\'' + ", age=" + age + ", address=" + address + ", primaryGuardian=" + primaryGuardian + '}';
+    }
 }

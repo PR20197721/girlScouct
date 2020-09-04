@@ -64,4 +64,9 @@ public class AddressEntity {
     public void setCity(String city) {
         this.city = city;
     }
+
+    @Override
+    public String toString() {
+        return "AddressEntity{" + "street='" + street + '\'' + ", state='" + state + '\'' + ", postalCode='" + postalCode + '\'' + ", county='" + county + '\'' + ", country='" + country + '\'' + ", city='" + city + '\'' + '}';
+    }
 }

@@ -15,7 +15,7 @@ import org.girlscouts.common.osgi.component.CouncilCodeToPathMapper;
 import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.common.util.PageReplicationUtil;
 import org.girlscouts.web.osgi.MuleSoftActivitiesConstants;
-import org.girlscouts.web.osgi.component.GirlscoutsVtkConfigProvider;
+import org.girlscouts.common.osgi.component.GirlscoutsVtkConfigProvider;
 import org.girlscouts.web.osgi.service.MulesoftActivitiesRestClient;
 import org.girlscouts.web.rest.entity.mulesoft.ActivityEntity;
 import org.girlscouts.web.rest.entity.mulesoft.PayloadEntity;

@@ -1,7 +1,7 @@
-package org.girlscouts.web.osgi.component.impl;
+package org.girlscouts.common.osgi.component.impl;
 
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.web.osgi.component.GirlscoutsDnsProvider;
+import org.girlscouts.common.osgi.component.GirlscoutsDnsProvider;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -15,7 +15,7 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component(service = {GirlscoutsDnsProvider.class}, immediate = true, name = "org.girlscouts.web.osgi.component.impl.GirlscoutsDnsProviderImpl")
+@Component(service = {GirlscoutsDnsProvider.class}, immediate = true, name = "org.girlscouts.common.osgi.component.impl.GirlscoutsDnsProviderImpl")
 @Designate(ocd = GirlscoutsDnsProviderImpl.Config.class)
 public class GirlscoutsDnsProviderImpl implements GirlscoutsDnsProvider{
     private ComponentContext context;
@@ -25,12 +25,11 @@ public class GirlscoutsDnsProviderImpl implements GirlscoutsDnsProvider{
     private ResourceResolverFactory resolverFactory;
 
     @Activate
-    public void activate(ComponentContext context) {
-        councilMapping = new HashMap<>();
-        this.context = context;
-        for (String s : getConfig("dnsMapping")) {
+    public void activate(Config config) {
+        this.councilMapping = new HashMap<>();
+        for (String s : config.dnsMapping()) {
             String[] temp = s.split("::");
-            councilMapping.put(temp[0],temp[1]);
+            this.councilMapping.put(temp[0],temp[1]);
         }
 
     }

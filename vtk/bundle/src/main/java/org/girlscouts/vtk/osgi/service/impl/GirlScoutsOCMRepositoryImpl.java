@@ -65,6 +65,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
     @Override
     public <T extends JcrNode> T create(T object) {
         if (object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
+            log.debug("Creating node at:", object.getPath());
             ResourceResolver rr = null;
             try {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);
@@ -104,6 +105,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
     @Override
     public <T extends JcrNode> T update(T object) {
         if (object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
+            log.debug("Updating node at:", object.getPath());
             ResourceResolver rr = null;
             try {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);
@@ -136,6 +138,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
         T object = null;
         if(path != null && path.startsWith("/content/girlscouts-vtk/")){
             if(libraryCache.contains(path)){
+                log.debug("Reading node at: " + path+ " from cache.");
                 object = libraryCache.read(path);
             }
         }

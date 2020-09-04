@@ -110,7 +110,7 @@
             Troop selectedTroopRepoData = null;
             try {
                 if (!(apiConfig.getUser().isAdmin() && selectedTroop.getTroopId().equals("none"))) {
-                    selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
+                    selectedTroopRepoData = selectedTroop.getIsTransient() ? selectedTroop : troopUtil.getTroopByPath(user, selectedTroop.getPath());
                 }
             } catch (VtkException ec) {
                 VtkError error = new VtkError();

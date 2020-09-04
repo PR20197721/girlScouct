@@ -23,9 +23,15 @@
                 <%@include file="plan.jsp" %>
                 <%
             } else {
-                %>
-                <script>self.location = "/content/girlscouts-vtk/en/vtk.explore.html"; </script>
-                <%
+                if("VTK Admin View".equals(selectedTroop.getTroopName())){
+                    %>
+                    <script>self.location = "/content/girlscouts-vtk/en/vtk.finances.html"; </script>
+                    <%
+                }else{
+                    %>
+                    <script>self.location = "/content/girlscouts-vtk/en/vtk.explore.html"; </script>
+                    <%
+                }
             }
         }
     }

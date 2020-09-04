@@ -10,7 +10,7 @@
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = null;
     java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
     boolean isSUM = (selectedTroop.getCouncilCode() != null && "SUM".equals(selectedTroop.getCouncilCode())) ? true : false;
-    contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop);
+    contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop, user);
     if (contacts != null) {
         session.setAttribute("vtk_cachable_contacts", contacts);
     }
@@ -100,26 +100,28 @@
         org.girlscouts.vtk.models.Contact contact = contacts.get(i);
         // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
         java.util.List<ContactExtras> infos = contactsExtras.get(contact);
-        if (user.getContactId().equals(contact.getContactId())) {
-%>
-<div class="column large-24 large-centered mytroop">
-    <dl class="accordion" data-accordion>
-        <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %>
-        </h3></dt>
-        <dd class="accordion-navigation">
-            <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
-                <%try {%>
-                <%@include file='include/troop_child_achievmts.jsp' %>
-                <%
-                    } catch (Exception e) {
-                        mytroopreactlogger.error("Error occured:", e);
-                    }
-                %>
+        if (VtkUtil.isUserCaregiverForContact(user, contact)) {
+            %>
+            <div class="column large-24 large-centered mytroop">
+                <dl class="accordion" data-accordion>
+                    <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %>
+                    </h3></dt>
+                    <dd class="accordion-navigation">
+                        <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
+                            <%
+                                try {
+                                    %>
+                                    <%@include file='include/troop_child_achievmts.jsp' %>
+                                    <%
+                                } catch (Exception e) {
+                                    mytroopreactlogger.error("Error occured:", e);
+                                }
+                            %>
+                        </div>
+                    </dd>
+                </dl>
             </div>
-        </dd>
-    </dl>
-</div>
-<%
+            <%
             }
         }//edn for
     }//edn if
@@ -139,8 +141,8 @@
         <dd class="accordion-navigation">
             <div class="content active" id="panel1">
                 <%try {%>
-                <%@include file='include/troop_member_detail.jsp' %>
-                <%
+                    <%@include file='include/troop_member_detail.jsp' %>
+                    <%
                     } catch (Exception e) {
                         mytroopreactlogger.error("Error occured:", e);
                     }

@@ -23,4 +23,9 @@ public class RoleEntity {
     public void setPrimary(String primary) {
         this.primary = primary;
     }
+
+    @Override
+    public String toString() {
+        return "RoleEntity{" + "secondary='" + secondary + '\'' + ", primary='" + primary + '\'' + '}';
+    }
 }

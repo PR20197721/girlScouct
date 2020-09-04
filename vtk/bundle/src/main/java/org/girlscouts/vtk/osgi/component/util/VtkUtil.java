@@ -793,4 +793,17 @@ public class VtkUtil implements ConfigListener {
     public int _getCurrentGSYear() {
         return VtkUtil.getCurrentGSDate();
     }
+
+    public static boolean isUserCaregiverForContact(User user, Contact contact){
+        log.debug("Checking if user "+user+" is caregiver for "+contact);
+        boolean result = false;
+        String userEmail = user.getEmail();
+        String primaryGuardianEmail = (contact.getPrimaryGuardian() != null && contact.getPrimaryGuardian().getEmail() != null) ? contact.getPrimaryGuardian().getEmail() : null;
+        log.debug("user email = "+user.getEmail()+"; contacts primary guardian email="+primaryGuardianEmail);
+        if(userEmail != null && primaryGuardianEmail != null){
+            result =  (userEmail != null && primaryGuardianEmail != null && primaryGuardianEmail.equals(userEmail));
+        }
+        log.debug("isUserCaregiverForContact = "+result);
+        return result;
+    }
 }//end class

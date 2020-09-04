@@ -1,7 +1,7 @@
 <%@ page
         import="org.girlscouts.vtk.auth.permission.Permission,
                 org.girlscouts.vtk.models.Activity,
-                org.girlscouts.vtk.models.Troop" %>
+                org.girlscouts.vtk.models.Troop, java.net.URLEncoder" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="session.jsp" %>
@@ -38,7 +38,8 @@
         <div class="columns large-7 medium-9 right">
             <%
                 if (userTroops != null && userTroops.size() > 1) {
-                    Cookie cookie = new Cookie("vtk_prefTroop", selectedTroop.getGradeLevel());
+                    sessionlog.debug("vtk_prefTroop: "+selectedTroop.toString());
+                    Cookie cookie = new Cookie("vtk_prefTroop", URLEncoder.encode(selectedTroop.getGradeLevel()));
                     cookie.setMaxAge(-1);
                     response.addCookie(cookie);
             %>

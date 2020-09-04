@@ -279,7 +279,7 @@
             emr.setEmailToSelf("true");
             emr.setTo(user.getEmail());
             if (email_to_gp.equals("true")) {
-                java.util.List<Contact> contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop);
+                java.util.List<Contact> contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop, user);
                 String emails = null;
                 for (int i = 0; i < contacts.size(); i++) {
                     String contactEmail = contacts.get(i).getEmail();
@@ -416,7 +416,7 @@
                     } else {
                         selectedTroop = prefTroop;
                     }
-                    Troop selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
+                    Troop selectedTroopRepoData = selectedTroop.getIsTransient() ? selectedTroop : troopUtil.getTroopByPath(user, selectedTroop.getPath());
                     java.util.List<MeetingE> tt = selectedTroopRepoData.getYearPlan().getMeetingEvents();
                     //end archive
                     selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
@@ -678,11 +678,11 @@
         if(userTroop.getParticipationCode() != null && "IRM".equals(userTroop.getParticipationCode())){
             troopGradeLevel="";
         }
-%>
-    <option value="<%=userTroop.getHash()%>"
-            <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%>
-    </option>
-    <%
+        %>
+        <option value="<%=userTroop.getHash()%>"
+                <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%>
+        </option>
+        <%
         }
     %></select><%
 } else if (request.getParameter("printCngYearPlans") != null) {

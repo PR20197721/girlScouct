@@ -13,7 +13,7 @@ public interface MulesoftService {
 
     List<Troop> getTroops(User user);
 
-    List<Contact> getContactsForTroop(Troop troop);
+    List<Contact> getContactsForTroop(Troop troop, User user);
 
     List<Contact> getTroopLeaders(Troop troop);
 

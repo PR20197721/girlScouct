@@ -16,4 +16,9 @@ public class TroopLeadersResponseEntity {
     public void setTroopLeaders(List<DPInfoEntity> troopLeaders) {
         this.troopLeaders = troopLeaders;
     }
+
+    @Override
+    public String toString() {
+        return "TroopLeadersResponseEntity{" + "troopLeaders=" + troopLeaders + '}';
+    }
 }

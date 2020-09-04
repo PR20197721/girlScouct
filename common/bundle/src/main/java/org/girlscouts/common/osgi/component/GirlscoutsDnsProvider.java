@@ -1,4 +1,4 @@
-package org.girlscouts.web.osgi.component;
+package org.girlscouts.common.osgi.component;
 
 public interface GirlscoutsDnsProvider {
     String getDns(String councilPath);

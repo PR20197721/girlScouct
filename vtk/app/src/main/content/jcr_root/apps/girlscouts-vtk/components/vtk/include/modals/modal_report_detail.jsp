@@ -12,7 +12,7 @@
     String troopPath = "/vtk" + currentYear + "/" + councilCode + "/troops/" + troopId;
 
     User impersonateRoot =(User) VtkUtil.deepClone(user);
-    Troop _troop = troopUtil.getTroopByPath(impersonateRoot, troopPath);
+    Troop _troop = selectedTroop.getIsTransient() ? selectedTroop : troopUtil.getTroopByPath(impersonateRoot, troopPath);
     java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,selectedTroop,
             _troop.getYearPlan(), true, true);
     Set distinctGirl = new HashSet();

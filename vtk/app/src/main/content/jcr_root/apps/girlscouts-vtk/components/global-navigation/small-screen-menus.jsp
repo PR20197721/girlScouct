@@ -1,4 +1,4 @@
-<%@ page import="java.util.Iterator, java.util.HashSet,java.util.Set,org.girlscouts.web.osgi.component.*, java.util.Arrays,org.apache.sling.api.resource.ResourceResolver, org.slf4j.Logger,org.slf4j.LoggerFactory,org.apache.sling.api.resource.ResourceUtil, com.day.cq.wcm.api.WCMMode"%>
+<%@ page import="java.util.Iterator, java.util.HashSet,java.util.Set,org.girlscouts.common.osgi.component.*, java.util.Arrays,org.apache.sling.api.resource.ResourceResolver, org.slf4j.Logger,org.slf4j.LoggerFactory,org.apache.sling.api.resource.ResourceUtil, com.day.cq.wcm.api.WCMMode"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
@@ -221,7 +221,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 						<div><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">HOME</a></div>
 					</li>
 					<li>
-						<div><a href="<%= configManager.getConfig("communityUrl")%>">MEMBER PROFILE</a></div>
+						<div><a href="<%= configManager.getCommunityUrl()%>">MEMBER PROFILE</a></div>
 					</li><%
 				}
                     }catch(Exception e){}

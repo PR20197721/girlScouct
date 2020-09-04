@@ -175,4 +175,9 @@ public class UserInfoResponseEntity {
     public void setPrimaryContact(PrimaryContactEntity primaryContact) {
         this.primaryContact = primaryContact;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfoResponseEntity{" + "smsOptIn=" + smsOptIn + ", renewalDate='" + renewalDate + '\'' + ", productAccess=" + productAccess + ", primaryCouncil='" + primaryCouncil + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", lastName='" + lastName + '\'' + ", isParent=" + isParent + ", globalId='" + globalId + '\'' + ", firstName='" + firstName + '\'' + ", emailOptIn=" + emailOptIn + ", email='" + email + '\'' + ", affiliations=" + affiliations + ", activeSince='" + activeSince + '\'' + ", returnStatus='" + returnStatus + '\'' + ", errorMessage='" + errorMessage + '\'' + ", primaryContact=" + primaryContact + '}';
+    }
 }

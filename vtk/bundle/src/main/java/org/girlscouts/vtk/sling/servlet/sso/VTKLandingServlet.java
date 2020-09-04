@@ -81,6 +81,7 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
                     String gsUserType = aemUser.getProperty("./profile/gsUserType") != null ? aemUser.getProperty("./profile/gsUserType")[0].getString() : null;
                     log.debug("AEM User In Session: firstName:"+firstName+", lastName:"+lastName+", gsGlobalId="+gsGlobalId+", email="+email+", gsUserType="+gsUserType);
                     setNameInCookie(firstName, lastName, response);
+
                     httpSession.setAttribute(ApiConfig.class.getName(), apiConfig);
                     log.debug("setting current user as: "+apiConfig.getUser());
                     httpSession.setAttribute(org.girlscouts.vtk.models.User.class.getName(), apiConfig.getUser());
@@ -88,6 +89,7 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
                     httpSession.setAttribute("VTK_troop", apiConfig.getUser().getTroops().get(0));
                     Troop selectedTroop = apiConfig.getUser().getTroops().get(0);
                     String councilId = selectedTroop.getCouncilCode();
+                    setLogoutRedirectInCookie(councilId, response, resourceResolver);
                     String userRole = selectedTroop.getRole();
                     userRole = userRole == null ? "" : userRole;
                     if (!userRole.equals("DP")) {
@@ -166,6 +168,18 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
                 name+=lastName+" ";
             }
             Cookie nameCookie = new Cookie("girl-scout-name", URLEncoder.encode(name, StandardCharsets.UTF_8.toString()));
+            nameCookie.setPath("/");
+            response.addCookie(nameCookie);
+        } catch (UnsupportedEncodingException e) {
+            log.error("Error occurred:", e);
+        }
+
+    }
+
+    private void setLogoutRedirectInCookie(String councilId, SlingHttpServletResponse response, ResourceResolver rr) {
+        try {
+            String councilPath = councilMapper.getCouncilName(councilId);
+            Cookie nameCookie = new Cookie("girl-scout-logout", URLEncoder.encode(rr.map("/content/"+councilPath+"/en")+".html", StandardCharsets.UTF_8.toString()));
             nameCookie.setPath("/");
             response.addCookie(nameCookie);
         } catch (UnsupportedEncodingException e) {

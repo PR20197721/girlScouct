@@ -45,4 +45,9 @@ public class ProductAccessEntity {
     public void setDp(boolean dp) {
         this.dp = dp;
     }
+
+    @Override
+    public String toString() {
+        return "ProductAccessEntity{" + "vtkAdmin=" + vtkAdmin + ", su=" + su + ", products=" + products + ", dp=" + dp + '}';
+    }
 }

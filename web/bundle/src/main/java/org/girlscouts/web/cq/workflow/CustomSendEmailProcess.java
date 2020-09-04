@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jcr.Node;
-import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.mail.internet.AddressException;
@@ -26,7 +25,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.girlscouts.web.osgi.component.GirlscoutsDnsProvider;
+import org.girlscouts.common.osgi.component.GirlscoutsDnsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

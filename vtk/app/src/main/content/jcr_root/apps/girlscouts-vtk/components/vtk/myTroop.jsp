@@ -20,9 +20,12 @@
 <script>loadNav('myTroop')</script>
 <%@include file="include/bodyBottom.jsp" %>
 <%!
-    public boolean isRenewMembership(int membershipYear) {
-        Calendar rightNow = Calendar.getInstance();
-        return membershipYear == rightNow.get(Calendar.YEAR) &&
-                (rightNow.get(Calendar.MONTH) > 2 && rightNow.get(Calendar.MONTH) < 9);
+    public boolean isRenewMembership(Integer membershipYear) {
+        if(membershipYear != null) {
+            Calendar rightNow = Calendar.getInstance();
+            return membershipYear == rightNow.get(Calendar.YEAR) && (rightNow.get(Calendar.MONTH) > 2 && rightNow.get(Calendar.MONTH) < 9);
+        }else{
+            return true;
+        }
     }
 %>

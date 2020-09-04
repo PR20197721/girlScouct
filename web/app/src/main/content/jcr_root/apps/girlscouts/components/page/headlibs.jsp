@@ -1,5 +1,5 @@
 <%@ page session="false" %>
-<%@page import="com.day.cq.wcm.api.WCMMode, org.girlscouts.web.osgi.component.*"%>
+<%@page import="com.day.cq.wcm.api.WCMMode, org.girlscouts.web.osgi.component.*, org.girlscouts.common.osgi.component.GirlscoutsVtkConfigProvider"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/headlibs.jsp -->
@@ -34,9 +34,9 @@ if (newCurrentDesign != null) {
 <%
     GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
 
-	String helloUrl = configManager.getConfig("helloUrl");
-	String loginUrl = configManager.getConfig("loginUrl");
-    String logoutUrl = configManager.getConfig("logoutUrl");
+	String helloUrl = configManager.getHelloUrl();
+	String loginUrl = configManager.getLoginUrl();
+    String logoutUrl = configManager.getLogoutUrl();
 	String refererCouncil = null;
 	try {
 		String councilRoot = currentPage.getAbsoluteParent(1).getPath(); // /content/gsnetx

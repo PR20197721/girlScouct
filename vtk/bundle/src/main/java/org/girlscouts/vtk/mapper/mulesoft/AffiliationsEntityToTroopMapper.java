@@ -2,6 +2,9 @@ package org.girlscouts.vtk.mapper.mulesoft;
 
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.rest.entity.mulesoft.AffiliationsEntity;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +50,26 @@ public class AffiliationsEntityToTroopMapper {
                 troop.setParticipationCode(entity.getType());
             } catch (Exception ex) {
                 log.error("Error occurred mapping ParticipationCode to Troop ", ex);
+            }
+            try {
+                String startDate = entity.getStartDate();
+                if(startDate != null) {
+                    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+                    DateTime dt = formatter.parseDateTime(startDate);
+                    troop.setStartDate(dt);
+                }
+            } catch (Exception ex) {
+                log.error("Error occurred mapping start date to Troop ", ex);
+            }
+            try {
+                String endDate = entity.getEndDate();
+                if(endDate != null) {
+                    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+                    DateTime dt = formatter.parseDateTime(endDate);
+                    troop.setEndDate(dt);
+                }
+            } catch (Exception ex) {
+                log.error("Error occurred mapping start date to Troop ", ex);
             }
             return troop;
         } catch (Exception e) {

@@ -84,4 +84,9 @@ public class PrimaryGuardianEntity {
     public void setEmailOptIn(boolean emailOptIn) {
         this.emailOptIn = emailOptIn;
     }
+
+    @Override
+    public String toString() {
+        return "PrimaryGuardianEntity{" + "lastName='" + lastName + '\'' + ", globalId='" + globalId + '\'' + ", firstName='" + firstName + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", smsOptIn=" + smsOptIn + ", email='" + email + '\'' + ", emailOptIn=" + emailOptIn + '}';
+    }
 }

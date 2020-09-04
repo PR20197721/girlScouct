@@ -27,4 +27,9 @@ public class TroopMembersResponseEntity {
     public void setMembers(List<MembersEntity> members) {
         this.members = members;
     }
+
+    @Override
+    public String toString() {
+        return "TroopMembersResponseEntity{" + "troop=" + troop + ", members=" + members + '}';
+    }
 }
