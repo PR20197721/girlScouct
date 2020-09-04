@@ -2,6 +2,8 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="nt:unstructured"
     jcr:title="Gated Content Form"
+    extraClientlibs="[apps.girlscouts.components.gated-content-form]"
+    mode="edit"
     sling:resourceType="cq/gui/components/authoring/dialog">
     <content
         jcr:primaryType="nt:unstructured"
@@ -36,7 +38,57 @@
                                 defaultValue="30"
                                 fieldLabel="Cookie Expiration (in days)"
                                 name="./expiration"/>
-                            <extensions
+                             <links-files
+						        jcr:primaryType="nt:unstructured"
+						        sling:resourceType="granite/ui/components/foundation/container"
+						        jcr:title="Links/Files">
+						        <layout
+						            jcr:primaryType="nt:unstructured"
+						            sling:resourceType="granite/ui/components/foundation/form/fieldset"/>
+						         <items jcr:primaryType="nt:unstructured">
+						          <files
+	                                jcr:primaryType="nt:unstructured"
+	                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+	                                composite="true"
+	                                fieldDescription="One or more files or links on the page"
+	                                fieldLabel="Links">
+	                                <field
+	                                    jcr:primaryType="nt:unstructured"
+	                                    sling:resourceType="granite/ui/components/coral/foundation/container"
+	                                    class="coral-Table--bordered"
+	                                    name="./files">
+	                                    <items jcr:primaryType="nt:unstructured">
+	                                        <file
+	                                            jcr:primaryType="nt:unstructured"
+	                                            sling:resourceType="girlscouts/components/form/pathfield"
+	                                            fieldLabel="Link"
+	                                            fieldDescription="file/link should match with file/link configured on the page"
+	                                            rootPath="/content"
+	                                            name="file"/>
+	                                    </items>
+	                                </field>
+                            	   </files>      
+                            	   <video-links
+								        jcr:primaryType="nt:unstructured"
+								        sling:resourceType="granite/ui/components/foundation/container"
+								        jcr:title="Video Links"> 								        
+								         <items jcr:primaryType="nt:unstructured">
+								         <heading
+											 jcr:primaryType="nt:unstructured"    
+											 sling:resourceType="granite/ui/components/coral/foundation/heading"
+											 level="{Long}5"
+											 text="Video Links"/>
+								         <all-video-links
+			                                jcr:primaryType="nt:unstructured"
+			                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+			                                name="./all-video-links"
+			                                text="All Youtube/Vimeo Links"
+			                                uncheckedValue="false"
+			                                value="true"/>
+								         </items>
+								    </video-links>                  	   
+							        
+		                             <extensions
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
                                 composite="true"
@@ -56,28 +108,9 @@
                                             name="extension"/>
                                     </items>
                                 </field>
-                            </extensions>
-                            <files
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                composite="true"
-                                fieldDescription="One or more file extensions or individual file links on the page"
-                                fieldLabel="Files">
-                                <field
-                                    jcr:primaryType="nt:unstructured"
-                                    sling:resourceType="granite/ui/components/coral/foundation/container"
-                                    class="coral-Table--bordered"
-                                    name="./files">
-                                    <items jcr:primaryType="nt:unstructured">
-                                        <file
-                                            jcr:primaryType="nt:unstructured"
-                                            sling:resourceType="girlscouts/components/form/pathfield"
-                                            fieldLabel="File"
-                                            rootPath="/content"
-                                            name="file"/>
-                                    </items>
-                                </field>
-                            </files>
+                            </extensions>						       
+				         	</items>
+						    </links-files>                                                        
                             <salesforce-campaign-id
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
