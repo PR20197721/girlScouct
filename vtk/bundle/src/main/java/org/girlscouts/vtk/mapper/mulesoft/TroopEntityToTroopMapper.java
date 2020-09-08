@@ -49,9 +49,10 @@ public class TroopEntityToTroopMapper {
             } catch (Exception ex) {
                 log.error("Error occurred mapping GradeLevel to Troop ", ex);
             }
+            troop.setParticipationCode("Troop");
             List<VolunteerJobsEntity> jobs = entity.getVolunteerJobs();
-            if(jobs != null){
-                for(VolunteerJobsEntity jobEntity:jobs){
+            if (jobs != null) {
+                for (VolunteerJobsEntity jobEntity : jobs) {
                     try {
                         String endDate = jobEntity.getEndDate();
                         String startDate = jobEntity.getStartDate();
@@ -61,9 +62,8 @@ public class TroopEntityToTroopMapper {
                         if (start.isBeforeNow() && end.isAfterNow() && "Troop/Program Leader".equals(jobEntity.getJobCode())) {
                             troop.setRole("DP");
                         }
-                        troop.setParticipationCode("Troop");
-                    }catch(Exception e){
-                        log.error("Error occurred mapping jobs to participation code and role ", e);
+                    } catch (Exception e) {
+                        log.error("Error occurred mapping {} to role ",jobEntity, e);
                     }
                 }
             }

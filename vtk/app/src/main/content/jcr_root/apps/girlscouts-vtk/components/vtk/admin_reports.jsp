@@ -11,7 +11,7 @@
 <div class="column medium-23 medium-centered">
     <%
         HttpSession session = request.getSession();
-        ApiConfig apiConfig = session.getAttribute(ApiConfig.class.getName());
+        ApiConfig apiConfig = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
         User user = VtkUtil.getUser(session);
         //security concern.
         String cid = user.getAdminCouncilId();

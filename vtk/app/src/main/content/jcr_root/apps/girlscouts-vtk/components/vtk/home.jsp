@@ -32,24 +32,6 @@
     if (apiConfig != null && !apiConfig.isFail()) {
         usercounciId = apiConfig.getUser().getAdminCouncilId();
         userTroops = apiConfig.getUser().getTroops();
-        if (apiConfig.getUser().isAdmin() && (userTroops == null || userTroops.size() <= 0)) {
-            Troop dummyVTKAdminTroop = new Troop();
-            dummyVTKAdminTroop.setPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_ADMIN_PERMISSIONS));
-            dummyVTKAdminTroop.setTroopId("none");
-            dummyVTKAdminTroop.setSfTroopName("vtk_virtual_troop");
-            dummyVTKAdminTroop.setSfCouncil(apiConfig.getUser().getAdminCouncilId());
-            dummyVTKAdminTroop.setSfUserId("none");
-            dummyVTKAdminTroop.setSfTroopId("none");
-            dummyVTKAdminTroop.setCouncilCode(apiConfig.getUser().getAdminCouncilId());
-            dummyVTKAdminTroop.setTroopName("vtk_virtual_troop");
-            dummyVTKAdminTroop.setGradeLevel("CA");
-            String councilPath = "/vtk" + VtkUtil.getCurrentGSYear() + "/" + dummyVTKAdminTroop.getSfCouncil();
-            dummyVTKAdminTroop.setCouncilPath(councilPath);
-            String troopPath = councilPath + "/troops/" + dummyVTKAdminTroop.getSfTroopId();
-            dummyVTKAdminTroop.setPath(troopPath);
-            // user.setPermissions(user_troop.getPermissionTokens());
-            userTroops.add(dummyVTKAdminTroop);
-        }
         String branch = null;
         try {
             councilId = apiConfig.getUser().getAdminCouncilId();
