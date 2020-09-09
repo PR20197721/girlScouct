@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.models.annotations.DefaultInjectionStrategy;
 import org.apache.sling.models.annotations.Model;
@@ -54,6 +55,10 @@ public class GatedContentForm {
 	@Inject
 	private Resource files;
 
+	@Inject
+	@Named("all-video-links")
+	private String allVideoLinksEnabled;
+
 	private Map<String, Object> attrMap = new HashMap<>();
 
 	private List<String> extensionList = new ArrayList<>();
@@ -67,6 +72,7 @@ public class GatedContentForm {
 		attrMap.put("ageLimit", ageLimit);
 		attrMap.put("cookieExpirationPeriod", cookieExpirationPeriod);
 		attrMap.put("salesforceCampaignId", salesforceCampaignId);
+		attrMap.put("allVideoLinksEnabled", allVideoLinksEnabled);
 
 		Iterator<Resource> extItr = extensions.listChildren();
 		while (extItr.hasNext()) {
@@ -76,13 +82,18 @@ public class GatedContentForm {
 		Iterator<Resource> filesItr = files.listChildren();
 		while (filesItr.hasNext()) {
 			String filePath = filesItr.next().getValueMap().get("file", String.class);
-			if(null != filePath) {
-				if(filePath.lastIndexOf(".") != -1) {
-					filesList.add(filePath);
-				}else {
-					filePath  += ".html";
+			if (null != filePath && StringUtils.isNotEmpty(filePath)) {
+				if (StringUtils.startsWithIgnoreCase(filePath, "/content")) {
+					if (filePath.lastIndexOf(".") != -1) {
+						filesList.add(filePath);
+					} else {
+						filePath += ".html";
+						filesList.add(filePath);
+					}
+				} else {
 					filesList.add(filePath);
 				}
+
 			}
 		}
 
