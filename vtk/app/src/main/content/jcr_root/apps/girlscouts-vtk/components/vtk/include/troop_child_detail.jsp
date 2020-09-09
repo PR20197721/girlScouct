@@ -41,9 +41,9 @@
             <li class="row">
                 <p><strong> Secondary Info:</strong></p>
                 <div class="row">
-                    <span class="column large-5" style="word-wrap:break-word;"><%=contactSub.getFirstName()%> <%=contactSub.getLastName() %></span>
+                    <span class="column large-5" style="word-wrap:break-word;"><%=contactSub.getFirstName() != null? contactSub.getFirstName():""%> <%=contactSub.getLastName() != null ? contactSub.getLastName():""%></span>
                         <%if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
-                            <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail()%></a>
+                            <a class="column large-14 email" href="mailto:<%=contactSub.getEmail() != null ? contactSub.getEmail():""%>"><i class="icon-mail"></i><%=contactSub.getEmail()!= null ? contactSub.getEmail():""%></a>
                         <%} %>
                     <span class="column large-5"><%=contactSub.getPhone() == null ? "" : contactSub.getPhone() %></span>
                 </div >

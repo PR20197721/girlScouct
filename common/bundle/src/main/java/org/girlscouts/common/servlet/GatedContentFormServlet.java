@@ -29,7 +29,8 @@ import java.util.List;
         "sling.servlet.methods=" + HttpConstants.METHOD_POST,
         "sling.servlet.extensions=html",
         "sling.servlet.selectors=gatedcontentform",
-        "sling.servlet.resourceTypes=[girlscouts/components/gated-content-form,gsusa/components/gated-content-form]"})
+        "sling.servlet.resourceTypes=girlscouts/components/gated-content-form",
+        "sling.servlet.resourceTypes=gsusa/components/gated-content-form"})
 public class GatedContentFormServlet extends SlingAllMethodsServlet {
 
 	/**

@@ -4,6 +4,7 @@
 <cq:includeClientLib categories="apps.girlscouts.components.form.actions.web-to-case" />
 <%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %>
 <sling:defineObjects/>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <div id="validation-errors" class="form_error"></div>
 <%
 final ValueMap props = ResourceUtil.getValueMap(resource);
@@ -22,4 +23,9 @@ if (!StringUtils.isBlank(councilCode)) {
     <input class="form_field" name="CouncilCode" value="<%=xssAPI.encodeForHTMLAttr(councilCode)%>" type="hidden"/>
     <%
 }
+        String site_key = currentSite.get("recaptcha_site_key", "");
 %>
+<input class="form_field" type="hidden" name="captcha_settings" value='{"keyname":"<%=homepage.getParent().getName().toUpperCase()%>webtocase","fallback":"true","orgId":"00D220000004chr","ts":""}'>
+<input class="form_field" type="hidden" name="orgid" value="00D220000004chr">
+<input class="form_field" type="hidden" name="retURL" value="">
+<div class="g-recaptcha" data-sitekey="<%=site_key%>"></div>

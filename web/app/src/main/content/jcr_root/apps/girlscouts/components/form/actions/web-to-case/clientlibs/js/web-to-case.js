@@ -3,14 +3,23 @@ $(document).ready(function () {
     var isAuthor = $("input[name='isAuthor']").val();
 
     if (isAuthor == "true") {
-        checkFormConfiguration(form);
+        //checkFormConfiguration(form);
     }
     form.find("input[type='submit']").click(form, function (e) {
         e.stopPropagation();
-        validateAndSubmit(form);
+        //validateAndSubmit(form);
+        submitForm(form);
         return false;
     });
 
+    setRecaptchaParamValues(form);
+
+    function setRecaptchaParamValues(form) {
+        var returnUrl = form.find("input[name='retURL']");
+        if(returnUrl){
+            $(returnUrl[0]).val(window.location.protocol+"//"+window.location.hostname);
+        }
+    }
     function validateAndSubmit(form) {
         try {
             var formValCollection = new Array();
@@ -66,8 +75,11 @@ $(document).ready(function () {
     }
     function displayErrors(errors, form){
         var errorMessage = "";
-        var formErrorTitle = form.find(".form_error_title");
-        var formErrorContainer = form.find(".form-error-container");
+        form.find("div.form_row").find("div.form_error").parent().remove();
+        var formErrorContainer = form.find("div.form-error-container");
+        if(formErrorContainer.length > 0){
+            $(formErrorContainer[0]).html("");
+        }
         if(formErrorTitle.length == 0 ){
             errorMessage += "<p class=\"form_error form_error_title\">Please correct the errors and submit your information again.</p>";
         }
@@ -153,8 +165,8 @@ $(document).ready(function () {
                 }
 
             })
-            .fail(function () {
-                $("#validation-errors").html("Unexpected error occurred.");
+            .fail(function (xhr, status, error) {
+                $("#validation-errors").html(xhr.responseText);
             });
     }
 

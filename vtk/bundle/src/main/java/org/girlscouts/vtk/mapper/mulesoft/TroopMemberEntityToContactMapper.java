@@ -134,6 +134,7 @@ public class TroopMemberEntityToContactMapper {
             }
             PrimaryGuardian primaryGuardian = new PrimaryGuardian();
             if(entity.getPrimaryGuardian() != null) {
+                primaryGuardian.setGlobalId(entity.getPrimaryGuardian().getGlobalId());
                 primaryGuardian.setEmail(entity.getPrimaryGuardian().getEmail());
                 primaryGuardian.setEmailOptIn(entity.getPrimaryGuardian().isEmailOptIn());
                 primaryGuardian.setFirstName(entity.getPrimaryGuardian().getFirstName());

@@ -3,14 +3,18 @@ $(document).ready(function () {
     var isAuthor = $("input[name='isAuthor']").val();
 
     if (isAuthor == "true") {
-        checkFormConfiguration(form);
+       // checkFormConfiguration(form);
     }
     form.find("input[type='submit']").click(form, function (e) {
         e.stopPropagation();
-        validateAndSubmit(form);
+        submitForm(form);
+        //validateAndSubmit(form);
         return false;
     });
     setUTMParamValues(form);
+
+
+
 
     function setUTMParamValues(form) {
         var utm_campaign = getUrlParam("utm_campaign");
@@ -87,11 +91,12 @@ $(document).ready(function () {
     }
     function displayErrors(errors, form){
         var errorMessage = "";
-        var formErrorTitle = form.find(".form_error_title");
-        var formErrorContainer = form.find(".form-error-container");
-        if(formErrorTitle.length == 0 ){
-            errorMessage += "<p class=\"form_error form_error_title\">Please correct the errors and submit your information again.</p>";
+        form.find("div.form_row").find("div.form_error").parent().remove();
+        var formErrorContainer = form.find("div.form-error-container");
+        if(formErrorContainer.length > 0){
+            $(formErrorContainer[0]).html("");
         }
+        errorMessage += "<p class=\"form_error form_error_title\">Please correct the errors and submit your information again.</p>";
         for (var i = 0; i < errors.length; i++) {
             console.log(errors[i]);
             errorMessage += "<div class=\"form_row form_error\">" + errors[i] + "</div>";
@@ -179,8 +184,8 @@ $(document).ready(function () {
                 }
 
             })
-            .fail(function () {
-                $("#validation-errors").html("Unexpected error occurred.");
+            .fail(function (xhr, status, error) {
+                $("#validation-errors").html(xhr.responseText);
             });
     }
 

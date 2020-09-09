@@ -14,20 +14,20 @@ public class WebToLeadUtils {
         String email = request.getParameter("Email");
         String councilCode = request.getParameter("CouncilCode");
         if (StringUtils.isBlank(leadType)){
-            errors.add("Missing value for required field: Lead Type");
+            errors.add("Missing value for required field: LeadType");
         }else{
             if(leadType.equals("DirectContact") || leadType.equals("General")){
                 String zipCode = request.getParameter("ZipCode");
                 if (StringUtils.isBlank(zipCode)){
-                    errors.add("Missing value for required field: Zip Code");
+                    errors.add("Missing value for required field: ZipCode");
                 }
                 String firstName = request.getParameter("FirstName");
                 if (StringUtils.isBlank(firstName)){
-                    errors.add("Missing value for required field: First Name");
+                    errors.add("Missing value for required field: FirstName");
                 }
                 String lastName = request.getParameter("LastName");
                 if (StringUtils.isBlank(lastName)){
-                    errors.add("Missing value for required field: Last Name");
+                    errors.add("Missing value for required field: LastName");
                 }
                 String campaignId = request.getParameter("CampaignID");
                 if (StringUtils.isBlank(campaignId)){
@@ -39,7 +39,7 @@ public class WebToLeadUtils {
             errors.add("Missing value for required field: Email");
         }
         if (StringUtils.isBlank(councilCode)){
-            errors.add("Missing value for required field: Council Code");
+            errors.add("Missing value for required field: CouncilCode");
         }
         return errors;
     }

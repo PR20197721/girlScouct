@@ -37,31 +37,27 @@ $(document).ready(function () {
                     CampaignID: salesforceCampaignId
                 })
                     .success(function (response, status, xhr) {
-                        var body = $(response).find("body");
-                        if (body != null && body.length > 0) {
-                            var responseText = $(body).text();
-                            if (responseText != null) {
-                                if (responseText.contains("SUCCESS")) {
-                                    $('#gsathome-main').hide();
-                                    $('#gsathome-download').show();
-                                    if (remember) {
-                                        setCookie("gsathome", btoa(gatedFormEmail + "|" + gatedFormFirstName + "|" + gatedFormLastName + "|" + gatedFormPhone + "|" + gatedFormZIPCode + "|" + gatedFormIsMember), cookieExpirationPeriod);
-                                    }
-                                } else {
-                                    if (responseText.contains("ERROR")) {
-                                        var errorDetails = responseText.trim().split("|");
-                                        if (errorDetails != null && errorDetails.length >= 2) {
-                                            alert(errorDetails[1]);
-                                        } else {
-                                            alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
-                                        }
+                        if (response != null && response.length > 0) {
+                            if (response.toUpperCase() == "SUCCESS") {
+                                $('#gsathome-main').hide();
+                                $('#gsathome-download').show();
+                                if (remember) {
+                                    setCookie("gsathome", btoa(gatedFormEmail + "|" + gatedFormFirstName + "|" + gatedFormLastName + "|" + gatedFormPhone + "|" + gatedFormZIPCode + "|" + gatedFormIsMember), cookieExpirationPeriod);
+                                }
+                            } else {
+                                if (response.contains("ERROR")) {
+                                    var errorDetails = response.trim().split("|");
+                                    if (errorDetails != null && errorDetails.length >= 2) {
+                                        alert(errorDetails[1]);
+                                    } else {
+                                        alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
                                     }
                                 }
                             }
                         }
                     })
                     .fail(function () {
-                        if (responseText.contains("ERROR")) {
+                        if (response.contains("ERROR")) {
                             alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
                         }
                     });
@@ -208,31 +204,27 @@ $(document).ready(function () {
             CampaignID: salesforceCampaignId
         })
             .success(function (response, status, xhr) {
-                var body = $(response).find("body");
-                if (body != null && body.length > 0) {
-                    var responseText = $(body).text();
-                    if (responseText != null) {
-                        if (responseText.contains("SUCCESS")) {
-                            $('#gsathome-main').hide();
-                            $('#gsathome-download').show();
-                            if (remember) {
-                                setCookie("gsathome", btoa(gatedFormEmail + "|" + gatedFormFirstName + "|" + gatedFormLastName + "|" + gatedFormPhone + "|" + gatedFormZIPCode + "|" + gatedFormIsMember), cookieExpirationPeriod);
-                            }
-                        } else {
-                            if (responseText.contains("ERROR")) {
-                                var errorDetails = responseText.trim().split("|");
-                                if (errorDetails != null && errorDetails.length >= 2) {
-                                    alert(errorDetails[1]);
-                                } else {
-                                    alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
-                                }
+                if (response != null && response.length > 0) {
+                    if (response.toUpperCase() == "SUCCESS") {
+                        $('#gsathome-main').hide();
+                        $('#gsathome-download').show();
+                        if (remember) {
+                            setCookie("gsathome", btoa(gatedFormEmail + "|" + gatedFormFirstName + "|" + gatedFormLastName + "|" + gatedFormPhone + "|" + gatedFormZIPCode + "|" + gatedFormIsMember), cookieExpirationPeriod);
+                        }
+                    } else {
+                        if (response.contains("ERROR")) {
+                            var errorDetails = response.trim().split("|");
+                            if (errorDetails != null && errorDetails.length >= 2) {
+                                alert(errorDetails[1]);
+                            } else {
+                                alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
                             }
                         }
                     }
                 }
             })
             .fail(function () {
-                if (responseText.contains("ERROR")) {
+                if (response.contains("ERROR")) {
                     alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
                 }
             });
@@ -319,3 +311,4 @@ $(document).ready(function () {
 
         return ext;
     }
+});

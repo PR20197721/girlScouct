@@ -88,34 +88,25 @@ public class NodeListener implements EventListener {
         vtkDataOpts.setFilter(new AgentIdFilter("flush"));
         vtkDataOpts.setSuppressStatusUpdate(true);
         vtkDataOpts.setSuppressVersions(true);
-        
         // /vtk/603/troops/701G0000000uQzTIAU => 701G0000000uQzTIAU
         // yearPlanBase = /vtk2015/
         troopPattern = Pattern.compile(yearPlanBase + "[0-9]+/troops/([^/]+)");
-        
         councilInfoPattern = Pattern.compile(yearPlanBase + "[0-9]+/councilInfo/.*");
     }
 
     
     public void onEvent(EventIterator iter) {
-
-
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         String affectedTroop = null;
         String affectedCouncilInfo = null;
-
         for (NodeEvent event : events) {
             String path = event.getPath();
-
             if (path.endsWith("jcr:content")) {
                 continue;
             }
-
             int type = event.getType();
-
             try {
                 if (type == Constants.EVENT_UPDATE) {
-
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, syncOpts);
                 } else if (type == Constants.EVENT_REMOVE){
                     replicator.replicate(session, ReplicationActionType.DELETE, path, syncOpts);
@@ -125,7 +116,6 @@ public class NodeListener implements EventListener {
             } catch (ReplicationException re) {
                 log.error("Replication Exception. Event not handled. type = " + type + " path = " + path);
             }
-                
             // Get the affected troop
             if (affectedTroop == null) {
                 Matcher troopMatcher = troopPattern.matcher(path);
@@ -134,7 +124,6 @@ public class NodeListener implements EventListener {
                     log.debug("Affected Troop found: " + affectedTroop);
                 }
             }
-            
             // Get the affected council info
             if (affectedCouncilInfo == null) {
                 Matcher councilInfoMatcher = councilInfoPattern.matcher(path);
