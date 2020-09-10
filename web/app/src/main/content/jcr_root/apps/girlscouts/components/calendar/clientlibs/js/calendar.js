@@ -31,10 +31,13 @@ function initCalendar() {
         defaultDate: $("#calendar-events").attr("data-date"),
         eventRender: function (info) {
 			//GSWP-2198-To hide past events on the calendar
-            var eventEndDate = moment(info.event.end);
-            var currentDate = moment();
-            if (eventEndDate.diff(currentDate, 'seconds') <= 0) {
-				return false;
+            if (info.event.show != undefined && "false" == info.event.show) {
+	            var eventEndDate = moment(info.event.end);
+	            console.log(info.event.show);
+	            var currentDate = moment();
+	            if (eventEndDate.diff(currentDate, 'seconds') <= 0) {
+					return false;
+	            }
             }
             //GSWP-2198-End-To hide past events on the calendar
 

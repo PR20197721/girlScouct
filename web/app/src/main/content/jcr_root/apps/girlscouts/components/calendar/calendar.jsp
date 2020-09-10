@@ -156,8 +156,9 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
                         e.printStackTrace();
                     }
                     boolean showPastEvents;
+                    String show= "false";
                     if(calNode.hasProperty("pastevents")) {
-                        String show = calNode.getProperty("pastevents").getString();
+                        show = calNode.getProperty("pastevents").getString();
                         if("true".equals(show)) {
                             showPastEvents = true;
                         } else {
@@ -216,6 +217,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
                         jsonObj.addProperty("start", start);
                         jsonObj.addProperty("path", url);
                         jsonObj.addProperty("title", title);
+                        jsonObj.addProperty("show", show);
                         if(!end.isEmpty()) {
                             jsonObj.addProperty("end", end);
                         }
