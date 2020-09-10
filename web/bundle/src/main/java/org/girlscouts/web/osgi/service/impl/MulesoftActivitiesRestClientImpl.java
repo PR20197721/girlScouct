@@ -1,6 +1,5 @@
 package org.girlscouts.web.osgi.service.impl;
 
-import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -10,7 +9,6 @@ import org.apache.http.util.EntityUtils;
 import org.girlscouts.common.osgi.service.impl.BasicGirlScoutsService;
 import org.girlscouts.web.osgi.MuleSoftActivitiesConstants;
 import org.girlscouts.web.osgi.service.MulesoftActivitiesRestClient;
-import org.girlscouts.web.rest.entity.mulesoft.ActivityEntity;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -44,14 +42,14 @@ public class MulesoftActivitiesRestClientImpl extends BasicGirlScoutsService imp
     }
 
     @Override
-    public ActivityEntity[] getEvents(Date asOfDate) {
+    public String getEvents(Date asOfDate) {
         DateFormat ACTIVITY_DATE_FORMAT = new SimpleDateFormat(MODIFIED_DATE_FORMAT);
         String modifiedTime = ACTIVITY_DATE_FORMAT.format(asOfDate);
         String url = this.restEndPoint+"?modifiedTime="+modifiedTime;
         try {
             String json = doGet(url);
             log.debug(json);
-            return new Gson().fromJson(json, ActivityEntity[].class);
+            return json;
         } catch (Exception e) {
             log.error("Error occurred getting activities  from mulesoft ", e);
         }

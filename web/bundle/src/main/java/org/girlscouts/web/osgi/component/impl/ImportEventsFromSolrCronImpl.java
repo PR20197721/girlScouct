@@ -6,9 +6,11 @@ import com.day.cq.tagging.Tag;
 import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
+import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.*;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.common.components.GSEmailAttachment;
 import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.common.exception.GirlScoutsException;
 import org.girlscouts.common.osgi.component.CouncilCodeToPathMapper;
@@ -105,7 +107,8 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                 Date modifiedDate = readTimeStamp(rr);
                 Calendar newModifiedDate = Calendar.getInstance();
                 if (modifiedDate != null) {
-                    ActivityEntity[] activities = restClient.getEvents(modifiedDate);
+                    String json = restClient.getEvents(modifiedDate);
+                    ActivityEntity[] activities = new Gson().fromJson(json, ActivityEntity[].class);
                     if (activities != null && activities.length > 0) {
                         List<String> toActivate = new LinkedList<>();
                         List<String> toDelete = new LinkedList<>();
@@ -135,7 +138,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                                 log.error("Error occurred:", e1);
                             }
                         }
-                        sendEmail(toActivate, toDelete, errorList);
+                        sendEmail(toActivate, toDelete, errorList, json, newModifiedDate);
                     } else {
                         log.debug("No activities returned from MuleSoft API for modifiedDate=" + modifiedDate);
                     }
@@ -189,7 +192,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
         }
     }
 
-    private void sendEmail(List<String> toActivate, List<String> toDelete, List<String> errorList) {
+    private void sendEmail(List<String> toActivate, List<String> toDelete, List<String> errorList, String json, Calendar date) {
         try {
             StringBuffer sb = new StringBuffer();
             sb.append("<h1>Activated Activities</h1>");
@@ -204,8 +207,13 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                 sb.append("<li>" + activity + "</li>");
             }
             sb.append("</ul>");
+            DateFormat format = new SimpleDateFormat(MODIFIED_DATE_FORMAT);
+            String jsonDate = format.format(date.getTime());
+            Set<GSEmailAttachment> attachments = new HashSet<>();
+            GSEmailAttachment attachment = new GSEmailAttachment("activities-"+jsonDate, json, null, GSEmailAttachment.MimeType.APPLICATION_JSON);
+            attachments.add(attachment);
             if (errorList.size() == 0) {
-                gsEmailService.sendEmail("GS Activities Sync Process Completed", emails, sb.toString());
+                gsEmailService.sendEmail("GS Activities Sync Process Completed", emails, sb.toString(), attachments);
             } else {
                 sb.append("<h1>Activities with Errors</h1>");
                 sb.append("<ul>");
@@ -213,7 +221,8 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                     sb.append("<li>" + activity + "</li>");
                 }
                 sb.append("</ul>");
-                gsEmailService.sendEmail("GS Activities Sync Process Completed (with Errors)", emails, sb.toString());
+
+                gsEmailService.sendEmail("GS Activities Sync Process Completed (with Errors)", emails, sb.toString(), attachments);
 
             }
         } catch (Exception e) {
@@ -461,6 +470,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                 }
             } else {
                 log.debug("Could not locate activity with eid=" + payload.getId() + " in " + parentPath);
+                throw new GirlScoutsException(null,"Could not locate activity with eid=" + payload.getId() +" in "+parentPath);
             }
         } catch (Exception e) {
             log.error("Error occured while deleting activity: eid=" + payload.getId() + ", title=" + payload.getTitle());
