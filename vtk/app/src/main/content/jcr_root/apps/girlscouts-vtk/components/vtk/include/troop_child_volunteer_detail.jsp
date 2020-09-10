@@ -3,13 +3,11 @@
         <div class="screenboard-white row">
             <div class="row">
                 <div class="column small-24 medium-8">
-                    Membership: <%=contact.getMembershipYear() %><br>
+                    Membership: <%=contact.getMembershipYear() != null ?  contact.getMembershipYear() : "N/A"%><br>
                     Role: <%= contact.getRole() %>
                 </div>
                 <div class="column  small-24 medium-8">
-                    Membership Years: Girl: <%=contact.getMembershipYear_girl() %>
-                    Adult: <%=contact.getMembershipYear_adult() %><br>
-                    Gender:
+                    Membership Years: Girl: <%=contact.getMembershipYear_girl() %> Adult: <%=contact.getMembershipYear_adult() %><br>
                 </div>
                 <div class="column small-24 medium-8">
                     <input type="checkbox" <%=contact.isEmailOptIn() ? " CHECKED " : "" %> disabled> Email Opt In<br>
@@ -18,7 +16,16 @@
             </div>
             <div style="margin:15px 0"></div>
             <div class="row">
-                <div class="column small-24"> Phone: <%=contact.getPhone() %>
+                <%
+                    String volunteerPhone = contact.getPhone();
+                    if(volunteerPhone != null){
+                        volunteerPhone = volunteerPhone.replaceAll("[^\\d.]", "");
+                        volunteerPhone = volunteerPhone.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3");
+                    }else{
+                        volunteerPhone = "";
+                    }
+                %>
+                <div class="column small-24"> Phone: <%=volunteerPhone %>
                 </div>
             </div>
             <div class="row">

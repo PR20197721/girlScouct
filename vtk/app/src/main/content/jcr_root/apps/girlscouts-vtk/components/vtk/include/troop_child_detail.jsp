@@ -1,25 +1,8 @@
 <dd class="accordion-navigation clearfix">
     <div id="panel<%=i+1%>b" class="content clearfix">
         <ul class="column large-4">
-            <%if (contact.getDob() != null) {%>
-            <li>DOB:
-                <%
-                    if (contact.getDob() != null) {
-                        try {
-                %><%=  VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, VtkUtil.parseDate(VtkUtil.FORMAT_yyyyMMdd, contact.getDob())) %><%
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                %>N/A<%
-                    }
-                %>
-            </li>
-            <%}%>
-            <%if (contact.getAge() != null) {%>
-            <li>AGE: <%=contact.getAge() %>
-            </li>
-            <%}%>
+            <li>DOB: <%=contact.getDob() != null ? contact.getDob() : "N/A"%></li>
+            <li>AGE: <%=contact.getAge() != null ? contact.getAge() : "N/A" %></li>
         </ul>
         <%if (contact.getAddress() != null) {%>
         <ul class="column large-18 right">

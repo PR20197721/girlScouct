@@ -34,7 +34,16 @@
                                                 <i class="icon-mail"></i> <%=contact.getEmail() %>
                                             </a>
                                         <% } %>
-                                        <span class="column large-4"><%=contact.getPhone() == null ? "" : contact.getPhone()%></span>
+                                        <%
+                                            String phone =contact.getPhone();
+                                            if(phone != null){
+                                                phone = phone.replaceAll("[^\\d.]", "");
+                                                phone = phone.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3");
+                                            }else{
+                                                phone = "";
+                                            }
+                                        %>
+                                        <span class="column large-4"><%=phone%></span>
                                     </dt>
                                     <%@include file='troop_child_volunteer_detail.jsp' %>
                                 </dl>

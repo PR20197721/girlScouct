@@ -200,7 +200,11 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                     if(contactsCache.contains(troop.getSfTroopId())){
                         troopMembersResponseEntity =  contactsCache.read(troop.getSfTroopId());
                     }else{
-                        troopMembersResponseEntity = restClient.getMembers(troop.getSfTroopId());
+                        if(troop.getParticipationCode().equals(irmCouncilCode)) {
+                            troopMembersResponseEntity = restClient.getMembers(troop.getIrmTroopId());
+                        }else{
+                            troopMembersResponseEntity = restClient.getMembers(troop.getSfTroopId());
+                        }
                         contactsCache.write(troop.getSfTroopId(), troopMembersResponseEntity);
                     }
                 }
@@ -216,7 +220,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                             log.debug("found non IRM contact : "+contact.getId());
                             contacts.add(contact);
                         }else{
-                            //Fetching specific girl info for her dummy troop?
+                            //Fetching specific girl info for her irm troop
                             if(troop.getSfTroopId().equals(irmCouncilCode+"_"+contact.getId())) {
                                 log.debug("found IRM contact : "+contact.getId());
                                 contacts.add(contact);
@@ -435,6 +439,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                             true,
                             false,
                             false);
+                    irmTroop.setIrmTroopId(accountId);// this is needed to retrieve contacts later
                     log.debug("adding IRM troop " + irmTroop);
                     irmTroops.add(irmTroop);
                 }

@@ -24,7 +24,7 @@
                         <div class="row">
                             <dl class="accordion-inner clearfix" data-accordion>
                                 <dt data-target="panel<%=i+1%>b" class="clearfix">
-                                    <span class="name column large-6"><%=contact.getFirstName() %> <%=contact.getRole() %> </span>
+                                    <span class="name column large-6"><%=contact.getFirstName() %> <%=contact.getLastName() %> : <%=contact.getRole() %> </span>
                                     <span class="name column large-4"
                                           style="word-wrap:break-word;"><%= caregiver == null ? "" : ((caregiver.getFirstName() == null ? "" : caregiver.getFirstName()) + " " + (caregiver.getLastName() == null ? "" : caregiver.getLastName()))%></span>
                                     <%if (contact.getEmail() != null && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
@@ -32,7 +32,16 @@
                                         <i class="icon-mail" style="word-wrap:break-word;"></i><%=contact.getEmail() %>
                                     </a>
                                     <% } %>
-                                    <span class="column large-4"><%=contact.getPhone() == null ? "" : contact.getPhone()%></span>
+                                    <%
+                                        String phone =contact.getPhone();
+                                        if(phone != null){
+                                            phone = phone.replaceAll("[^\\d.]", "");
+                                            phone = phone.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3");
+                                        }else{
+                                            phone = "";
+                                        }
+                                    %>
+                                    <span class="column large-4"><%=phone%></span>
                                 </dt>
                                 <%@include file='troop_child_detail.jsp' %>
                             </dl>
