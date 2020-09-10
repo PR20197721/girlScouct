@@ -150,9 +150,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
                     }
 
                     try{
-                    	//GSWP-2198-GSDateTime is giving the next date of end date and hence using GSLocalDateTime to display correct end date on the calendar
-                    	//eventDt = formatter.print(eventDate);
-                    	eventDt = formatter.print(GSLocalDateTime.parse(propNode.getProperty("end").getString(),fromFormat));
+                    	eventDt = formatter.print(eventDate);
                         eventDate = GSDateTime.parse(eventDt,formatter);
                     }catch(Exception e){
                         e.printStackTrace();
