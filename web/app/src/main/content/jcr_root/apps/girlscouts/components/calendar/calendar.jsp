@@ -150,16 +150,15 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
                     }
 
                     try{
-                    	//GSWP-2198-GSDateTime is giving the next date of end date and hence using GSLocalDateTime to display correct end date on the calendar
-                    	//eventDt = formatter.print(eventDate);
-                    	eventDt = formatter.print(GSLocalDateTime.parse(propNode.getProperty("end").getString(),fromFormat));
+                    	eventDt = formatter.print(eventDate);
                         eventDate = GSDateTime.parse(eventDt,formatter);
                     }catch(Exception e){
                         e.printStackTrace();
                     }
                     boolean showPastEvents;
+                    String show= "false";
                     if(calNode.hasProperty("pastevents")) {
-                        String show = calNode.getProperty("pastevents").getString();
+                        show = calNode.getProperty("pastevents").getString();
                         if("true".equals(show)) {
                             showPastEvents = true;
                         } else {
@@ -218,6 +217,7 @@ org.girlscouts.common.events.search.*, javax.jcr.Node"%>
                         jsonObj.addProperty("start", start);
                         jsonObj.addProperty("path", url);
                         jsonObj.addProperty("title", title);
+                        jsonObj.addProperty("show", show);
                         if(!end.isEmpty()) {
                             jsonObj.addProperty("end", end);
                         }
