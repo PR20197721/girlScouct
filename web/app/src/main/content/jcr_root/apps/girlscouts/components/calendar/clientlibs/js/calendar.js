@@ -31,9 +31,8 @@ function initCalendar() {
         defaultDate: $("#calendar-events").attr("data-date"),
         eventRender: function (info) {
 			//GSWP-2198-To hide past events on the calendar
-            if (info.event.show != undefined && "false" == info.event.show) {
+            if (info.event.extendedProps.show != undefined && "false" == info.event.extendedProps.show) {
 	            var eventEndDate = moment(info.event.end);
-	            console.log(info.event.show);
 	            var currentDate = moment();
 	            if (eventEndDate.diff(currentDate, 'seconds') <= 0) {
 					return false;
@@ -70,7 +69,6 @@ function initCalendar() {
 
     calendar.render();
     $("#fullcalendar").on("click", function () {
-        hideEventStartTime();
         for (var i = 0; i < tooltips.length; i++) {
             tooltips[i].hide();
         }
