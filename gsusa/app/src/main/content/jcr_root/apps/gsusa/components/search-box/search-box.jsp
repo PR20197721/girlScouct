@@ -3,6 +3,7 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%
 String placeholderText = properties.get("placeholder-text","");
+placeholderText = xssAPI.encodeForHTML(placeholderText != null ? placeholderText.replaceAll("%","%25").replaceAll("\\s+", " ") : "");
 String searchAction = properties.get("searchAction", null);
 String action="";
 if ((null==searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
