@@ -86,7 +86,7 @@ public class VTKDataMigrationUtil{
         log.info("Girl Scouts VTK VS 2.0 Data Migration activated.");
     }
 
-    private void loadContents(Resource csvResource, Map<String, String> troopIdMapping) {
+    private void loadContents(Resource csvResource, Map<String, String> map) {
         Asset asset = csvResource.adaptTo(Asset.class);
         BufferedReader br = null;
         try {
@@ -96,7 +96,7 @@ public class VTKDataMigrationUtil{
             while ((line = br.readLine()) != null) {
                 String[] mappingArray = line.split(cvsSplitBy);
                 if (mappingArray != null && mappingArray.length >= 2) {
-                    troopIdMapping.put(mappingArray[0], mappingArray[1]);
+                    map.put(mappingArray[0], mappingArray[1]);
                 }
             }
         } catch (Exception e) {

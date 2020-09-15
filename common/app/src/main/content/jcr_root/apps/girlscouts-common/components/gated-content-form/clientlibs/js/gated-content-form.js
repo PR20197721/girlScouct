@@ -32,7 +32,7 @@ $(document).ready(function () {
                     Phone: gsathomeData[3],
                     ZipCode: gsathomeData[4],
                     IsMember: gsathomeData[5],
-                    PageURL: gatedFormPage,
+                    FormURL: gatedFormPage,
                     DownloadURL: gatedFormDownload,
                     CampaignID: salesforceCampaignId
                 })
@@ -199,7 +199,7 @@ $(document).ready(function () {
             Phone: gatedFormPhone,
             ZipCode: gatedFormZIPCode,
             IsMember: gatedFormIsMember,
-            PageURL: gatedFormPage,
+            FormURL: gatedFormPage,
             DownloadURL: gatedFormDownload,
             CampaignID: salesforceCampaignId
         })

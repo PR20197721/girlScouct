@@ -91,7 +91,11 @@ $(document).ready(function () {
     }
     function displayErrors(errors, form){
         var errorMessage = "";
-        form.find("div.form_row").find("div.form_error").parent().remove();
+        form.find("div.form_row").find("div.form_error").each(function( index ) {
+            if($(this).html() != null && $(this).html().trim().length > 0){
+                $(this).html("").hide();
+            }
+        });
         var formErrorContainer = form.find("div.form-error-container");
         if(formErrorContainer.length > 0){
             $(formErrorContainer[0]).html("");
