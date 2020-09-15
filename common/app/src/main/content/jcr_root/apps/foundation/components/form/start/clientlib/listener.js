@@ -282,10 +282,10 @@
 	});
 
     // when dialog gets injected
-    $(document).on("foundation-contentloaded", function (e) {
+  /*  $(document).on("foundation-contentloaded", function (e) {
         // if there is already an inital value make sure the according target element becomes visible
         showHideHandler($(".cq-dialog-dropdown-showhide", e.target));
-    });
+    }); */
 
     $(document).on("dialog-ready", function() {
 
@@ -302,7 +302,7 @@
 
 	});
 
-    $(document).on("selected", ".cq-dialog-dropdown-showhide", function (e) {
+    /* $(document).on("selected", ".cq-dialog-dropdown-showhide", function (e) {
         showHideHandler($(this));
     });
 
@@ -354,7 +354,7 @@
 
             });
         }
-    }
+    } */
     
     $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
   		selector: "[data-validationpattern]",
