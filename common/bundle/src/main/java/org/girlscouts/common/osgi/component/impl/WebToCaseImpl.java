@@ -94,7 +94,7 @@ public class WebToCaseImpl implements WebToCase {
                 "6LfEtJgUAAAAAB4btse4kjSKN6fBFqy4U1M15dna::GoogleReCaptchaKeyPair8"
         };
 
-        @AttributeDefinition(name = "Recaptcha Key Map") String[] expectedParams() default {
+        @AttributeDefinition(name = "Expected Fields") String[] expectedParams() default {
             "orgid",
             "00N22000000ltnH",
             "00N22000000ltnp",

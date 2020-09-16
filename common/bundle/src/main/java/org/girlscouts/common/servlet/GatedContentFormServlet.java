@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
         List<NameValuePair> requestParams = new LinkedList<>();
 		logger.info("End Point configured :" + webToLead.getApiURL());
 		requestParams.add(new NameValuePair("oid", webToLead.getOID()));
+        requestParams.add(new NameValuePair("LeadType", "General"));
 		logger.info("OrgId :" + webToLead.getOID());
 		for (Iterator<String> itr = FormsHelper.getContentRequestParameterNames(request); itr.hasNext();) {
 			final String paraName = itr.next();
@@ -89,6 +91,9 @@ public class GatedContentFormServlet extends SlingAllMethodsServlet {
 		postMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(3, false));
 		try {
 			statusCode = client.executeMethod(postMethod);
+            byte[] bytes = postMethod.getResponseBody();
+            String s = Base64.getEncoder().encodeToString(bytes);
+            logger.debug("response:"+s);
 			if (statusCode != HttpStatus.SC_OK) {
 				logger.error("Method failed: " + postMethod.getStatusLine());
 			}

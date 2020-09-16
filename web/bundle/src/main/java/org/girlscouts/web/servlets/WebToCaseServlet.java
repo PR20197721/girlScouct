@@ -303,12 +303,10 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
     public String parseHtml(String html, Map<String, List<String>> fields, ResourceResolver rr) {
         logger.debug("Parsing html "+html);
         Set<String> fieldNames = fields.keySet();
-        final StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer(html);
         for(String fieldName:fieldNames){
-            //Part 1: Insert field variables whenever %%{field_id}%% is found
-            final Pattern pattern = Pattern.compile("%%("+fieldName+")%%");
             logger.debug("Checking for %%("+fieldName+")%% in email template");
-            final Matcher matcher = pattern.matcher(html);
+            final Matcher matcher = Pattern.compile("%%("+fieldName+")%%").matcher(sb);
             while (matcher.find()) {
                 logger.debug("Found %%("+fieldName+")%% in email template");
                 List<String> values = fields.get(fieldName);
@@ -323,8 +321,8 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
                 }
             }
             matcher.appendTail(sb);
-            html = sb.toString();
         }
+        html = sb.toString();
         logger.debug("Result html "+html);
         return html;
     }
@@ -343,6 +341,9 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
         try {
             // Execute the method.
             int statusCode = client.executeMethod(method);
+            byte[] bytes = method.getResponseBody();
+            String s = Base64.getEncoder().encodeToString(bytes);
+            logger.debug("response:"+s);
             if (statusCode != HttpStatus.SC_OK) {
                 errors.add("Sorry, system error occurred while submitting your form. Please try again later.");
                 logger.error("Method failed: " + method.getStatusLine());

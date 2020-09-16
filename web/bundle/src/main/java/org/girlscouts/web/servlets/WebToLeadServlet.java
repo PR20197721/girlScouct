@@ -29,6 +29,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -125,6 +126,9 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
         method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(3, false));
         try {
             int statusCode = client.executeMethod(method);
+            byte[] bytes = method.getResponseBody();
+            String s = Base64.getEncoder().encodeToString(bytes);
+            logger.debug("response:"+s);
             if (statusCode != HttpStatus.SC_OK) {
                 errors.add("Sorry, system error occurred while submitting your form. Please try again later.");
                 logger.error("Method failed: " + method.getStatusLine());
