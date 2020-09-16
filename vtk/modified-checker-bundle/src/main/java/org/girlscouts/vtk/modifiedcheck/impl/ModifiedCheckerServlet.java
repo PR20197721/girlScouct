@@ -34,11 +34,11 @@ public class ModifiedCheckerServlet extends SlingSafeMethodsServlet {
             boolean isMod = checker.isModified(sid, yearPlanId);
 
             //response.getWriter().write("vtkResponse{\"usid\":\""+ sid +"\",\"yp_cng\":\""+ isMod +"\"}");
+
             response.getWriter().write("{\"usid\":\"" + sid + "\",\"yp_cng\":\"" + isMod + "\"}");
             log.debug("Wrote response: {}", response.toString());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error("Error writing response: {}", e);
         }
 
     }

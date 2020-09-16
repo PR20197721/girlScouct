@@ -58,20 +58,21 @@ public class NodeEventCollector {
 
                 int nodeEventType = -1;
                 if ((type & PROPERTY_UPDATE) != 0) {
-                    log.debug("Found Event with path: {} and type: PROPERTY_UPDATE", path);
                     nodeEventType = Constants.EVENT_UPDATE;
                     // If this event is about node property change
                     path = path.substring(0, path.lastIndexOf('/'));
+                    log.debug("Found Event with path: {} and type: PROPERTY_UPDATE", path);
                 } else if (type == Event.NODE_MOVED){
-                    log.debug("Found Event with path: {} and type: NODE_MOVED", path);
                     nodeEventType = Constants.EVENT_UPDATE;
+                    log.debug("Found Event with path: {} and type: NODE_MOVED", path);
                 } else if (type == Event.NODE_REMOVED) {
-                    log.debug("Found Event with path: {} and type: NODE_REMOVED", path);
                     nodeEventType = Constants.EVENT_REMOVE;
+                    log.debug("Found Event with path: {} and type: NODE_REMOVED", path);
                 } else {
                     log.warn("Event type " + Integer.toString(type) + " not supported. Discard. " + path);
                 }
 
+                log.debug("nodeEventType: {}", nodeEventType);
                 if (nodeEventType != -1) {
                     log.debug("Added new node event to list");
                     nodes.add(new NodeEvent(path, nodeEventType));
