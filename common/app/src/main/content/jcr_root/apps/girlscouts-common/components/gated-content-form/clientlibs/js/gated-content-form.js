@@ -5,10 +5,22 @@ $(document).ready(function () {
     var salesforceCampaignId = $("#salesforceCampaignId").data("config");
     var extensions = $("#extensionsList").data("config");
     var filesList = $("#filesList").data("config");
+    var allVideoLinksEnabled = $("#allVideoLinksEnabled").data("config");
     var gatedFormPage = window.location.href;
     var gatedFormDownload = "";
+    if (allVideoLinksEnabled) {
+        var videoLinks = getVideoLinks();
+    }
+    if (null != videoLinks && videoLinks.length > 0) {
+        filesList = filesList + "," + videoLinks
+    }
     var selector = generateSelector(extensions, filesList);
     var action = $("#gated-content-form-action").attr("action");
+    $(selector).each(function () {
+        this.setAttribute("data-href", this);
+        this.removeAttribute("href");
+    })
+    selector = selector.replace(/href/g, "data-href");
     $(selector).click(function (e) {
         if (!e.target.hasAttribute("target")) {
             e.target.setAttribute("target", "_blank");
@@ -21,9 +33,9 @@ $(document).ready(function () {
                 gsathomeDataFound = true;
             }
         }
-        gatedFormDownload = $(this).attr('href');
-
+        gatedFormDownload = $(this).attr('data-href');
         if (gsathomeDataFound) {
+            e.target.setAttribute("href", e.target.dataset.href)
             if (gsathomeData[0] != 'age12andunder') {
                 $.post(action, {
                     Email: gsathomeData[0],
@@ -35,8 +47,7 @@ $(document).ready(function () {
                     FormURL: gatedFormPage,
                     DownloadURL: gatedFormDownload,
                     CampaignID: salesforceCampaignId
-                })
-                    .success(function (response, status, xhr) {
+                }).success(function (response, status, xhr) {
                         if (response != null && response.length > 0) {
                             if (response.toUpperCase() == "SUCCESS") {
                                 $('#gsathome-main').hide();
@@ -55,7 +66,7 @@ $(document).ready(function () {
                                 }
                             }
                         }
-                    })
+                })
                     .fail(function () {
                         if (response.contains("ERROR")) {
                             alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
@@ -158,7 +169,6 @@ $(document).ready(function () {
             var output,
                 $this = $(this),
                 input = $this.val();
-
             if (e.keyCode != 8) {
                 input = input.replace(/[^0-9]/g, '');
                 var area = input.substr(0, 3);
@@ -191,7 +201,6 @@ $(document).ready(function () {
         var gatedFormZIPCode = $(me).find("[name='zipcode']").val();
         var gatedFormIsMember = $(me).find("[name='is-member']:checked").val();
         gatedFormIsMember = gatedFormIsMember === 'Yes' ? 'Yes' : 'No';
-
         $.post(action, {
             Email: gatedFormEmail,
             FirstName: gatedFormFirstName,
@@ -202,34 +211,34 @@ $(document).ready(function () {
             FormURL: gatedFormPage,
             DownloadURL: gatedFormDownload,
             CampaignID: salesforceCampaignId
-        })
-            .success(function (response, status, xhr) {
-                if (response != null && response.length > 0) {
-                    if (response.toUpperCase() == "SUCCESS") {
-                        $('#gsathome-main').hide();
-                        $('#gsathome-download').show();
-                        if (remember) {
-                            setCookie("gsathome", btoa(gatedFormEmail + "|" + gatedFormFirstName + "|" + gatedFormLastName + "|" + gatedFormPhone + "|" + gatedFormZIPCode + "|" + gatedFormIsMember), cookieExpirationPeriod);
-                        }
-                    } else {
-                        if (response.contains("ERROR")) {
-                            var errorDetails = response.trim().split("|");
-                            if (errorDetails != null && errorDetails.length >= 2) {
-                                alert(errorDetails[1]);
-                            } else {
-                                alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
-                            }
+        }).success(function (response, status, xhr) {
+            if (response != null && response.length > 0) {
+                if (response.toUpperCase() == "SUCCESS") {
+                    $('#gsathome-main').hide();
+                    $('#gsathome-download').show();
+                    if (remember) {
+                        setCookie("gsathome", btoa(gatedFormEmail + "|" + gatedFormFirstName + "|" + gatedFormLastName + "|" + gatedFormPhone + "|" + gatedFormZIPCode + "|" + gatedFormIsMember), cookieExpirationPeriod);
+                    }
+                } else {
+                    if (response.contains("ERROR")) {
+                        var errorDetails = response.trim().split("|");
+                        if (errorDetails != null && errorDetails.length >= 2) {
+                            alert(errorDetails[1]);
+                        } else {
+                            alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
                         }
                     }
                 }
-            })
+            }
+        })
             .fail(function () {
                 if (response.contains("ERROR")) {
                     alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
                 }
             });
+        return false;
+    });
 
-    })
 
     function isUndefined(param) {
         return param === null || param === undefined || param === "";
@@ -261,19 +270,15 @@ $(document).ready(function () {
         // First check for the pattern
         if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
             return false;
-
         // Parse the date parts to integers
         var parts = dateString.split("/");
         var day = parseInt(parts[1], 10);
         var month = parseInt(parts[0], 10);
         var year = parseInt(parts[2], 10);
-
         // Check the ranges of month and year
         if (year < 1000 || year > 3000 || month == 0 || month > 12)
             return false;
-
         var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
         // Adjust for leap years
         if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
             monthLength[1] = 29;
@@ -293,7 +298,6 @@ $(document).ready(function () {
     }
 
     function generateSelector(param1, param2) {
-
         if (!isUndefined(param1) && !isUndefined(param2)) {
             param1 = param1.split(",");
             param2 = param2.split(",");
@@ -308,7 +312,19 @@ $(document).ready(function () {
             ext.push("a[href$='" + val.replace(/'/g, "\\'") + "'i]");
         });
         ext = ext.toString();
-
         return ext;
+    }
+
+    function getVideoLinks() {
+        var videoLinks = [];
+        var pattern = new RegExp(/^(http:\/\/|https:\/\/)(vimeo\.com|youtu\.be|www\.youtube\.com||player\.vimeo\.com)\/([\w\/]+)([\?].*)?$/)
+
+        var links = document.getElementsByTagName("a");
+        for (var i = 0; i < links.length; i++) {
+            if (pattern.test(links[i])) {
+                videoLinks.push(links[i]);
+            }
+        }
+        return videoLinks;
     }
 });
