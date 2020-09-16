@@ -179,7 +179,13 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
     private void setLogoutRedirectInCookie(String councilId, SlingHttpServletResponse response, ResourceResolver rr) {
         try {
             String councilPath = councilMapper.getCouncilName(councilId);
-            Cookie nameCookie = new Cookie("girl-scout-logout", URLEncoder.encode(rr.map("/content/"+councilPath+"/en")+".html", StandardCharsets.UTF_8.toString()));
+            String logoutPath = "";
+            if(!councilPath.contains("girlscoutsneny")){
+                logoutPath = rr.map("/content/"+councilPath+"/en")+".html";
+            }else{
+                logoutPath = "https://girlscoutsneny.org/";
+            }
+            Cookie nameCookie = new Cookie("girl-scout-logout", URLEncoder.encode(logoutPath, StandardCharsets.UTF_8.toString()));
             nameCookie.setPath("/");
             response.addCookie(nameCookie);
         } catch (UnsupportedEncodingException e) {
