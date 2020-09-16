@@ -72,6 +72,7 @@ public class ReplicationManager {
                 Session session = rr.adaptTo(Session.class);
                 manager = session.getWorkspace().getObservationManager();
                 for (String path : monitorPaths) {
+                    log.debug("Creating NodeListener for path: {} with yearPlanBase: {}", path, yearPlanBase);
                     EventListener listener = new NodeListener(session, replicator, troopHashGenerator, cacheInvator, yearPlanBase);
                     listeners.add(listener);
                     manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED | Event.NODE_MOVED, path, true, null, Constants.PRIMARY_TYPES, true);

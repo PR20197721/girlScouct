@@ -30,7 +30,7 @@ public class NodeListener implements EventListener {
 
         public void onStart(Agent agent, ReplicationAction action) {
             // Do nothing
-        	log.error("alex onStart..") ;  	
+        	log.debug("Starting replication...");  	
         }
 
         public void onMessage(Level level, String msg) {
@@ -115,9 +115,10 @@ public class NodeListener implements EventListener {
 
             try {
                 if (type == Constants.EVENT_UPDATE) {
-
+                    log.debug("Performing ReplicationActionType.ACTIVATE for NodeEvent type EVENT_UPDATE");
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, syncOpts);
                 } else if (type == Constants.EVENT_REMOVE){
+                    log.debug("Performing ReplicationActionType.DELETE for NodeEvent type EVENT_REMOVE");
                     replicator.replicate(session, ReplicationActionType.DELETE, path, syncOpts);
                 } else {
                     log.warn("Unknown replication type when trying to sync replicate. Do nothing. type = " + type + " path = " + path);
@@ -140,6 +141,7 @@ public class NodeListener implements EventListener {
                 Matcher councilInfoMatcher = councilInfoPattern.matcher(path);
                 if (councilInfoMatcher.matches()) {
                     affectedCouncilInfo = path;
+                    log.debug("Affected CouncilInfo found: " + affectedCouncilInfo);
                 }
             }
         }
