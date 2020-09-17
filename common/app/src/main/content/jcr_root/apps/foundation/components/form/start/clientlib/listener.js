@@ -281,11 +281,6 @@
   		}
 	});
 
-    // when dialog gets injected
-  /*  $(document).on("foundation-contentloaded", function (e) {
-        // if there is already an inital value make sure the according target element becomes visible
-        showHideHandler($(".cq-dialog-dropdown-showhide", e.target));
-    }); */
 
     $(document).on("dialog-ready", function() {
 
@@ -302,59 +297,6 @@
 
 	});
 
-    /* $(document).on("selected", ".cq-dialog-dropdown-showhide", function (e) {
-        showHideHandler($(this));
-    });
-
-
-
-    function showHideHandler(el) {
-        el.each(function (i, element) {
-            if($(element).is("coral-select")) {
-                // handle Coral3 base drop-down
-                Coral.commons.ready(element, function (component) {
-                    showHide(component, element);
-                    component.on("change", function () {
-                        showHide(component, element);
-                    });
-                });
-            } else {
-                // handle Coral2 based drop-down
-                var component = $(element).data("select");
-                if (component) {
-                    showHide(component, element);
-                }
-            }
-        })
-    }
-
-    function showHide(component, element) {
-        // get the selector to find the target elements. its stored as data-.. attribute
-        var target = $(element).data("cqDialogDropdownShowhideTarget");
-        var $target = $(target);
-        if (target) {
-            var value;
-            if (component.value) {
-                value = component.value;
-            } else {
-                value = component.getValue();
-            }
-
-
-            value = value.replace(/^.*\/(.*)$/,"$1");
-
-            // make sure all unselected target elements are hidden.
-            $target.not(".hide").addClass("hide");
-
-            // unhide the target element that contains the selected value as data-showhidetargetvalue attribute
-            $target.each(function(index){
-                if($(this).hasClass(value)){
-					$(this).removeClass("hide");
-                }
-
-            });
-        }
-    } */
     
     $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
   		selector: "[data-validationpattern]",
