@@ -83,10 +83,9 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 				writer = response.getWriter();
 				csv.writeInit(writer);
 				response.setContentType("text/csv");
-				String disposition = "attachment; fileName=references.csv";
+				String disposition = "attachment; fileName=tracking-report.csv";
 				response.setHeader("Content-Disposition", disposition);
 				List<List<String>> table = new ArrayList<List<String>>();
-				// List<String> assetPaths = new ArrayList<String>();
 				List<String> assetPaths = null;
 				String[] header = { "Asset", "Date-Time", "Component", "Action" };
 				csv.writeRow(header);
@@ -96,8 +95,8 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 					assetPaths = new ArrayList<String>();
 					if (!target.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 						if (target.isResourceType("dam:Asset")) {
-							if(path.startsWith("/content/dam/girlscouts-shared")) {
-							 assetPaths.add(path);
+							if (path.startsWith("/content/dam/girlscouts-shared")) {
+								assetPaths.add(path);
 							}
 						} else {
 							int level = getLevel(path);
@@ -144,13 +143,12 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 					try {
 						prppertyNode = resource.adaptTo(Node.class);
 						dateTime = prppertyNode.getProperty("assetUsedDate").getValue().getString();
-						componentPath = prppertyNode.getProperty("componentPath").getValue()
-								.getString();
+						componentPath = prppertyNode.getProperty("componentPath").getValue().getString();
 						eventType = prppertyNode.getProperty("eventType").getValue().getString();
 					} catch (Exception e) {
 
 					}
-					logger.debug("Date string form the node--->"+dateTime);
+					logger.debug("Date string form the node--->" + dateTime);
 					String date = getDateLiterals(dateTime);
 					String assetpath = StringUtils.substring(resource.getPath(), 0,
 							resource.getPath().indexOf("jcr:content"));
@@ -189,8 +187,8 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 					while (it.hasNext()) {
 						Resource child = it.next();
 						if (child.isResourceType("dam:Asset")) {
-							if(child.getPath().startsWith("/content/dam/girlscouts-shared")) {
-							   results.add(child.getPath());
+							if (child.getPath().startsWith("/content/dam/girlscouts-shared")) {
+								results.add(child.getPath());
 							}
 						} else {
 							results.addAll(getAssets(child));
@@ -205,16 +203,12 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 	private String getDateLiterals(String dateString) {
 		String dateTime = dateString.substring(0, 19);
 		dateTime = dateTime.replace("T", " ");
-		/*String[] dateAndTime = dateTime.split(" ");
-		String[] elements = dateAndTime[0].split("-");
-		String result = new String();
-		for (int i = 2; i > -1; i--) {
-			if (i != 0) {
-				result = result + elements[i] + "-";
-			} else {
-				result = result + elements[i];
-			}
-		}*/
+		/*
+		 * String[] dateAndTime = dateTime.split(" "); String[] elements =
+		 * dateAndTime[0].split("-"); String result = new String(); for (int i = 2; i >
+		 * -1; i--) { if (i != 0) { result = result + elements[i] + "-"; } else { result
+		 * = result + elements[i]; } }
+		 */
 		return dateTime;
 	}
 }
