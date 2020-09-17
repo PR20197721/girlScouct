@@ -16,7 +16,7 @@
     <filter root="/etc/designs/girlscouts-usa-green"/>
     <filter root="/etc/importers/gsbulkeditor"/>
     <filter root="/etc/map.author"/>
-    <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
+    <!--filter root="/etc/msm/rolloutconfigs/gsdefault"/-->
     <filter root="/etc/replication-checker"/>
     <filter root="/etc/scaffolding/girlscouts-dxp"/>
     <filter root="/etc/scaffolding/girlscouts-prototype"/>
