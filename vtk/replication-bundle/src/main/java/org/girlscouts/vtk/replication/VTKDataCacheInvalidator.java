@@ -14,7 +14,6 @@ import org.apache.sling.jcr.api.SlingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import java.util.Collection;
@@ -120,12 +119,12 @@ public class VTKDataCacheInvalidator {
 
         public void execute(JobContext context) {
             log.info("VTKDataCacheInvalidator: ================== Replication Invalidating cache: ");
-            try{
+            try {
                 HttpClient client = new HttpClient();
                 PostMethod post = new PostMethod(flushUri);
                 post.setRequestHeader("CQ-Action", "Delete");
                 post.setRequestHeader("CQ-Handle", path);
-                StringRequestEntity body = new StringRequestEntity(path,null,null);
+                StringRequestEntity body = new StringRequestEntity(path, null, null);
                 post.setRequestEntity(body);
                 post.setRequestHeader("Content-length", String.valueOf(body.getContentLength()));
                 try {
@@ -137,14 +136,15 @@ public class VTKDataCacheInvalidator {
                     }
                 } catch (Exception e) {
                     log.info("VTKDataCacheInvalidator: Cannot invalidate this path: " + path + ". Do nothing.");
-                } finally{
+                } finally {
                     post.releaseConnection();
                 }
                 //log the results
                 log.info("result: " + post.getResponseBodyAsString());
-            }catch(Exception e){
+            } catch (Exception e) {
                 log.error("Flushcache servlet exception: " + e.getMessage());
             }
 
         }
+    }
 }
