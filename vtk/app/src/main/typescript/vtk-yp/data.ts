@@ -11,6 +11,10 @@ declare var ________defaultGradeLevel________: string;
 declare var ________isSUM________: boolean;
 declare var ________isIRM________: boolean;
 
+export function getDefaultLevel() {
+    return ________defaultGradeLevel________;
+}
+
 export function getLevel() {
     return ________app________;
 }

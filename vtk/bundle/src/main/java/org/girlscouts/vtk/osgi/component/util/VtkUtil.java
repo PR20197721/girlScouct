@@ -236,29 +236,24 @@ public class VtkUtil implements ConfigListener {
 
     }
 
-    /*GS Year starts Aug 1 */
+    /*GS Year starts July 1 */
     public static int getCurrentGSYear() {
         String _gsNewYear = gsNewYear;
-        int month = 7;
-        int date = 1;
-        if(gsNewYear != null && gsNewYear.length() == 4) {
-            try {
-                month = Integer.parseInt(_gsNewYear.substring(0, 2));
-                date = Integer.parseInt(_gsNewYear.substring(2));
-            } catch (Exception e) {
-                month = 7;
-                date = 1;
-            }
+        if (_gsNewYear == null || _gsNewYear.length() != 4) {
+            _gsNewYear = "0701";
         }
+        
         Calendar now = Calendar.getInstance();
-        //log.debug("VTK New Year Setting: month="+month+", date="+date+", current month="+now.get(Calendar.MONTH)+", current date="+now.get(Calendar.DATE));
-        if (now.get(Calendar.MONTH) >= (month - 1) && now.get(Calendar.DATE) >= date){
-            //log.debug("VTK Year: "+now.get(java.util.Calendar.YEAR));
-            return now.get(java.util.Calendar.YEAR);
-        } else {
-            //log.debug("VTK Year: "+(now.get(java.util.Calendar.YEAR)-1));
-            return now.get(java.util.Calendar.YEAR) - 1;
+        int currentYear = now.get(Calendar.YEAR);
+        Calendar newYear = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        try {
+            newYear.setTime(sdf.parse(currentYear + _gsNewYear));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        
+        return now.before(newYear) ? currentYear - 1 : currentYear;
     }
 
     /*GS Year starts Aug 1 */
@@ -573,7 +568,9 @@ public class VtkUtil implements ConfigListener {
 
     public static List<String> getDistinctMeetingPlanTypes(List<Meeting> meetings) {
         List<String> meetingTypes = meetings.stream().map(e -> e.getMeetingPlanType()).collect(Collectors.toList());
-        return meetingTypes.stream().distinct().sorted().collect(Collectors.toList());
+        List<String> meetingAltTypes = meetings.stream().map(e -> e.getMeetingPlanTypeAlt()).collect(Collectors.toList());
+        meetingTypes.addAll(meetingAltTypes);
+        return meetingTypes.stream().filter(Objects::nonNull).distinct().sorted().collect(Collectors.toList());
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
@@ -584,7 +581,7 @@ public class VtkUtil implements ConfigListener {
     public static Map<String, List<Meeting>> sortMeetingByMeetingType(List<Meeting> meetings, List<String> meetingPlanTypes) {
         Map<String, List<Meeting>> orderedMeetingsByType = new TreeMap();
         for (String meetingType : meetingPlanTypes) {
-            List<Meeting> meetingsByType = meetings.stream().filter(meeting -> meetingType.equals(meeting.getMeetingPlanType())).collect(Collectors.toList());
+            List<Meeting> meetingsByType = meetings.stream().filter(meeting -> meetingType.equals(meeting.getMeetingPlanType()) || meetingType.equals(meeting.getMeetingPlanTypeAlt())).collect(Collectors.toList());
             //sort by name
             Collections.sort(meetingsByType, java.util.Comparator.comparing(Meeting::getName));
             orderedMeetingsByType.put(meetingType, meetingsByType);

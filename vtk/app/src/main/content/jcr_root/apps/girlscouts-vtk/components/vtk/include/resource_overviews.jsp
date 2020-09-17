@@ -21,28 +21,23 @@
                         }
                     }
                 }
+
                 List<Meeting> raw_meetings = null;
                 try {
-                    raw_meetings = meetingUtil.getMeetings(user, selectedTroop, level);
-
-                } catch (IllegalAccessException illegalUserEx) {
-                    //TODO
+                    raw_meetings = meetingUtil.getAllActiveMeetings(user, selectedTroop, level);
                 } catch (Exception genException) {
-                    //TODO
+                    log.error("Error occurred: ", genException);
                 }
+
                 List<String> meetingPlanTypes = null;
                 if (raw_meetings != null) {
                     meetingPlanTypes = VtkUtil.getDistinctMeetingPlanTypes(raw_meetings);
                     Map<String, List<Meeting>> sortMeetingByMeetingType = VtkUtil.sortMeetingByMeetingType(raw_meetings, meetingPlanTypes);
-            %>
-            <%@include file="resource_overview_types.jsp" %>
-            <%
-                }
-                VtkUtil.sortMeetingsByName(raw_meetings);
-                for (Meeting meeting : raw_meetings) {
-            %>
-            <%@include file="resource_overview.jsp" %>
-            <%
+            		%><%@include file="resource_overview_types.jsp"%><%
+                    VtkUtil.sortMeetingsByName(raw_meetings);
+                    for (Meeting meeting : raw_meetings) {
+                        %><%@include file="resource_overview.jsp"%><%
+                    }
                 }
             %>
         </div>
@@ -61,7 +56,7 @@
         $(".arrow.open").removeClass('open').addClass('close');
         hideMeetingItem();
         meetingType = ('' + meetingType).replace(new RegExp(':', 'g'), '\\:');
-        var items = $("[data-value= " + meetingType + "]");
+        var items = $('[data-value~="' + meetingType + '"]');
         showFirstSix(items);
         meeTingTypeStatus = meetingType;
     }
@@ -126,7 +121,7 @@
         $('.__view-all').click(function (e) {
             var items;
             if (meeTingTypeStatus) {
-                items = $('.__resource-item[data-value="' + meeTingTypeStatus + '"]')
+                items = $('.__resource-item[data-value~="' + meeTingTypeStatus + '"]')
             } else {
                 items = $('.__resource-item');
             }
