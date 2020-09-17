@@ -431,7 +431,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                             user.getSfUserId(),
                             irmCouncilCode + "_" + contact.getId(),
                             councilCode,
-                            "PA",
+                            "DP",
                             irmCouncilCode,
                             troopName,
                             "7-Multi-level",
