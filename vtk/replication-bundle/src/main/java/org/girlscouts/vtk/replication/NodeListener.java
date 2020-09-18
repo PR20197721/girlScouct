@@ -7,6 +7,7 @@ import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
@@ -26,43 +27,6 @@ public class NodeListener implements EventListener {
     private Pattern troopPattern;
     private Pattern councilInfoPattern;
     
-    private class VTKReplicationListener implements ReplicationListener {
-
-        public void onStart(Agent agent, ReplicationAction action) {
-            // Do nothing
-        	log.debug("Starting replication...");  	
-        }
-
-        public void onMessage(Level level, String msg) {
-            // Do nothing
-        }
-
-        public void onEnd(Agent agent, ReplicationAction action, ReplicationResult result) {
-            if (result.isSuccess()) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Replication succeeded type: " + action.getType().getName() + " path: " + action.getPath());
-                }
-            } else {
-                ReplicationActionType type = action.getType();
-                String path = action.getPath();
-                replicateAsync(type, path);
-            }
-        }
-
-        public void onError(Agent agent, ReplicationAction action, Exception exception) {
-            replicateAsync(action.getType(), action.getPath());
-        }
-        
-        private void replicateAsync(ReplicationActionType type, String path) {
-            try {
-                log.warn("Sync replication error. Trying to replicate asynchronously. type = " + type.getName() + " path = " + path);
-                replicator.replicate(session, type, path, asyncOpts);
-            } catch (ReplicationException re) {
-                log.error("Replication Exception even in async mode. Event not handled. type = " + type + " path = " + path);
-            }
-        }
-    }
-    
     public NodeListener(Session session, Replicator replicator, 
             TroopHashGenerator troopHashGenerator, VTKDataCacheInvalidator cacheInvalidator, String yearPlanBase) {
         this.session = session;
@@ -75,14 +39,15 @@ public class NodeListener implements EventListener {
         syncOpts.setSuppressStatusUpdate(true);
         syncOpts.setSuppressVersions(true);
         syncOpts.setSynchronous(true); // SYNC
-        syncOpts.setListener(new VTKReplicationListener());
+        syncOpts.setListener(new VTKReplicationListener(session, replicator));
 
         asyncOpts = new ReplicationOptions();
         asyncOpts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
         asyncOpts.setSuppressStatusUpdate(true);
         asyncOpts.setSuppressVersions(true);
         asyncOpts.setSynchronous(false); // ASYNC
-        asyncOpts.setListener(new VTKReplicationListener());
+        asyncOpts.setListener(new VTKReplicationListener(session, replicator, asyncOpts));
+
 
         vtkDataOpts = new ReplicationOptions();
         vtkDataOpts.setFilter(new AgentIdFilter("flush"));
@@ -98,11 +63,15 @@ public class NodeListener implements EventListener {
 
     
     public void onEvent(EventIterator iter) {
-
-
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         String affectedTroop = null;
         String affectedCouncilInfo = null;
+
+        try {
+            session.refresh(true);
+        } catch (RepositoryException e) {
+            log.error("Refresh session failed. Error: {}", e);
+        }
 
         for (NodeEvent event : events) {
             String path = event.getPath();
@@ -124,7 +93,7 @@ public class NodeListener implements EventListener {
                     log.warn("Unknown replication type when trying to sync replicate. Do nothing. type = " + type + " path = " + path);
                 }
             } catch (ReplicationException re) {
-                log.error("Replication Exception. Event not handled. type = " + type + " path = " + path);
+                log.error("Replication Exception. Event not handled. type = {} path = {} error = {}", type, path, re);
             }
                 
             // Get the affected troop
