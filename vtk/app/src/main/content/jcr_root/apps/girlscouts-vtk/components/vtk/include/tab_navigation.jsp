@@ -145,7 +145,7 @@
                     <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (user.isAdmin() || !(apiConfig.isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                <% if (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()) || selectedTroop.getIsSUM()))  { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
@@ -320,7 +320,7 @@
                         <% } %>
                     </li>
                     <% } %>
-                    <% if (user.isAdmin() || !(apiConfig.isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                    <% if (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()) || selectedTroop.getIsSUM())) { %>
                     <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
                     </li>

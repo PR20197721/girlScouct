@@ -348,6 +348,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         try {
             List<AffiliationsEntity> affiliations = userInfoResponseEntity.getAffiliations();
             if (affiliations != null && affiliations.size() > 0) {
+                List<String> processedIRMAccounts = new ArrayList<>();
                 for (AffiliationsEntity entity : affiliations) {
                     log.debug("Affiliation:" + entity);
                     Troop troop = AffiliationsEntityToTroopMapper.map(entity);
@@ -359,7 +360,10 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                                     if (troop.getCouncilCode() != null) {
                                         if ("IRG".equals(troop.getParticipationCode())) {
                                             log.debug("IRG Affiliation:" + entity);
-                                            parentTroops.addAll(getIRMTroops(user, troop.getSfTroopId(), troop.getCouncilCode()));
+                                            if(!processedIRMAccounts.contains(troop.getSfTroopId())) {
+                                                parentTroops.addAll(getIRMTroops(user, troop.getSfTroopId(), troop.getCouncilCode()));
+                                                processedIRMAccounts.add(troop.getSfTroopId());
+                                            }
                                         } else {
                                             log.debug("Parent Affiliation:" + entity);
                                             setTroopPath(troop);
