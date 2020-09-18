@@ -38,8 +38,6 @@ import javax.servlet.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component(service = Servlet.class, property = {Constants.SERVICE_DESCRIPTION + "=Girl Scouts Web to Case Servlet", "sling.servlet.methods=" + HttpConstants.METHOD_POST, "sling.servlet.extensions=html", "sling.servlet.selectors=webtocase", "sling.servlet.resourceTypes=foundation/components/form/start"})
 public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingServlet {
@@ -303,26 +301,18 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
     public String parseHtml(String html, Map<String, List<String>> fields, ResourceResolver rr) {
         logger.debug("Parsing html "+html);
         Set<String> fieldNames = fields.keySet();
-        final StringBuffer sb = new StringBuffer(html);
         for(String fieldName:fieldNames){
+            String placeholder = "%%("+fieldName+")%%";
             logger.debug("Checking for %%("+fieldName+")%% in email template");
-            final Matcher matcher = Pattern.compile("%%("+fieldName+")%%").matcher(sb);
-            while (matcher.find()) {
+            if(html.contains(placeholder)){
                 logger.debug("Found %%("+fieldName+")%% in email template");
                 List<String> values = fields.get(fieldName);
-                if (values != null) {
-                    if (values.size() > 1) {
-                        logger.debug("Replacing "+matcher.group()+" with "+values.toString());
-                        matcher.appendReplacement(sb, values.toString());
-                    } else if (values.toString().length() >= 1) {
-                        logger.debug("Replacing "+matcher.group()+" with "+values.toString().substring(1, values.toString().length() - 1));
-                        matcher.appendReplacement(sb, values.toString().substring(1, values.toString().length() - 1));
-                    }
+                if(values != null &&  values.size() > 0){
+                    logger.debug("Replacing "+placeholder+" with "+values.get(0));
+                    html = html.replaceAll(placeholder,values.get(0));
                 }
             }
-            matcher.appendTail(sb);
         }
-        html = sb.toString();
         logger.debug("Result html "+html);
         return html;
     }
