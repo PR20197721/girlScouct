@@ -7,6 +7,7 @@ import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
@@ -25,8 +26,9 @@ public class NodeListener implements EventListener {
     private VTKDataCacheInvalidator cacheInvalidator;
     private Pattern troopPattern;
     private Pattern councilInfoPattern;
-
-    public NodeListener(Session session, Replicator replicator, TroopHashGenerator troopHashGenerator, VTKDataCacheInvalidator cacheInvalidator, String yearPlanBase) {
+    
+    public NodeListener(Session session, Replicator replicator, 
+            TroopHashGenerator troopHashGenerator, VTKDataCacheInvalidator cacheInvalidator, String yearPlanBase) {
         this.session = session;
         this.replicator = replicator;
         this.troopHashGenerator = troopHashGenerator;
@@ -36,13 +38,13 @@ public class NodeListener implements EventListener {
         syncOpts.setSuppressStatusUpdate(true);
         syncOpts.setSuppressVersions(true);
         syncOpts.setSynchronous(true); // SYNC
-        syncOpts.setListener(new VTKReplicationListener());
+        syncOpts.setListener(new VTKReplicationListener(session, replicator));
         asyncOpts = new ReplicationOptions();
         asyncOpts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
         asyncOpts.setSuppressStatusUpdate(true);
         asyncOpts.setSuppressVersions(true);
         asyncOpts.setSynchronous(false); // ASYNC
-        asyncOpts.setListener(new VTKReplicationListener());
+        asyncOpts.setListener(new VTKReplicationListener(session, replicator, asyncOpts));
         vtkDataOpts = new ReplicationOptions();
         vtkDataOpts.setFilter(new AgentIdFilter("flush"));
         vtkDataOpts.setSuppressStatusUpdate(true);
@@ -54,10 +56,16 @@ public class NodeListener implements EventListener {
     }
 
     public void onEvent(EventIterator iter) {
-        log.debug("VTK EVENT");
+        log.debug("VTK Event");
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         String affectedTroop = null;
         String affectedCouncilInfo = null;
+
+        try {
+            session.refresh(true);
+        } catch (RepositoryException e) {
+            log.error("Refresh session failed. Error: {}", e);
+        }
         for (NodeEvent event : events) {
             log.debug("Processing {}",event);
             String path = event.getPath();
@@ -76,7 +84,7 @@ public class NodeListener implements EventListener {
                     log.warn("Unknown replication type when trying to sync replicate. Do nothing. type = " + type + " path = " + path);
                 }
             } catch (ReplicationException re) {
-                log.error("Replication Exception. Event not handled. type = " + type + " path = " + path);
+                log.error("Replication Exception. Event not handled. type = {} path = {} error = {}", type, path, re);
             }
             // Get the affected troop
             if (affectedTroop == null) {
