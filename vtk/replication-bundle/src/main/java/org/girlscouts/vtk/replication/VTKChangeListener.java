@@ -34,31 +34,34 @@ public class VTKChangeListener implements EventHandler, ResourceChangeListener, 
     @Activate
     @SuppressWarnings({"squid:S1149","deprecation"})
     protected void activate(BundleContext context, Map<String, Object> config) {
-        String year = Integer.toString(vtkUtil._getCurrentGSYear());
-        List<String> monitorPaths = new ArrayList<String>();
-        // Add /vtk(year)
-        String yearPlanBase = vtkUtil._getYearPlanBase(null, null);
-        monitorPaths.add(yearPlanBase);
-        // Add /vtk(previous year)
-        String previousYear = Integer.toString(vtkUtil.getCurrentGSYear() - 1);
-        monitorPaths.add("/vtk" + previousYear + "/");
-        // Add /content/dam/girlscouts-vtk/troop-data(year)
-        monitorPaths.add(Constants.DAM_PATH + year);
-        // Add /vtkreplication for resources2
-        monitorPaths.add("/vtkreplication");
-        if (!monitorPaths.isEmpty()) {
-            log.warn("LDAP-style path filter detected, so a legacy event-based listener will be registered. "
-                    + "Consider using a list of paths instead to improve performance.");
-            Dictionary<String, Object> properties = new Hashtable<>();
-            properties.put(EventConstants.EVENT_TOPIC, new String[] { SlingConstants.TOPIC_RESOURCE_CHANGED,
-                    SlingConstants.TOPIC_RESOURCE_ADDED, SlingConstants.TOPIC_RESOURCE_REMOVED, SlingConstants.PROPERTY_CHANGED_ATTRIBUTES, SlingConstants.PROPERTY_ADDED_ATTRIBUTES, SlingConstants.PROPERTY_REMOVED_ATTRIBUTES });
-            properties.put(EventConstants.EVENT_FILTER, (String[])monitorPaths.toArray());
-            registration = (ServiceRegistration) context.registerService(String.valueOf(EventHandler.class), this, properties);
-        } else {
-            Dictionary<String, Object> properties = new Hashtable<>();
-            properties.put(ResourceChangeListener.PATHS, config.get(ResourceChangeListener.PATHS));
-            properties.put(ResourceChangeListener.CHANGES, config.get(ResourceChangeListener.CHANGES));
-            registration = (ServiceRegistration) context.registerService(String.valueOf(ResourceChangeListener.class), this, properties);
+        try {
+            String year = Integer.toString(vtkUtil._getCurrentGSYear());
+            List<String> monitorPaths = new ArrayList<String>();
+            // Add /vtk(year)
+            String yearPlanBase = vtkUtil._getYearPlanBase(null, null);
+            monitorPaths.add(yearPlanBase);
+            // Add /vtk(previous year)
+            String previousYear = Integer.toString(vtkUtil.getCurrentGSYear() - 1);
+            monitorPaths.add("/vtk" + previousYear + "/");
+            // Add /content/dam/girlscouts-vtk/troop-data(year)
+            monitorPaths.add(Constants.DAM_PATH + year);
+            // Add /vtkreplication for resources2
+            monitorPaths.add("/vtkreplication");
+            if (!monitorPaths.isEmpty()) {
+                log.warn("LDAP-style path filter detected, so a legacy event-based listener will be registered. " + "Consider using a list of paths instead to improve performance.");
+                Dictionary<String, Object> properties = new Hashtable<>();
+                properties.put(EventConstants.EVENT_TOPIC, new String[]{SlingConstants.TOPIC_RESOURCE_CHANGED, SlingConstants.TOPIC_RESOURCE_ADDED, SlingConstants.TOPIC_RESOURCE_REMOVED, SlingConstants.PROPERTY_CHANGED_ATTRIBUTES, SlingConstants.PROPERTY_ADDED_ATTRIBUTES, SlingConstants.PROPERTY_REMOVED_ATTRIBUTES});
+                properties.put(EventConstants.EVENT_FILTER, (String[]) monitorPaths.toArray());
+                registration = (ServiceRegistration) context.registerService(String.valueOf(EventHandler.class), this, properties);
+            } else {
+                Dictionary<String, Object> properties = new Hashtable<>();
+                properties.put(ResourceChangeListener.PATHS, config.get(ResourceChangeListener.PATHS));
+                properties.put(ResourceChangeListener.CHANGES, config.get(ResourceChangeListener.CHANGES));
+                registration = (ServiceRegistration) context.registerService(String.valueOf(ResourceChangeListener.class), this, properties);
+            }
+            log.debug("Activated");
+        }catch(Exception e){
+            log.error("Error Occured while activating VTKChangeListener: ",e);
         }
     }
 
@@ -69,6 +72,7 @@ public class VTKChangeListener implements EventHandler, ResourceChangeListener, 
 
     @Override
     public void handleEvent(final Event event) {
+        log.debug("handleEvent is called");
         // Get the required information from the event.
         final String path = (String) event.getProperty(SlingConstants.PROPERTY_PATH);
         final String changedattrs = (String) event.getProperty(SlingConstants.PROPERTY_CHANGED_ATTRIBUTES);
@@ -79,6 +83,7 @@ public class VTKChangeListener implements EventHandler, ResourceChangeListener, 
 
     @Override
     public void onChange(List<ResourceChange> changes) {
+        log.debug("onChange is called");
         for (ResourceChange change : changes) {
             log.debug("Change Path:{}", change.getPath());
             log.debug("Change Type:{}", change.getType());
