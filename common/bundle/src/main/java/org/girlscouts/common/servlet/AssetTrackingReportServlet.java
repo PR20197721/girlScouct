@@ -146,7 +146,7 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 						componentPath = prppertyNode.getProperty("componentPath").getValue().getString();
 						eventType = prppertyNode.getProperty("eventType").getValue().getString();
 					} catch (Exception e) {
-
+						logger.error(e.getMessage(), e);
 					}
 					logger.debug("Date string form the node--->" + dateTime);
 					String date = getDateLiterals(dateTime);
