@@ -1,14 +1,9 @@
 package org.girlscouts.common.listeners;
 
-import java.util.ArrayList;
-
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -78,134 +73,84 @@ public class AssetUsageListener implements EventListener {
 	@Override
 	public void onEvent(EventIterator events) {
 		logger.info("Executing AssetUsageListener onEvent()");
+		String eventType;
 		if (!isPublisher()) {
-			while (events.hasNext()) {
-				Event event = events.nextEvent();
-
-				try {
+			try {
+				while (events.hasNext()) {
+					Event event = events.nextEvent();
+					Map eventInfoMap = event.getInfo();
 					String propertyPath = event.getPath();
-					String trackingProp = StringUtils.substringAfterLast(propertyPath, "/");
+					String fileRefStr = StringUtils.substringAfterLast(propertyPath, "/");
 					String resourcePath = StringUtils.substringBeforeLast(propertyPath, "/");
-					boolean trackingPropValidation = Arrays.stream(AssetTrackingConstants.TRACKING_PROPERTY)
-							.anyMatch(trackingProp::equals);
-					if (trackingPropValidation) {
-						getEventInfo(event, resourcePath);
-					}
-
-				} catch (RepositoryException e) {
-					logger.error(e.getMessage(), e);
-				}
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param event
-	 * @param resourcePath
-	 */
-	private void getEventInfo(Event event, String resourcePath) {
-
-		String eventType = null;
-		Map eventInfoMap;
-		List<String> assetsList = null;
-		try {
-			eventInfoMap = event.getInfo();
-			if (event.getType() == Event.PROPERTY_ADDED) {
-				String propVal = eventInfoMap.get(AssetTrackingConstants.EVENT_AFTER_VALUE).toString();
-				assetsList = extractAssetInfo(propVal);
-				if (!assetsList.isEmpty()) {
-					eventType = AssetTrackingConstants.EVENT_TYPE_ADDED;
-					addTrackingInformation(assetsList, session, resourcePath, eventType);
-				}
-			} else if (event.getType() == Event.PROPERTY_CHANGED) {
-				String propValBefore = eventInfoMap.get(AssetTrackingConstants.EVENT_BEFORE_VALUE).toString();
-				String propValAfter = eventInfoMap.get(AssetTrackingConstants.EVENT_AFTER_VALUE).toString();
-				List<String> assetListBefore = extractAssetInfo(propValBefore);
-				List<String> assetListAfter = extractAssetInfo(propValAfter);
-				if (assetListBefore.isEmpty() && !assetListAfter.isEmpty()) {
-					eventType = AssetTrackingConstants.EVENT_TYPE_ADDED;
-					addTrackingInformation(assetListAfter, session, resourcePath, eventType);
-				}
-
-				if (!assetListBefore.isEmpty() && assetListAfter.isEmpty()) {
-					eventType = AssetTrackingConstants.EVENT_TYPE_REMOVED;
-					addTrackingInformation(assetListBefore, session, resourcePath, eventType);
-				}
-
-				if (!assetListBefore.isEmpty() && !assetListAfter.isEmpty()) {
-					List<String> before = new ArrayList<>(assetListBefore);
-					List<String> after = new ArrayList<>(assetListAfter);
-					before.removeAll(after);
-					if (!before.isEmpty()) {
-						logger.info("Asset removed");
-						eventType = AssetTrackingConstants.EVENT_TYPE_REMOVED;
-						addTrackingInformation(before, session, resourcePath, eventType);
-					}
-
-					assetListAfter.removeAll(assetListBefore);
-					if (!assetListAfter.isEmpty()) {
-						logger.info("Asset added");
+					if (event.getType() == Event.PROPERTY_ADDED && StringUtils.isNotBlank(fileRefStr)
+							&& StringUtils.equals(fileRefStr, AssetTrackingConstants.REFERENCE_PROPERTY)) {
 						eventType = AssetTrackingConstants.EVENT_TYPE_ADDED;
-						addTrackingInformation(assetListAfter, session, resourcePath, eventType);
-					}
-
-				}
-
-			} else if (event.getType() == Event.PROPERTY_REMOVED) {
-				String propVal = eventInfoMap.get(AssetTrackingConstants.EVENT_BEFORE_VALUE).toString();
-				assetsList = extractAssetInfo(propVal);
-				if (!assetsList.isEmpty()) {
-					logger.info("Asset removed");
-					eventType = AssetTrackingConstants.EVENT_TYPE_REMOVED;
-					addTrackingInformation(assetsList, session, resourcePath, eventType);
-				}
-			}
-
-		} catch (RepositoryException e) {
-			logger.error(e.getMessage(), e);
-		}
-	}
-
-	/**
-	 * 
-	 * @param assetsList
-	 * @param session
-	 * @param resourcePath
-	 * @param eventType
-	 */
-
-	private void addTrackingInformation(List<String> assetsList, Session session, String resourcePath,
-			String eventType) {
-
-		logger.info("adding tracking information");
-
-		try {
-			for (String str : assetsList) {
-				if (null != session.getNode(str)) {
-					Node assetNode = session.getNode(str);
-					if (assetNode.hasNode(AssetTrackingConstants.JCR_CONTENT_NODE)) {
-						Node assetJcrContentNode = assetNode.getNode(AssetTrackingConstants.JCR_CONTENT_NODE);
-
-						if (null != assetJcrContentNode) {
-							createTrackingNode(assetJcrContentNode, session, resourcePath, eventType);
+						String assetPath = eventInfoMap.get(AssetTrackingConstants.EVENT_AFTER_VALUE).toString();
+						boolean assetPathValidation = assetPathCheck(assetPath, AssetTrackingConstants.DAM_ASSET_PATH);
+						if (StringUtils.isNotBlank(assetPath) && assetPathValidation) {
+							updateTrackingInformation(assetPath, session, resourcePath, eventType);
 						}
 
-					} else {
-						logger.error("Invalid asset");
+					} else if (event.getType() == Event.PROPERTY_CHANGED && StringUtils.isNotBlank(fileRefStr)
+							&& StringUtils.equals(fileRefStr, AssetTrackingConstants.REFERENCE_PROPERTY)) {
+						String assetPathAfter = eventInfoMap.get(AssetTrackingConstants.EVENT_AFTER_VALUE).toString();
+						String assetPathBefore = eventInfoMap.get(AssetTrackingConstants.EVENT_BEFORE_VALUE).toString();
+						boolean assetPathBeforValidation = assetPathCheck(assetPathBefore,
+								AssetTrackingConstants.DAM_ASSET_PATH);
+						boolean assetPathAfterValidation = assetPathCheck(assetPathAfter,
+								AssetTrackingConstants.DAM_ASSET_PATH);
+						if (StringUtils.isNotBlank(assetPathAfter) && assetPathAfterValidation) {
+							eventType = AssetTrackingConstants.EVENT_TYPE_ADDED;
+							updateTrackingInformation(assetPathAfter, session, resourcePath, eventType);
+						}
+
+						if (StringUtils.isNotBlank(assetPathBefore) && assetPathBeforValidation) {
+							eventType = AssetTrackingConstants.EVENT_TYPE_REMOVED;
+							updateTrackingInformation(assetPathBefore, session, resourcePath, eventType);
+						}
+
+					} else if (event.getType() == Event.PROPERTY_REMOVED && StringUtils.isNotBlank(fileRefStr)
+							&& StringUtils.equals(fileRefStr, AssetTrackingConstants.REFERENCE_PROPERTY)) {
+						String assetPathBefore = eventInfoMap.get(AssetTrackingConstants.EVENT_BEFORE_VALUE).toString();
+						boolean assetPathValidation = assetPathCheck(assetPathBefore,
+								AssetTrackingConstants.DAM_ASSET_PATH);
+						if (StringUtils.isNotBlank(assetPathBefore) && assetPathValidation) {
+							eventType = AssetTrackingConstants.EVENT_TYPE_REMOVED;
+							updateTrackingInformation(assetPathBefore, session, resourcePath, eventType);
+						}
+
 					}
-				} else {
-					logger.error("Invalid asset");
+				}
+
+			} catch (RepositoryException e) {
+				logger.error(e.getMessage(), e);
+			}
+
+		}
+	}
+
+	private void updateTrackingInformation(String assetPath, Session session, String resourcePath, String eventType) {
+
+		try {
+			if (null != session.getNode(assetPath)) {
+				Node assetNode = session.getNode(assetPath);
+
+				if (assetNode.hasNode(AssetTrackingConstants.JCR_CONTENT_NODE)) {
+					Node assetJcrContentNode = assetNode.getNode(AssetTrackingConstants.JCR_CONTENT_NODE);
+
+					if (null != assetJcrContentNode) {
+						addTrackingInformation(assetJcrContentNode, session, resourcePath, eventType);
+					}
+
 				}
 			}
 		} catch (RepositoryException e) {
 			logger.error(e.getMessage(), e);
 		}
-
 	}
 
-
-	private void createTrackingNode(Node assetJcrContentNode, Session session, String resourcePath, String eventType) {
+	private void addTrackingInformation(Node assetJcrContentNode, Session session, String resourcePath,
+			String eventType) {
 		Node assetTrackDataNode = null;
 		Node councilNode = null;
 		Node yearNode = null;
@@ -273,34 +218,19 @@ public class AssetUsageListener implements EventListener {
 
 	}
 
-	/**
-	 * 
-	 * @param propVal
-	 * @return
-	 */
-	private List<String> extractAssetInfo(String propVal) {
+	private Boolean assetPathCheck(String assetPath, String[] damAssetPath) {
+		boolean result = false;
 
-		List<String> assetPathList = new ArrayList<>();
-		Pattern patteren = Pattern.compile(
-				"(?:\\/content\\/dam\\/girlscouts-shared\\/.*.(?:tif|tiff|bmp|jpg|jpeg|gif|png|TIF|TIFF|BMP|JPG|JPEG|GIF|PNG))");
-		Matcher matcher = patteren.matcher(propVal);
-		while (matcher.find()) {
-			assetPathList.add(matcher.group());
+		if (Stream.of(damAssetPath).anyMatch(assetPath::startsWith)) {
+			result = true;
 		}
-		return assetPathList;
+		return result;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	private boolean isPublisher() {
 		return settingsService.getRunModes().contains("publish");
 	}
 
-	/**
-	 * 
-	 */
 	@Deactivate
 	public void deactivate() {
 		logger.info("assetUsageListener Deactivated");

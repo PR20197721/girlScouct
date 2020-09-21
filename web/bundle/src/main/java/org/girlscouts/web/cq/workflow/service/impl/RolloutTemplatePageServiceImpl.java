@@ -289,6 +289,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 LiveRelationship newPageRelationship = relationManager.establishRelationship(srcPage, copyPage, true, false, gsConfig);
                 String targetPath = newPageRelationship.getTargetPath();
                 cancelInheritance(rr, copyPage.getPath());
+                blockReferenceUpdateAction.set("blockInitiatedFromWorkflow");
                 rolloutManager.rollout(rr, newPageRelationship, false);
                 if (updateReferences) {
                     Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
@@ -358,6 +359,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 }
                                 deleteComponents(rr, rolloutLog, componentsToDelete);
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
+                                updateRolloutPageInfo(relationPageResource);                              
                                 updatePageTitle(sourcePageResource, relationPageResource);
                                 if (updateReferences) {
                                     updateAllReferences(sourcePageResource, relationPageResource, componentsToRollout, hrefReferencesMap);
@@ -392,7 +394,21 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         submittedCouncils.removeAll(processedRelationCouncils);
     }
 
-    private void updateAllReferences(Resource sourceResource, Resource targetResource, Set<String> sourceComponents, Map<String, String> hrefReferencesMap) {
+    private void updateRolloutPageInfo(Resource targetPageResource) {
+        log.info("pageNodePath:" + targetPageResource.getPath());
+        Resource targetPageContent = targetPageResource.getChild("jcr:content");
+        Node targetPageContentNode = targetPageContent.adaptTo(Node.class);
+        try {
+			//Update rollout info for only the targetPageContentNode
+        	rolloutManager.updateRolloutInfo(targetPageContentNode, false, true);
+		} catch (WCMException e) {
+			// TODO Auto-generated catch block
+			log.error("Exception in updating rollout info at {}", targetPageResource.getPath());
+		}
+		
+	}
+
+	private void updateAllReferences(Resource sourceResource, Resource targetResource, Set<String> sourceComponents, Map<String, String> hrefReferencesMap) {
         if (sourceResource != null && sourceComponents != null && sourceComponents.size() > 0) {
             try {
                 ResourceResolver rr = sourceResource.getResourceResolver();
@@ -557,6 +573,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         params.paragraphs = componentsToRollout.toArray(new String[componentsToRollout.size()]);
         params.trigger = RolloutManager.Trigger.ROLLOUT;
         params.reset = false;
+        //GSWP-2235 inform  GirlScoutsReferencesUpdateAction to stop updating reference as rollout is from workflow
+        blockReferenceUpdateAction.set("blockInitiatedFromWorkflow");
         rolloutManager.rollout(params);
         rolloutLog.add("Rolled out content to " + relationPath);
         log.info("Successfully rolled out content for {}.", relationPath);

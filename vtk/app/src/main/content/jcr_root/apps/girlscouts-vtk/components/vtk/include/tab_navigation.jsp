@@ -23,8 +23,9 @@
         if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("PA")) {
             isParent = true;
         }
+		boolean isIRM = "IRM".equals(selectedTroop.getParticipationCode());
         boolean isTroopLeader = false;
-        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || "IRM".equals(selectedTroop.getParticipationCode()) || "SUM".equals(selectedTroop.getCouncilCode())) {
+        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || isIRM || "SUM".equals(selectedTroop.getCouncilCode())) {
             isTroopLeader = true;
         }
         String vtk_cache_uri = "/content/girlscouts-vtk/en";
@@ -33,6 +34,8 @@
 
         }
         String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
+        boolean financeTabEnabled = !VtkUtil.getFinanceTabDisabledCouncils().contains(selectedTroop.getCouncilCode()) && 
+            (user.isAdmin() || !(user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode())));
     %>
     <div id="troop" class="row">
         <div class="columns large-7 medium-9 right">
@@ -144,7 +147,7 @@
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (user.isAdmin() || !(user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                <% if (financeTabEnabled) { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
@@ -319,7 +322,7 @@
                         <% } %>
                     </li>
                     <% } %>
-                    <% if (user.isAdmin() || !(user.getApiConfig().isDemoUser() || "IRM".equals(selectedTroop.getParticipationCode()))) { %>
+                    <% if (financeTabEnabled) { %>
                     <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
                     </li>
@@ -482,7 +485,7 @@
                                 href="/content/girlscouts-vtk/controllers/vtk.include.troopRosterCsvRpt.html"
                                 target="_blank"><i class="icon-download"></i></a></li>
                         <%}
-                        	if(isParent && "myTroop".equals(activeTab)){ %>
+                        	if(isParent && !isIRM && "myTroop".equals(activeTab)){ %>
                         		 <li style="margin-right:15px"><a
                                 	title="Girl Scout Achievement Report"
                                 	href="/content/girlscouts-vtk/controllers/vtk.include.gsachievementRptCsv.html"

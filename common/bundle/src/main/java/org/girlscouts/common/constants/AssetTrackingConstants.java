@@ -12,7 +12,7 @@ public interface AssetTrackingConstants {
 
 	public static final String ROOT_PATH = "/content";
 
-	public static final String[] TRACKING_PROPERTY = { "fileReference", "text" };
+	public static final String REFERENCE_PROPERTY = "fileReference";
 
 	public static final String[] DAM_ASSET_PATH = { "/content/dam/girlscouts-shared/" };
 
@@ -35,7 +35,7 @@ public interface AssetTrackingConstants {
 	public static final String EVENT_TYPE_ADDED = "Asset Added";
 
 	public static final String EVENT_TYPE_REMOVED = "Asset Removed";
-
+	
 	public static final String COMPONENT_PATH = "componentPath";
 
 }

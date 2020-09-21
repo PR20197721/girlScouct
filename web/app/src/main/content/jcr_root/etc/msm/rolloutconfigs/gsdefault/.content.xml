@@ -19,9 +19,9 @@
         <contentDelete
             jcr:primaryType="cq:LiveSyncAction"
             enabled="true"/>
-        <!--<gsReferencesUpdate
+        <gsReferencesUpdate
             jcr:primaryType="cq:LiveSyncAction"
-            enabled="true"/>-->
+            enabled="true"/>
         <orderChildren
             jcr:primaryType="cq:LiveSyncAction"
             enabled="true"/>
