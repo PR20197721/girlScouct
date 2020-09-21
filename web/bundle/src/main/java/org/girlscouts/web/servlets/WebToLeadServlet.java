@@ -29,7 +29,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Base64;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -125,37 +124,35 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
         method.addRequestHeader("Accept", "text/html;charset=utf-8");
         method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(3, false));
         try {
+            logger.debug("Calling "+this.apiURL+ " with "+data);
             int statusCode = client.executeMethod(method);
-            byte[] bytes = method.getResponseBody();
-            String s = Base64.getEncoder().encodeToString(bytes);
-            logger.debug("response:"+s);
+            InputStream in = null;
+            ByteArrayOutputStream outStream = null;
+            String content = "";
+            try {
+                in = new GZIPInputStream(method.getResponseBodyAsStream());
+                outStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int length;
+                while ((length = in.read(buffer)) > 0) {
+                    outStream.write(buffer, 0, length);
+                }
+                content = new String(outStream.toByteArray(), "UTF-8");
+            }catch(Exception e){
+
+            } finally {
+                if(outStream != null) {
+                    outStream.close();
+                }
+                if(in != null) {
+                    in.close();
+                }
+            }
+            logger.debug("SFMC RESPONSE: "+content);
             if (statusCode != HttpStatus.SC_OK) {
                 errors.add("Sorry, system error occurred while submitting your form. Please try again later.");
                 logger.error("Method failed: " + method.getStatusLine());
             }else{
-                InputStream in = null;
-                ByteArrayOutputStream outStream = null;
-                String content = "";
-                try {
-                    in = new GZIPInputStream(method.getResponseBodyAsStream());
-                    outStream = new ByteArrayOutputStream();
-                    byte[] buffer = new byte[4096];
-                    int length;
-                    while ((length = in.read(buffer)) > 0) {
-                        outStream.write(buffer, 0, length);
-                    }
-                    content = new String(outStream.toByteArray(), "UTF-8");
-                }catch(Exception e){
-
-                } finally {
-                    if(outStream != null) {
-                        outStream.close();
-                    }
-                    if(in != null) {
-                        in.close();
-                    }
-                }
-                logger.debug("SFMC RESPONSE: "+content);
                 if(!content.contains("SUCCESS")) {
                     if (content.contains("ERROR")) {
                         String[] lines = content.split(System.getProperty("line.separator"));

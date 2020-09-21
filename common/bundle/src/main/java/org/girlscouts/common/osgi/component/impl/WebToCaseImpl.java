@@ -107,7 +107,9 @@ public class WebToCaseImpl implements WebToCase {
             "type",
             "subject",
             "description",
-            "g-recaptcha-response"
+            "g-recaptcha-response",
+                "debug",
+                "debugEmail"
             };
     }
 

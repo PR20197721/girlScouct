@@ -35,9 +35,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.Servlet;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.zip.GZIPInputStream;
 
 @Component(service = Servlet.class, property = {Constants.SERVICE_DESCRIPTION + "=Girl Scouts Web to Case Servlet", "sling.servlet.methods=" + HttpConstants.METHOD_POST, "sling.servlet.extensions=html", "sling.servlet.selectors=webtocase", "sling.servlet.resourceTypes=foundation/components/form/start"})
 public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingServlet {
@@ -93,7 +96,7 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
             List<NameValuePair> data = new LinkedList<NameValuePair>();
             data.addAll(getSubmittedParams(request));
             data.addAll(getAdditionalParams(request));
-            postToSFMC(data, errors, debug);
+            postToSF(data, errors, debug);
             if (errors.size() > 0) {
                 respond(new WebToCaseResponse("error", errors), response);
                 return;
@@ -111,6 +114,7 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 
     private List<NameValuePair> getAdditionalParams(SlingHttpServletRequest request) {
         List<NameValuePair> data = new ArrayList<NameValuePair>();
+        String g_recaptcha_ts = request.getParameter("g-recaptcha-ts");
         //TODO: change next line for prod
         data.add(new NameValuePair("origin", "Cultural Resources Support"));
         data.add(new NameValuePair("status", "New"));
@@ -130,7 +134,7 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
             if(sfmcMapping != null){
                 logger.debug("fOund mapping for recaptcha site key:"+site_key+" -> "+sfmcMapping);
                 data.add(new NameValuePair("retURL",resource.getResourceResolver().map(currentPage.getPath())+".html"));
-                data.add(new NameValuePair("captcha_settings", "{\"keyname\":\""+sfmcMapping+"\",\"fallback\":\"true\",\"orgId\":\""+this.oid+"\",\"ts\":\"\"}"));
+                data.add(new NameValuePair("captcha_settings", "{\"keyname\":\""+sfmcMapping+"\",\"fallback\":\"true\",\"orgId\":\""+this.oid+"\",\"ts\":\""+g_recaptcha_ts+"\"}"));
             }else{
                 logger.debug("No recaptcha key mapping found for sfmc.");
             }
@@ -317,7 +321,7 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
         return html;
     }
 
-    private void postToSFMC(List<NameValuePair> data, List<String> errors, boolean debug) {
+    private void postToSF(List<NameValuePair> data, List<String> errors, boolean debug) {
         HttpClient client = new HttpClient();
         PostMethod method = new PostMethod(this.apiURL);
         NameValuePair[] dataArray = data.toArray(new NameValuePair[data.size()]);
@@ -330,17 +334,58 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
         method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(3, false));
         try {
             // Execute the method.
+            logger.debug("Calling "+this.apiURL+ " with "+data);
             int statusCode = client.executeMethod(method);
-            byte[] bytes = method.getResponseBody();
-            String s = Base64.getEncoder().encodeToString(bytes);
-            logger.debug("response:"+s);
+            InputStream in = null;
+            ByteArrayOutputStream outStream = null;
+            String content = "";
+            try {
+                in = new GZIPInputStream(method.getResponseBodyAsStream());
+                outStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int length;
+                while ((length = in.read(buffer)) > 0) {
+                    outStream.write(buffer, 0, length);
+                }
+                content = new String(outStream.toByteArray(), "UTF-8");
+            }catch(Exception e){
+
+            } finally {
+                if(outStream != null) {
+                    outStream.close();
+                }
+                if(in != null) {
+                    in.close();
+                }
+            }
+            content = StringUtils.isBlank(content) ? method.getResponseBodyAsString() :content;
+            logger.debug("http client postMethod StatusLine: " + method.getStatusLine());
+            logger.debug("http client postMethod Response: " + content);
             if (statusCode != HttpStatus.SC_OK) {
                 errors.add("Sorry, system error occurred while submitting your form. Please try again later.");
                 logger.error("Method failed: " + method.getStatusLine());
-            }
-            if (debug) {
-                logger.debug("http client postMethod StatusLine: " + method.getStatusLine());
-                logger.debug("http client postMethod Response: " + method.getResponseBodyAsString());
+            }else{
+                if(!content.contains("SUCCESS")) {
+                    if (content.contains("ERROR") || content.contains("ALERT" )) {
+                        String[] lines = content.split(System.getProperty("line.separator"));
+                        if(lines != null){
+                            boolean errorMessage = false;
+                            for(String line:lines){
+                                if(errorMessage){
+                                    errors.add(line);
+                                    logger.error("SF responded with error: " + line);
+                                }
+                                if(line.contains("ALERT")){
+                                    errorMessage = true;
+                                }else{
+                                    errorMessage = false;
+                                }
+                            }
+                        }
+                    } else {
+                        errors.add("Sorry, system error occurred while submitting your form. Please try again later.");
+                    }
+                }
             }
 
         } catch (Exception e) {
