@@ -47,7 +47,7 @@ try{
 $(window).adaptTo("foundation-registry").register("foundation.collection.action.activecondition", {
 	  name: "site.scaffolding",
 	  handler: function(name, el, config, collection, selections) {
-	    return window.location.href.indexOf("/content/"+$(el).attr("data-council")) != -1;
+		  return window.location.href.indexOf("/content/"+$(el).attr("data-council") + "/") != -1 || window.location.href.endsWith("/content/"+$(el).attr("data-council"));
 	  }
 	});
 </script>
