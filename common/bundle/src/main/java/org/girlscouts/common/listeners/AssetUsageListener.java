@@ -204,13 +204,7 @@ public class AssetUsageListener implements EventListener {
 
 	}
 
-	/**
-	 * 
-	 * @param assetJcrContentNode
-	 * @param session
-	 * @param resourcePath
-	 * @param eventType
-	 */
+
 	private void createTrackingNode(Node assetJcrContentNode, Session session, String resourcePath, String eventType) {
 		Node assetTrackDataNode = null;
 		Node councilNode = null;
