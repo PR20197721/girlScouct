@@ -488,7 +488,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
     }
 
     private Page getEvent(String activityYearFolder, String id, ResourceResolver rr) {
-        String sql = "SELECT * FROM [cq:Page] AS s WHERE ISDESCENDANTNODE(s, '" + activityYearFolder + "') AND s.[jcr:content/eid]='" + id + "'";
+        String sql = "SELECT * FROM [cq:Page] AS s WHERE ISDESCENDANTNODE(s, '" + activityYearFolder + "') AND s.[jcr:content/data/eid]='" + id + "'";
         try {
             log.debug("Executing JCR-SQL2 query: " + sql);
             for (Iterator<Resource> it = rr.findResources(sql, Query.JCR_SQL2); it.hasNext(); ) {
