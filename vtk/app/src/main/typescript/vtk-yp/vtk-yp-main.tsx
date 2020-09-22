@@ -8,6 +8,7 @@ import Gray from './vtk-gray';
 import VtkPopUp from './vtk-popup';
 import {selectPlan} from './year-plan-track';
 import Head from './head';
+import BYOHead from './byo-head';
 import Meetings from './meetings';
 import * as ReactDOM from "react-dom";
 
@@ -31,7 +32,7 @@ interface VtkMainYpState {
     }
 
     track: string;
-
+    showMeetingSearch: boolean;
     showTracks: boolean;
     showPreview: boolean;
 };
@@ -67,6 +68,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
             },
             track: '',
             showTracks: false,
+            showMeetingSearch: false,
             showPreview: false
         }
     }
@@ -98,11 +100,18 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
     clickHander() {
         selectPlan('Custom Year Plan', '', this.store.bind(this))
     }
-
+    openMeetingSearch(){
+        this.setState({
+            showTracks: false,
+            showPreview: false,
+            showMeetingSearch: true
+        });
+    }
     openTracks() {
         this.setState({
             showTracks: !this.state.showTracks,
-            showPreview: false
+            showPreview: false,
+            showMeetingSearch:false
         });
     }
 
@@ -212,6 +221,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                         width: '100%'
                                     }}
                                     onClick={() => {
+                                        this.openMeetingSearch()
                                         chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib);
                                         if (state.data.name === 'Custom Year Plan') {
                                             data
@@ -509,6 +519,16 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                         </div>
                     </div>
                     : null}
+                <div
+                    className={`_back_box_tracks ${(this.state.showMeetingSearch)
+                        ? '__OPEN'
+                        : '__CLOSE'}`}>
+                    { <div className="__list__tracks columns small-24">
+                            <BYOHead/>
+                            <div id="meetingSearch"></div>
+                      </div>
+                    }
+                </div>
                 <div
                     className={`_back_box_tracks ${(this.state.showTracks)
                         ? '__OPEN'
