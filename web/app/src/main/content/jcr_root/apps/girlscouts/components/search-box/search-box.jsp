@@ -8,6 +8,7 @@
     String placeholderText = properties.get("placeholder-text", "");
     String lastSearch = slingRequest.getParameter("q") != null ? slingRequest.getParameter("q") : "";
     lastSearch = URLEncoder.encode(lastSearch, "UTF-8");
+    lastSearch = xssAPI.encodeForHTML(lastSearch != null ? lastSearch.replaceAll("%","%25").replaceAll("\\s+", " ") : "");
 	String valueText = "";
     if (lastSearch != null && lastSearch.trim().length() > 0) {
         placeholderText = URLDecoder.decode(lastSearch, "UTF-8");
