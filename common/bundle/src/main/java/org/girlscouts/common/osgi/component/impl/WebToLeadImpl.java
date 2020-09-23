@@ -11,6 +11,9 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Component(service = {
 		WebToLead.class }, immediate = true, name = "org.girlscouts.common.osgi.component.impl.WebToLeadImpl")
 @Designate(ocd = WebToLeadImpl.Config.class)
@@ -20,12 +23,19 @@ public class WebToLeadImpl implements WebToLead {
 
     private String oid;
     private String apiURL;
+    private final Set<String> expectedParams = new HashSet<>();
 
 
 	@Activate
 	private void activate(Config config) {
         this.oid = config.oid();
         this.apiURL = config.apiURL();
+        String [] expectedParamsArr = config.expectedParams();
+        if(expectedParamsArr != null){
+            for(String paramName:expectedParamsArr){
+                expectedParams.add(paramName);
+            }
+        }
         log.info("Activated.");
 	}
 
@@ -45,11 +55,47 @@ public class WebToLeadImpl implements WebToLead {
         return this.apiURL;
     }
 
+    @Override
+    public Set<String> getExpectedParams(){
+        return this.expectedParams;
+    }
+
     @ObjectClassDefinition(name = "Girl Scouts Web To Lead Configuration Service")
     public @interface Config {
         @AttributeDefinition(name = "Organization ID") String oid() default "00DG0000000leqU";
 
         @AttributeDefinition(name = "Form submit path") String apiURL() default "https://pub.s6.exacttarget.com/3la2yxuyhd1";
+        @AttributeDefinition(name = "Expected Fields") String[] expectedParams() default {
+                "LeadType",
+                "Email",
+                "CouncilCode",
+                "ZipCode",
+                "FirstName",
+                "LastName",
+                "CampaignID",
+                "Phone",
+                "City",
+                "StreetAddress",
+                "State",
+                "SchoolName",
+                "Title",
+                "GirlFirstName",
+                "GirlLastName",
+                "Grade",
+                "GirlAge",
+                "University",
+                "Alum",
+                "UTM_Campaign",
+                "UTM_Medium",
+                "UTM_Source",
+                "VolunteerInterest",
+                "IsMember",
+                "FormURL",
+                "DownloadURL",
+                "GraduationYear",
+                "debug",
+                "debugEmail"
+        };
     }
 
 }
