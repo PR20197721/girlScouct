@@ -28,6 +28,7 @@
     <!-- <filter root="/apps/wcm/core/content/common/availablecolumns/startDate"/> -->
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/badge-image-schema"/>
     <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/default"/>
+    <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/default-custom"/>
     <filter root="/conf/global/settings/workflow/models" mode="merge"/>
     <filter root="/etc/clientlibs/girlscouts-common"/>
     <filter root="/etc/designs/default/resources" mode="merge"/>

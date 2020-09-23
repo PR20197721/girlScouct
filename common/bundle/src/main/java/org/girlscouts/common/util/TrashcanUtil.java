@@ -77,7 +77,7 @@ public class TrashcanUtil implements TrashcanConstants {
             if(resultSet != null && resultSet.size() > 0) {
                 StringBuffer sb = new StringBuffer();
                 for(String key:resultSet){
-                	if(!key.equals(payloadResource.getPath()) && !StringUtils.startsWith(key,"/content/trashcan")) {
+                	if(!key.equals(payloadResource.getPath()) && !StringUtils.startsWith(key,"/content/trashcan") && !StringUtils.startsWith(key,"/etc/workflow/packages")) {
                         sb.append("<li>" + key + "</li>");
                     }
                 }
