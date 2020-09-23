@@ -100,18 +100,20 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
     clickHander() {
         selectPlan('Custom Year Plan', '', this.store.bind(this))
     }
-    openMeetingSearch(){
+
+    openMeetingSearch() {
         this.setState({
             showTracks: false,
             showPreview: false,
             showMeetingSearch: true
         });
     }
+
     openTracks() {
         this.setState({
             showTracks: !this.state.showTracks,
             showPreview: false,
-            showMeetingSearch:false
+            showMeetingSearch: false
         });
     }
 
@@ -157,11 +159,26 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
     }
 
     public render(): JSX.Element {
-
         const {header, bottom, customizedYearPlanContent} = this.props.data;
         const {title, subtitle} = header;
 
+        let renderActions = () => (
+            <div className="columns small-20 medium-12" style={{textAlign: 'center'}}>
+                <button id="explore-close-preview" onClick={() => this.closePreview()} className="btn button btn-line hide-for-print">CLOSE PREVIEW</button>
+                <button id="explore-select-track" className={`btn button btn-default hide-for-print ${(________currentYearPlanName________ === this.state.meeting.name) ? ' selected inactive' : ''}`} onClick={() => {
+                    if (!(________currentYearPlanName________ === this.state.meeting.name)) {
+                        selectPlan(this.state.track.split('###')[1], this.state.track.split('###')[0], this.store.bind(this))
+                    }
+                }}>
+                    {(________currentYearPlanName________ === this.state.meeting.name) ? 'SELECTED' : 'SELECT TRACK'}
+                </button>
+                <div style={{margin: "0 0 -3% 0", display: "inline-block"}}>
+                    <a onClick={() => window.print()} title="print"><i className="temp5 icon-printer hide-for-print"></i></a>
+                </div>
+            </div>);
+
         function renderChild(state) {
+
             return (________isYearPlan________ == false)
                 ? <div className={state.data.name}>
                     <p>
@@ -221,12 +238,9 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                         width: '100%'
                                     }}
                                     onClick={() => {
-                                        this.openMeetingSearch()
                                         chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib);
                                         if (state.data.name === 'Custom Year Plan') {
-                                            data
-                                                .modal
-                                                .publish('pop-select', 'close')
+                                            data.modal.publish('pop-select', 'close')
                                         }
                                     }}>YES, SELECT
                                 </div>
@@ -319,38 +333,23 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                         </tbody>
                     </table>
                 </div>
-
         }
 
-        let renderActions = () => (
-            <div className="columns small-20 medium-12" style={{textAlign: 'center'}}>
-                <button id="explore-close-preview" onClick={() => this.closePreview()} className="btn button btn-line hide-for-print">CLOSE PREVIEW</button>
-                <button id="explore-select-track" className={`btn button btn-default hide-for-print ${(________currentYearPlanName________ === this.state.meeting.name) ? ' selected inactive' : ''}`} onClick={() => {
-                    if (!(________currentYearPlanName________ === this.state.meeting.name)) {
-                        selectPlan(this.state.track.split('###')[1], this.state.track.split('###')[0], this.store.bind(this))
-                    }
-                }}>
-                    {(________currentYearPlanName________ === this.state.meeting.name) ? 'SELECTED' : 'SELECT TRACK'}
-                </button>
-                <div style={{margin:"0 0 -3% 0", display:"inline-block"}}><a onClick={() => window.print()} title="print"><i className="temp5 icon-printer hide-for-print"></i></a></div>
-            </div>)
-
-
-        function gradeLevelSelector(){
-            if (data.isIRM() || data.isSUM() || data.getDefaultLevel() === 'multi-level'){
-                console.log("selecting tab "+data.getLevel());
-                $("li.grade-level").each(function( index ) {
-                    if($(this).find('a').data('grade-level') == data.getLevel()){
-                        $(this).addClass( "selected" );
-                    }else{
-                        $(this).removeClass( "selected" );
+        function gradeLevelSelector() {
+            if (data.isIRM() || data.isSUM() || data.getDefaultLevel() === 'multi-level') {
+                console.log("selecting tab " + data.getLevel());
+                $("li.grade-level").each(function (index) {
+                    if ($(this).find('a').data('grade-level') == data.getLevel()) {
+                        $(this).addClass("selected");
+                    } else {
+                        $(this).removeClass("selected");
                     }
                 });
                 let _onClick: Function = (el) => {
                     var selectedGradeLevel = $(el).data('grade-level');
-                    try{
+                    try {
                         $("#explore-close-preview").click();
-                    }catch(error){
+                    } catch (error) {
                     }
                     data.setLevel(selectedGradeLevel);
                     $('#vtk-yp-main').data('level', selectedGradeLevel);
@@ -360,7 +359,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                         );
                     })
                 };
-                return  <div className="__padding">
+                return <div className="__padding">
                     <div className="columns small-22 medium-20 small-centered medium-centered" style={{padding: '0px'}}>
                         <section className="grade-levels">
                             <p>Select a level to get started.</p>
@@ -391,31 +390,26 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                         </section>
                     </div>
                 </div>
-            }else{
+            } else {
                 return null;
             }
         }
+
         return (
             <div>
                 {gradeLevelSelector()}
                 <div className="__padding">
-                    <div
-                        className="columns small-22 medium-20 small-centered medium-centered"
-                        style={{
-                            padding: '0px'
-                        }}>
+                    <div className="columns small-22 medium-20 small-centered medium-centered" style={{ padding: '0px' }}>
                         <h2 className="">{title}</h2>
                         <div className="row">
                             <div className="small-24  columns">
-                                <p
-                                    style={{
-                                        'marginBottom': '30px'
-                                    }}>{subtitle}</p>
+                                <p style={{ 'marginBottom': '30px' }}>{subtitle}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                {(________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________ === 'Custom Year Plan')
+                {
+                    (________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________ === 'Custom Year Plan')
                     ? <div className="__padding">
                         <div className="columns small-20 small-centered">
                             <div className="_intro ">
@@ -430,14 +424,12 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                 </p>
                                 <div className="exploreLargeView">
                                     <div style={{display: 'inline-flex'}}>
-                                        <p style={{
-                                            marginLeft: '12px',
-                                            width: '166px'
-                                        }}>To start over and erase all meeting details, including attendance and achievements:</p>
-                                        <p style={{
-                                            marginLeft: '200px',
-                                            width: '166px'
-                                        }}>To add, delete, or change a meeting, go to your current Year Plan</p>
+                                        <p style={{ marginLeft: '12px', width: '166px' }}>
+                                            To start over and erase all meeting details, including attendance and achievements:
+                                        </p>
+                                        <p style={{ marginLeft: '200px', width: '166px' }}>
+                                            To add, delete, or change a meeting, go to your current Year Plan
+                                        </p>
                                     </div>
                                     <div>
                                         <a href="javascript:exploreReset();" className="btn button btn-default resetExploreButton" style={{
@@ -478,62 +470,43 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                             </div>
                         </div>
                     </div>
-                    : null}
-                {(!(________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________ === 'Custom Year Plan'))
+                    : null
+                }
+                {
+                    (!(________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________ === 'Custom Year Plan'))
                     ? <div className="__padding">
-                        <div
-                            className={`_main_boxes columns small-22 medium-20 small-centered medium-centered hide-for-print ${(this.state.showTracks)
-                                ? '__OPEN'
-                                : '__CLOSE'}`}>
-                            <div
-                                onClick={() => this.clickHander()}
-                                className="columns  medium-24 large-12 _box_wrap">
+                        <div className={`_main_boxes columns small-22 medium-20 small-centered medium-centered hide-for-print ${(this.state.showTracks) ? '__OPEN' : '__CLOSE'}`}>
+                            <div onClick={() => this.clickHander()} className="columns  medium-24 large-12 _box_wrap">
                                 <div className="_box __library">
                                     <div className="__img"></div>
                                     <h3>Build Your Own</h3>
-                                    <p>Search or filter to select the badges and awards that fit the style of your
-                                        troop.</p>
-                                    <a
-                                        className="btn button"
-                                        style={{
-                                            width: '100%'
-                                        }}>start adding Petals, Badges or Journeys</a>
+                                    <p>Search or filter to select the badges and awards that fit the style of your troop.</p>
+                                    <a className="btn button" style={{ width: '100%' }}>start adding Petals, Badges or Journeys</a>
                                 </div>
                             </div>
-                            <div
-                                onClick={() => this.openTracks()}
-                                className="columns medium-24 large-12 _box_wrap">
+                            <div onClick={() => this.openTracks()} className="columns medium-24 large-12 _box_wrap">
                                 <div className="_box __tracks">
                                     <div className="__img "></div>
                                     <h3>Pre-selected Tracks</h3>
-                                    <p>Not sure what to pick? These tracks get your troop Year Plan started and let
-                                        you add choices as well.</p>
-                                    <a
-                                        className="btn button"
-                                        style={{
-                                            width: '100%'
-                                        }}>view popular tracks</a>
+                                    <p>Not sure what to pick? These tracks get your troop Year Plan started and let you add choices as well.</p>
+                                    <a className="btn button" style={{ width: '100%' }}>view popular tracks</a>
                                 </div>
                             </div>
                             <br/><br/>
                         </div>
                     </div>
-                    : null}
-                <div
-                    className={`_back_box_tracks ${(this.state.showMeetingSearch)
-                        ? '__OPEN'
-                        : '__CLOSE'}`}>
-                    { <div className="__list__tracks columns small-24">
+                    : null
+                }
+                <div className={`_back_box_tracks ${(this.state.showMeetingSearch) ? '__OPEN' : '__CLOSE'}`}>
+                    {
+                        <div className="__list__tracks columns small-24">
                             <BYOHead/>
-                            <div id="meetingSearch"></div>
-                      </div>
+                        </div>
                     }
                 </div>
-                <div
-                    className={`_back_box_tracks ${(this.state.showTracks)
-                        ? '__OPEN'
-                        : '__CLOSE'}`}>
-                    {(!this.state.showPreview)
+                <div className={`_back_box_tracks ${(this.state.showTracks) ? '__OPEN' : '__CLOSE'}`}>
+                    {
+                        (!this.state.showPreview)
                         ? <div className="__categories_main">
                             <Head/> {(this.state.showTracks)
                             ? <div className="__categories-wrap">
@@ -557,7 +530,6 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                 }
                                 <div className="row" style={{clear: 'both'}}>
                                     <div className="columns small-20 small-centered">
-
                                         <div className={this.state.pdf ? `columns small-24` : 'columns small-24'} style={!this.state.pdf ? {textAlign: 'center'} : {textAlign: 'center'}}>
                                             <button onClick={() => this.openTracks()} className='btn button btn-line'>CLOSE</button>
                                         </div>
@@ -566,7 +538,6 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                             </div>
                             : null}
                         </div>
-
                         : <div className="__list__tracks columns small-24">
                             <Head/>
                             <div className="columns small-22 small-centered">
@@ -595,9 +566,9 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                     </div>
                                     {renderActions()}
                                 </div>
-
                             </div>
-                        </div>}
+                        </div>
+                    }
                 </div>
                 <Gray/>
                 <div className="pop-explore">
@@ -605,7 +576,10 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                         {renderChild(this.state)}
                     </VtkPopUp>
                 </div>
-                <div className="small-20 columns small-centered"><p>Want to explore more before setting up a plan? Check out the <a href="https://www.girlscouts.org/en/our-program/badges/badge_explorer.html">Award and Badge Explorer</a> to mix and match badge and Journey choices. Include your Girl Scouts and let them give input as you plan your year.</p></div>
+                <div id="meetingSearch"></div>
+                <div className="small-20 columns small-centered">
+                    <p>Want to explore more before setting up a plan? Check out the <a href="https://www.girlscouts.org/en/our-program/badges/badge_explorer.html">Award and Badge Explorer</a> to mix and match badge and Journey choices. Include your Girl Scouts and let them give input as you plan your year.
+                    </p></div>
             </div>
         )
     }
