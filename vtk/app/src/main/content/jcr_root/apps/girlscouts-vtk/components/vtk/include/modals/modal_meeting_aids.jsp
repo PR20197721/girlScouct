@@ -26,11 +26,17 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
+
+    final String type = request.getParameter("type");
+    boolean forMeetingAid = type.equals("meeting-aids");
+    final String MODAL_TITLE = forMeetingAid ? "Meeting aids" : "Additional resources"; // Used for display
+    final String MODAL_ACT = forMeetingAid ? "AddAid" : "AddResource"; // Used for routing
+    final String MODAL_EVENT = forMeetingAid ? "AddMeetingAid" : "AddResource"; // Used for analytics
 %>
 <!-- apps/girlscouts-vtk/components/vtk/include/modals/modal_meeting_aids.jsp -->
 
 <div class="header clearfix">
-    <h3 class="columns large-22">Meeting aids</h3>
+    <h3 class="columns large-22"><%=MODAL_TITLE%></h3>
     <a class="close-reveal-modal columns large-2" href="#"><span style="color: black; font-size: 22px; padding-right: 10px; font-weight: normal;">X</span></a>
 </div>
 <div class="scroll">
@@ -46,7 +52,7 @@
                         boolean canAddAid = !isExistingAid && hasEditPermission;
                         %><tr>
                             <td class="browseMeetingAidsImage"><%
-                                if (assetImage != null) { 
+                                if (assetImage != null) {
                                     %><img src="<%=assetImage%>" width="40" height="40" border="0"/><%
                                 }
                             %></td>
@@ -85,7 +91,7 @@
             url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
             type: 'POST',
             data: {
-                act: 'AddAid',
+                act: '<%=MODAL_ACT%>',
                 addAids: aidId,
                 meetingId: meetingId,
                 assetName: assetName,
@@ -94,7 +100,7 @@
                 a: Date.now()
             },
             success: function (result) {
-                vtkTrackerPushAction('AddMeetingAid');
+                vtkTrackerPushAction('<%=MODAL_EVENT%>');
                 location.reload();
             }
         });

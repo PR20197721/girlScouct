@@ -11,18 +11,14 @@ export interface VtkMtgPlanAidsProps {
     helper: any,
     user_variable: any,
     videos: any,
-    meetingId: string
+    meetingId: string,
+    type: string
 }
 
 const asset = (link, show) => {
     let {title, description, refId, uid, docType, isOutdoorRelated, isGlobalRelated, isVirtualRelated} = link;
 
-    let isAvailable = '';
-
-    if (show) {
-        isAvailable = ' disabled';
-    }
-
+    let isAvailable = show ? ' disabled' : '';
     let isPdf = (docType === 'pdf') || refId.indexOf('.pdf') === (refId.length - '.pdf'.length);
 
     return (isPdf)
@@ -104,41 +100,30 @@ class VtkMtgPlanAids extends React.Component<VtkMtgPlanAidsProps, {}> {
     }
 
     public render() {
-
-        let {assets, helper, user_variable, videos, meetingId} = this.props;
+        let {assets, helper, user_variable, videos, meetingId, type} = this.props;
         console.log('videos', videos);
 
-        let assetsAll = assets;
-
-        if (meetingId in videos) {
-            assetsAll = assets.concat(this.props.videos[meetingId])
-        }
-
-        const permissionCheck = HAS_PERMISSION_FOR()(
-            "vtk_troop_haspermision_edit_yearplan_id"
-        );
-
+        const assetsAll = meetingId in videos ? assets.concat(this.props.videos[meetingId]) : assets;
+        const permissionCheck = HAS_PERMISSION_FOR()("vtk_troop_haspermision_edit_yearplan_id");
+        const id = type.replace(' ', '-').toLowerCase();
 
         return (
             <div>
-                <VtkContent idName="meeting-aids">
-                    <h6>Meeting Aids</h6>
+                <VtkContent idName={id}>
+                    <h6>{type}</h6>
                     <ul className="__list_of_assets large-block-grid-2 medium-block-grid-2 small-block-grid-2">
                         {assetsAll.map((link) => {
                             return asset(link, user_variable.user_current_year !== user_variable.vtk_current_year)
                         })}
                     </ul>
                     {(permissionCheck) ?
-                        <a className="add-btn" data-reveal-id="modal_popup" data-reveal-ajax="true" href={`/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem=${helper.currentDate}`} title="Add meeting aids">
-                            <i className="icon-button-circle-plus"></i>Add Meeting Aids
+                        <a className="add-btn" data-reveal-id="modal_popup" data-reveal-ajax="true" href={`/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem=${helper.currentDate}&type=${id}`} title={`Add ${type}`}>
+                            <i className="icon-button-circle-plus"></i>Add {type}
                         </a> : null}
                 </VtkContent>
             </div>
         );
-
     }
-
-
 }
 
 

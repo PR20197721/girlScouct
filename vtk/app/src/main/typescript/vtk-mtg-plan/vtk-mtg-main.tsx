@@ -53,8 +53,9 @@ function VtkMtgPlanMain(props: VtkMtgPlanMainProps) {
                     <VtkMtgPlanMainBar/>
                     <VtkMtgPlanMaterials/>
                     <VtkMtgPlanComunications/>
-                    <VtkMtgPlanAids/>
+                    <VtkMtgPlanAids type='Meeting Aids' />
                     <VtkMtgPlanAgenda/>
+                    <VtkMtgPlanAids type='Additional Resources' />
                     <VtkSurvey/>
                 </div>
                 <VtkModal/>
