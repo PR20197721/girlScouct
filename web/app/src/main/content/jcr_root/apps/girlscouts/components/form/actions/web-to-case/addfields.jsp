@@ -10,7 +10,7 @@ final ValueMap props = ResourceUtil.getValueMap(resource);
 String debugEmail = props.get("debug", "");
 if(!debugEmail.isEmpty()){
     %>
-    <input type="hidden" name="debug" value="true">
+    <input type="hidden" name="debug" value="1">
     <input type="hidden" name="debugEmail" value="<%=debugEmail%>">
     <%
 }

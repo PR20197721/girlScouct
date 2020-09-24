@@ -114,36 +114,20 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 
     private List<NameValuePair> getAdditionalParams(SlingHttpServletRequest request) {
         List<NameValuePair> data = new ArrayList<NameValuePair>();
-        String g_recaptcha_ts = request.getParameter("g-recaptcha-ts");
-        //TODO: change next line for prod
-        data.add(new NameValuePair("origin", "Cultural Resources Support"));
         data.add(new NameValuePair("status", "New"));
         data.add(new NameValuePair("orgid", this.oid));
         data.add(new NameValuePair("00N22000000ltnH", "Web"));
         data.add(new NameValuePair("00N22000000ltnp", "Tier 1"));
+        data.add(new NameValuePair("recordType", "012220000000Tvw"));
         Resource resource = request.getResource();
         PageManager pm = resource.getResourceResolver().adaptTo(PageManager.class);
         Page currentPage = pm.getContainingPage(resource);
         Page homepage = currentPage.getAbsoluteParent(2);
         Page site = homepage.getParent();
-        ValueMap homepageProps = homepage.getContentResource().adaptTo(ValueMap.class);
-        String site_key = homepageProps.get("recaptcha_site_key", "");
-        logger.debug("checking mapping recaptcha site key:"+site_key+" in "+recaptchaMap.size()+" mappings");
-        if(this.recaptchaMap.containsKey(site_key)){
-            String sfmcMapping = this.recaptchaMap.get(site_key);
-            if(sfmcMapping != null){
-                logger.debug("fOund mapping for recaptcha site key:"+site_key+" -> "+sfmcMapping);
-                data.add(new NameValuePair("retURL",resource.getResourceResolver().map(currentPage.getPath())+".html"));
-                data.add(new NameValuePair("captcha_settings", "{\"keyname\":\""+sfmcMapping+"\",\"fallback\":\"true\",\"orgId\":\""+this.oid+"\",\"ts\":\""+g_recaptcha_ts+"\"}"));
-            }else{
-                logger.debug("No recaptcha key mapping found for sfmc.");
-            }
-        }
-
+        data.add(new NameValuePair("retURL", resource.getResourceResolver().map(currentPage.getPath()) + ".html"));
         String councilCode = councilCodeToPathMapper.getCouncilCode(site.getPath());
         if (!StringUtils.isBlank(councilCode)) {
             logger.debug("found council code :"+councilCode);
-            data.add(new NameValuePair("CouncilCode",councilCode));
             String origin = councilCode +"cw";
             data.add(new NameValuePair("origin", origin));
         }
@@ -164,7 +148,7 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
                     if(expectedParams.contains(paraName)){
                         if("description".equals(paraName.toLowerCase())) {
                             if(!StringUtils.isBlank(paraValue.getString())) {
-                                description += "\r\n" + paraName + ": " + paraValue.getString();
+                                description += paraValue.getString();
                             }
                         }else{
                             logger.debug("Adding:  "+paraName+" = " +paraValue.getString());
@@ -365,7 +349,7 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
                 errors.add("Sorry, system error occurred while submitting your form. Please try again later.");
                 logger.error("Method failed: " + method.getStatusLine());
             }else{
-                if(!content.contains("SUCCESS")) {
+                if(!content.contains("Your request has been queued.")) {
                     if (content.contains("ERROR") || content.contains("ALERT" )) {
                         String[] lines = content.split(System.getProperty("line.separator"));
                         if(lines != null){

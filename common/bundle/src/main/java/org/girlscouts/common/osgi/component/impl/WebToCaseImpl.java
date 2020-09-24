@@ -98,6 +98,9 @@ public class WebToCaseImpl implements WebToCase {
             "orgid",
             "00N22000000ltnH",
             "00N22000000ltnp",
+                "00N22000000ltns",
+                "00N22000000ltnr",
+                "00N22000000ltnt",
             "CouncilCode",
             "origin",
             "status",
@@ -108,6 +111,7 @@ public class WebToCaseImpl implements WebToCase {
             "subject",
             "description",
             "g-recaptcha-response",
+                "captcha_settings",
                 "debug",
                 "debugEmail"
             };
