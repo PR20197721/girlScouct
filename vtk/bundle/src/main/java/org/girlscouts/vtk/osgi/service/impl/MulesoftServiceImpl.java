@@ -474,7 +474,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         Troop troop = buildTroop(
                 user.getSfUserId(),
                 sumCouncilCode + "_" + user.getSfUserId(),
-                "SUM",
+                user.getAdminCouncilId(),
                 "SUM",
                 "Troop",
                 "Demo Troop",
@@ -515,7 +515,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         if ("PA".equals(roleType)) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
         }else {
-            if ("DP".equals(roleType) || (troop.getParticipationCode() != null && troop.getParticipationCode().equals(irmCouncilCode)) || troop.getCouncilCode().equals(sumCouncilCode)) {
+            if ("DP".equals(roleType) || (troop.getParticipationCode() != null && troop.getParticipationCode().equals(irmCouncilCode)) || troop.getIsSUM()) {
                 troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
             }else {
                 if ("CA".equals(roleType)) {

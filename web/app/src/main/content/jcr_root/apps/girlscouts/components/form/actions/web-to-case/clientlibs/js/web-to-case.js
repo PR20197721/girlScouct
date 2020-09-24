@@ -83,7 +83,8 @@ $(document).ready(function () {
         }
 
         $(formErrorContainer[0]).html(errorMessage);
-
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }
     function checkFormConfiguration(form) {
         var emailField = form.find("input[name='email']");

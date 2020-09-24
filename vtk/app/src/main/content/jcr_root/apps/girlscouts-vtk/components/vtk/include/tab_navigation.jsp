@@ -24,7 +24,7 @@
             isParent = true;
         }
         boolean isTroopLeader = false;
-        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || "IRM".equals(selectedTroop.getParticipationCode()) || "SUM".equals(selectedTroop.getCouncilCode())) {
+        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || "IRM".equals(selectedTroop.getParticipationCode()) || selectedTroop.getIsSUM()) {
             isTroopLeader = true;
         }
         String vtk_cache_uri = "/content/girlscouts-vtk/en";

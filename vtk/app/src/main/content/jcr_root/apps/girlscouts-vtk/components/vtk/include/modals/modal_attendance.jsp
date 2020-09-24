@@ -15,8 +15,8 @@
     String path = VtkUtil.getYearPlanBase(user, selectedTroop) + selectedTroop.getSfCouncil() + "/troops/" + selectedTroop.getSfTroopId() + "/yearPlan/" + YEAR_PLAN_EVENT + "/" + request.getParameter("mid");
     Attendance attendance = meetingUtil.getAttendance(user, selectedTroop, path + "/attendance");
     Achievement achievement = meetingUtil.getAchievement(user, selectedTroop, path + "/achievement");
-    boolean isIRM = (selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())) ? true :false;
-    boolean isSUM = (selectedTroop.getCouncilCode() != null && "SUM".equals(selectedTroop.getCouncilCode())) ? true :false;
+    boolean isIRM = selectedTroop.getIsIRM();
+    boolean isSUM = selectedTroop.getIsSUM();
     boolean isAttendance = true, isAchievement = true;
     if (attendance == null) {
         isAttendance = false;

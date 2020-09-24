@@ -9,7 +9,7 @@
     Logger mytroopreactlogger = LoggerFactory.getLogger(this.getClass().getName());
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = null;
     java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
-    boolean isSUM = (selectedTroop.getCouncilCode() != null && "SUM".equals(selectedTroop.getCouncilCode())) ? true : false;
+    boolean isSUM = selectedTroop.getIsSUM();
     contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop, user);
     if (contacts != null) {
         session.setAttribute("vtk_cachable_contacts", contacts);
