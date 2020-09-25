@@ -69,7 +69,7 @@ public class MeetingAidUtil {
         }
         return distinctMeetingAids;
     }
-    private List<Asset> getTaggedMeetingAids(Meeting meeting) {
+    public List<Asset> getTaggedMeetingAids(Meeting meeting) {
         List<Asset> meetingAids = new ArrayList<>();
         if (meeting != null) {
             ResourceResolver rr = null;

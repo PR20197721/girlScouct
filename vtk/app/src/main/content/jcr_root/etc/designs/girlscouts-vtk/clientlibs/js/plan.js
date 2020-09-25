@@ -123,7 +123,7 @@ function openSearchPanel(link, showTitle, title, fullPageScroll, print, data, ca
         url: link,
         data: dataP,
         cache: cache || false,
-    }).done(function(response){
+    }).done(function(response){	
         $("#meetingSearch").html(response);
         $("#vtk-loading").css("display","none");//hides loading animation
     }).fail(function(response, status, xhr){
@@ -975,7 +975,7 @@ function chgYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPla
         }
     }
     if( isMeetingLib ){
-        openSearchPanel('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
+        openSearchPanel('/content/girlscouts-vtk/controllers/vtk.preview_meeting_library.html', false, null, true, false, {"newCustYr": true});
     }else{
         $("#vtk-loading").css("display","block");
         $("#pop-select").css("display","none");
