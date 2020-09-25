@@ -1,7 +1,6 @@
 package org.girlscouts.vtk.replication;
 
 import com.day.cq.replication.*;
-import com.day.cq.replication.ReplicationLog.Level;
 import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;

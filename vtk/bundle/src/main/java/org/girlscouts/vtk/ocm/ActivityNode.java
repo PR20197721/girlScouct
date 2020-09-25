@@ -85,6 +85,8 @@ public class ActivityNode extends YearPlanComponentNode implements Serializable 
     private String timezone;
     @Field
     private String level;
+    @Field
+    private String eid;
 
     public List<AssetNode> getAssets() {
         return assets;
@@ -426,5 +428,18 @@ public class ActivityNode extends YearPlanComponentNode implements Serializable 
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getEid() {
+        return eid;
+    }
+
+    public void setEid(String eid) {
+        this.eid = eid;
+    }
+
+    @Override
+    public String toString() {
+        return "ActivityNode{" + "assets=" + assets + ", cost=" + cost + ", isEditable=" + isEditable + ", sentEmails=" + sentEmails + ", img='" + img + '\'' + ", attendance=" + attendance + ", duration=" + duration + ", outdoor=" + outdoor + ", global=" + global + ", virtual=" + virtual + ", multiactivities=" + multiactivities + ", subtitle='" + subtitle + '\'' + ", isSelected=" + isSelected + ", name='" + name + '\'' + ", activityDescription='" + activityDescription + '\'' + ", activityNumber=" + activityNumber + ", materials='" + materials + '\'' + ", steps='" + steps + '\'' + ", endDate=" + endDate + ", content='" + content + '\'' + ", refUid='" + refUid + '\'' + ", locationName='" + locationName + '\'' + ", locationAddress='" + locationAddress + '\'' + ", locationRef='" + locationRef + '\'' + ", cancelled='" + cancelled + '\'' + ", registerUrl='" + registerUrl + '\'' + ", emlTemplate='" + emlTemplate + '\'' + ", regOpenDate=" + regOpenDate + ", regCloseDate=" + regCloseDate + ", adultFee='" + adultFee + '\'' + ", priceRange='" + priceRange + '\'' + ", girlFee='" + girlFee + '\'' + ", grades='" + grades + '\'' + ", maxAttend='" + maxAttend + '\'' + ", minAttend='" + minAttend + '\'' + ", progType='" + progType + '\'' + ", programCode='" + programCode + '\'' + ", regDisplay='" + regDisplay + '\'' + ", region='" + region + '\'' + ", timezone='" + timezone + '\'' + ", level='" + level + '\'' + ", eid='" + eid + '\'' + '}';
     }
 }
