@@ -30,7 +30,7 @@ public class Activity extends YearPlanComponent implements Serializable {
     private String cancelled;
     private String registerUrl;
     private String emlTemplate;
-
+    private String eid;
     private Date regOpenDate, regCloseDate;
     private String adultFee;
     private String girlFee;
@@ -353,11 +353,6 @@ public class Activity extends YearPlanComponent implements Serializable {
         this.isSelected = isSelected;
     }
 
-    @Override
-    public String toString() {
-        return "Activity{" + "path=" + this.getPath() + '}';
-    }
-
     public Boolean getEditable() {
         return isEditable;
     }
@@ -485,5 +480,18 @@ public class Activity extends YearPlanComponent implements Serializable {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getEid() {
+        return eid;
+    }
+
+    public void setEid(String eid) {
+        this.eid = eid;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity{" + "assets=" + assets + ", cost=" + cost + ", isEditable=" + isEditable + ", sentEmails=" + sentEmails + ", img='" + img + '\'' + ", attendance=" + attendance + ", duration=" + duration + ", outdoor=" + outdoor + ", global=" + global + ", virtual=" + virtual + ", multiactivities=" + multiactivities + ", subtitle='" + subtitle + '\'' + ", isSelected=" + isSelected + ", name='" + name + '\'' + ", activityDescription='" + activityDescription + '\'' + ", activityNumber=" + activityNumber + ", materials='" + materials + '\'' + ", steps='" + steps + '\'' + ", endDate=" + endDate + ", date=" + date + ", content='" + content + '\'' + ", refUid='" + refUid + '\'' + ", locationName='" + locationName + '\'' + ", locationAddress='" + locationAddress + '\'' + ", locationRef='" + locationRef + '\'' + ", cancelled='" + cancelled + '\'' + ", registerUrl='" + registerUrl + '\'' + ", emlTemplate='" + emlTemplate + '\'' + ", eid='" + eid + '\'' + ", regOpenDate=" + regOpenDate + ", regCloseDate=" + regCloseDate + ", adultFee='" + adultFee + '\'' + ", girlFee='" + girlFee + '\'' + ", priceRange='" + priceRange + '\'' + ", grades='" + grades + '\'' + ", maxAttend='" + maxAttend + '\'' + ", minAttend='" + minAttend + '\'' + ", progType='" + progType + '\'' + ", programCode='" + programCode + '\'' + ", regDisplay='" + regDisplay + '\'' + ", region='" + region + '\'' + ", timezone='" + timezone + '\'' + ", level='" + level + '\'' + '}';
     }
 }

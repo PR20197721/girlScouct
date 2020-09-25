@@ -684,6 +684,7 @@ public class MeetingDAOImpl implements MeetingDAO {
             if (activity.getDate() != null && activity.getEndDate() == null) {
                 activity.setEndDate(activity.getDate());
             }
+            activity.setEid(getStringProperty(resultNode, "jcr:content/data/eid"));
             Date now = new Date();
             if (activity.getDate().after(now) && activity.getEndDate().after(now)) {
                 activity.setUid("A" + new Date().getTime() + "_" + Math.random());
