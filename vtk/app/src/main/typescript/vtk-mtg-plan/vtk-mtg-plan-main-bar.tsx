@@ -81,7 +81,7 @@ class VtkMtgPlanMainBar extends React.Component <VtkMtgPlanMainBarProps,
                         {meetingInfo.meetingInfo['meeting short description'].str}
                         <br/>
                         <br/> CATEGORY: {' '}{meetingInfo.cat}<br/><br/>
-                        <VtkMtgPlanLocation locationFind={locationFind} meetingPath={meeting.path}/>
+                        <VtkMtgPlanLocation locationFind={locationFind} meetingPath={meetingEvents.path}/>
                         {(meetingInfo.reqTitle)
                             ? <div className="row">
                                 <div className="columns small-24 medium-4" style={{fontSize: '14px'}}>

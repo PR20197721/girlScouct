@@ -3,6 +3,7 @@ import Axios from 'axios';
 import {connect} from "react-redux";
 import Header from "../vtk-yp/header";
 import {parseJSONVTK} from "../vtk-yp/data";
+import './../../scss/vtk-mtg-plan/vtk-mtg-plan-location.scss';
 
 
 export interface VtkMtgPlanLocationProps {
@@ -41,10 +42,17 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
         };
     }
 	
-	handleChange = event => {
+	handleNameChange = event => {
 		console.log("INSIDE HANDLE CHANGE");
     	this.setState({ 
-			locName: event.target.value,
+			locName: event.target.value
+		 });
+	console.log(this.state.locName + "address:::" + this.state.locAddress);
+  	}
+
+	handleAddressChange = event => {
+		console.log("INSIDE HANDLE address CHANGE");
+    	this.setState({ 
 			locAddress: event.target.value		
 		 });
 	console.log(this.state.locName + "address:::" + this.state.locAddress);
@@ -75,26 +83,45 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
 		console.log("name::"+ data.locName + "address::" + data.locAddress);
 		if (action == "edit") {
 			console.log("Inside edit savedata");
-	        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.edit.html', data).then((data) => {
+	        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.edit.html?locName='+this.state.locName + '&locAddress=' + this.state.locAddress + '&meetingPath='+ this.props.meetingPath, data).then((data) => {
 	            //do something based on response from servlet.
 	            console.log("res::"+data);
-				this.toggleAddEdit("edit");
+				alert("Location successfully modified.");
+				//this.toggleAddEdit("edit");
 	            }
 	        );
 		}
 		
 		if (action == "add") {
 			console.log("Inside add savedata");
-	        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.add.html', data).then((data) => {
+	        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.add.html', data).then((response) => {
 	            //do something based on response from servlet.
-	            console.log("res::"+data);
-				this.toggleAddEdit("add");
+	            console.log("res::");
+				
+				/*<span> LOCATION:{' '}{this.props.locationFind[0].name}{' '}
+                    <a href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${this.props.locationFind[0].address}`}
+                        target="_blank">{this.props.locationFind[0].address}</a>&nbsp;&nbsp;&nbsp;
+					<a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><i className="fa fa-pencil fa-fw"></i>Edit</a>                          
+                </span>*/
+				//this.toggleAddEdit("add");
 	            }
 	        );
 		}
+		
+		if (action == "remove") {
+			console.log("Inside remove savedata");
+	        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.remove.html', data).then((data) => {
+	            //do something based on response from servlet.
+	            console.log("res::"+data);
+				alert("Location successfully removed.");
+				//this.toggleAddEdit("edit");
+	            }
+	        );
+		}
+		
     }
 
-    render() {
+	render() {
         return (
             <div>
             {
@@ -102,7 +129,9 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
                 ? <span> LOCATION:{' '}{this.props.locationFind[0].name}{' '}
                     <a href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${this.props.locationFind[0].address}`}
                         target="_blank">{this.props.locationFind[0].address}</a>&nbsp;&nbsp;&nbsp;
-					<a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><i className="fa fa-pencil fa-fw"></i>Edit</a>                          
+					<a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><i className="fa fa-pencil fa-fw"></i>Edit</a>&nbsp&nbsp&nbsp&nbsp
+					<a href="javascript:void(0)" onClick={() => this.saveData("remove")}><i className=""></i>Remove</a>
+                          
                 </span>
                 : <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("add")}><i className="icon-button-circle-plus"></i>Add a meeting location</a>
             }
@@ -117,20 +146,20 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
 								    <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><span style={closeLocDetails}>X</span></a>
     							</div>
 						        <div id="err" className="errorMsg error"></div>
-						        <form id="editLocationForm">
+						        <div id="editLocationForm">
 						            <input type="hidden" id="loc_city" value=""/>
 						            <input type="hidden" id="loc_state" value=""/>
 						            <input type="hidden" id="loc_zip" value=""/>
 						            <section className="row">
 						                <div className="column small-10">
-						                    <input type="text" placeholder="Location Name" name="locName" onChange={this.handleChange}/>
+						                    <input type="text" placeholder="Location Name" name="locName" onChange={this.handleNameChange}/>
 						                </div>
 						                <div className="column small-10">
-						                    <input type="text" placeholder="Location Address" name="locAddress" onChange={this.handleChange}/>
+						                    <input type="text" placeholder="Location Address" name="locAddress" onChange={this.handleAddressChange}/>
 						                </div>
 						                <button className="btn right" onClick={() => this.saveData("edit")}>Save</button>
 						            </section>
-						        </form>
+						        </div>
 						    </div>
 						   </div>
                         </div>
@@ -144,20 +173,20 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
 								    <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("add")}><span style={closeLocDetails}>X</span></a>
     							</div>
 						        <div id="err" className="errorMsg error"></div>
-						        <form id="addLocationForm">
+						        <div id="addLocationForm">
 						            <input type="hidden" id="loc_city" value=""/>
 						            <input type="hidden" id="loc_state" value=""/>
 						            <input type="hidden" id="loc_zip" value=""/>
 						            <section className="row">
 						                <div className="column small-10">
-						                    <input type="text" placeholder="Location Name" name="locName" onChange={this.handleChange}/>
+						                    <input type="text" placeholder="Location Name" name="locName" onChange={this.handleNameChange}/>
 						                </div>
 						                <div className="column small-10">
-						                    <input type="text" placeholder="Location Address" name="locAddress" onChange={this.handleChange}/>
+						                    <input type="text" placeholder="Location Address" name="locAddress" onChange={this.handleAddressChange}/>
 						                </div>
 						                <button className="btn right" onClick={() => this.saveData("add")}>Add</button>
 						            </section>
-						        </form>
+						        </div>
 						   </div>
                         </div>
 						: null
