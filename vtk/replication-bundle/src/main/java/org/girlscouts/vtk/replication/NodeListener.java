@@ -25,9 +25,8 @@ public class NodeListener implements EventListener {
     private VTKDataCacheInvalidator cacheInvalidator;
     private Pattern troopPattern;
     private Pattern councilInfoPattern;
-    
-    public NodeListener(Session session, Replicator replicator, 
-            TroopHashGenerator troopHashGenerator, VTKDataCacheInvalidator cacheInvalidator, String yearPlanBase) {
+
+    public NodeListener(Session session, Replicator replicator, TroopHashGenerator troopHashGenerator, VTKDataCacheInvalidator cacheInvalidator, String yearPlanBase) {
         this.session = session;
         this.replicator = replicator;
         this.troopHashGenerator = troopHashGenerator;
@@ -59,7 +58,6 @@ public class NodeListener implements EventListener {
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         String affectedTroop = null;
         String affectedCouncilInfo = null;
-
         try {
             session.refresh(true);
         } catch (RepositoryException e) {
@@ -109,7 +107,7 @@ public class NodeListener implements EventListener {
         }
         // Now troops are not separated by councils when caching:
         // e.g. /vtk-data/fd8d83hdhf
-        // So, when a council info (for example milestone) is changed, 
+        // So, when a council info (for example milestone) is changed,
         // the entire /vtk-data cache is invalidated.
         // TODO: separate troops into councils
         // e.g. /vtk-data/603/fd8d83hdhf
