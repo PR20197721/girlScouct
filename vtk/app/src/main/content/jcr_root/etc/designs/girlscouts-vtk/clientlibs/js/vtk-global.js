@@ -877,7 +877,7 @@ function showMeetingResults(data) {
 function generatePreviewMeetingHtml(data, meeting) {
 
 	$("#meetingSelect").append("<div class='meeting-item column small-24' id='" + data[meeting].id + "' data-url='" + data[meeting].path + "' data-meetingid='" + data[meeting].id + "'></div>")
-	$("[data-meetingid=" + data[meeting].id + "]").append("<div class='row'><div>");
+	$("[data-meetingid=" + data[meeting].id + "]").append("<div class='row' style='background:#f6f6f6;'><div>");
 	if (!(data[meeting].req !== null && data[meeting].req !== undefined && data[meeting].req !== "")) {
 		$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' onclick='openRequirementDetail(this)' class='image  _requirement_modal' height='100' src='/content/girlscouts-vtk/service/meeting/icon." + data[meeting].id + ".png'></div></div></div>");
 	} else {
@@ -887,8 +887,9 @@ function generatePreviewMeetingHtml(data, meeting) {
 
 	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
 
-	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id=" + data[meeting].id + " value=" + data[meeting].path + "><label for=" + data[meeting].id + "><span></span></label></td></tr><tr><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div></div></div><div id='vtk-mtg-preview-" + data[meeting].id + "' style='display:none'></div>");
+	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id=" + data[meeting].id + " value=" + data[meeting].path + "><label for=" + data[meeting].id + "><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
 
+    $("[data-meetingid=" + data[meeting].id + "]").append("<div class='row' id='vtk-mtg-preview-" + data[meeting].id + "' style='display:none'></div>");
 	if (data[meeting].hasGlobal === true) {
 		$("[data-meetingid=" + data[meeting].id + "]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:top;padding-top:2px;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png' data-selector='tooltip-jyhe4u6u1' title=''>");
 	}
@@ -966,76 +967,131 @@ function checkMeetingAidsRefs(innerText) {
 }
 
 function previewMeetingInfo() {
-	var meetingId = event.target.dataset.mtgid;
-	var path = event.target.dataset.path;
+    var meetingId = event.target.dataset.mtgid;
+    var url = "/content/girlscouts-vtk/service/react/getMeetingPreview.html?meetingPath="+event.target.dataset.path;
 
-	if ($("#vtk-mtg-preview-" + meetingId).html() == "") {
-		$.ajax({
-			method: 'GET',
-			url: path + '.-1.json',
-			dataType: 'JSON',
-			success: function(response) {
-				preparePreviewData(response,path)
-			}
-
-		})
-	} else {
-		/*$(".meeting-item").toggleClass('open_slide');
-		$(".meeting-item").find('#vtk-mtg-preview-container-' + meetingId).toggle();*/
-		$("#vtk-mtg-preview-" + meetingId).toggle();
-	}
-
-
+    if ($("#vtk-mtg-preview-" + meetingId).html() == "") {
+        $.ajax({
+            method: 'GET',
+            url: url,
+            dataType: 'JSON',
+            success: function (response) {
+                preparePreviewData(response);
+            }
+        });
+    } else {
+        /*$(".meeting-item").toggleClass('open_slide');
+        $(".meeting-item").find('#vtk-mtg-preview-container-' + meetingId).toggle();*/
+        $("#vtk-mtg-preview-" + meetingId).toggle();
+    }
 }
 
-function preparePreviewData(meetingData,path) {
-	var mtgId = meetingData.id;
-	$("#vtk-mtg-preview-" + mtgId).show();
-	var title = meetingData.name;
-	var blurb = meetingData.blurb;
-	var meetingOverview = meetingData.meetingInfo.overview.str;
-	var activities = meetingData.activities;
-	var activitiesData;
-    var materialsListData;
-	var agendaData;
-	var agendaTitle;
-	var agendaDuration;
-	var meetingAids;
-		$.ajax({
-			method: 'GET',
-			url: '/bin/vtk/v1/meetingAids',
-			data:{
-				'meetingPath':path
-			},
-			success: function(response) {
-				meetingAids =response;
-			}
-
-		})
-	$.each(activities, function(index,entry) {
-        if(null != entry.activityNumber){
-			if(null != entry.name){
-				agendaTitle = entry.name;
-			}else{
-				agendaTitle = "Select an activity";
-			}
-			agendaDuration = entry.duration;
+function preparePreviewData(response) {
+    var meetingData = response.meeting;
+    var meetingAidsData = response.meetingAids;
+    var path = meetingData.path
+    console.log("response:"+response);
+    var mtgId = meetingData.id;
+    $("#vtk-mtg-preview-" + mtgId).show();
+    var title = meetingData.name;
+    var blurb = meetingData.blurb;
+    var meetingOverviewHTML = meetingData.meetingInfo.overview.str;
+    var activities = meetingData.activities;
+    var activitiesPlanHTML = "";
+    var materialsListHTML="";
+    var meetingAidsHTML;
+    var agendaHTML="";
+    var agendaTitle;
+    var agendaDuration;
+    $.each(activities, function (index, entry) {
+        if (null != entry.activityNumber) {
+            if (null != entry.name) {
+                agendaTitle = entry.name;
+            } else {
+                agendaTitle = "Select an activity";
+            }
+            agendaDuration = entry.duration;
+            activitiesPlanHTML +="<div>";
+            activitiesPlanHTML += "<p style=\"font-size:18px; font-weight:bold;\"><b>Activity " + entry.activityNumber + ": "+ entry.name+ "</b></p>";
             var multiactiviews = entry.multiactivities;
-            $.each(multiactiviews,function(actKey,actValue){
-                if(null != actValue.activityDescription){
-                    if(null != actValue.name){
-						actValue.activityDescriptionactivitiesData +=actValue.activityDescription;
-                        materialsListData += actValue.materials
+            $.each(multiactiviews, function (actKey, actValue) {
+                if (null != actValue.activityDescription && null != actValue.name) {
+                    if (null != actValue.name) {
+                        activitiesPlanHTML +="<div>";
+                        activitiesPlanHTML += "<p style=\"font-size:18px; font-weight:bold;\"><b>"+ (multiactiviews.length > 1) ? "Choice " + actValue.activityNumber + ": " : "" + actValue.name+ "</b></p>";
+                        activitiesPlanHTML += "<p  style=\"font-size:18px; font-weight:bold;\">" + actValue.activityDescription + "</p>";
+                        activitiesPlanHTML +="</div>";
+                        materialsListHTML += actValue.materials
+
                     }
                 }
-				
-            })
-        } 
-        if(null != agendaTitle && null != agendaDuration){
-			agendaData += "<div class='agenda-title'>"+agendaTitle +"</div><div class='agenda-duration'>"+ agendaDuration+"</div>";
-        }
-	})
-	$("#vtk-mtg-preview-" + mtgId).append("<div class='preview-mtg-info'><div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'> <img width='100' onclick='openRequirementDetail(this)' class='image _requirement_modal' height='100' src='/content/girlscouts-vtk/service/meeting/icon."+mtgId+".png'/></div></div></div><div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style='display:table-cell;height:inherit;vertical-align:middle; text-align:center;'><div class='middle-checkbox' style='text-align:center;'><table><tbody><tr><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" +mtgId+ "' data-path='" + path + "' onclick='previewMeetingInfo()'>CLOSE PREVIEW</div></td></tr><tr><td><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id=" + mtgId + " value=" + path + "><label for=" + mtgId + "><span></span></label></td></tr></tbody></table></div></div></div></div></div><div class='preview-mtg-title' style='font-weight:bold;font-size:13px'>"+title+"</div><div class='preview-mtg-desc' style='font-size:13px'>"+blurb+"</div> <details> <summary>Meeting Overview</summary>" + meetingOverview + " </details> <details> <summary>Activity Plan</summary>" + activitiesData + " </details> <details> <summary>Materials List</summary>" + materialsListData + " </details><details> <summary>Agenda</summary>" + agendaData + " </details>")
 
+            });
+            activitiesPlanHTML +="</div>";
+        }
+        if (null != agendaTitle && null != agendaDuration) {
+            agendaHTML += "<div class='agenda-title'>" + agendaTitle + "</div><div class='agenda-duration'>" + agendaDuration + "</div>";
+        }
+    });
+    $.each(meetingAidsData, function (index, entry) {
+        meetingAidsHTML+="" +
+            "<div style=\"display: table-cell;\">" +
+                "<a href=\""+entry.refId+"\" title=\"Meeting Asset\" target=\"_blank\" class=\"icon "+entry.docType+"\" style=\"font-weight: bold;\">" +
+                    entry.title + "<span></span>" +
+                "</a>" +
+                "<p class=\"info\">"+entry.description+"</p>" +
+            "</div>";
+    });
+    $("#vtk-mtg-preview-" + mtgId).html("<div style='padding-top:20px'></div>" +
+            "<div class='column small-4 medium-4'>" +
+                "<div style='min-height:110px; width:100%'>" +
+                    "<div style='height:inherit;vertical-align:middle; text-align:center;width:100%'> " +
+                        "<img width='100' onclick='openRequirementDetail(this)' class='image _requirement_modal' height='100' src='/content/girlscouts-vtk/service/meeting/icon." + mtgId + ".png'/>" +
+                    "</div>" +
+                "</div>" +
+            "</div>" +
+            "<div class='column small-14 medium-14'>" +
+                "<div class='preview-mtg-title' style='font-weight:bold;font-size:13px'>" + title + "</div>" +
+                "<div class='preview-mtg-desc' style='font-size:13px'>" + blurb + "</div> " +
+                "<details> " +
+                    "<summary>Meeting Overview</summary>" + meetingOverviewHTML + " " +
+                "</details> " +
+                "<details> " +
+                    "<summary>Activity Plan</summary>" + activitiesPlanHTML + " " +
+                "</details> " +
+                "<details> " +
+                    "<summary>Materials List</summary>" + materialsListHTML + " " +
+                "</details>" +
+                "<details> " +
+                    "<summary>Meeting Aids</summary>" + meetingAidsHTML + " " +
+                "</details>" +
+                "<details> " +
+                    "<summary>Agenda</summary>" + agendaHTML + " " +
+                "</details>"+
+            "</div>" +
+            "<div class='column small-6 medium-6'>" +
+                "<div class='middle-checkbox' style='text-align:center; '>" +
+                    "<table style='background:none;'>" +
+                        "<tbody style='background:none;'>" +
+                            "<tr style='background:none;'>" +
+                                "<td colspan='2' style='border:1px solid lightgray;text-align: center;'>" +
+                                    "<div class='vtk-meeting-preview-btn' data-mtgid='" + mtgId + "' data-path='" + path + "' onclick='previewMeetingInfo()'>CLOSE PREVIEW</div>" +
+                                "</td>" +
+                            "</tr style='background:none;'>" +
+                            "<tr style='background:none;'>" +
+                                "<td style='padding:0'>" +
+                                    "<p style='color:#000;'>SELECT TO ADD MEETING</p>" +
+                                "</td>" +
+                                "<td>" +
+                                    "<input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id=" + mtgId + " value=" + path + ">" +
+                                    "<label for=" + mtgId + ">" +
+                                        "<span></span>" +
+                                    "</label>" +
+                                "</td>" +
+                            "</tr>" +
+                        "</tbody>" +
+                    "</table>" +
+                "</div>" +
+            "</div>") ;
 
 }

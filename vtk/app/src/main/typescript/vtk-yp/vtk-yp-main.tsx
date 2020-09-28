@@ -177,7 +177,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                 </div>
             </div>);
 
-        function renderChild(state) {
+        function renderChild(state, openMeetingSearch) {
 
             return (________isYearPlan________ == false)
                 ? <div className={state.data.name}>
@@ -237,11 +237,14 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                     style={{
                                         width: '100%'
                                     }}
+
                                     onClick={() => {
+                                        openMeetingSearch();
                                         chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib);
                                         if (state.data.name === 'Custom Year Plan') {
                                             data.modal.publish('pop-select', 'close')
                                         }
+
                                     }}>YES, SELECT
                                 </div>
                             </td>
@@ -573,7 +576,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                 <Gray/>
                 <div className="pop-explore">
                     <VtkPopUp name="pop-select" title="SELECT YEAR PLAN">
-                        {renderChild(this.state)}
+                        {renderChild(this.state, this.openMeetingSearch.bind(this))}
                     </VtkPopUp>
                 </div>
                 <div id="meetingSearch"></div>

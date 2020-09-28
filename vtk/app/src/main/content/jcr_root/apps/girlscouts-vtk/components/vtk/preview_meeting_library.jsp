@@ -54,7 +54,7 @@
     <input type="hidden" name="addMeetings" value="true"/>
     <%}//end else %>
     <div class="scroll" style="">
-        <div class="content meeting-library row">
+        <div class="content meeting-library">
             <div class="columns small-24 small-centered">
                 <p class="instruction " style="float:left;">
                     <span><%= instruction %></span>
@@ -68,12 +68,12 @@
                         <table>
                             <tr>
                                 <td colspan="2">
-                                    <h3>PETALS, LEAVES, BADGES AND JOURNEYS</h3>
+                                    <h3>Search to Add a Petal, Badge or Journey Meeting</h3>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="display: inline-flex;">
-                                    <div class="__search row" style="border:1px solid gray; border-radius:6px;width:500px; overflow:hidden">
+                                <td>
+                                    <div class="__search row" style="border:1px solid gray; border-radius:6px; overflow:hidden">
                                         <div class="columns small-2">
                                             <span class="icon-search-magnifying-glass"></span>
                                         </div>
@@ -83,12 +83,10 @@
                                         <div class="__X columns small-2" style="display:none">
                                             <span class="icon-cross"></span>
                                         </div>
-                                        
                                     </div>
-                                    <div id="vtk-meeting-search-btn" class="button tiny disabled" Style="background-color:#18aa51 !important;margin: 0 0 0 25px;">SEARCH</div>                                    
+                                    <p id="showHideReveal" class="hide-for-print close">Or Use Filters</p>
                                 </td>
                                 <td>
-                                	<p id="showHideReveal" class="hide-for-print close">Or Use Filters</p>
                                 </td>
                             </tr>
                             <tr>
@@ -199,7 +197,7 @@
                 <p>"Apply filters" can step you through how meetings are organized</p>
             </div>
             <!--  carlos 4 end  -->
-            <div id="meetingSelect" class="meetingSelect column small-24 small-centered" style="display:none;">
+            <div id="meetingSelect" class="meetingSelect meetingPreview column small-24 small-centered" style="display:none;">
                 <!--<div class="row">-->
                 <%-- // --%>
                  <div id="vtkSubmitButtonsSection" style="display: flex;justify-content: center;flex-grow: 1;flex-basis: 100%;width: 100%;min-height: 80px;position:absolute;bottom:0px;left:0px;overflow: hidden;">
