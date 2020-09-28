@@ -103,8 +103,12 @@
             <div class="content" id="panel1">
                 <ul class="small-block-grid-2"><%
                     List<Asset> aidTags = planView.getAidTags() != null ? planView.getAidTags() : new ArrayList<>();
+                    String section = "meeting-aids";
+                    String linkParPath = "/content/vtkcontent/en/resources/volunteer-aids/vtk-" + section + "-links/_jcr_content/content/middle/par";
+                    aidTags.addAll(meetingUtil.getLinkAidsForMeeting(linkParPath, _meeting.getMeetingInfo().getId(), section));
                     for (int i = 0; i < aidTags.size(); i++) {
                         Asset aidTag = aidTags.get(i);
+                        if (!section.equals(aidTag.getSection())) continue;
                         String refId = aidTag.getRefId();
                         String title = aidTag.getTitle();
                         String ext = aidTag.getDocType() != null ? aidTag.getDocType() : GSUtils.getDocExtensionFromString(refId);
@@ -132,8 +136,12 @@
             <div class="content" id="panel2">
                 <ul class="small-block-grid-2"><%
                     List<Asset> resourceTags = planView.getAidTags() != null ? planView.getAidTags() : new ArrayList<>();
+                    String resourceSection = "additional-resources";
+                    String resourceLinkParPath = "/content/vtkcontent/en/resources/volunteer-aids/vtk-" + resourceSection + "-links/_jcr_content/content/middle/par";
+                    resourceTags.addAll(meetingUtil.getLinkAidsForMeeting(resourceLinkParPath, _meeting.getMeetingInfo().getId(), resourceSection));
                     for (int i = 0; i < resourceTags.size(); i++) {
-                        Asset aidTag = aidTags.get(i);
+                        Asset aidTag = resourceTags.get(i);
+                        if (!resourceSection.equals(aidTag.getSection())) continue;
                         String refId = aidTag.getRefId();
                         String title = aidTag.getTitle();
                         String ext = aidTag.getDocType() != null ? aidTag.getDocType() : GSUtils.getDocExtensionFromString(refId);

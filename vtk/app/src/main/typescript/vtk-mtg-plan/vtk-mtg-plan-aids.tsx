@@ -1,10 +1,14 @@
 import * as React from 'react';
 import VtkContent from './common/content';
-import {connect} from 'react-redux';
-import {HAS_PERMISSION_FOR} from './permission';
-
+import { connect } from 'react-redux';
+import { HAS_PERMISSION_FOR } from './permission';
 
 declare var $: any;
+declare global {
+    interface Window {
+        vtkTrackerPushAction: any;
+    }
+}
 
 export interface VtkMtgPlanAidsProps {
     assets: Object[],
@@ -12,83 +16,62 @@ export interface VtkMtgPlanAidsProps {
     user_variable: any,
     videos: any,
     meetingId: string,
-    type: string
+    meetingUid: string,
+    section: string
 }
 
 const asset = (link, show) => {
-    let {title, description, refId, uid, docType, isOutdoorRelated, isGlobalRelated, isVirtualRelated} = link;
+    let { title, description, refId, uid, docType, isOutdoorRelated, isGlobalRelated, isVirtualRelated } = link;
 
-    let isAvailable = show ? ' disabled' : '';
-    let isPdf = (docType === 'pdf') || refId.indexOf('.pdf') === (refId.length - '.pdf'.length);
+    let isAvailable = show ? 'disabled' : '';
+    let isPdf = (docType === 'pdf') || refId.endsWith('.pdf');
+    let isVideo = docType === 'movie';
+    let isLink = docType === 'link';
+    let image = '';
+    if (isOutdoorRelated) image = 'outdoor.png';
+    if (isGlobalRelated) image = 'global_selected.png';
+    if (isVirtualRelated) image = 'virtual_selected.png';
 
-    return (isPdf)
-        ? <li key={uid}>
-            <div style={{display: 'table'}}>
-                <div style={{display: 'table-cell'}}>
-                    <a style={{fontWeight: 'bold'}} href={refId} title="Meeting Asset" target="_blank" className={"icon " + 'pdf ' + isAvailable}>
+    return <li key={uid}>
+        <div style={{ display: 'table' }}>
+            <div style={{ display: 'table-cell' }}>
+                {isPdf &&
+                    <a style={{ fontWeight: 'bold' }} href={refId} title="Meeting Asset" target="_blank" className={`icon pdf ${isAvailable}`}>
                         {title} <span></span>
                     </a>
-                    <p className="info">{description}</p>
-                </div>
-                {(isOutdoorRelated)
-                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
-                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png' style={{'width': '60%'}}/>
-                    </div>
-                    : null
                 }
-                {(isVirtualRelated)
-                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
-                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_selected.png' style={{'width': '60%'}}/>
-                    </div>
-                    : null
-                }
-                {(isGlobalRelated)
-                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
-                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/global_selected.png' style={{'width': '60%'}}/>
-                    </div>
-                    : null
-                }
-            </div>
-        </li>
-        : <li key={uid}>
-            <div style={{display: 'table'}}>
-                <div style={{display: 'table-cell'}}>
+                {isVideo &&
                     <a
-                        style={{fontWeight: 'bold'}}
+                        style={{ fontWeight: 'bold' }}
                         href={refId}
                         data-reveal-id="modal_popup_video"
                         data-reveal-ajax={`/content/girlscouts-vtk/controllers/vtk.include.modals.modal_youtube.html?resource=${refId}`}
                         title="Meeting Asset"
                         target="_blank"
-                        className={"icon " + docType + ' ' + isAvailable}>
+                        className={`icon ${docType} ${isAvailable}`}>
                         {title} <span></span>
                     </a>
-                    <p className="info">{description}</p>
-                </div>
-                {(isOutdoorRelated)
-                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
-                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png' style={{'width': '60%'}}/>
-                    </div>
-                    : null
                 }
-                {(isVirtualRelated)
-                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
-                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_selected.png' style={{'width': '60%'}}/>
-                    </div>
-                    : null
+                {isLink &&
+                    <a style={{ fontWeight: 'bold' }} href={refId} title="Meeting Asset" target="_blank" className={`icon ${docType} ${isAvailable}`}>
+                        {title} <span></span>
+                    </a>
                 }
-                {(isGlobalRelated)
-                    ? <div style={{display: 'table-cell', textAlign: 'center'}}>
-                        <img src='/etc/designs/girlscouts-vtk/clientlibs/css/images/global_selected.png' style={{'width': '60%'}}/>
-                    </div>
-                    : null
-                }
+                <p className="info">{description}</p>
             </div>
-        </li>
+            {image.length > 0 &&
+                <div style={{ display: 'table-cell', textAlign: 'center' }}>
+                    <img src={`/etc/designs/girlscouts-vtk/clientlibs/css/images/${image}`} style={{ 'width': '60%' }} />
+                </div>
+            }
+        </div>
+    </li>
 };
 
 // function VtkMtgPlanAids (props: VtkMtgPlanAidsProps) {
 class VtkMtgPlanAids extends React.Component<VtkMtgPlanAidsProps, {}> {
+    title: string;
+    url: string;
 
     componentDidMount() {
         $(document).foundation();
@@ -99,27 +82,75 @@ class VtkMtgPlanAids extends React.Component<VtkMtgPlanAidsProps, {}> {
         $(document).foundation();
     }
 
+    // This syntax ensures `this` is bound within addLink.
+    addLink = (event) => {
+        event.preventDefault();
+        const videoLinkRegex = new RegExp('(youtu\.be|youtube.com|vimeo.com)\/');
+        const docType = videoLinkRegex.test(this.url) ? 'movie' : 'link';
+        $.ajax({
+            cache: false,
+            url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+            type: 'POST',
+            data: {
+                act: 'AddAid',
+                addAids: this.url,
+                meetingId: this.props.meetingUid,
+                assetName: this.title,
+                assetDocType: docType,
+                assetType: 'AID',
+                section: 'additional-resources',
+                a: Date.now()
+            },
+            success: function (result) {
+                window.vtkTrackerPushAction('AddAdditionalResource');
+                location.reload();
+            }
+        });
+    }
+
     public render() {
-        let {assets, helper, user_variable, videos, meetingId, type} = this.props;
+        let { assets, helper, user_variable, videos, meetingId, section } = this.props;
         console.log('videos', videos);
 
-        const assetsAll = meetingId in videos ? assets.concat(this.props.videos[meetingId]) : assets;
+        const id = section.replace(' ', '-').toLowerCase();
+        const links = meetingId in videos ? this.props.videos[meetingId] : [];
+        let assetsAll = assets.concat(links);
+        assetsAll = assetsAll.filter(asset => asset['section'] === id);
         const permissionCheck = HAS_PERMISSION_FOR()("vtk_troop_haspermision_edit_yearplan_id");
-        const id = type.replace(' ', '-').toLowerCase();
 
         return (
             <div>
                 <VtkContent idName={id}>
-                    <h6>{type}</h6>
+                    <h6>{section}</h6>
                     <ul className="__list_of_assets large-block-grid-2 medium-block-grid-2 small-block-grid-2">
                         {assetsAll.map((link) => {
                             return asset(link, user_variable.user_current_year !== user_variable.vtk_current_year)
                         })}
                     </ul>
-                    {(permissionCheck) ?
-                        <a className="add-btn" data-reveal-id="modal_popup" data-reveal-ajax="true" href={`/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem=${helper.currentDate}&type=${id}`} title={`Add ${type}`}>
-                            <i className="icon-button-circle-plus"></i>Add {type}
-                        </a> : null}
+                    {permissionCheck && (id === 'meeting-aids' ?
+                        <a className="add-btn" data-reveal-id="modal_popup" data-reveal-ajax="true" href={`/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem=${helper.currentDate}`} title={`Add ${section}`}>
+                            <i className="icon-button-circle-plus"></i>Add {section}
+                        </a>
+                        : <div className="toggle-container">
+                            <label className="toggle-element" htmlFor="check">
+                                <a className="add-btn" title={`Add ${section}`}>
+                                    <i className="icon-button-circle-plus"></i>Add {section}
+                                </a>
+                            </label>
+                            <input id="check" type="checkbox"></input>
+                            <form className="toggle-target" id="addLink">
+                                <section className="row">
+                                    <div className="column medium-10">
+                                        <input type="text" placeholder="Title" id="title" onChange={e => this.title = e.target.value}/>
+                                    </div>
+                                    <div className="column medium-10">
+                                        <input type="text" placeholder="Url" id="url" onChange={e => this.url = e.target.value}/>
+                                    </div>
+                                    <button type="submit" className="btn" onClick={this.addLink}>Add</button>
+                                </section>
+                            </form>
+                        </div>
+                    )}
                 </VtkContent>
             </div>
         );
@@ -133,7 +164,8 @@ const mapStateToProps = (state) => {
         helper: state.helper,
         user_variable: state.user_variable,
         videos: state.videos,
-        meetingId: state.meetingEvents.meetingInfo.id
+        meetingId: state.meetingEvents.meetingInfo.id,
+        meetingUid: state.meetingEvents.uid
     }
 };
 

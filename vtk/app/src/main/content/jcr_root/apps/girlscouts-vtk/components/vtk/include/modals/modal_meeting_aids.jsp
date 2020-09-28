@@ -26,18 +26,12 @@
     } catch (Exception e) {
         e.printStackTrace();
     }
-
-    final String type = request.getParameter("type");
-    boolean forMeetingAid = type.equals("meeting-aids");
-    final String MODAL_TITLE = forMeetingAid ? "Meeting aids" : "Additional resources"; // Used for display
-    final String MODAL_ACT = forMeetingAid ? "AddAid" : "AddResource"; // Used for routing
-    final String MODAL_EVENT = forMeetingAid ? "AddMeetingAid" : "AddResource"; // Used for analytics
 %>
 <!-- apps/girlscouts-vtk/components/vtk/include/modals/modal_meeting_aids.jsp -->
 
 <div class="header clearfix">
-    <h3 class="columns large-22"><%=MODAL_TITLE%></h3>
-    <a class="close-reveal-modal columns large-2" href="#"><span style="color: black; font-size: 22px; padding-right: 10px; font-weight: normal;">X</span></a>
+    <h3 class="columns large-22">Meeting aids</h3>
+    <a class="close-reveal-modal columns large-2" href="#"><span>X</span></a>
 </div>
 <div class="scroll">
     <div class="content">
@@ -70,9 +64,9 @@
                             %></td>
                             <td><%
                                 if (canAddAid) {
-                                    %><input type="button" style="min-width: 100px; padding: 9px 5px; white-space: normal; word-break: break-word;" value="Add to Meeting" onclick="assignAid('<%=a.getRefId()%>', '<%=planView.getYearPlanComponent().getUid()%>', '<%=a.getTitle()%>','<%=a.getDocType()%>')" class="button linkButton"/><%
+                                    %><input type="button" class="button linkButton" value="Add to Meeting" onclick="assignAid('<%=a.getRefId()%>', '<%=planView.getYearPlanComponent().getUid()%>', '<%=a.getTitle()%>','<%=a.getDocType()%>')"/><%
                                 } else {
-                                    %><p class="button disabled" style="min-width: 100px; padding: 9px 5px; white-space: normal; word-break: break-word;">Exists</p><%
+                                    %><p class="button disabled">Exists</p><%
                                 }
                             %></td>
                         </tr><%
@@ -91,16 +85,17 @@
             url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
             type: 'POST',
             data: {
-                act: '<%=MODAL_ACT%>',
+                act: 'AddAid',
                 addAids: aidId,
                 meetingId: meetingId,
                 assetName: assetName,
                 assetDocType: assetDocType,
                 assetType: 'AID',
+                section: 'meeting-aids',
                 a: Date.now()
             },
             success: function (result) {
-                vtkTrackerPushAction('<%=MODAL_EVENT%>');
+                vtkTrackerPushAction('AddMeetingAid');
                 location.reload();
             }
         });

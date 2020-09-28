@@ -2,6 +2,8 @@ package org.girlscouts.vtk.osgi.component.util;
 
 import com.day.cq.tagging.Tag;
 import com.day.cq.tagging.TagManager;
+import com.google.gson.Gson;
+
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -24,6 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 @Component
 @Service(MeetingAidUtil.class)
@@ -43,16 +47,19 @@ public class MeetingAidUtil {
         if(meeting != null && meetingEvent != null) {
         List<Asset> meetingAids = new ArrayList<>();
         try {
-            meetingAids.addAll(getTaggedMeetingAids(meeting));
+            meetingAids.addAll(getTaggedMeetingAids(meeting, "meeting-aids"));
+            meetingAids.addAll(getTaggedMeetingAids(meeting, "additional-resources"));
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
         try {
-            meetingAids.addAll(getAddedAssets(meetingEvent));
+            meetingAids.addAll(getAddedAssets(meetingEvent, "assets"));
+            meetingAids.addAll(getAddedAssets(meetingEvent, "additionalResources"));
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
         log.debug("Returning "+meetingAids.size()+ " meeting aids");
+        log.error("GET MEETING AIDS - {}", new Gson().toJson(meetingAids));
             List<Asset> validMeetingAids =  new ArrayList<>();
             if (meetingAids != null && meetingAids.size() > 1) {
                 for (Asset asset : meetingAids) {
@@ -69,7 +76,7 @@ public class MeetingAidUtil {
         }
         return distinctMeetingAids;
     }
-    private List<Asset> getTaggedMeetingAids(Meeting meeting) {
+    private List<Asset> getTaggedMeetingAids(Meeting meeting, String path) {
         List<Asset> meetingAids = new ArrayList<>();
         if (meeting != null) {
             ResourceResolver rr = null;
@@ -80,7 +87,7 @@ public class MeetingAidUtil {
                 if (searchByTag != null) {
                     Session session = rr.adaptTo(Session.class);
                     QueryManager qm = session.getWorkspace().getQueryManager();
-                    String sql = "SELECT s.* FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE([/content/dam/girlscouts-vtk/meeting-aids]) AND CONTAINS(s.[jcr:content/metadata/cq:tags], '" + searchByTag.getTagID() + "')";
+                    String sql = "SELECT s.* FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE([/content/dam/girlscouts-vtk/"+path+"]) AND CONTAINS(s.[jcr:content/metadata/cq:tags], '" + searchByTag.getTagID() + "')";
                     Query q = qm.createQuery(sql, Query.JCR_SQL2);
                     log.debug("Executing JCR query: " + sql);
                     QueryResult result = q.execute();
@@ -115,6 +122,7 @@ public class MeetingAidUtil {
                                     asset.setType("AID");
                                     asset.setDescription(props.hasProperty("dc:description") ? props.getProperty("dc:description").getString() : "" );
                                     asset.setTitle(props.getProperty("dc:title").getString());
+                                    asset.setSection(path);
                                     meetingAids.add(asset);
                                 }
                             }
@@ -140,19 +148,22 @@ public class MeetingAidUtil {
         }
         return meetingAids;
     }
-    private List<Asset> getAddedAssets(MeetingE meetingEvent) {
+    private List<Asset> getAddedAssets(MeetingE meetingEvent, String path) {
         List<Asset> assets = new ArrayList<Asset>();
         if (meetingEvent != null) {
             ResourceResolver rr = null;
             try {
                 rr = resolverFactory.getServiceResourceResolver(resolverParams);
-                Resource addedAssets = rr.getResource(meetingEvent.getPath()+"/assets");
+                Resource addedAssets = rr.getResource(meetingEvent.getPath()+"/"+path);
                 if(addedAssets != null && !ResourceUtil.isNonExistingResource(addedAssets)){
                     Iterator<Resource> it = addedAssets.listChildren();
                     while(it.hasNext()){
                         Resource addedAsset = it.next();
-                        Asset asset = getAsset(addedAsset.getValueMap().get("refId", String.class));
-                        if(asset != null) {
+                        String assetPath = "additionalResources".equals(path) ? addedAsset.getPath() : addedAsset.getValueMap().get("refId", String.class);
+                        Asset asset = getAsset(assetPath);
+                        if (asset != null) {
+                            if (path.equals("assets")) asset.setSection("meeting-aids");
+                            else if (path.equals("additionalResources")) asset.setSection("additional-resources");
                             assets.add(asset);
                         }
                     }
@@ -177,6 +188,30 @@ public class MeetingAidUtil {
         return t -> seen.add(keyExtractor.apply(t));
     }
 
+    private boolean getBoolProp(Node node, String name) {
+        boolean returnValue = false;
+        try {
+			if (node.hasProperty(name) && node.getProperty(name) != null) {
+			    returnValue = node.getProperty(name).getBoolean();
+			}
+		} catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return returnValue;
+    }
+
+    private String getStringProp(Node node, String name) {
+        String returnValue = "";
+        try {
+			if (node.hasProperty(name) && node.getProperty(name) != null) {
+			    returnValue = node.getProperty(name).getString();
+			}
+		} catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return returnValue;
+    }
+
     public Asset getAsset(String path) {
         Asset asset = null;
         try {
@@ -193,26 +228,26 @@ public class MeetingAidUtil {
                         asset = new Asset();
                         Node props = metadata.adaptTo(Node.class);
                         asset.setRefId(aidResource.getPath());
-                        if (props.hasProperty("dc:isOutdoorRelated")) {
-                            asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
-                        } else {
-                            asset.setIsOutdoorRelated(false);
-                        }
-                        if (props.hasProperty("dc:isGlobalRelated")) {
-                            asset.setIsGlobalRelated(props.getProperty("dc:isGlobalRelated").getBoolean());
-                        } else {
-                            asset.setIsGlobalRelated(false);
-                        }
-                        if (props.hasProperty("dc:isVirtualRelated")) {
-                            asset.setIsVirtualRelated(props.getProperty("dc:isVirtualRelated").getBoolean());
-                        } else {
-                            asset.setIsVirtualRelated(false);
-                        }
+                        asset.setIsOutdoorRelated(getBoolProp(props, "dc:isOutdoorRelated"));
+                        asset.setIsGlobalRelated(getBoolProp(props, "dc:isGlobalRelated"));
+                        asset.setIsVirtualRelated(getBoolProp(props, "dc:isVirtualRelated"));
                         asset.setIsCachable(true);
                         asset.setType("AID");
-                        asset.setDescription(props.hasProperty("dc:description") ? props.getProperty("dc:description").getString() : "" );
-                        asset.setTitle(props.getProperty("dc:title").getString());
+                        asset.setDescription(getStringProp(props, "dc:description"));
+                        asset.setTitle(getStringProp(props, "dc:title"));
                     }
+                } else {
+                    asset = new Asset();
+                    Node props = aidResource.adaptTo(Node.class);
+                    asset.setRefId(getStringProp(props, "refId"));
+                    asset.setIsOutdoorRelated(getBoolProp(props, "isOutdoorRelated"));
+                    asset.setIsGlobalRelated(getBoolProp(props, "isGlobalRelated"));
+                    asset.setIsVirtualRelated(getBoolProp(props, "isVirtualRelated"));
+                    asset.setIsCachable(false);
+                    asset.setType("AID");
+                    asset.setDescription(getStringProp(props, "description"));
+                    asset.setTitle(getStringProp(props, "title"));
+                    asset.setDocType(getStringProp(props, "docType"));
                 }
             } catch (Exception e) {
                 log.error("Error Occurred: ", e);
@@ -229,5 +264,57 @@ public class MeetingAidUtil {
             log.error("Error Occurred: ", e);
         }
         return asset;
+    }
+
+    public Asset mapLinkNodeToAsset(Node node) {
+        if (node == null) return null;
+        Asset asset = new Asset();
+        String url = getStringProp(node, "url");
+        Pattern pattern = Pattern.compile("(youtu\\.be|youtube.com|vimeo.com)\\/");
+        Matcher matcher = pattern.matcher(url);
+        String docType = matcher.find() ? "movie" : "link";
+
+        asset.setRefId(url);
+        asset.setIsOutdoorRelated(getBoolProp(node, "isOutdoorRelated"));
+        asset.setIsGlobalRelated(getBoolProp(node, "isGlobalRelated"));
+        asset.setIsVirtualRelated(getBoolProp(node, "isVirtualRelated"));
+        asset.setIsCachable(false);
+        asset.setType("AID");
+        asset.setDescription(getStringProp(node, "desc"));
+        asset.setTitle(getStringProp(node, "name"));
+        asset.setDocType(docType);
+        return asset;
+    }
+
+    public List<Asset> getLinkAidsForMeeting(String path, String meetingId, String section) {
+        log.debug("Getting link assets for path={} meetingId={}, section={}", path, meetingId, section);
+        List<Asset> assets = new ArrayList<>();
+        ResourceResolver rr = null;
+        try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            Resource aidResource = rr.resolve(path);
+            Iterator<Resource> it = aidResource.listChildren();
+            while(it.hasNext()) {
+                Node aidNode = it.next().adaptTo(Node.class);
+                String meetingIds = getStringProp(aidNode, "meetingid");
+                log.debug("Checking meetingId={} in meetingIds={}", meetingId, meetingIds);
+                if (meetingIds.contains(meetingId)) {
+                    Asset linkAsset = mapLinkNodeToAsset(aidNode);
+                    linkAsset.setSection(section);
+                    assets.add(linkAsset);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
+        }
+        return assets;
     }
 }

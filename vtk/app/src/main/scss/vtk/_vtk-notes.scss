@@ -4,7 +4,13 @@
   display: block;
 
   h6 {
-    background-color: #f6f6f6;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #f6f6f6;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.25em;
     padding: 5px;
   }
 }
