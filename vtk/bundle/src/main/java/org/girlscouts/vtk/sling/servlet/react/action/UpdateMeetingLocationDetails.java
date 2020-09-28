@@ -16,9 +16,11 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.girlscouts.vtk.models.Location;
+import org.girlscouts.vtk.osgi.service.GirlScoutsLocationOCMService;
 
 @Component(service = Servlet.class, property = {
         Constants.SERVICE_DESCRIPTION + "=Girl Scouts VTK Update Meeting Location Details Servlet",
@@ -31,7 +33,8 @@ import org.girlscouts.vtk.models.Location;
 public class UpdateMeetingLocationDetails extends SlingAllMethodsServlet implements OptingServlet{
 
     private static final Logger log = LoggerFactory.getLogger(UpdateMeetingLocationDetails.class);
-
+    @Reference
+    GirlScoutsLocationOCMService girlScoutsLocationOCMService;
 
     @Activate
     private void activate() {
@@ -120,7 +123,8 @@ public class UpdateMeetingLocationDetails extends SlingAllMethodsServlet impleme
 		        	}
 		        	else {
 		        		log.info("Meeting resource doesn't exist");
-		        		return "Meeting resource doesn't exist";
+		        		//return "Meeting resource doesn't exist";
+		        		response.getWriter().write("");
 		        	}	        	
 	    		} catch(Exception e) {
 	    			log.error("Error in adding the location node details:" + e.getMessage());

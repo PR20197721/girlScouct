@@ -19,6 +19,8 @@ export interface VtkMtgPlanLocationState {
 	locName: string;
 	locAddress: string;
 	isAddOpen: boolean;
+	displayLocationName: string;
+	displayLocationAddress: string;
 }
 
 
@@ -31,9 +33,27 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
 			locName: '',
 			locAddress: '',
 			isAddOpen: false,
+			displayLocationName: null,
+			displayLocationAddress: null
 			
         };
+	
     }
+	
+	componentWillReceiveProps(props) {
+		if (props.locationFind){
+			this.setState({
+				displayLocationName: props.locationFind[0].name,
+				displayLocationAddress: props.locationFind[0].address
+			})
+		}
+		else {
+			this.setState({
+			displayLocationName: null,
+			displayLocationAddress: null
+		})
+		}
+	}
 	
 	handleNameChange = event => {
     	this.setState({ 
@@ -82,6 +102,7 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
 		        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.edit.html?locName='+this.state.locName + '&locAddress=' + this.state.locAddress + '&meetingPath='+ this.props.meetingPath, data).then((data) => {
 		            //do something based on response from servlet.
 		            console.log("res::"+data);
+					this.setState({displayLocationName: this.state.locName, displayLocationAddress: this.state.locAddress});
 					alert("Location successfully modified.");
 					//this.toggleAddEdit("edit");
 		            }
@@ -99,10 +120,14 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
 		            //do something based on response from servlet.
 		            console.log("res::"+ JSON.stringify(response));
 					console.log("res::"+ response.data);
-					alert("Location added successfully.");
 					this.toggleAddEdit("add");
+					//this.props.locationFind = [{name:this.state.locName, address:this.state.locAddress}];
+					//this.props.locationFind[0].name = this.state.locName;
+					//this.props.locationFind[0].address = this.state.locAddress;
+					this.setState({displayLocationName: this.state.locName, displayLocationAddress: this.state.locAddress});
+					//this.forceUpdate();
 					
-					
+					alert("Location added successfully.");
 		            }
 		        );
 			}
@@ -135,12 +160,12 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
         return (
             <div>
             {
-                (this.props.locationFind && this.props.locationFind.length)
-                ? <span> LOCATION:{' '}{this.props.locationFind[0].name}{' '}
-                    <a href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${this.props.locationFind[0].address}`}
-                        target="_blank">{this.props.locationFind[0].address}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><i className="fa fa-pencil fa-fw"></i>Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
-					<a href="javascript:void(0)" onClick={() => this.saveData("remove")}><i className=""></i>Remove</a>
+                (this.state.displayLocationName && this.state.displayLocationAddress)
+                ? <span> LOCATION:{' '}{this.state.displayLocationName}{' '}
+                    <a href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${this.state.displayLocationAddress}`}
+                        target="_blank">{this.state.displayLocationAddress}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><i className="icon-pencil"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="javascript:void(0)" onClick={() => this.saveData("remove")}><i className="icon-button-circle-cross"></i></a>
                           
                 </span>
                 : <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("add")}><i className="icon-button-circle-plus"></i>Add a meeting location</a>
