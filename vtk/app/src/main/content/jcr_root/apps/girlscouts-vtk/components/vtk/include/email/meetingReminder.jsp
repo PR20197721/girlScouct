@@ -126,7 +126,7 @@
     </dl>
     <dl class="accordion" data-accordion>
         <dt data-target="panel2"><h6>Include Form Link</h6></dt>
-        <dd class="accordion-navigation">s
+        <dd class="accordion-navigation">
             <div class="content" id="panel2"><%
                 String councilId = null;
                 if (apiConfig != null) {

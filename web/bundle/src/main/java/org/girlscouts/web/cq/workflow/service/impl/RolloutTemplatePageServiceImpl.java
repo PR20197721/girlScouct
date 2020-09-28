@@ -289,6 +289,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 LiveRelationship newPageRelationship = relationManager.establishRelationship(srcPage, copyPage, true, false, gsConfig);
                 String targetPath = newPageRelationship.getTargetPath();
                 cancelInheritance(rr, copyPage.getPath());
+                blockReferenceUpdateAction.set("blockInitiatedFromWorkflow");
                 rolloutManager.rollout(rr, newPageRelationship, false);
                 if (updateReferences) {
                     Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
@@ -557,6 +558,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         params.paragraphs = componentsToRollout.toArray(new String[componentsToRollout.size()]);
         params.trigger = RolloutManager.Trigger.ROLLOUT;
         params.reset = false;
+        //GSWP-2235 inform  GirlScoutsReferencesUpdateAction to stop updating reference as rollout is from workflow
+        blockReferenceUpdateAction.set("blockInitiatedFromWorkflow");
         rolloutManager.rollout(params);
         rolloutLog.add("Rolled out content to " + relationPath);
         log.info("Successfully rolled out content for {}.", relationPath);
