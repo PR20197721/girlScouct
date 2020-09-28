@@ -1,2 +1,28 @@
 @import '../vtk/vtk-colors';
 
+#meetingLocationEdit {
+	.editOpen {
+		display: inline-flex;
+		width: 100%;
+	}
+	.close {
+		font-size: 18px;
+		padding-right: 10px;
+		font-weight: normal;
+		color: black;
+	}
+}
+
+#meetingLocationAdd {
+	.addOpen {
+		display: inline-flex;
+		width: 100%;
+	}
+	.close {
+		font-size: 18px;
+		padding-right: 10px;
+		font-weight: normal;
+		color: black;
+	}
+}
+

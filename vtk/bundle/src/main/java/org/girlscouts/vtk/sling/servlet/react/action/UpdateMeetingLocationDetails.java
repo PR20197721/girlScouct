@@ -87,74 +87,83 @@ public class UpdateMeetingLocationDetails extends SlingAllMethodsServlet impleme
     	}
     }
     
-    private boolean processAddRequest(SlingHttpServletRequest request, SlingHttpServletResponse response) {
-    	log.debug("inside process add request" + request.getParameterValues("data"));
+    private String processAddRequest(SlingHttpServletRequest request, SlingHttpServletResponse response) {
+    	log.debug("inside process add request");
     	/*String yearPlanPath = "/vtk2020/999/troops/701G0000000uQzaIAE/yearPlan";
     	String meetingPath = "/vtk2020/999/troops/701G0000000uQzaIAE/yearPlan/meetingEvents/M1600766350382_0.8493933392039076";
     	String locationName = "Vell";
     	String locationAddress = "676766";*/
+    	String yearPlanPath = request.getParameter("yrPlanPath");
     	String meetingPath = request.getParameter("meetingPath"); 
-    	String yearPlanPath = "/vtk2020/999/troops/701G0000000uQzaIAE/yearPlan"; // should work on it
-		  String locationName = request.getParameter("locName");
-		  String locationAddress = request.getParameter("locAddress");
-    	Resource yearPlanResource = request.getResourceResolver().resolve(yearPlanPath);
-    	Location loc = new Location();
-    	log.debug("locRandomId::"+loc.getUid());
-    	if (yearPlanResource != null && !ResourceUtil.isNonExistingResource(yearPlanResource)) {
-    		try {
-	    		Node yearPlanNode = yearPlanResource.adaptTo(Node.class);
-	    		Node locationsNode = yearPlanNode.hasNode("locations") ? yearPlanNode.getNode("locations") : yearPlanNode.addNode("locations");
-	    		Node locationNode = locationsNode.addNode(loc.getUid());
-	    		String locationPath = locationNode.getPath();
-	    		locationNode.setProperty("name", locationName);
-	    		locationNode.setProperty("address", locationAddress);
-	    		locationNode.setProperty("uid", loc.getUid());
-	    		locationNode.save();
-	    		Resource meetingResource = request.getResourceResolver().resolve(meetingPath);
-	        	if (meetingResource != null && !ResourceUtil.isNonExistingResource(meetingResource)) {
-	    	    		Node meetingNode = meetingResource.adaptTo(Node.class);
-	    	    		meetingNode.setProperty("locationRef", locationPath);
-	    	    		meetingNode.save();
-	        	}
-	        	else {
-	        		log.info("Meeting path doesn't exist");
-	        		return false;
-	        	}	        	
-    		} catch(Exception e) {
-    			log.error("Error in adding the location node details:" + e.getMessage());
-    		}
-    		return true;
+		String locationName = request.getParameter("locName");
+		String locationAddress = request.getParameter("locAddress");
+		log.debug("yearPlanPath::"+yearPlanPath+"meetingPath:"+ meetingPath + "locationName:" + locationName + "locationAddress:" + locationAddress);
+    	if (yearPlanPath !=null && meetingPath != null && locationName != null && locationAddress != null ) {
+			Resource yearPlanResource = request.getResourceResolver().resolve(yearPlanPath);
+	    	Location loc = new Location();
+	    	log.debug("locRandomId::"+loc.getUid());
+	    	if (!ResourceUtil.isNonExistingResource(yearPlanResource)) {
+	    		try {
+		    		Node yearPlanNode = yearPlanResource.adaptTo(Node.class);
+		    		Node locationsNode = yearPlanNode.hasNode("locations") ? yearPlanNode.getNode("locations") : yearPlanNode.addNode("locations");
+		    		Node locationNode = locationsNode.addNode(loc.getUid());
+		    		String locationPath = locationNode.getPath();
+		    		locationNode.setProperty("name", locationName);
+		    		locationNode.setProperty("address", locationAddress);
+		    		locationNode.setProperty("uid", loc.getUid());
+		    		locationNode.save();
+		    		Resource meetingResource = request.getResourceResolver().resolve(meetingPath);
+		        	if (!ResourceUtil.isNonExistingResource(meetingResource)) {
+		    	    		Node meetingNode = meetingResource.adaptTo(Node.class);
+		    	    		meetingNode.setProperty("locationRef", locationPath);
+		    	    		meetingNode.save();
+		        	}
+		        	else {
+		        		log.info("Meeting resource doesn't exist");
+		        		return "Meeting resource doesn't exist";
+		        	}	        	
+	    		} catch(Exception e) {
+	    			log.error("Error in adding the location node details:" + e.getMessage());
+	    		}
+	    	}
+	    	else {
+	    		log.info("Year plan resource doesn't exist");
+	    		return "Year plan resource doesn't exist";
+	    	}
+    	return "Location added Successfully.";
     	}
     	else {
-    		log.info("Year plan path doesn't exist");
-    		return false;
+    		log.debug("Request parameters are null.");
+    		return "Request parameters are null.";
     	}
     }
 
-    private void processRemoveRequest(SlingHttpServletRequest request, SlingHttpServletResponse response) {
-    	log.debug("inside process remove request" + request.getParameterNames());	
-    	String meetingPath = "/vtk2020/999/troops/701G0000000uQzaIAE/yearPlan/meetingEvents/M1600766350382_0.8493933392039076";
+    private boolean processRemoveRequest(SlingHttpServletRequest request, SlingHttpServletResponse response) {
+    	log.debug("inside process remove request");	
+    	String meetingPath = request.getParameter("meetingPath"); 
     	try {
-    	Resource meetingResource = request.getResourceResolver().resolve(meetingPath);
-    	if (meetingResource != null && !ResourceUtil.isNonExistingResource(meetingResource)) {
-	    		Node meetingNode = meetingResource.adaptTo(Node.class);
-	    		if (meetingNode.hasProperty("locationRef")) {
-	    			String locRefPath = meetingNode.getProperty("locationRef").getString();
-	    			Resource locationResource = request.getResourceResolver().resolve(locRefPath);
-	    			if (!ResourceUtil.isNonExistingResource(locationResource)) {
-	    				locationResource.adaptTo(Node.class).remove();
-	    				log.debug("location node removed");
-	    			}
-	    			meetingNode.getProperty("locationRef").remove();
-	    			meetingNode.save();
-	    		}
-    	}
-    	else
-    		log.info("Meeting path doesn't exist");
-    	} catch(Exception e) {
+	    	Resource meetingResource = request.getResourceResolver().resolve(meetingPath);
+	    	if (meetingResource != null && !ResourceUtil.isNonExistingResource(meetingResource)) {
+		    		Node meetingNode = meetingResource.adaptTo(Node.class);
+		    		if (meetingNode.hasProperty("locationRef")) {
+		    			String locRefPath = meetingNode.getProperty("locationRef").getString();
+		    			Resource locationResource = request.getResourceResolver().resolve(locRefPath);
+		    			if (!ResourceUtil.isNonExistingResource(locationResource)) {
+		    				locationResource.adaptTo(Node.class).remove();
+		    				log.debug("location node removed");
+		    			}
+		    			meetingNode.getProperty("locationRef").remove();
+		    			meetingNode.save();
+		    		}
+		    }
+	    	else {
+	    		log.info("Meeting path doesn't exist");
+	    		return false;
+	    	}
+	    } catch(Exception e) {
     		log.error("Error in removing the location details."+ e.getMessage());
     	}
-    	
+		return true;
     }
     
     /**

@@ -8,7 +8,8 @@ import './../../scss/vtk-mtg-plan/vtk-mtg-plan-location.scss';
 
 export interface VtkMtgPlanLocationProps {
     locationFind: any,
-	meetingPath: string
+	meetingPath: string,
+	yearPlanPath: string
 
 }
 
@@ -18,14 +19,6 @@ export interface VtkMtgPlanLocationState {
 	locName: string;
 	locAddress: string;
 	isAddOpen: boolean;
-}
-
-
-const closeLocDetails = {
-    fontsize: '18px',
-	paddingright: '10px',
-	fontweight: 'normal',
-	color: 'black'
 }
 
 
@@ -43,80 +36,97 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
     }
 	
 	handleNameChange = event => {
-		console.log("INSIDE HANDLE CHANGE");
     	this.setState({ 
 			locName: event.target.value
 		 });
-	console.log(this.state.locName + "address:::" + this.state.locAddress);
   	}
 
 	handleAddressChange = event => {
-		console.log("INSIDE HANDLE address CHANGE");
     	this.setState({ 
 			locAddress: event.target.value		
 		 });
-	console.log(this.state.locName + "address:::" + this.state.locAddress);
   	}
 
     toggleAddEdit(action){
-		if (action == "edit"){
-			console.log("INSIDE EDIT");
+		if (action === "edit"){
 	        this.setState({
 	            isEditOpen: !this.state.isEditOpen
 	        });
 		}
-		if (action == "add") {
+		if (action === "add") {
 			this.setState({
 	            isAddOpen: !this.state.isAddOpen
 	        });
 		}
+		if (action === "remove") {
+			this.setState({
+	            isAddOpen: false,
+				isEditOpen: false
+	        });
+		}
+		
     }
 
     saveData(action){
-	console.log("INSIDE SAVE DATA");
         let data = {
 			locName: this.state.locName,
 			locAddress: this.state.locAddress,
-			meetingPath: this.props.meetingPath
+			meetingPath: this.props.meetingPath,
+			yearPlanPath: this.props.yearPlanPath
 		};
 		
 		console.log("name::"+ data.locName + "address::" + data.locAddress);
 		if (action == "edit") {
 			console.log("Inside edit savedata");
-	        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.edit.html?locName='+this.state.locName + '&locAddress=' + this.state.locAddress + '&meetingPath='+ this.props.meetingPath, data).then((data) => {
-	            //do something based on response from servlet.
-	            console.log("res::"+data);
-				alert("Location successfully modified.");
-				//this.toggleAddEdit("edit");
-	            }
-	        );
+			if (this.state.locName !== "" && this.state.locName !== null && this.state.locAddress !== "" && this.state.locAddress !== null) {
+		        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.edit.html?locName='+this.state.locName + '&locAddress=' + this.state.locAddress + '&meetingPath='+ this.props.meetingPath, data).then((data) => {
+		            //do something based on response from servlet.
+		            console.log("res::"+data);
+					alert("Location successfully modified.");
+					//this.toggleAddEdit("edit");
+		            }
+		        );
+			}
+			else {
+				alert("Please enter location details.");
+			}
 		}
 		
 		if (action == "add") {
 			console.log("Inside add savedata");
-	        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.add.html', data).then((response) => {
-	            //do something based on response from servlet.
-	            console.log("res::");
-				
-				/*<span> LOCATION:{' '}{this.props.locationFind[0].name}{' '}
-                    <a href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${this.props.locationFind[0].address}`}
-                        target="_blank">{this.props.locationFind[0].address}</a>&nbsp;&nbsp;&nbsp;
-					<a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><i className="fa fa-pencil fa-fw"></i>Edit</a>                          
-                </span>*/
-				//this.toggleAddEdit("add");
-	            }
-	        );
+			if (this.state.locName !== "" && this.state.locName !== null && this.state.locAddress !== "" && this.state.locAddress !== null) {
+		        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.add.html?yrPlanPath='+ this.props.yearPlanPath + '&locName='+this.state.locName + '&locAddress=' + this.state.locAddress + '&meetingPath='+ this.props.meetingPath, data).then((response) => {
+		            //do something based on response from servlet.
+		            console.log("res::"+ JSON.stringify(response));
+					console.log("res::"+ response.data);
+					alert("Location added successfully.");
+					this.toggleAddEdit("add");
+					
+					
+		            }
+		        );
+			}
+			else {
+				alert("Please enter location details.");
+			}
 		}
 		
 		if (action == "remove") {
 			console.log("Inside remove savedata");
-	        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.remove.html', data).then((data) => {
-	            //do something based on response from servlet.
-	            console.log("res::"+data);
-				alert("Location successfully removed.");
-				//this.toggleAddEdit("edit");
-	            }
-	        );
+			let confirmRemove = confirm("Are you sure to remove the location?");
+			if (confirmRemove) {
+		        Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.remove.html?meetingPath='+ this.props.meetingPath, data).then((response) => {
+		            //do something based on response from servlet.
+		            console.log("res::"+response);
+					console.log("res::"+ response.data);
+					alert("Location successfully removed.");
+					this.toggleAddEdit("remove");
+		            }
+		        );
+			}
+			else {
+				alert("You cancelled removing the location.");
+			}
 		}
 		
     }
@@ -128,8 +138,8 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
                 (this.props.locationFind && this.props.locationFind.length)
                 ? <span> LOCATION:{' '}{this.props.locationFind[0].name}{' '}
                     <a href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${this.props.locationFind[0].address}`}
-                        target="_blank">{this.props.locationFind[0].address}</a>&nbsp;&nbsp;&nbsp;
-					<a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><i className="fa fa-pencil fa-fw"></i>Edit</a>&nbsp&nbsp&nbsp&nbsp
+                        target="_blank">{this.props.locationFind[0].address}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><i className="fa fa-pencil fa-fw"></i>Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;
 					<a href="javascript:void(0)" onClick={() => this.saveData("remove")}><i className=""></i>Remove</a>
                           
                 </span>
@@ -141,9 +151,9 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
 						   <div className="content clearfix row" id="panel2">
 						    <div id="meetingLocationEdit" className="columns small-24">
 								<hr/>
-								<div style={{display: 'inline-flex'}}>
+								<div className="editOpen">
 							        <p><b>Add, delete or edit the location for this meeting.</b></p>
-								    <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><span style={closeLocDetails}>X</span></a>
+								    <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")}><span className="close"><b>X</b></span></a>
     							</div>
 						        <div id="err" className="errorMsg error"></div>
 						        <div id="editLocationForm">
@@ -168,9 +178,10 @@ class VtkMtgPlanLocation extends React.Component <VtkMtgPlanLocationProps, VtkMt
 					this.state.isAddOpen ?
 						<div className="content clearfix row">
 						    <div id="meetingLocationAdd" className="columns small-24">
-						     	<div style={{display: 'inline-flex'}}>
+								<hr/>
+						     	<div className="addOpen">
 							       <p><b>Add the location for this meeting.</b></p>
-								    <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("add")}><span style={closeLocDetails}>X</span></a>
+								    <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("add")}><span className="close"><b>X</b></span></a>
     							</div>
 						        <div id="err" className="errorMsg error"></div>
 						        <div id="addLocationForm">
