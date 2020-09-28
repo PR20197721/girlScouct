@@ -9,7 +9,6 @@
     Logger mytroopreactlogger = LoggerFactory.getLogger(this.getClass().getName());
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = null;
     java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
-    boolean isSUM = selectedTroop.getIsSUM();
     contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop, user);
     if (contacts != null) {
         session.setAttribute("vtk_cachable_contacts", contacts);
@@ -80,7 +79,7 @@
         <div class="email-modal-footer"></div>
     </div>
 </div>
-<%if (isSUM) {%>
+<%if (selectedTroop.getIsSUM()) {%>
 <div class="column small-24 large-centered large-20">
     <div class="demo-info-message">
         <p>This feature is to help you with training and support. The information below is not real and for demo purposes only.</p>

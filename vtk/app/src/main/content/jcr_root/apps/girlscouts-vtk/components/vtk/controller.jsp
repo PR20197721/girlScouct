@@ -1,24 +1,24 @@
 <%@page
         import="com.day.cq.commons.Doctype,
-                com.day.cq.commons.ImageHelper,
-                com.day.cq.commons.jcr.JcrUtil,
                 com.day.cq.wcm.api.components.DropTarget,
                 com.day.cq.wcm.foundation.Image,
-                com.day.image.Layer,
                 com.google.gson.Gson,
                 com.google.gson.GsonBuilder,
-				org.girlscouts.vtk.ocm.*,
-				org.girlscouts.vtk.osgi.service.*,
-				org.girlscouts.vtk.osgi.component.dao.*,
                 org.apache.commons.beanutils.BeanComparator,
                 org.girlscouts.vtk.auth.permission.Permission,
-                org.girlscouts.vtk.osgi.component.util.CouncilRpt,
-                org.girlscouts.vtk.models.EmailMeetingReminder,
-                org.girlscouts.vtk.osgi.component.util.VtkYearPlanChangeException,
                 org.girlscouts.vtk.mapper.vtk.CollectionModelToEntityMapper,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
-                org.joda.time.LocalDate" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper, org.girlscouts.vtk.osgi.component.util.Emailer, org.girlscouts.vtk.utils.ActivityNumberComparator" %>
+				org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper,
+				org.girlscouts.vtk.models.EmailMeetingReminder,
+				org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
+                org.girlscouts.vtk.osgi.component.TroopHashGenerator,
+                org.girlscouts.vtk.osgi.component.util.CouncilRpt,
+                org.girlscouts.vtk.osgi.component.util.Emailer,
+                org.girlscouts.vtk.osgi.component.util.VtkYearPlanChangeException,
+                org.girlscouts.vtk.osgi.service.GirlScoutsTroopOCMService,
+                org.girlscouts.vtk.osgi.service.MulesoftService,
+                org.girlscouts.vtk.utils.ActivityNumberComparator,
+                java.util.Collections" %>
+<%@ page import="java.util.LinkedList, java.util.StringTokenizer" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -172,7 +172,8 @@
                     // Generator the new troopDataToken so the client can fetch data from the dispatcher.
                     Troop newTroop = (Troop) session.getAttribute("VTK_troop");
                     String troopId = newTroop.getTroopId();
-                    Cookie cookie = new Cookie("troopDataToken", newTroop.getHash());
+                    TroopHashGenerator troopHashGenerator = sling.getService(TroopHashGenerator.class);
+                    Cookie cookie = new Cookie("troopDataToken", troopHashGenerator.getCachePath(newTroop.getPath()));
                     cookie.setPath("/");
                     response.addCookie(cookie);
                     return;

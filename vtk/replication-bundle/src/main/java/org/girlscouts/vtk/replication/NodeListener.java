@@ -135,7 +135,7 @@ public class NodeListener implements EventListener {
         
         // Found affected troop. Invalidate VTK data cache on dispatcher.
         if (affectedTroop != null) {
-            String troopPath = troopHashGenerator.getPath(affectedTroop);
+            String troopPath = troopHashGenerator.getCachePath(affectedTroop);
             cacheInvalidator.addPath(troopPath, true);
         }
         

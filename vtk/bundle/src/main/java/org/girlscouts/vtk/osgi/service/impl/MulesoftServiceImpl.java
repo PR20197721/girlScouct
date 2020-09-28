@@ -319,7 +319,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
         //Service Unit Manager
         if (user.isServiceUnitManager()) {
-            mergedTroops.add(buildServiceUnitManagerTroop(user));
+            mergedTroops.addAll(buildServiceUnitManagerTroops(user));
         }
         //VTK Admin
         if(user.isAdmin()){
@@ -332,7 +332,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                 troop.setSfCouncil(demoCouncilCode);
                 troop.setIsDemoTroop(true);
             }
-            troop.setHash(troopHashGenerator.hash(troop.getPath()));
+            troop.setHash(troopHashGenerator.hash(troop));
             if(girlScoutsTroopOCMService.read(troop.getPath()) == null && !troop.getIsTransient()){
                 girlScoutsTroopOCMService.create(troop);
             }
@@ -470,20 +470,33 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         return dummyVTKAdminTroop;
     }
 
-    private Troop buildServiceUnitManagerTroop(User user) {
-        Troop troop = buildTroop(
+    private List<Troop> buildServiceUnitManagerTroops(User user) {
+        List<Troop> troops = new ArrayList<Troop>();
+        troops.add(buildTroop(
                 user.getSfUserId(),
                 sumCouncilCode + "_" + user.getSfUserId(),
                 user.getAdminCouncilId(),
-                "SUM",
+                "DP",
                 "Troop",
-                "Demo Troop",
+                "Demo Troop Leader",
                 "7-Multi-level",
                 true,
                 false,
                 false,
-                false);
-        return troop;
+                false));
+        troops.add(buildTroop(
+                user.getSfUserId(),
+                sumCouncilCode + "_" + user.getSfUserId(),
+                user.getAdminCouncilId(),
+                "PA",
+                "Troop",
+                "Demo Parent",
+                "7-Multi-level",
+                true,
+                false,
+                false,
+                false));
+        return troops;
     }
 
     private boolean isValidParticipationCode(Troop troop) {
@@ -515,7 +528,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         if ("PA".equals(roleType)) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
         }else {
-            if ("DP".equals(roleType) || (troop.getParticipationCode() != null && troop.getParticipationCode().equals(irmCouncilCode)) || troop.getIsSUM()) {
+            if ("DP".equals(roleType) || (troop.getParticipationCode() != null && troop.getParticipationCode().equals(irmCouncilCode))) {
                 troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
             }else {
                 if ("CA".equals(roleType)) {

@@ -24,7 +24,7 @@
             isParent = true;
         }
         boolean isTroopLeader = false;
-        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || "IRM".equals(selectedTroop.getParticipationCode()) || selectedTroop.getIsSUM()) {
+        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || "IRM".equals(selectedTroop.getParticipationCode())) {
             isTroopLeader = true;
         }
         String vtk_cache_uri = "/content/girlscouts-vtk/en";
@@ -145,7 +145,7 @@
                     <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()) || selectedTroop.getIsSUM()))  { %>
+                <% if (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole())))  { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
@@ -320,7 +320,7 @@
                         <% } %>
                     </li>
                     <% } %>
-                    <% if (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()) || selectedTroop.getIsSUM())) { %>
+                    <% if (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()))) { %>
                     <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
                     </li>

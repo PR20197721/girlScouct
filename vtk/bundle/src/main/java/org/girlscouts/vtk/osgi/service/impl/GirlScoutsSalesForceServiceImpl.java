@@ -380,7 +380,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             if(!girlScoutsManualTroopLoadService.isActive() || apiConfig.isDemoUser()) {
                 setTroopPath(troop);
             }
-            troop.setHash(troopHashGenerator.hash(troop.getPath()));
+            troop.setHash(troopHashGenerator.hash(troop));
             if(girlScoutsTroopOCMService.read(troop.getPath()) == null){
                 girlScoutsTroopOCMService.create(troop);
             }

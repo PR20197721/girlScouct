@@ -16,7 +16,7 @@
     Attendance attendance = meetingUtil.getAttendance(user, selectedTroop, path + "/attendance");
     Achievement achievement = meetingUtil.getAchievement(user, selectedTroop, path + "/achievement");
     boolean isIRM = selectedTroop.getIsIRM();
-    boolean isSUM = selectedTroop.getIsSUM();
+
     boolean isAttendance = true, isAchievement = true;
     if (attendance == null) {
         isAttendance = false;
@@ -47,7 +47,7 @@
 	<div class="scroll">
 		<div class="content clearfix" id="modal_A_A">
 			<h4><%=request.getParameter("mName")%></h4>
-            <%if(isSUM){%>
+            <%if(selectedTroop.getIsSUM()){%>
                 <div class="demo-info-message">
                     <p>This feature is to help you with training and support. The information below is not real and for demo purposes only.</p>
                 </div>

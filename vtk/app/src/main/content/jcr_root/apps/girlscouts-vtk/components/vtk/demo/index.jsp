@@ -1,9 +1,8 @@
-<%@page import="org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.models.Troop,
-                org.girlscouts.vtk.models.User,
-                org.girlscouts.vtk.osgi.service.MulesoftService" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.Set, org.apache.jackrabbit.api.security.user.UserManager, javax.jcr.Session" %>
+<%@page import="org.apache.jackrabbit.api.security.user.UserManager,
+                org.girlscouts.vtk.auth.models.ApiConfig,
+                org.girlscouts.vtk.models.Troop" %>
+<%@ page import="org.girlscouts.vtk.models.User" %>
+<%@ page import="org.girlscouts.vtk.osgi.component.TroopHashGenerator, org.girlscouts.vtk.osgi.service.MulesoftService, javax.jcr.Session, java.util.List, java.util.Set" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
 <cq:defineObjects/>
@@ -58,7 +57,8 @@
         cookie.setPath("/");
         response.addCookie(cookie);
     }//edn if pref level
-    Cookie cookie = new Cookie("troopDataToken", userTroops.get(0).getHash());
+    TroopHashGenerator troopHashGenerator = sling.getService(TroopHashGenerator.class);
+    Cookie cookie = new Cookie("troopDataToken", troopHashGenerator.getCachePath(newTroop.getPath()));
     cookie.setPath("/");
     response.addCookie(cookie);
     response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");

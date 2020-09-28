@@ -13,7 +13,6 @@ import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.osgi.component.util.TroopUtil;
 import org.girlscouts.vtk.osgi.component.util.UserUtil;
-import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.sso.AccountSettings;
 import org.girlscouts.vtk.sso.AppSettings;
@@ -186,7 +185,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements Con
                     session.setAttribute(ApiConfig.class.getName(), config);
                     session.setAttribute(User.class.getName(), user);
                     if (config.getUser().getTroops() != null && !config.getUser().getTroops().isEmpty()) {
-                        String troopDataPath = troopHashGenerator.hash(config.getUser().getTroops().get(0));
+                        String troopDataPath = troopHashGenerator.getCachePath(config.getUser().getTroops().get(0).getPath());
                         Cookie cookie = new Cookie("troopDataToken", troopDataPath);
                         cookie.setPath("/");
                         response.addCookie(cookie);

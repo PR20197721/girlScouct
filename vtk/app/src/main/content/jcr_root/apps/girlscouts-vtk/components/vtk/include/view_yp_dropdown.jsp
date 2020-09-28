@@ -15,7 +15,7 @@
 <%
 } else {
     String level = selectedTroop.getSfTroopAge().substring(selectedTroop.getSfTroopAge().indexOf("-") + 1).toLowerCase();
-    if (selectedTroop.getIsSUM() || (selectedTroop.getParticipationCode() != null && selectedTroop.getIsIRM())) {
+    if ((selectedTroop.getIsSUM() && "DP".equals(selectedTroop.getRole())) || selectedTroop.getIsIRM()) {
         if (selectedTroop.getYearPlan() != null && selectedTroop.getYearPlan().getRefId() != null) {
             String refId = selectedTroop.getYearPlan().getRefId();
             if (!refId.isEmpty()) {
@@ -40,7 +40,7 @@
     var ________isYearPlan________ = <%=selectedTroop.getYearPlan() != null %>;
     var ________troopName________ = "<%=selectedTroop.getSfTroopName() %>";
     var ________defaultGradeLevel________ = "<%=level %>";
-    var ________isSUM________ = <%=selectedTroop.getIsSUM() %>;
+    var ________isSUM________ = <%=selectedTroop.getIsSUM() && "DP".equals(selectedTroop.getRole()) %>;
     var ________isIRM________ = <%= (selectedTroop.getParticipationCode() != null && selectedTroop.getIsIRM()) %>;
 
     function exploreSelectGradeLevel($el) {
