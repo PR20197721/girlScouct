@@ -599,6 +599,7 @@ function getMeetingResponse() {
 }
 
 function addToYearPlan() {
+    console.log("selected to add to year");
 	var enablebuttom = $('.meeting-item:visible input[name="addMeetingMulti"]')
 		.toArray()
 		.some(function(i, e, a) {
@@ -782,7 +783,7 @@ function generatePreviewMeetingResults() {
 				$(this).remove();
 			}
 		});
-		showMeetingResults(data);
+		appendPreviewMeetings(data);
 		$('.meeting-library .loading-meeting').hide()
 		$('.vtk-body .ui-dialog.modalWrap .scroll').css('overflow', 'none');
 		$('.meeting-library #vtk-meeting-filter').fadeIn();
@@ -799,7 +800,7 @@ function generatePreviewMeetingResults() {
 		$("#meetingSelect").css("display", "block");
 	})
 }
-function showMeetingResults(data) {
+function appendPreviewMeetings(data) {
 
 	var ambassadorMeetings = [];
 	var brownieMeetings = [];
@@ -887,7 +888,7 @@ function generatePreviewMeetingHtml(data, meeting) {
 
 	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
 
-	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' data-mtg-id=" + data[meeting].id + " id=" + data[meeting].id + " value=" + data[meeting].path + "><label for=" + data[meeting].id + "><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
+	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' data-mtg-id=" + data[meeting].id + " id='header" + data[meeting].id + "' value=" + data[meeting].path + "><label for='header" + data[meeting].id + "'><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
 
     $("#meetingSelect").append("<div class='meeting-item column small-24 medium-24'id='vtk-mtg-preview-" + data[meeting].id + "' style='display:none;background:none;'></div>");
 	if (data[meeting].hasGlobal === true) {
@@ -1107,8 +1108,8 @@ function preparePreviewData(response) {
                                     "<p style='color:#000;'>SELECT TO ADD MEETING</p>" +
                                 "</td>" +
                                 "<td>" +
-                                    "<input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' data-mtg-id=" + mtgId + " value=" + path + ">" +
-                                    "<label for=" + mtgId + ">" +
+                                    "<input onclick='addToYearPlan();'  id='slider"+mtgId+"' type='checkbox' name='addMeetingMulti' data-mtg-id=" + mtgId + " value=" + path + ">" +
+                                    "<label for='slider"+ + mtgId + "'>" +
                                         "<span></span>" +
                                     "</label>" +
                                 "</td>" +
