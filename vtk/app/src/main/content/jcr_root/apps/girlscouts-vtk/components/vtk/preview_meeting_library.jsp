@@ -54,7 +54,7 @@
     <input type="hidden" name="addMeetings" value="true"/>
     <%}//end else %>
     <div class="scroll" style="">
-        <div class="content meeting-library">
+        <div class="content meeting-library" style="background-color:#e9e9e9 !important" >
             <div class="columns small-24 small-centered">
                 <p class="instruction " style="float:left;">
                     <span><%= instruction %></span>
@@ -63,34 +63,34 @@
             <div id="cngMeet"></div>
             <!--  start carlos 1 -->
             <div id="vtk-meeting-filter" class="content">
-                <div class="sectionHeader" style="">
-                    <div class="column small-22 small-centered" style="display:table;">
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <h3>Search to Add a Petal, Badge or Journey Meeting</h3>
+                <div class="sectionHeader" style="background-color:#e9e9e9 !important">
+                    <div class="column small-22 small-centered" style="display:table;background-color:#e9e9e9 !important;">
+                        <table style="background-color:#e9e9e9 !important">
+                            <tr style="background-color:#e9e9e9 !important">
+                                <td colspan="2" style="background-color:#e9e9e9 !important">
+                                    <h3 style="background-color:#e9e9e9 !important">Search to Add a Petal, Badge or Journey Meeting</h3>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="__search row" style="border:1px solid gray; border-radius:6px; overflow:hidden">
-                                        <div class="columns small-2">
-                                            <span class="icon-search-magnifying-glass"></span>
+                            <tr style="background-color:#e9e9e9 !important">
+                                <td style="background-color:#e9e9e9 !important">
+                                    <div class="__search row" style="border:1px solid gray; border-radius:6px; overflow:hidden;">
+                                        <div class="columns small-2" >
+                                            <span  class="icon-search-magnifying-glass"></span>
                                         </div>
-                                        <div class="columns small-20">
+                                        <div class="columns small-20" >
                                             <input type="text" name="search" maxlength="52" placeholder="Search for a badge or journey award by name" id="searchByMeetingTitle" value=""/>
                                         </div>
                                         <div class="__X columns small-2" style="display:none">
                                             <span class="icon-cross"></span>
                                         </div>
                                     </div>
-                                    <p id="showHideReveal" class="hide-for-print close">Or Use Filters</p>
+                                    <p style="background-color:#e9e9e9 !important" id="showHideReveal" class="hide-for-print close">Or Use Filters</p>
                                 </td>
-                                <td>
+                                <td style="background-color:#e9e9e9 !important">
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
+                            <tr style="background-color:#e9e9e9 !important">
+                                <td style="background-color:#e9e9e9 !important">
                                 </td>
                             </tr>
                         </table>
@@ -183,14 +183,14 @@
                     </div>
                 </div>
             </div>
-           <!--  <div class="list-of-buttons column small-22 small-centered" style="padding-left:0;">
-                <div class="row">
-                    <div id="vtk-meeting-group-button" class="column small-24" style="padding:25px 0 25px 0;">
+           <div class="list-of-buttons column small-22 small-centered" style="background-color:#e9e9e9 !important;padding-left:0;">
+                <div class="row" style="background-color:#e9e9e9 !important">
+                    <div id="vtk-meeting-group-button" class="column small-24" style="background-color:#e9e9e9 !important; padding:25px 0 25px 0;">
                         <div id="vtk-meeting-group-button_cancel" onclick="closeModalPage()" class="button tiny ">CANCEL</div>
                         <div id="vtk-meeting-search-btn" class="button tiny disabled ">VIEW LIST</div>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <div class="loading-meeting" style="display:none"></div>
             <div id="meeting-library-no-content" class="no-content column small-24" style="display:none; padding:40px 0 0 25px">
                 <h5></h5>close preview
@@ -200,8 +200,8 @@
             <div id="meetingSelect" class="meetingSelect meetingPreview column small-24 small-centered" style="display:none;">
                 <!--<div class="row">-->
                 <%-- // --%>
-                 <div id="vtkSubmitButtonsSection" style="display: flex;justify-content: center;flex-grow: 1;flex-basis: 100%;width: 100%;min-height: 80px;position:absolute;bottom:0px;left:0px;overflow: hidden;">
-                    <div class="vtk-float-submit">
+                 <div id="vtkSubmitButtonsSection" style="background-color:#e9e9e9 !important;display: flex;justify-content: center;flex-grow: 1;flex-basis: 100%;width: 100%;min-height: 80px;position:absolute;bottom:0px;left:0px;overflow: hidden;">
+                    <div class="vtk-float-submit" style="background-color:#e9e9e9 !important;">
                         <!-- <input style="color: #18AA5E; background: white !important; border: solid 1px #18AA5E;" class="button tiny" type="button" value="CANCEL" onclick="closeModalPage()"/> -->
                         <%if (request.getParameter("isReplaceMeeting") == null) {%>
                         <input class="button tiny inactive-button clear-meeting-filter-result" type="button" value="CLEAR ALL"/>

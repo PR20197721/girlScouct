@@ -63,6 +63,10 @@
     font-size: 14px;
     line-height: 1.5;
 }
+#meetingSearch{
+    clear:both;
+}
+
 #meetingSearch  ul{
     color: #222;
     font-weight: normal;
@@ -94,4 +98,7 @@
     list-style: disc;
     padding: 0 !important;
     font-size: 14px;
+}
+#meetingSearch .vtk-float-submit{
+    border:0;
 }

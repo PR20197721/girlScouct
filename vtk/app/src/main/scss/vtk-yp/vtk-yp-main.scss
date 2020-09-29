@@ -99,35 +99,18 @@
     background-color: rgb(233, 233, 233);
     display: inline-block;
     width:100%;
-
     .row{
       background-color: transparent;
     }
-
     &.__OPEN{
-      // padding-top: 30px;
       padding-bottom: 30px;
-
-
-
     }
-
     &.__CLOSE{
-
+      display:none;
       overflow: hidden;
       height: 0;
-
-      ._triangle{
-        // display: none;
-      }
-      .__level-logo{
-        // display: none;
-      }
     }
-
-
     ._triangle{
-      // padding-bottom: 30px;
       width: 0;
       height: 0;
       border-left: 40px solid transparent;
@@ -136,7 +119,6 @@
       border-top: 40px solid white;
       position: absolute;
     }
-
   }
 
   .__padding{
