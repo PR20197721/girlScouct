@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.osgi.component.util;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -17,9 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import com.google.gson.Gson;
-
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -1048,8 +1046,13 @@ public class MeetingUtil {
         String potentialFirstDate = VtkUtil.getYearPlanStartDate(troop);
         troopUtil.selectYearPlan(user, troop, "", "Custom Year Plan");
         StringTokenizer t = new StringTokenizer(mids, ",");
+        Set<String> processedMids = new HashSet<>();
         while (t.hasMoreElements()) {
-            addMeetings(user, troop, t.nextToken(), potentialFirstDate);
+            String id = t.nextToken();
+            if(!processedMids.contains(id)) {
+                addMeetings(user, troop, id, potentialFirstDate);
+                processedMids.add(id);
+            }
         }
     }
 
