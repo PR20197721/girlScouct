@@ -600,11 +600,9 @@ function getMeetingResponse() {
 
 function addToYearPlan() {
     console.log("selected to add to year");
-	var enablebuttom = $('.meeting-item:visible input[name="addMeetingMulti"]')
-		.toArray()
-		.some(function(i, e, a) {
+	var enablebuttom = $('.meeting-item:visible input[name="addMeetingMulti"]').toArray().some(function(i, e, a) {
 			return i.checked;
-		});
+	});
 	if (enablebuttom) {
 		$('.clear-meeting-filter-result').removeClass('inactive-button');
 		$('.add-to-year-plan').removeClass('inactive-button');
@@ -1022,15 +1020,16 @@ function preparePreviewData(response) {
             $.each(multiactiviews, function (actKey, actValue) {
                 if (null != actValue.activityDescription && null != actValue.name) {
                     if (null != actValue.name) {
-                        if(agendaTitle == null ){
+                        if (agendaTitle == null) {
                             agendaTitle = actValue.name;
                         }
                         activitiesPlanHTML += "<div>";
                         activitiesPlanHTML += "<p style=\"font-size:18px; font-weight:bold;\"><b>" + (multiactiviews.length > 1) ? "Choice " + actValue.activityNumber + ": " : "" + actValue.name + "</b></p>";
                         activitiesPlanHTML += "<div>" + actValue.activityDescription + "</div>";
                         activitiesPlanHTML += "</div>";
-                        materialsListHTML += actValue.materials
-
+                        if (actValue.materials) {
+                            materialsListHTML += actValue.materials;
+                        }
                     }
                 }
 
@@ -1068,31 +1067,12 @@ function preparePreviewData(response) {
     meetingAidsHTML+="</ul>";
     $("#vtk-mtg-preview-" + mtgId).html("<div class='row'>" +
         "<div style='padding-top:20px' class='column small-24 medium-24'>" +
-            "<div class='column small-4 medium-4'>" +
+            "<div class='column small-18 medium-18'>" +
                 "<div style='min-height:110px; width:100%'>" +
                     "<div style='height:inherit;vertical-align:middle; text-align:center;width:100%'> " +
-                        "<img width='100' onclick='openRequirementDetail(this)' class='image _requirement_modal' height='100' src='/content/girlscouts-vtk/service/meeting/icon." + mtgId + ".png'/>" +
+                        "<img style='float:left' width='100' onclick='openRequirementDetail(this)' class='image _requirement_modal' height='100' src='/content/girlscouts-vtk/service/meeting/icon." + mtgId + ".png'/>" +
                     "</div>" +
                 "</div>" +
-            "</div>" +
-            "<div class='column small-14 medium-14'>" +
-                "<div class='preview-mtg-title'>" + title + "</div>" +
-                "<div class='preview-mtg-desc'>" + blurb + "</div> " +
-                "<details> " +
-                    "<summary>Meeting Overview</summary>" + meetingOverviewHTML + " " +
-                "</details> " +
-                "<details> " +
-                    "<summary>Activity Plan</summary>" + activitiesPlanHTML + " " +
-                "</details> " +
-                "<details> " +
-                    "<summary>Materials List</summary>" + materialsListHTML + " " +
-                "</details>" +
-                "<details> " +
-                    "<summary>Meeting Aids</summary>" + meetingAidsHTML + " " +
-                "</details>" +
-                "<details> " +
-                    "<summary>Agenda</summary>" + agendaHTML + " " +
-                "</details>"+
             "</div>" +
             "<div class='column small-6 medium-6'>" +
                 "<div class='middle-checkbox' style='text-align:center; '>" +
@@ -1118,7 +1098,41 @@ function preparePreviewData(response) {
                     "</table>" +
                 "</div>" +
             "</div>" +
-        "</div>" +
+            "<div class='column small-24 medium-24' style='border-bottom:1px solid #000000; margin-bottom:20px;'>" +
+                "<div class='preview-mtg-title'>" + title + "</div>" +
+                "<div class='preview-mtg-desc'>" + blurb + "</div> " +
+                "<details> " +
+                    "<summary id='"+mtgId+"-meeting-overview-summary'>Meeting Overview</summary><div class='summary-wrap'>" + meetingOverviewHTML + "</div> " +
+                "</details> " +
+                "<details> " +
+                    "<summary id='"+mtgId+"-activity-plan-summary'>Activity Plan</summary><div class='summary-wrap'>" + activitiesPlanHTML + "</div>" +
+                "</details> " +
+                "<details> " +
+                    "<summary id='"+mtgId+"-materials-list-summary'>Materials List</summary><div class='summary-wrap'>" + materialsListHTML + "</div> " +
+                "</details>" +
+                "<details> " +
+                    "<summary id='"+mtgId+"-meeting-aids-summary'>Meeting Aids</summary><div class='summary-wrap'>" + meetingAidsHTML + "</div> " +
+                "</details>" +
+                "<details> " +
+                    "<summary id='"+mtgId+"-agenda-summary'>Agenda</summary><div class='summary-wrap'>" + agendaHTML + "</div> " +
+                "</details>"+
+                "</div>" +
+                "<div class='column small-9 medium-9'>&nbsp;</div>" +
+                "<div class='column small-6 medium-6'>" +
+                "<table style='background:none;'>" +
+                "<tbody style='background:none;'>" +
+                "<tr style='background:none;'>" +
+                "<td colspan='2' style='border:1px solid lightgray;text-align: center;'>" +
+                "<div class='vtk-meeting-preview-btn' data-mtgid='" + mtgId + "' data-path='" + path + "' onclick='previewMeetingInfo()'>CLOSE PREVIEW</div>" +
+                "</td>" +
+                "</tr style='background:none;'>" +
+                "</tbody>" +
+                "</table>" +
+                "</div>" +
+                "<div class='column small-9 medium-9'>&nbsp;</div>" +
+            "</div>" +
         "</div>") ;
+        $("#"+mtgId+"-meeting-aids-summary").click();
+        $("#"+mtgId+"-agenda-summary").click();
 
 }

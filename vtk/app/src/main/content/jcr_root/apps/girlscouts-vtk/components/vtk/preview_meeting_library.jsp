@@ -96,13 +96,13 @@
                         </table>
                     </div>
                 </div>
-                <div class="vtk-meeting-group" style="display:none;">
-                    <div class="main-filter column small-22 small-centered" style="display:table; padding-left:0;">
+                <div class="vtk-meeting-group" style="display:none;background-color:#e9e9e9;">
+                    <div class="main-filter column small-22 small-centered" style="display:table; padding-left:0;background-color:#e9e9e9;">
                         <div class="row">
-                            <div class="column small-24">
-                                <div class="vtk-meeting-filter_title"><span>1.</span> Select your Girl Scout Level(s)
+                            <div class="column small-24" style="background-color:#e9e9e9;">
+                                <div class="vtk-meeting-filter_title" style="background-color:#e9e9e9;"><span>1.</span> Select your Girl Scout Level(s)
                                 </div>
-                                <div id="vtk-meeting-group-age" class="row">
+                                <div id="vtk-meeting-group-age" class="row" style="background-color:#e9e9e9;">
                                     <span class="container" style="clear:both;">
                                         <span class="terminal" data-price="1">
                                             <div class="small-24 medium-6 column selection-box">
@@ -161,22 +161,22 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="column small-24" id="vtk-meeting-group-type" style="display:none">
+                            <div class="column small-24" id="vtk-meeting-group-type" style="background-color:#e9e9e9;display:none">
                                 <div class="vtk-meeting-filter_title">
                                     <span>2.</span> Select the type of meeting plan you want
                                 </div>
-                                <div id="vtk-group-section" class="row">
+                                <div id="vtk-group-section" style="background-color:#e9e9e9;" class="row">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="list-of-categories column small-22 small-centered" id="vtk-meeting-category-parent" style="display:none;padding-left:0;">
-                        <div class="row">
-                            <div class="column small-24">
-                                <div class="vtk-meeting-filter_title"><span>3.</span> Select your
+                    <div class="list-of-categories column small-22 small-centered" id="vtk-meeting-category-parent" style="background-color:#e9e9e9;display:none;padding-left:0;">
+                        <div class="row"  style="background-color:#e9e9e9;">
+                            <div class="column small-24"  style="background-color:#e9e9e9;">
+                                <div class="vtk-meeting-filter_title"  style="background-color:#e9e9e9;"><span>3.</span> Select your
                                     <span id="cat_selected" style="font-size:14px !important;"></span> categories
                                 </div>
-                                <div id="vtk-meeting-group-categories" class="row  wrap-vtk-meeting-group-categories">
+                                <div id="vtk-meeting-group-categories" style="background-color:#e9e9e9;" class="row  wrap-vtk-meeting-group-categories">
                                 </div>
                             </div>
                         </div>
