@@ -90,11 +90,10 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
     }
 
     componentDidMount() {
-        data
-            .getPDF()
-            .then((url) => {
+        data .getPDF() .then((url) => {
                 this.setState({pdf: url})
-            })
+            });
+
     }
 
     clickHander() {
@@ -479,7 +478,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                     (!(________app1________ && ________currentYearPlanName________ || ________currentYearPlanName________ === 'Custom Year Plan'))
                     ? <div className="__padding">
                         <div className={`_main_boxes columns small-22 medium-20 small-centered medium-centered hide-for-print ${(this.state.showTracks) ? '__OPEN' : '__CLOSE'}`}>
-                            <div onClick={() => this.clickHander()} className="columns  medium-24 large-12 _box_wrap">
+                            <div id="byo-trigger" onClick={() => this.clickHander()} className="columns  medium-24 large-12 _box_wrap">
                                 <div className="_box __library">
                                     <div className="__img"></div>
                                     <h3>Build Your Own</h3>

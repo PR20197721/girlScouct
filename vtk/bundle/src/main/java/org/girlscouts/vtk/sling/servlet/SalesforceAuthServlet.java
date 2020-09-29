@@ -13,7 +13,6 @@ import org.girlscouts.vtk.osgi.component.CouncilMapper;
 import org.girlscouts.vtk.osgi.component.TroopHashGenerator;
 import org.girlscouts.vtk.osgi.component.util.TroopUtil;
 import org.girlscouts.vtk.osgi.component.util.UserUtil;
-import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService;
 import org.girlscouts.vtk.sso.AccountSettings;
 import org.girlscouts.vtk.sso.AppSettings;
