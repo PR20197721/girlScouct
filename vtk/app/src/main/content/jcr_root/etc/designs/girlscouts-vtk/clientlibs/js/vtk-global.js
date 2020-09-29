@@ -888,7 +888,7 @@ function generatePreviewMeetingHtml(data, meeting) {
 
 	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' data-mtg-id=" + data[meeting].id + " id='header-add-" + data[meeting].id + "' value=" + data[meeting].path + "><label for='header-add-" + data[meeting].id + "'><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
 
-    $("#meetingSelect").append("<div class='meeting-item column small-24 medium-24'id='vtk-mtg-preview-" + data[meeting].id + "' style='display:none;background:none;'></div>");
+    $("#meetingSelect").append("<div class='meeting-item column small-24 medium-24'id='vtk-mtg-preview-" + data[meeting].id + "' style='display:none;background:none;padding:0 5px;'></div>");
 	if (data[meeting].hasGlobal === true) {
 		$("[data-meetingid=" + data[meeting].id + "]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:top;padding-top:2px;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png' data-selector='tooltip-jyhe4u6u1' title=''>");
 	}
