@@ -109,7 +109,6 @@ class YplanTrack extends React.Component <YplanTrackProps,
 export default YplanTrack;
 
 export function selectPlan(name: string, url: string, store?: Function) {
-
     store({
         name: name,
         url: url,

@@ -55,7 +55,12 @@ export function getPDF() {
             }
         });
 }
-
+export function getMeetingSearchResults(query: string){
+    return Axios.post(window.location.origin + "/bin/vtk/v1/meetingSearch", JSON.stringify(query));
+}
+export function getMeetingSearchFilters(){
+    return Axios.get(window.location.origin + "/bin/vtk/v1/meetingFilter");
+}
 export function getMeetings(url: string) {
 
     return Axios.get(window.location.origin + '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then((data) => {

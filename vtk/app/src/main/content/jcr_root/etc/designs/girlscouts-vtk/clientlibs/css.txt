@@ -7,3 +7,4 @@ vtk-style.css
 print.css
 image-tool.css
 imgareaselect-animated.css
+meeting-preview.css

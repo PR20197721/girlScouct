@@ -2,14 +2,12 @@ package org.girlscouts.vtk.osgi.component.util;
 
 import com.day.cq.tagging.Tag;
 import com.day.cq.tagging.TagManager;
+import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ResourceUtil;
+import org.apache.sling.api.resource.*;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
@@ -69,7 +67,46 @@ public class MeetingAidUtil {
         }
         return distinctMeetingAids;
     }
-    private List<Asset> getTaggedMeetingAids(Meeting meeting) {
+
+    public List<Asset> getTaggedVideos(Meeting meeting) {
+        List<Asset> meetingAids = new ArrayList<>();
+        String pathToVideos = "/content/vtkcontent/en/resources/volunteer-aids/vtkvideos/jcr:content/content/middle/par";
+        if (meeting != null) {
+            ResourceResolver rr = null;
+            try {
+                rr = resolverFactory.getServiceResourceResolver(resolverParams);
+                Resource videosRepo = rr.resolve(pathToVideos);
+                if(!ResourceUtil.isNonExistingResource(videosRepo)){
+                    Iterator it = videosRepo.listChildren();
+                    while (it.hasNext()) {
+                       Resource video = (Resource)it.next();
+                       ValueMap vm = video.getValueMap();
+                       String meetingIds = vm.get("meetingid", String.class);
+                       if(!StringUtils.isBlank(meetingIds) && meetingIds.contains(meeting.getId())){
+                           Asset asset = new Asset();
+                           asset.setRefId(vm.get("url", String.class));
+                           asset.setTitle(vm.get("name", String.class));
+                           asset.setType("AID");
+                           asset.setDocType("movie");
+                           meetingAids.add(asset);
+                       }
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Exception occurred: ", e);
+            } finally {
+                try {
+                    if (rr != null) {
+                        rr.close();
+                    }
+                } catch (Exception e) {
+                    log.error("Exception is thrown closing resource resolver: ", e);
+                }
+            }
+        }
+        return meetingAids;
+    }
+    public List<Asset> getTaggedMeetingAids(Meeting meeting) {
         List<Asset> meetingAids = new ArrayList<>();
         if (meeting != null) {
             ResourceResolver rr = null;
@@ -96,6 +133,9 @@ public class MeetingAidUtil {
                                     Asset asset = new Asset();
                                     Node props = metadata.adaptTo(Node.class);
                                     asset.setRefId(aidResource.getPath());
+                                    if(aidResource.getPath().contains(".pdf") || aidResource.getPath().contains(".PDF")){
+                                        asset.setDocType("pdf");
+                                    }
                                     if (props.hasProperty("dc:isOutdoorRelated")) {
                                         asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
                                     } else {
