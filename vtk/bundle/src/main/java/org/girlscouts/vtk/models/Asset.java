@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Asset extends JcrNode implements Serializable {
     private Boolean isCachable;
-    private String type, description, title, docType, refId;
+    private String type, description, title, docType, refId, section;
     private Boolean isOutdoorRelated, isGlobalRelated, isVirtualRelated;
 
     public Asset() {
@@ -120,4 +120,11 @@ public class Asset extends JcrNode implements Serializable {
         return AssetComponentType.valueOf(this.getType());
     }
 
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
 }

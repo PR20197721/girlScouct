@@ -50,65 +50,38 @@ export namespace Actions {
     }
 
 
-    function processVideos(data) {
-
-
-        let orginizeData = {};
-
+    function processLinks(assets, data, section) {
         for (var key in data) {
             if (data[key].hasOwnProperty('meetingid')) {
-                const video = data[key];
-                var idlist = video.meetingid.split(',');
+                const link = data[key];
+                if (!link.url || !link.url.length) continue;
+
+                const idlist = link.meetingid.split(',');
+                const videoLinkRegex = new RegExp('(youtu\.be|youtube.com|vimeo.com)\/');
+                const docType = videoLinkRegex.test(link.url) ? 'movie' : 'link';
+                const asset = {
+                    description: link.desc || "",
+                    docType: docType,
+                    isOutdoorRelated: false,
+                    isGlobalRelated: false,
+                    isVirtualRelated: false,
+                    isCachable: true,
+                    path: null,
+                    refId: link.url,
+                    title: link.name,
+                    type: "AID",
+                    uid: key,
+                    section: section
+                };
+
                 for (var i = idlist.length - 1; i >= 0; i--) {
-                    if (orginizeData.hasOwnProperty(idlist[i])) {
-                        orginizeData[idlist[i]].push({
-                            description: "",
-                            docType: 'movie',
-                            isOutdoorRelated: false,
-                            isGlobalRelated: false,
-                            isVirtualRelated: false,
-                            path: null,
-                            refId: video.url,
-                            title: video.name,
-                            type: "AID",
-                            uid: key,
-                        })
-                    } else {
-                        orginizeData[idlist[i]] = [];
-                        orginizeData[idlist[i]].push({
-                            description: "",
-                            docType: 'movie',
-                            isOutdoorRelated: false,
-                            isGlobalRelated: false,
-                            isVirtualRelated: false,
-                            path: null,
-                            refId: video.url,
-                            title: video.name,
-                            type: "AID",
-                            uid: key,
-                        })
+                    if (!assets.hasOwnProperty(idlist[i])) {
+                        assets[idlist[i]] = [];
                     }
-
-
-                    // if (meetingId.indexOf(idlist[i]) > -1) {
-                    // 	const video = data[key];
-
-                    // 	return {
-                    // 		description: "",
-                    // 		docType: 'movie',
-                    // 		isOutdoorRelated:false,
-                    // 		path: null,
-                    // 		refId:video.url,
-                    // 		title:video.name,
-                    // 		type:"AID",
-                    // 		uid:key,
-                    // 	}
-                    // }
+                    assets[idlist[i]].push(asset);
                 }
             }
         }
-
-        return orginizeData
     }
 
     let __interval: HELPER.INTERVAL;
@@ -210,7 +183,9 @@ export namespace Actions {
 
             const survey = processSurveyData(response[1].data, meetingId);
 
-            const videos = processVideos(response[2].data);
+            const videos = {};
+            processLinks(videos, response[2].data, 'meeting-aids');
+            processLinks(videos, response[3].data, 'additional-resources');
 
             const data = {
                 participationCode: response[0].data.participationCode,
