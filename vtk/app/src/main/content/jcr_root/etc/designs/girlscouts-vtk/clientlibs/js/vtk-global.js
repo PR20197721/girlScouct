@@ -877,7 +877,7 @@ function appendPreviewMeetings(data) {
 }
 function generatePreviewMeetingHtml(data, meeting) {
 
-	$("#meetingSelect").append("<div class='meeting-item column small-24' id='" + data[meeting].id + "' data-url='" + data[meeting].path + "' data-meetingid='" + data[meeting].id + "'></div>")
+	$("#meetingSelect").append("<div class='meeting-item column small-24' id='vtk-mtg-" + data[meeting].id + "' data-url='" + data[meeting].path + "' data-meetingid='" + data[meeting].id + "'></div>")
 	$("[data-meetingid=" + data[meeting].id + "]").append("<div class='row' style='background:#f6f6f6;'><div>");
 	if (!(data[meeting].req !== null && data[meeting].req !== undefined && data[meeting].req !== "")) {
 		$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-4'><div style='min-height:110px; width:100%'><div style='height:inherit;vertical-align:middle; text-align:center;width:100%'><img width='100' onclick='openRequirementDetail(this)' class='image  _requirement_modal' height='100' src='/content/girlscouts-vtk/service/meeting/icon." + data[meeting].id + ".png'></div></div></div>");
@@ -888,7 +888,7 @@ function generatePreviewMeetingHtml(data, meeting) {
 
 	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
 
-	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' data-mtg-id=" + data[meeting].id + " id='header" + data[meeting].id + "' value=" + data[meeting].path + "><label for='header" + data[meeting].id + "'><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
+	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' data-mtg-id=" + data[meeting].id + " id='header-add-" + data[meeting].id + "' value=" + data[meeting].path + "><label for='header-add-" + data[meeting].id + "'><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
 
     $("#meetingSelect").append("<div class='meeting-item column small-24 medium-24'id='vtk-mtg-preview-" + data[meeting].id + "' style='display:none;background:none;'></div>");
 	if (data[meeting].hasGlobal === true) {
@@ -1109,7 +1109,7 @@ function preparePreviewData(response) {
                                 "</td>" +
                                 "<td>" +
                                     "<input onclick='addToYearPlan();'  id='slider"+mtgId+"' type='checkbox' name='addMeetingMulti' data-mtg-id=" + mtgId + " value=" + path + ">" +
-                                    "<label for='slider"+ + mtgId + "'>" +
+                                    "<label for='slider"+ mtgId + "'>" +
                                         "<span></span>" +
                                     "</label>" +
                                 "</td>" +
