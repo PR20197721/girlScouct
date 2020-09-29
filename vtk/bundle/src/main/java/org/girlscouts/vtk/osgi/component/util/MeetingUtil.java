@@ -632,6 +632,9 @@ public class MeetingUtil {
                 log.error("ASSETS ABLE TO REMOVE meetingId={} aidId={} assets={}", meetingId, aidId, new Gson().toJson(assets));
                 for (int y = 0; y < assets.size(); y++) {
                     if (assets.get(y).getUid().equals(aidId)) {
+                        assets.get(y).setPath(meeting.getPath() + "/assets/" + aidId);
+                        log.error("ASSET REMOVED - {}", new Gson().toJson(assets.get(y)));
+                        troopDAO.removeAsset(user, troop, assets.get(y));
                         assets.get(y).setPath(meeting.getPath() + "/additionalResources/" + aidId);
                         log.error("ASSET REMOVED - {}", new Gson().toJson(assets.get(y)));
                         troopDAO.removeAsset(user, troop, assets.get(y));

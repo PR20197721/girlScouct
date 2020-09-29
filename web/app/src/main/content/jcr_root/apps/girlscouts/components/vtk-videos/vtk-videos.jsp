@@ -18,8 +18,7 @@
                 Name: <%=name%><br>
                 Description: <%=desc%><br>
                 URL: <%=url%><br>
-                ID: <%=meetingid%><br>
-                Tag: <%=tag%>
+                ID: <%=meetingid%>
             </p>
         </div><%
     }

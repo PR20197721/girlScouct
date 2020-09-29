@@ -405,11 +405,17 @@ public class TroopDAOImpl implements TroopDAO {
                 throw new VtkException("Found no troop when creating asset# " + troop.getPath());
             }
             if (asset.getPath() == null) {
-                asset.setPath(meeting.getPath() + "/assets/" + asset.getUid());
+                if (asset.getSection() == null || "meeting-aids".equals(asset.getSection())) {
+                    asset.setPath(meeting.getPath() + "/assets/" + asset.getUid());
+                } else {
+                    asset.setPath(meeting.getPath() + "/additionalResources/" + asset.getUid());
+                }
             }
             if (girlScoutsAssetOCMService.read(asset.getPath()) == null) {
+                log.error("CREATE ASSET - {}", new Gson().toJson(asset));
                 girlScoutsAssetOCMService.create(asset);
             } else {
+                log.error("UPDATE ASSET - {}", new Gson().toJson(asset));
                 girlScoutsAssetOCMService.update(asset);
             }
             isUpdated = true;
