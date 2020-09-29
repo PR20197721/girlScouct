@@ -235,6 +235,7 @@ public class MeetingAidUtil {
                         asset.setType("AID");
                         asset.setDescription(getStringProp(props, "dc:description"));
                         asset.setTitle(getStringProp(props, "dc:title"));
+                        asset.setUid(getStringProp(props, "dc:uid"));
                     }
                 } else {
                     asset = new Asset();
@@ -248,6 +249,7 @@ public class MeetingAidUtil {
                     asset.setDescription(getStringProp(props, "description"));
                     asset.setTitle(getStringProp(props, "title"));
                     asset.setDocType(getStringProp(props, "docType"));
+                    asset.setUid(getStringProp(props, "uid"));
                 }
             } catch (Exception e) {
                 log.error("Error Occurred: ", e);

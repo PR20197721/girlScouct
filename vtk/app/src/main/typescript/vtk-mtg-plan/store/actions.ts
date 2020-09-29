@@ -65,6 +65,7 @@ export namespace Actions {
                     isOutdoorRelated: false,
                     isGlobalRelated: false,
                     isVirtualRelated: false,
+                    isCachable: true,
                     path: null,
                     refId: link.url,
                     title: link.name,
