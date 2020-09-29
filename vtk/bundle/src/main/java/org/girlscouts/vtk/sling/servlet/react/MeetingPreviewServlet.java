@@ -50,7 +50,7 @@ public class MeetingPreviewServlet extends SlingAllMethodsServlet {
 		} else {
             response.setContentType("application/json");
 			Meeting meetingObj = girlScoutsMeetingOCMService.read(meetingPath);
-			List<Asset> meetingAids = meetingAidUtil.getTaggedMeetingAids(meetingObj);
+			List<Asset> meetingAids = meetingAidUtil.getTaggedMeetingAids(meetingObj,"meeting-aids");
 			meetingAids.addAll(meetingAidUtil.getTaggedVideos(meetingObj));
             ResponseEntity responseObject = new ResponseEntity(meetingObj, meetingAids);
 			String json = new Gson().toJson(responseObject);

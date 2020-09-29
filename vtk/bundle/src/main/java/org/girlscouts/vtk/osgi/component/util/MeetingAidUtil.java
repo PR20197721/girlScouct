@@ -112,7 +112,7 @@ public class MeetingAidUtil {
         }
         return meetingAids;
     }
-    private List<Asset> getTaggedMeetingAids(Meeting meeting, String path) {
+    public List<Asset> getTaggedMeetingAids(Meeting meeting, String path) {
         List<Asset> meetingAids = new ArrayList<>();
         if (meeting != null) {
             ResourceResolver rr = null;
