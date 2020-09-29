@@ -153,6 +153,9 @@ class VtkMtgPlanAids extends React.Component<VtkMtgPlanAidsProps, {}> {
         const links = meetingId in videos ? this.props.videos[meetingId] : [];
         let assetsAll = assets.concat(links);
         assetsAll = assetsAll.filter(asset => asset['section'] === id);
+        if (id === 'additional-resources') {
+            assetsAll.sort((a1, a2) => (a1['isCachable'] || a1['doctType'] === 'pdf') ? -1 : 1);
+        }
         const permissionCheck = HAS_PERMISSION_FOR()("vtk_troop_haspermision_edit_yearplan_id");
         const canDelete = permissionCheck && id === 'additional-resources';
 
