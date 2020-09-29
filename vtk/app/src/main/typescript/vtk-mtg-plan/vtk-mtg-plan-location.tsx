@@ -13,24 +13,24 @@ export interface VtkMtgPlanLocationProps {
 
 export interface VtkMtgPlanLocationState {
     isEditOpen: boolean;
+    isAddOpen: boolean;
     locName: string;
     locAddress: string;
-    isAddOpen: boolean;
     displayLocationName: string;
     displayLocationAddress: string;
 }
 
 class VtkMtgPlanLocation extends React.Component<VtkMtgPlanLocationProps, VtkMtgPlanLocationState> {
 
-    constructor() {
-        super();
+    constructor(props: VtkMtgPlanLocationProps) {
+        super(props);
         this.state = {
             isEditOpen: false,
-            locName: '',
-            locAddress: '',
             isAddOpen: false,
-            displayLocationName: null,
-            displayLocationAddress: null
+            locName: this.props.locationFind[0].name,
+            locAddress: this.props.locationFind[0].address,
+            displayLocationName: this.props.locationFind[0].name,
+            displayLocationAddress: this.props.locationFind[0].address
         };
     }
 
@@ -94,6 +94,7 @@ class VtkMtgPlanLocation extends React.Component<VtkMtgPlanLocationProps, VtkMtg
                 Axios.post('/content/girlscouts-vtk/service/react/action/update-meeting-location.edit.html?locName=' + this.state.locName + '&locAddress=' + this.state.locAddress + '&meetingPath=' + this.props.meetingPath, data).then((data) => {
                     //do something based on response from servlet.
                     console.log("res::" + data);
+                    this.toggleAddEdit("edit");
                     this.setState({ displayLocationName: this.state.locName, displayLocationAddress: this.state.locAddress });
                 });
             }
@@ -130,9 +131,21 @@ class VtkMtgPlanLocation extends React.Component<VtkMtgPlanLocationProps, VtkMtg
         return (
             <div>
                 {(this.state.displayLocationName && this.state.displayLocationAddress) ?
-                    <span> LOCATION:{' '}{this.state.displayLocationName}{' '}
-                        <a style={{ marginRight: '10px' }} href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${this.state.displayLocationAddress}`}
-                            target="_blank">{this.state.displayLocationAddress}</a>
+                    <span>LOCATION:
+                        { /https?:\/\//.test(this.state.displayLocationAddress) ? // Is virtual location
+                            <span>
+                                {` `}
+                                <a style={{ marginRight: '10px' }} target="_blank" href={this.state.displayLocationAddress}>
+                                    {this.state.displayLocationName}
+                                </a>
+                            </span>
+                            : <span>
+                                {` ${this.state.displayLocationName} `}
+                                <a style={{ marginRight: '10px' }} target="_blank" href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${this.state.displayLocationAddress}`}>
+                                    {this.state.displayLocationAddress}
+                                </a>
+                            </span>
+                        }
                         <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")} style={{ marginRight: '10px' }}><i className="icon-pencil"></i></a>
                         <a href="javascript:void(0)" onClick={() => this.saveData("remove")}><i className="icon-button-circle-cross"></i></a>
                     </span>
