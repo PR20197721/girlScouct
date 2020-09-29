@@ -887,9 +887,9 @@ function generatePreviewMeetingHtml(data, meeting) {
 
 	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
 
-	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id=" + data[meeting].id + " value=" + data[meeting].path + "><label for=" + data[meeting].id + "><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
+	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' data-mtg-id=" + data[meeting].id + " id=" + data[meeting].id + " value=" + data[meeting].path + "><label for=" + data[meeting].id + "><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
 
-    $("[data-meetingid=" + data[meeting].id + "]").append("<div class='row' id='vtk-mtg-preview-" + data[meeting].id + "' style='display:none'></div>");
+    $("#meetingSelect").append("<div class='meeting-item column small-24 medium-24'id='vtk-mtg-preview-" + data[meeting].id + "' style='display:none;background:none;'></div>");
 	if (data[meeting].hasGlobal === true) {
 		$("[data-meetingid=" + data[meeting].id + "]").find(".title").append("<img data-tooltip='' aria-haspopup='true' class='has-tip tip-top radius meeting_library' style='width:30px;vertical-align:top;padding-top:2px;cursor:auto;border:none' src='/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png' data-selector='tooltip-jyhe4u6u1' title=''>");
 	}
@@ -990,7 +990,7 @@ function preparePreviewData(response) {
     var meetingData = response.meeting;
     var meetingAidsData = response.meetingAids;
     var path = meetingData.path
-    console.log("response:"+response);
+    console.log("response:" + response);
     var mtgId = meetingData.id;
     $("#vtk-mtg-preview-" + mtgId).show();
     var title = meetingData.name;
@@ -998,51 +998,75 @@ function preparePreviewData(response) {
     var meetingOverviewHTML = meetingData.meetingInfo.overview.str;
     var activities = meetingData.activities;
     var activitiesPlanHTML = "";
-    var materialsListHTML="";
-    var meetingAidsHTML;
-    var agendaHTML="";
-    var agendaTitle;
-    var agendaDuration;
+    var materialsListHTML = "";
+    var meetingAidsHTML="";
+    var agendaHTML = "";
+    var timeOptions = {"5": '00:05', "10":'00:10', "15":'00:15', "20": '00:20',"25":'00:25', "30":'00:30', "35":'00:35', "40":'00:40', "45":'00:45', "50":'00:50', "55":'00:55', "60":'00:60', "65":'01:05', "70":'01:10', "75":'01:15', "80":'01:20', "85":'01:25', "90":'01:30', "95":'01:35', "100": '01:40' };
+    agendaHTML="<ul class=\"__agenda-items\">";
+    activities.sort(function(a,b){
+        return parseInt(a.activityNumber)-parseInt(b.activityNumber);
+    });
     $.each(activities, function (index, entry) {
+        var agendaTitle = null;
+        var agendaDuration = null;
         if (null != entry.activityNumber) {
-            if (null != entry.name) {
-                agendaTitle = entry.name;
-            } else {
-                agendaTitle = "Select an activity";
-            }
+            agendaTitle= null;
             agendaDuration = entry.duration;
-            activitiesPlanHTML +="<div>";
-            activitiesPlanHTML += "<p style=\"font-size:18px; font-weight:bold;\"><b>Activity " + entry.activityNumber + ": "+ entry.name+ "</b></p>";
+            activitiesPlanHTML += "<div>";
+            activitiesPlanHTML += "<p style=\"font-size:18px; font-weight:bold;\"><b>Activity " + entry.activityNumber + ": " + entry.name + "</b></p>";
             var multiactiviews = entry.multiactivities;
+            multiactiviews.sort(function(a,b){
+                return parseInt(a.activityNumber)-parseInt(b.activityNumber);
+            });
             $.each(multiactiviews, function (actKey, actValue) {
                 if (null != actValue.activityDescription && null != actValue.name) {
                     if (null != actValue.name) {
-                        activitiesPlanHTML +="<div>";
-                        activitiesPlanHTML += "<p style=\"font-size:18px; font-weight:bold;\"><b>"+ (multiactiviews.length > 1) ? "Choice " + actValue.activityNumber + ": " : "" + actValue.name+ "</b></p>";
-                        activitiesPlanHTML += "<p  style=\"font-size:18px; font-weight:bold;\">" + actValue.activityDescription + "</p>";
-                        activitiesPlanHTML +="</div>";
+                        if(agendaTitle == null ){
+                            agendaTitle = actValue.name;
+                        }
+                        activitiesPlanHTML += "<div>";
+                        activitiesPlanHTML += "<p style=\"font-size:18px; font-weight:bold;\"><b>" + (multiactiviews.length > 1) ? "Choice " + actValue.activityNumber + ": " : "" + actValue.name + "</b></p>";
+                        activitiesPlanHTML += "<div>" + actValue.activityDescription + "</div>";
+                        activitiesPlanHTML += "</div>";
                         materialsListHTML += actValue.materials
 
                     }
                 }
 
             });
-            activitiesPlanHTML +="</div>";
+            activitiesPlanHTML += "</div>";
         }
         if (null != agendaTitle && null != agendaDuration) {
-            agendaHTML += "<div class='agenda-title'>" + agendaTitle + "</div><div class='agenda-duration'>" + agendaDuration + "</div>";
+            agendaHTML+=
+                "<li class=\"__agenda-item __single\" style='margin-bottom: 5px;'>" +
+                    "<div class=\"__main\">" +
+                        "<div style=\"width: 29px; height: 22px;\"></div>" +
+                        "<div class=\"__time_counter\">"+entry.activityNumber+"</div>"+
+                        "<div class=\"__description\">" +
+                            "<div class=\"__title\">" +
+                                "<div class=\"__text\">"+agendaTitle+"</div>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class=\"__time\">"+timeOptions[agendaDuration]+"</div>"+
+                    "</div>" +
+                "</li>";
         }
     });
-    $.each(meetingAidsData, function (index, entry) {
-        meetingAidsHTML+="" +
-            "<div style=\"display: table-cell;\">" +
-                "<a href=\""+entry.refId+"\" title=\"Meeting Asset\" target=\"_blank\" class=\"icon "+entry.docType+"\" style=\"font-weight: bold;\">" +
-                    entry.title + "<span></span>" +
+    agendaHTML+="</ul>";
+    meetingAidsHTML+="<ul class=\"__list_of_assets large-block-grid-2 medium-block-grid-2 small-block-grid-2\">";
+        $.each(meetingAidsData, function (index, entry) {
+            meetingAidsHTML += "" +
+                "<li>" +
+                "<div style=\"display: table;\"><div style=\"display: table-cell;\">" +
+                "<a href=\"" + entry.refId + "\" title=\"Meeting Asset\" target=\"_blank\" class=\"icon " + entry.docType + "\" style=\"font-weight: bold;\">" +
+                entry.title + "<span></span>" +
                 "</a>" +
-                "<p class=\"info\">"+entry.description+"</p>" +
-            "</div>";
-    });
-    $("#vtk-mtg-preview-" + mtgId).html("<div style='padding-top:20px'></div>" +
+                "<p class=\"info\">" + entry.description + "</p>" +
+                "</div></div></li>";
+        });
+    meetingAidsHTML+="</ul>";
+    $("#vtk-mtg-preview-" + mtgId).html("<div class='row'>" +
+        "<div style='padding-top:20px' class='column small-24 medium-24'>" +
             "<div class='column small-4 medium-4'>" +
                 "<div style='min-height:110px; width:100%'>" +
                     "<div style='height:inherit;vertical-align:middle; text-align:center;width:100%'> " +
@@ -1051,8 +1075,8 @@ function preparePreviewData(response) {
                 "</div>" +
             "</div>" +
             "<div class='column small-14 medium-14'>" +
-                "<div class='preview-mtg-title' style='font-weight:bold;font-size:13px'>" + title + "</div>" +
-                "<div class='preview-mtg-desc' style='font-size:13px'>" + blurb + "</div> " +
+                "<div class='preview-mtg-title'>" + title + "</div>" +
+                "<div class='preview-mtg-desc'>" + blurb + "</div> " +
                 "<details> " +
                     "<summary>Meeting Overview</summary>" + meetingOverviewHTML + " " +
                 "</details> " +
@@ -1083,7 +1107,7 @@ function preparePreviewData(response) {
                                     "<p style='color:#000;'>SELECT TO ADD MEETING</p>" +
                                 "</td>" +
                                 "<td>" +
-                                    "<input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' id=" + mtgId + " value=" + path + ">" +
+                                    "<input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' data-mtg-id=" + mtgId + " value=" + path + ">" +
                                     "<label for=" + mtgId + ">" +
                                         "<span></span>" +
                                     "</label>" +
@@ -1092,6 +1116,8 @@ function preparePreviewData(response) {
                         "</tbody>" +
                     "</table>" +
                 "</div>" +
-            "</div>") ;
+            "</div>" +
+        "</div>" +
+        "</div>") ;
 
 }

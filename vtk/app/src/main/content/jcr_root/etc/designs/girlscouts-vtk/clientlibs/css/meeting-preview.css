@@ -1,0 +1,97 @@
+
+.meetingPreview {
+    float:right !important;
+}
+.meetingPreview .row{
+    background-color:#f6f6f6;
+}
+.meetingPreview .meeting-item table{
+    background:none;
+}
+
+.meeting-item .title{
+    text-transform:uppercase;
+}
+.preview-mtg-title{
+    cursor: default;
+    visibility: visible;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Trefoil Sans Web","Open Sans",Arial,sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    margin-top: .2rem;
+    margin-bottom: .5rem;
+    font-size: 1.25rem;
+    color: #000000;
+    line-height: 1;
+    text-transform: uppercase;
+}
+.preview-mtg-desc{
+    color: #222;
+    font-style: normal;
+    cursor: default;
+    visibility: visible;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-weight: normal;
+    margin-bottom: 1.25rem;
+    text-rendering: optimizeLegibility;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.meetingPreview summary{
+    margin:10px 0;
+}
+.meetingPreview details p{
+    color: #222;
+    font-style: normal;
+    cursor: default;
+    visibility: visible;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-weight: normal;
+    margin-bottom: 1.25rem;
+    text-rendering: optimizeLegibility;
+    font-size: 14px;
+    line-height: 1.5;
+}
+#meetingSearch  ul{
+    color: #222;
+    font-weight: normal;
+    font-style: normal;
+    cursor: default;
+    visibility: visible;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    list-style-position: outside !important;
+    list-style:disk;
+    font-family: inherit;
+    margin-left: 1.1rem;
+}
+.meetingPreview details li{
+    color: #222;
+    font-weight: normal;
+    font-style: normal;
+    cursor: default;
+    visibility: visible;
+    line-height: 1.6;
+    list-style-position: outside;
+    font-family: inherit;
+    box-sizing: border-box;
+    margin: 0 !important;
+    list-style: disc;
+    padding: 0 !important;
+    font-size: 14px;
+}

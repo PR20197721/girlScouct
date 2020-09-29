@@ -193,7 +193,7 @@
             </div> -->
             <div class="loading-meeting" style="display:none"></div>
             <div id="meeting-library-no-content" class="no-content column small-24" style="display:none; padding:40px 0 0 25px">
-                <h5></h5>
+                <h5></h5>close preview
                 <p>"Apply filters" can step you through how meetings are organized</p>
             </div>
             <!--  carlos 4 end  -->
