@@ -44,6 +44,34 @@
     }
   }
 
+  .toggle-container {
+    > input {
+        display: none;
+    }
+
+    > label {
+        cursor: pointer;
+        display: block;
+    }
+
+    .toggle-target {
+        transition: height .3s ease;
+        height: 0;
+        overflow: hidden;
+    }
+
+    input:checked + .toggle-target {
+        height: 70px;
+    }
+  }
+
+  #addLink {
+      .btn {
+          padding: 10px 30px;
+          margin-left: 10px;
+      }
+  }
+
   .disabled {
     color: gray;
     pointer-events: none;

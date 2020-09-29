@@ -1071,7 +1071,8 @@
     .accordion {
       margin: 0 0 5px 0;
 
-      &:nth-of-type(1) {
+      &:nth-of-type(1),
+      &.resources {
         ul {
           li {
             position: relative;
@@ -1825,9 +1826,17 @@
       }
     }
 
-
     a, p, span, input {
       font-size: 14px;
+    }
+
+    .button {
+        &.disabled, &.linkButton {
+            min-width: 100px; 
+            padding: 9px 5px; 
+            white-space: normal; 
+            word-break: break-word;
+        }
     }
   }
 
@@ -2399,6 +2408,12 @@
       &:before {
         background-position: -120px 0;
       }
+    }
+
+    &.link {
+        &:before {
+            background-position: -146px -2px;
+        }
     }
   }
 
