@@ -481,9 +481,9 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                             <div id="byo-trigger" onClick={() => this.clickHander()} className="columns  medium-24 large-12 _box_wrap">
                                 <div className="_box __library">
                                     <div className="__img"></div>
-                                    <h3>Build Your Own</h3>
-                                    <p>Search or filter to select the badges and awards that fit the style of your troop.</p>
-                                    <a className="btn button" style={{ width: '100%' }}>start adding Petals, Badges or Journeys</a>
+                                    <h3>Explore Meeting Plans</h3>
+                                    <p>Search and filter to preview individual meeting plansto customize a plan all your own.</p>
+                                    <a className="btn button" style={{ width: '100%' }}>VIEW</a>
                                 </div>
                             </div>
                             <div onClick={() => this.openTracks()} className="columns medium-24 large-12 _box_wrap">
