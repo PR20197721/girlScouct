@@ -113,7 +113,31 @@ public class MeetingAidUtil {
         return meetingAids;
     }
 
-    public List<Asset> getTaggedMeetingAids(Meeting meeting, String path) {
+    private boolean getBoolProp(Node node, String name) {
+        boolean returnValue = false;
+        try {
+			if (node.hasProperty(name) && node.getProperty(name) != null) {
+			    returnValue = node.getProperty(name).getBoolean();
+			}
+		} catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return returnValue;
+    }
+
+    private String getStringProp(Node node, String name) {
+        String returnValue = "";
+        try {
+			if (node.hasProperty(name) && node.getProperty(name) != null) {
+			    returnValue = node.getProperty(name).getString();
+			}
+		} catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return returnValue;
+    }
+
+    private List<Asset> getTaggedMeetingAids(Meeting meeting, String path) {
         List<Asset> meetingAids = new ArrayList<>();
         if (meeting != null) {
             ResourceResolver rr = null;
@@ -141,25 +165,13 @@ public class MeetingAidUtil {
                                     Node props = metadata.adaptTo(Node.class);
                                     asset.setRefId(aidResource.getPath());
                                     asset.setDocType("pdf");
-                                    if (props.hasProperty("dc:isOutdoorRelated")) {
-                                        asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
-                                    } else {
-                                        asset.setIsOutdoorRelated(false);
-                                    }
-                                    if (props.hasProperty("dc:isGlobalRelated")) {
-                                        asset.setIsGlobalRelated(props.getProperty("dc:isGlobalRelated").getBoolean());
-                                    } else {
-                                        asset.setIsGlobalRelated(false);
-                                    }
-                                    if (props.hasProperty("dc:isVirtualRelated")) {
-                                        asset.setIsVirtualRelated(props.getProperty("dc:isVirtualRelated").getBoolean());
-                                    } else {
-                                        asset.setIsVirtualRelated(false);
-                                    }
+                                    asset.setIsOutdoorRelated(getBoolProp(props, "dc:isOutdoorRelated"));
+                                    asset.setIsGlobalRelated(getBoolProp(props, "dc:isGlobalRelated"));
+                                    asset.setIsVirtualRelated(getBoolProp(props, "dc:isVirtualRelated"));
                                     asset.setIsCachable(true);
                                     asset.setType("AID");
-                                    asset.setDescription(props.hasProperty("dc:description") ? props.getProperty("dc:description").getString() : "" );
-                                    asset.setTitle(props.getProperty("dc:title").getString());
+                                    asset.setDescription(getStringProp(props, "dc:description"));
+                                    asset.setTitle(getStringProp(props, "dc:title"));
                                     asset.setSection(path);
                                     meetingAids.add(asset);
                                 }
@@ -226,30 +238,6 @@ public class MeetingAidUtil {
         return t -> seen.add(keyExtractor.apply(t));
     }
 
-    private boolean getBoolProp(Node node, String name) {
-        boolean returnValue = false;
-        try {
-			if (node.hasProperty(name) && node.getProperty(name) != null) {
-			    returnValue = node.getProperty(name).getBoolean();
-			}
-		} catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        }
-        return returnValue;
-    }
-
-    private String getStringProp(Node node, String name) {
-        String returnValue = "";
-        try {
-			if (node.hasProperty(name) && node.getProperty(name) != null) {
-			    returnValue = node.getProperty(name).getString();
-			}
-		} catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        }
-        return returnValue;
-    }
-
     public Asset getAsset(String path) {
         Asset asset = null;
         try {
@@ -273,7 +261,6 @@ public class MeetingAidUtil {
                         asset.setType("AID");
                         asset.setDescription(getStringProp(props, "dc:description"));
                         asset.setTitle(getStringProp(props, "dc:title"));
-                        asset.setUid(getStringProp(props, "dc:uid"));
                     }
                 } else {
                     asset = new Asset();
