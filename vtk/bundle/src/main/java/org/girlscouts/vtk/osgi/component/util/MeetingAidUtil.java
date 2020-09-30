@@ -140,9 +140,7 @@ public class MeetingAidUtil {
                                     Asset asset = new Asset();
                                     Node props = metadata.adaptTo(Node.class);
                                     asset.setRefId(aidResource.getPath());
-                                    if(aidResource.getPath().contains(".pdf") || aidResource.getPath().contains(".PDF")){
-                                        asset.setDocType("pdf");
-                                    }
+                                    asset.setDocType("pdf");
                                     if (props.hasProperty("dc:isOutdoorRelated")) {
                                         asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
                                     } else {

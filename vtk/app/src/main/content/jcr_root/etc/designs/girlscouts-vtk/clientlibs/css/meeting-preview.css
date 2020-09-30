@@ -129,7 +129,6 @@
 #meetingSearch .meeting-item .summary-wrap a,
 #meetingSearch .__agenda-item .__main a {
     font-style: normal;
-    cursor: default;
     list-style: none;
     list-style-position: outside;
     font-family: inherit;
