@@ -48,8 +48,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     CouncilMapper councilMapper;
     @Reference
     ResourceResolverFactory resolverFactory;
-    @Reference
-    GirlScoutsManualTroopLoadService girlScoutsManualTroopLoadService;
 
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
@@ -348,24 +346,17 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         }
         List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
         Boolean isParentOfRenewedGirl = isParent && !parentTroops.isEmpty();
-
-        List<Troop> manuallyLoadedTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
+        //GSVTK-2777 REMOVED EXTENDED ACCESS TO NON-RENEWED
+        /*List<Troop> manuallyLoadedTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
         Boolean isTroopLeader = manuallyLoadedTroops.stream().anyMatch(t -> "DP".equals(t.getRole()));
         if (!user.isActive() && (!isParentOfRenewedGirl || isTroopLeader)) {
             // Troop leaders
             mergedTroops = manuallyLoadedTroops;
-            /*Set<Troop> removeNonRenewedParents = new HashSet<>();
-            for (Troop troop : mergedTroops) {
-                if ((!user.isActive() && "PA".equals(troop.getRole())) ||troop.getSfTroopName() == null || troop.getRole() == null || troop.getGradeLevel() == null || troop.getCouncilCode() == null || !isValidParticipationCode(troop)) {
-                    log.debug("Ignoring troop "+troop.getSfTroopId()+ ". Check all required parameters.");
-                    removeNonRenewedParents.add(troop);
-                }
-            }
-            mergedTroops.removeAll(removeNonRenewedParents);*/
         } else {
             // All parents, including IRM, excluding troop leaders
             mergedTroops = mergeTroops(parentTroops, additionalTroops);
-        }
+        }*/
+        mergedTroops = mergeTroops(parentTroops, additionalTroops);
         //Service Unit Manager
         if (user.isServiceUnitManager()) {
             mergedTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
@@ -385,7 +376,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
             troop.setSfUserId(user.getSfUserId());
             setTroopPermissions(troop, user.isAdmin());
-            if(!girlScoutsManualTroopLoadService.isActive() || apiConfig.isDemoUser()) {
+            if(apiConfig.isDemoUser()) {
                 setTroopPath(troop);
             }
             troop.setHash(troopHashGenerator.hash(troop.getPath()));
