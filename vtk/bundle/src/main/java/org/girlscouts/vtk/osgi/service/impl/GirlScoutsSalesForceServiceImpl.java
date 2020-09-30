@@ -48,8 +48,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     CouncilMapper councilMapper;
     @Reference
     ResourceResolverFactory resolverFactory;
-    @Reference
-    GirlScoutsManualTroopLoadService girlScoutsManualTroopLoadService;
 
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
