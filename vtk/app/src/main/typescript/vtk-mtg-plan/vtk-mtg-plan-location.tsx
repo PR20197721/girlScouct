@@ -27,10 +27,10 @@ class VtkMtgPlanLocation extends React.Component<VtkMtgPlanLocationProps, VtkMtg
         this.state = {
             isEditOpen: false,
             isAddOpen: false,
-            locName: props.locationFind[0].name,
-            locAddress: props.locationFind[0].address,
-            displayLocationName: props.locationFind[0].name,
-            displayLocationAddress: props.locationFind[0].address
+            locName: props && props.locationFind ? props.locationFind[0].name : '',
+            locAddress: props && props.locationFind ? props.locationFind[0].address : '',
+            displayLocationName: props && props.locationFind ? props.locationFind[0].name : null,
+            displayLocationAddress: props && props.locationFind ? props.locationFind[0].address : null
         };
     }
 
