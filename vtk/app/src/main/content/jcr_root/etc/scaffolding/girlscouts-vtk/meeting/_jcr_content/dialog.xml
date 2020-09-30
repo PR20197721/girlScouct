@@ -273,6 +273,42 @@
                                     jcr:primaryType="nt:unstructured"
                                     selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2020-2021,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2020-2021,/g,'')); } }"/>
                         </catTags9>
+                        <catTags10
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}true"
+                            fieldLabel="Virtual"
+                            itemId="tagsField10"
+                            name="./virtualBadge"
+                            type="checkbox"
+                            xtype="selection">
+                            <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Virtual,'); } else { catTagsField.setValue(curVal.replace(/Virtual,/g,'')); } }"/>
+                        </catTags10>
+                        <catTags11
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}true"
+                            fieldLabel="In-Person Safe"
+                            itemId="tagsField11"
+                            name="./inPersonSafeBadge"
+                            type="checkbox"
+                            xtype="selection">
+                            <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'In-Person_Safe,'); } else { catTagsField.setValue(curVal.replace(/In-Person_Safe,/g,'')); } }"/>
+                        </catTags11>
+                        <catTags12
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}true"
+                            fieldLabel="En Español"
+                            itemId="tagsField12"
+                            name="./enEspanolBadge"
+                            type="checkbox"
+                            xtype="selection">
+                            <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'En_Espanol,'); } else { catTagsField.setValue(curVal.replace(/En_Espanol,/g,'')); } }"/>
+                        </catTags12>
                     </items>
                 </fieldset1>
                 <fieldset2
@@ -341,6 +377,42 @@
                                     jcr:primaryType="nt:unstructured"
                                     selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'STEM,'); } else { catTagsField.setValue(curVal.replace(/STEM,/g,'')); } }"/>
                         </catTags13>
+                        <catTags14
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}true"
+                            fieldLabel="Virtual"
+                            itemId="tagsField14"
+                            name="./virtualJourney"
+                            type="checkbox"
+                            xtype="selection">
+                            <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Virtual,'); } else { catTagsField.setValue(curVal.replace(/Virtual,/g,'')); } }"/>
+                        </catTags14>
+                        <catTags15
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}true"
+                            fieldLabel="In-Person Safe"
+                            itemId="tagsField15"
+                            name="./inPersonSafeJourney"
+                            type="checkbox"
+                            xtype="selection">
+                            <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'In-Person_Safe,'); } else { catTagsField.setValue(curVal.replace(/In-Person_Safe,/g,'')); } }"/>
+                        </catTags15>
+                        <catTags16
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}true"
+                            fieldLabel="En Español"
+                            itemId="tagsField16"
+                            name="./enEspanolJourney"
+                            type="checkbox"
+                            xtype="selection">
+                            <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'En_Espanol,'); } else { catTagsField.setValue(curVal.replace(/En_Espanol,/g,'')); } }"/>
+                        </catTags16>
                     </items>
                 </fieldset2>
                 <catTags
