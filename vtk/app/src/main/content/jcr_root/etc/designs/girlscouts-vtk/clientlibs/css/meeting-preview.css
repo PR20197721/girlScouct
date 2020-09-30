@@ -120,3 +120,29 @@
     font-family: inherit;
     margin-left: 1.1rem;
 }
+
+#meetingSearch .__agenda-item .__main{
+    margin:0;
+    padding:0;
+}
+
+#meetingSearch .meeting-item .summary-wrap a,
+#meetingSearch .__agenda-item .__main a {
+    font-style: normal;
+    cursor: default;
+    list-style: none;
+    list-style-position: outside;
+    font-family: inherit;
+    font-weight: 100 !important;
+    white-space: nowrap;
+    box-sizing: border-box;
+    text-decoration: none;
+    line-height: inherit;
+    background: transparent;
+    color: #00ae58;
+    outline: none;
+    font-size: 14px;
+}
+#meetingSearch .agenda-choice-preview{
+    margin: 10px 0 0 20px;
+}
