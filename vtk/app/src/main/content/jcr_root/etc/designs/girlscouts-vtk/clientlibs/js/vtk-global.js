@@ -1194,3 +1194,8 @@ function preparePreviewData(response) {
         $("#"+mtgId+"-agenda-summary").click();
 
 }
+function closeSearchResults(){	
+	$('#searchByMeetingTitle').val('');
+	$("#meetingSelect").removeClass("showResults");
+	$('#vtk-meeting-search-btn').addClass('disabled');
+}
