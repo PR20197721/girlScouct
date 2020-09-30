@@ -1011,6 +1011,13 @@ function showActivityPreview(index){
     $('#gsModal').children('.scroll').css('maxHeight', '601px');
     $(document).foundation();
 }
+function convertMinsToHrsMins(mins) {
+    var h = Math.floor(mins / 60);
+    var m = mins % 60;
+    h = h > 12 ? h - 12 : h;
+    m = m < 10 ? '0' + m : m;
+    return h + ":" + m;
+}
 function preparePreviewData(response) {
     var meetingData = response.meeting;
     var meetingAidsData = response.meetingAids;
@@ -1034,6 +1041,7 @@ function preparePreviewData(response) {
     var agendaHTML = "";
     var agendaIndex = 0;
     var timeOptions = {"5": '00:05', "10":'00:10', "15":'00:15', "20": '00:20',"25":'00:25', "30":'00:30', "35":'00:35', "40":'00:40', "45":'00:45', "50":'00:50', "55":'00:55', "60":'00:60', "65":'01:05', "70":'01:10', "75":'01:15', "80":'01:20', "85":'01:25', "90":'01:30', "95":'01:35', "100": '01:40' };
+    var totalAgendaTime = 0;
     agendaHTML="<ul class=\"__agenda-items\">";
     activities.sort(function(a,b){
         return parseInt(a.activityNumber)-parseInt(b.activityNumber);
@@ -1052,8 +1060,8 @@ function preparePreviewData(response) {
                 });
                 agendaHTML += "<li class=\"__agenda-item __multiple\">" +
                     "<div class=\"__main column small-12 medium-12\" style='background:none;'>" +
-                        "<div class=\"__time_counter column small-2 medium-2\">"+entry.activityNumber+"</div>" +
-                        "<div class=\"__description column small-8 medium-8\" style='flex-grow: unset;width:330px;'>" +
+                        "<div class=\"__time_counter column small-1 medium-1\">"+entry.activityNumber+"</div>" +
+                        "<div class=\"__description column small-9 medium-9\" style='flex-grow: unset;width:330px;'>" +
                             "<div class=\"__title\">" +
                                 "<div class=\"__text\">Select an activity</div>";
                                 $.each(multiactiviews, function (actKey, actValue) {
@@ -1067,7 +1075,25 @@ function preparePreviewData(response) {
                                         if (actValue.materials) {
                                             materialsListHTML += actValue.materials;
                                         }
-                                        agendaHTML += "<div class=\"__text\" style='margin-left:20px;'><a href='javascript:void(0);' onclick='showActivityPreview(" + agendaIndex + ");'>" + actValue.name + "</a></div>" +
+                                        agendaHTML += "<div class=\"__text\">" +
+                                            "<div style='width:60px;padding-right:5px;float:left;'>";
+                                                var indicatorsHTML = "";
+                                                if(actValue.global){
+                                                    indicatorsHTML+="<img data-tooltip=\"\" aria-haspopup=\"true\" class=\"has-tip tip-top radius meeting_library\" style=\"float:right;width:20px;vertical-align:top;padding-top:2px;cursor:auto;border:none\" src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png\" data-selector=\"tooltip-jyhe4u6u1\" title=\"\">";
+                                                }
+                                                if(actValue.virtual){
+                                                    indicatorsHTML+="<img data-tooltip=\"\" aria-haspopup=\"true\" class=\"has-tip tip-top radius meeting_library\" style=\"float:right;width:20px;vertical-align:bottom;cursor:auto;border:none\" src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_selected.png\" data-selector=\"tooltip-jyhelib9j\" title=\"\">";
+                                                }
+                                                if(actValue.outdoor){
+                                                    indicatorsHTML+="<img data-tooltip=\"\" aria-haspopup=\"true\" class=\"has-tip tip-top radius meeting_library\" style=\"float:right;width:20px;vertical-align:bottom;cursor:auto;border:none\" src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png\" data-selector=\"tooltip-jyhelib9j\" title=\"\">";
+                                                }
+                                                if(indicatorsHTML==""){
+                                                    indicatorsHTML+="&nbsp;";
+                                                }
+                                                agendaHTML += indicatorsHTML;
+                                                agendaHTML += "</div>" +
+                                                "<a href='javascript:void(0);' onclick='showActivityPreview(" + agendaIndex + ");'>" + actValue.name + "</a>" +
+                                            "</div>" +
                                             "<div id='activity-preview-title-"+agendaIndex+"' style='display:none !important'>"+name+"</div>" +
                                             "<div id='activity-preview-description-"+agendaIndex+"' style='display:none !important'>"+description+"</div>" +
                                             "<div id='activity-preview-time-"+agendaIndex+"' style='display:none !important'>"+timeOptions[entry.duration]+"</div>";
@@ -1078,6 +1104,7 @@ function preparePreviewData(response) {
                         "<div class=\"__time column small-2 medium-2\">"+timeOptions[entry.duration]+"</div>"+
                     "</div>" +
                     "</li>";
+                totalAgendaTime+=parseInt(entry.duration);
             }else{
                 var name = multiactiviews[0].name ? multiactiviews[0].name : entry.name;
                 var description = multiactiviews[0].activityDescription ? multiactiviews[0].activityDescription : entry.activityDescription;
@@ -1089,11 +1116,27 @@ function preparePreviewData(response) {
                 agendaHTML+=
                     "<li class=\"__agenda-item __single\" style='margin-bottom: 5px;'>" +
                         "<div class=\"__main column small-12 medium-12\" style='background:none;'>" +
-                            "<div class=\"__time_counter column small-2 medium-2\">"+entry.activityNumber+"</div>"+
-                            "<div class=\"__description column small-8 medium-8\"  style='flex-grow: unset;width:330px;'>" +
+                            "<div class=\"__time_counter column small-1 medium-1\">"+entry.activityNumber+"</div>"+
+                            "<div class=\"__description column small-9 medium-9\"  style='flex-grow: unset;width:330px;'>" +
                                 "<div class=\"__title\">" +
                                     "<div class=\"__text\">" +
-                                        "<a href='javascript:void(0);' onclick='showActivityPreview("+agendaIndex+")'>" + name + "</a>" +
+                                        "<div style='width:60px;padding-right:5px;float:left;' >";
+                                            var indicatorsHTML = "";
+                                            if(multiactiviews[0].global){
+                                                indicatorsHTML+="<img data-tooltip=\"\" aria-haspopup=\"true\" class=\"has-tip tip-top radius meeting_library\" style=\"float:right;width:20px;vertical-align:top;padding-top:2px;cursor:auto;border:none\" src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/globe_selected.png\" data-selector=\"tooltip-jyhe4u6u1\" title=\"\">";
+                                            }
+                                            if(multiactiviews[0].virtual){
+                                                indicatorsHTML+="<img data-tooltip=\"\" aria-haspopup=\"true\" class=\"has-tip tip-top radius meeting_library\" style=\"float:right;width:20px;vertical-align:bottom;cursor:auto;border:none\" src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/virtual_selected.png\" data-selector=\"tooltip-jyhelib9j\" title=\"\">";
+                                            }
+                                            if(multiactiviews[0].outdoor){
+                                                indicatorsHTML+="<img data-tooltip=\"\" aria-haspopup=\"true\" class=\"has-tip tip-top radius meeting_library\" style=\"float:right;width:20px;vertical-align:bottom;cursor:auto;border:none\" src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png\" data-selector=\"tooltip-jyhelib9j\" title=\"\">";
+                                            }
+                                            if(indicatorsHTML==""){
+                                                indicatorsHTML+="&nbsp;";
+                                            }
+                                            agendaHTML += indicatorsHTML;
+                                            agendaHTML += "</div>" +
+                                            "<a href='javascript:void(0);' onclick='showActivityPreview("+agendaIndex+")'>" + name + "</a>" +
                                     "</div>" +
                                 "</div>" +
                             "</div>" +
@@ -1104,13 +1147,27 @@ function preparePreviewData(response) {
                         "<div id='activity-preview-time-"+agendaIndex+"' style='display:none !important'>"+timeOptions[entry.duration]+"</div>" +
                     "</li>";
                 agendaIndex++;
+                totalAgendaTime+=parseInt(entry.duration);
                 if (multiactiviews[0].materials) {
                     materialsListHTML += multiactiviews[0].materials;
                 }
             }
         }
     });
-    agendaHTML+="</ul>";
+    agendaHTML+="<li class=\"__agenda-item __single\" style='margin-bottom: 5px;'>" +
+                    "<div class=\"__main column small-12 medium-12\" style='background:none;'>" +
+                        "<div class=\"__time_counter column small-1 medium-1\">&nbsp;</div>"+
+                        "<div class=\"__description column small-9 medium-9\"  style='flex-grow: unset;width:330px;'>" +
+                            "<div class=\"__title\">" +
+                                "<div class=\"__text\">" +
+                                    "<div style='float:right;' >Total Time:</div>" +
+                                "</div>" +
+                            "</div>" +
+                        "</div>" +
+                        "<div class=\"__time  column small-2 medium-2\"><b>"+convertMinsToHrsMins(totalAgendaTime)+"</b></div>"+
+                    "</div>" +
+                "</li>"+
+            "</ul>";
     meetingAidsHTML+="<ul class=\"__list_of_assets large-block-grid-2 medium-block-grid-2 small-block-grid-2\">";
         $.each(meetingAidsData, function (index, entry) {
             meetingAidsHTML += "" +
