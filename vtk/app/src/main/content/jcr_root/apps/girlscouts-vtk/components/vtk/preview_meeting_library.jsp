@@ -186,7 +186,7 @@
            <div class="list-of-buttons column small-22 small-centered" style="background-color:#e9e9e9 !important;padding-left:0;">
                 <div class="row" style="background-color:#e9e9e9 !important">
                     <div id="vtk-meeting-group-button" class="column small-24" style="background-color:#e9e9e9 !important; padding:25px 0 25px 0;">
-                        <div id="vtk-meeting-group-button_cancel" onclick="closeModalPage()" class="button tiny ">CANCEL</div>
+                        <div id="vtk-meeting-group-button_cancel" onclick="closeSearchResults()" class="button tiny ">CANCEL</div>
                         <div id="vtk-meeting-search-btn" class="button tiny disabled ">VIEW LIST</div>
                     </div>
                 </div>
