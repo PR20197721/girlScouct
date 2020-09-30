@@ -482,8 +482,8 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                                 <div className="_box __library">
                                     <div className="__img"></div>
                                     <h3>Explore Meeting Plans</h3>
-                                    <p>Search and filter to preview individual meeting plansto customize a plan all your own.</p>
-                                    <a className="btn button" style={{ width: '100%' }}>VIEW</a>
+                                    <p>Search and filter to preview individual meeting plans to customize a plan all your own.</p>
+                                    <a className="btn button" style={{ width: '100%' }}>Explore Meeting plans</a>
                                 </div>
                             </div>
                             <div onClick={() => this.openTracks()} className="columns medium-24 large-12 _box_wrap">

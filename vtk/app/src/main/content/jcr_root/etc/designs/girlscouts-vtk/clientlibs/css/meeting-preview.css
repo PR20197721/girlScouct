@@ -145,3 +145,6 @@
 #meetingSearch .agenda-choice-preview{
     margin: 10px 0 0 20px;
 }
+.vtk-meeting-preview-btn{
+    cursor:pointer;
+}
