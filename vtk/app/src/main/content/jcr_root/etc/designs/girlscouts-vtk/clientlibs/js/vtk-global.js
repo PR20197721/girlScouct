@@ -597,7 +597,17 @@ function getMeetingResponse() {
 	});
 
 }
-
+function syncCheckboxesAndAddToYearPlan(input){
+    var checked = input.checked;
+    var id = $(input).attr("id");
+    var mid = $(input).data("mtg-id");
+    if(id.startsWith('header-add-')){
+        $('#slider-add-'+mid).prop("checked", checked);
+    }else{
+        $('#header-add-'+mid).prop("checked", checked);
+    }
+    addToYearPlan()
+}
 function addToYearPlan() {
     console.log("selected to add to year");
 	var enablebuttom = $('.meeting-item:visible input[name="addMeetingMulti"]').toArray().some(function(i, e, a) {
@@ -886,7 +896,7 @@ function generatePreviewMeetingHtml(data, meeting) {
 
 	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
 
-	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='addToYearPlan();' type='checkbox' name='addMeetingMulti' data-mtg-id=" + data[meeting].id + " id='header-add-" + data[meeting].id + "' value=" + data[meeting].path + "><label for='header-add-" + data[meeting].id + "'><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
+	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div class='middle-checkbox' style='text-align:center;'><table style='background:none'><tbody style='background:none'><tr style='background:none'><td style='padding:0'><p style='color:#000;'>SELECT TO ADD MEETING</p></td><td><input onclick='syncCheckboxesAndAddToYearPlan(this);' type='checkbox' name='addMeetingMulti' data-mtg-id=" + data[meeting].id + " id='header-add-" + data[meeting].id + "' value=" + data[meeting].path + "><label for='header-add-" + data[meeting].id + "'><span></span></label></td></tr><tr style='background:none'><td colspan='2' style='border:1px solid lightgray;text-align: center;'><div class='vtk-meeting-preview-btn' data-mtgid='" + data[meeting].id + "' data-path ='" + data[meeting].path + "'onclick='previewMeetingInfo()'>PREVIEW</div></td></tr></tbody></table></div></div>");
 
     $("#meetingSelect").append("<div class='meeting-item column small-24 medium-24'id='vtk-mtg-preview-" + data[meeting].id + "' style='display:none;background:none;padding:0 5px;'></div>");
 	if (data[meeting].hasGlobal === true) {
@@ -984,13 +994,37 @@ function previewMeetingInfo() {
         $("#vtk-mtg-preview-" + meetingId).toggle();
     }
 }
-
+function showActivityPreview(index){
+    resetModalPage();
+    $("#gsModal").html("<div class=\"header clearfix\">" +
+        "<h3 class=\"columns small-21\">Activity</h3>" +
+        "<span style=\"position:absolute; top:-5px; right:9px; color:black; font-size:22px; cursor:pointer; font-family: 'Trefoil Sans Web', 'Open Sans', Arial, sans-serif;\" onclick=\"(function(){$('#gsModal').dialog('close')})()\">X</span>" +
+        "</div>" +
+        "<div class=\"scroll\" style=\"max-height:601px\">" +
+        "    <!-- Content -->" +
+            "<div class='columns small-22 small-centered activity-time'><p><b>"+$("#activity-preview-time-"+index).html()+"</b> Recommended time</p></div>" +
+            "<div class=\"columns small-22 small-centered activity-name\" style=\"padding:20px 0; font-family:'Open Sans', Arial, sans-serif\">" +
+                "<h3 style=\"color:black\">"+$("#activity-preview-title-"+index).html()+"</h3>" +
+            "</div>" +
+            "<div class=\"columns small-22 small-centered activity-name\">" + $("#activity-preview-description-"+index).html()+"</div>" +
+        "</div>");
+    $("#vtk-loading").css("display","none");//hides loading animation
+    loadModal("#gsModal", false, "Activity", true, false);
+    $('#gsModal').children('.scroll').css('maxHeight', '601px');
+    $(document).foundation();
+}
 function preparePreviewData(response) {
     var meetingData = response.meeting;
     var meetingAidsData = response.meetingAids;
     var path = meetingData.path
     console.log("response:" + response);
     var mtgId = meetingData.id;
+    var checked = "";
+    if(document.getElementById("header-add-"+mtgId)){
+        if(document.getElementById("header-add-"+mtgId).checked){
+            checked = "checked";
+        }
+    }
     $("#vtk-mtg-preview-" + mtgId).show();
     var title = meetingData.name;
     var blurb = meetingData.blurb;
@@ -1000,6 +1034,7 @@ function preparePreviewData(response) {
     var materialsListHTML = "";
     var meetingAidsHTML="";
     var agendaHTML = "";
+    var agendaIndex = 0;
     var timeOptions = {"5": '00:05', "10":'00:10', "15":'00:15', "20": '00:20',"25":'00:25', "30":'00:30', "35":'00:35', "40":'00:40', "45":'00:45', "50":'00:50', "55":'00:55', "60":'00:60', "65":'01:05', "70":'01:10', "75":'01:15', "80":'01:20', "85":'01:25', "90":'01:30', "95":'01:35', "100": '01:40' };
     agendaHTML="<ul class=\"__agenda-items\">";
     activities.sort(function(a,b){
@@ -1009,47 +1044,72 @@ function preparePreviewData(response) {
         var agendaTitle = null;
         var agendaDuration = null;
         if (null != entry.activityNumber) {
-            agendaTitle= null;
-            agendaDuration = entry.duration;
-            activitiesPlanHTML += "<div>";
-            activitiesPlanHTML += "<p style=\"font-size:18px; font-weight:bold;\"><b>Activity " + entry.activityNumber + ": " + entry.name + "</b></p>";
             var multiactiviews = entry.multiactivities;
-            multiactiviews.sort(function(a,b){
-                return parseInt(a.activityNumber)-parseInt(b.activityNumber);
-            });
-            $.each(multiactiviews, function (actKey, actValue) {
-                if (null != actValue.activityDescription && null != actValue.name) {
-                    if (null != actValue.name) {
-                        if (agendaTitle == null) {
-                            agendaTitle = actValue.name;
-                        }
-                        activitiesPlanHTML += "<div>";
-                        activitiesPlanHTML += "<p style=\"font-size:18px; font-weight:bold;\"><b>" + (multiactiviews.length > 1) ? "Choice " + actValue.activityNumber + ": " : "" + actValue.name + "</b></p>";
-                        activitiesPlanHTML += "<div>" + actValue.activityDescription + "</div>";
-                        activitiesPlanHTML += "</div>";
-                        if (actValue.materials) {
-                            materialsListHTML += actValue.materials;
-                        }
-                    }
-                }
-
-            });
-            activitiesPlanHTML += "</div>";
-        }
-        if (null != agendaTitle && null != agendaDuration) {
-            agendaHTML+=
-                "<li class=\"__agenda-item __single\" style='margin-bottom: 5px;'>" +
-                    "<div class=\"__main\">" +
-                        "<div style=\"width: 29px; height: 22px;\"></div>" +
-                        "<div class=\"__time_counter\">"+entry.activityNumber+"</div>"+
-                        "<div class=\"__description\">" +
+            var isMulti = multiactiviews.length > 1;
+            activitiesPlanHTML += "<div class='agenda-preview'>";
+            if(isMulti){
+                activitiesPlanHTML += "<div class='agenda-preview-title'><h4>Activity " + entry.activityNumber + "</h4></div>";
+                multiactiviews.sort(function(a,b){
+                    return parseInt(a.activityNumber)-parseInt(b.activityNumber);
+                });
+                agendaHTML += "<li class=\"__agenda-item __multiple\">" +
+                    "<div class=\"__main column small-12 medium-12\" style='background:none;'>" +
+                        "<div class=\"__time_counter column small-2 medium-2\">"+entry.activityNumber+"</div>" +
+                        "<div class=\"__description column small-8 medium-8\" style='flex-grow: unset;width:330px;'>" +
                             "<div class=\"__title\">" +
-                                "<div class=\"__text\">"+agendaTitle+"</div>" +
-                            "</div>" +
-                        "</div>" +
-                        "<div class=\"__time\">"+timeOptions[agendaDuration]+"</div>"+
+                                "<div class=\"__text\">Select an activity</div>";
+                                $.each(multiactiviews, function (actKey, actValue) {
+                                    if (null != actValue.activityDescription && null != actValue.name) {
+                                        var name = actValue.name ? actValue.name : entry.name;
+                                        var description = actValue.activityDescription ? actValue.activityDescription : entry.activityDescription;
+                                        activitiesPlanHTML += "<div class='agenda-choice-preview multi'>";
+                                            activitiesPlanHTML += "<div class='agenda-choice-preview-title'><h5>Choice "+ actValue.activityNumber+" : " + name + "</h5></div>";
+                                            activitiesPlanHTML += "<div>" + description + "</div>";
+                                        activitiesPlanHTML += "</div>";
+                                        if (actValue.materials) {
+                                            materialsListHTML += actValue.materials;
+                                        }
+                                        agendaHTML += "<div class=\"__text\" style='margin-left:20px;'><a href='javascript:void(0);' onclick='showActivityPreview(" + agendaIndex + ");'>" + actValue.name + "</a></div>" +
+                                            "<div id='activity-preview-title-"+agendaIndex+"' style='display:none !important'>"+name+"</div>" +
+                                            "<div id='activity-preview-description-"+agendaIndex+"' style='display:none !important'>"+description+"</div>" +
+                                            "<div id='activity-preview-time-"+agendaIndex+"' style='display:none !important'>"+timeOptions[entry.duration]+"</div>";
+                                        agendaIndex++;
+                                    }
+                                });
+                    agendaHTML += "</div>" + "</div>" +
+                        "<div class=\"__time column small-2 medium-2\">"+timeOptions[entry.duration]+"</div>"+
                     "</div>" +
-                "</li>";
+                    "</li>";
+            }else{
+                var name = multiactiviews[0].name ? multiactiviews[0].name : entry.name;
+                var description = multiactiviews[0].activityDescription ? multiactiviews[0].activityDescription : entry.activityDescription;
+                activitiesPlanHTML += "<div class='agenda-preview-title'><h4>Activity " + entry.activityNumber  + "</h4></div>";
+                activitiesPlanHTML += "<div class='agenda-choice-preview single'>";
+                    activitiesPlanHTML += "<div class='agenda-choice-preview-title'><h5>" + name + "</h5></div>";
+                    activitiesPlanHTML += "<div class='agenda-choice-preview-description'>" + description + "</div>";
+                activitiesPlanHTML += "</div>";
+                agendaHTML+=
+                    "<li class=\"__agenda-item __single\" style='margin-bottom: 5px;'>" +
+                        "<div class=\"__main column small-12 medium-12\" style='background:none;'>" +
+                            "<div class=\"__time_counter column small-2 medium-2\">"+entry.activityNumber+"</div>"+
+                            "<div class=\"__description column small-8 medium-8\"  style='flex-grow: unset;width:330px;'>" +
+                                "<div class=\"__title\">" +
+                                    "<div class=\"__text\">" +
+                                        "<a href='javascript:void(0);' onclick='showActivityPreview("+agendaIndex+")'>" + name + "</a>" +
+                                    "</div>" +
+                                "</div>" +
+                            "</div>" +
+                            "<div class=\"__time  column small-2 medium-2\">"+timeOptions[entry.duration]+"</div>"+
+                        "</div>" +
+                        "<div id='activity-preview-title-"+agendaIndex+"' style='display:none !important'>"+name+"</div>" +
+                        "<div id='activity-preview-description-"+agendaIndex+"' style='display:none !important'>"+description+"</div>" +
+                        "<div id='activity-preview-time-"+agendaIndex+"' style='display:none !important'>"+timeOptions[entry.duration]+"</div>" +
+                    "</li>";
+                agendaIndex++;
+                if (multiactiviews[0].materials) {
+                    materialsListHTML += multiactiviews[0].materials;
+                }
+            }
         }
     });
     agendaHTML+="</ul>";
@@ -1061,7 +1121,7 @@ function preparePreviewData(response) {
                 "<a href=\"" + entry.refId + "\" title=\"Meeting Asset\" target=\"_blank\" class=\"icon " + entry.docType + "\" style=\"font-weight: bold;\">" +
                 entry.title + "<span></span>" +
                 "</a>" +
-                "<p class=\"info\">" + entry.description + "</p>" +
+                "<p class=\"info\">" + (entry.description ? entry.description:"") + "</p>" +
                 "</div></div></li>";
         });
     meetingAidsHTML+="</ul>";
@@ -1088,8 +1148,8 @@ function preparePreviewData(response) {
                                     "<p style='color:#000;'>SELECT TO ADD MEETING</p>" +
                                 "</td>" +
                                 "<td>" +
-                                    "<input onclick='addToYearPlan();'  id='slider"+mtgId+"' type='checkbox' name='addMeetingMulti' data-mtg-id=" + mtgId + " value=" + path + ">" +
-                                    "<label for='slider"+ mtgId + "'>" +
+                                    "<input onclick='syncCheckboxesAndAddToYearPlan(this);'  id='slider-add-"+mtgId+"' "+ checked +" type='checkbox' name='addMeetingMulti' data-mtg-id=" + mtgId + " value=" + path + ">" +
+                                    "<label for='slider-add-"+ mtgId + "'>" +
                                         "<span></span>" +
                                     "</label>" +
                                 "</td>" +
