@@ -48,8 +48,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     CouncilMapper councilMapper;
     @Reference
     ResourceResolverFactory resolverFactory;
-    @Reference
-    GirlScoutsManualTroopLoadService girlScoutsManualTroopLoadService;
 
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
@@ -378,7 +376,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
             troop.setSfUserId(user.getSfUserId());
             setTroopPermissions(troop, user.isAdmin());
-            if(!girlScoutsManualTroopLoadService.isActive() || apiConfig.isDemoUser()) {
+            if(apiConfig.isDemoUser()) {
                 setTroopPath(troop);
             }
             troop.setHash(troopHashGenerator.hash(troop.getPath()));
