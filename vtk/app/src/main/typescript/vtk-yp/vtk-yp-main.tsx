@@ -579,7 +579,7 @@ class VtkMainYp extends React.Component <VtkMainYpProps,
                     </VtkPopUp>
                 </div>
                 <div id="meetingSearch"></div>
-                <div className="small-20 columns small-centered">
+                <div is="exploreFooterText" className="small-20 columns small-centered">
                     <p>Want to explore more before setting up a plan? Check out the <a href="https://www.girlscouts.org/en/our-program/badges/badge_explorer.html">Award and Badge Explorer</a> to mix and match badge and Journey choices. Include your Girl Scouts and let them give input as you plan your year.
                     </p></div>
             </div>

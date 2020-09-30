@@ -1002,11 +1002,9 @@ function showActivityPreview(index){
         "</div>" +
         "<div class=\"scroll\" style=\"max-height:601px\">" +
         "    <!-- Content -->" +
-            "<div class='columns small-22 small-centered activity-time'><p><b>"+$("#activity-preview-time-"+index).html()+"</b> Recommended time</p></div>" +
-            "<div class=\"columns small-22 small-centered activity-name\" style=\"padding:20px 0; font-family:'Open Sans', Arial, sans-serif\">" +
-                "<h3 style=\"color:black\">"+$("#activity-preview-title-"+index).html()+"</h3>" +
-            "</div>" +
-            "<div class=\"columns small-22 small-centered activity-name\">" + $("#activity-preview-description-"+index).html()+"</div>" +
+            "<div class='columns small-22 small-centered activity-time'><b>"+$("#activity-preview-time-"+index).html()+"</b> Recommended time</div>" +
+            "<div class=\"columns small-22 small-centered activity-name\"><h5>" + $("#activity-preview-title-"+index).html() + "</h5></div>" +
+            "<div class=\"columns small-22 small-centered activity-desc\">" + $("#activity-preview-description-"+index).html()+"</div>" +
         "</div>");
     $("#vtk-loading").css("display","none");//hides loading animation
     loadModal("#gsModal", false, "Activity", true, false);
