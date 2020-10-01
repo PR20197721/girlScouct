@@ -4,214 +4,24 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
-<script>
-    function disabledButton(boolean) {
-        if (boolean) {
-            $('#view_activities_button').addClass('inactive-button');
-        } else {
-            $('#view_activities_button').removeClass('inactive-button');
 
-        }
-    }
-
-    function _checkInput() {
-        return $('#sch_keyword').val().length >= 3;
-    }
-
-    function _checkTags() {
-
-        var lvl = $.trim(checkAll('sch_lvl'));
-        var cat = $.trim(checkAll('sch_cats'));
-        if (lvl != '' || cat != '')
-            return true;
-        return false;
-
-    }
-
-    function _checkCalendar() {
-
-        return $('#sch_startDate').val() && $('#sch_endDate').val();
-
-    }
-
-
-    function inputLogic() {
-        return _checkTags() || ((_checkInput() && !_checkCalendar()) || (_checkCalendar() && _checkInput()) || (($('#sch_keyword').val().length == 0 || $('#sch_keyword').val() == "") && _checkCalendar()));
-    }
-
-
-    function doChkSubmitValid() {
-
-
-        //var x= document.getElementById("newCustActivity_date").value;
-        //var y =document.getElementById("newCustActivity_name").value;
-
-        if ($('#signupForm').valid()) {
-
-
-            if (!timeDiff()) {
-                return false;
-            }
-
-            document.getElementById("newCustActivity").disabled = false;
-        }
-        /*
-        if( $.trim(x) == '' || $.trim(y) =='' ){
-
-            document.getElementById("newCustActivity").disabled=true;
-        }else{
-
-            document.getElementById("newCustActivity").disabled=false;
-        }
-        */
-
-    }
-
-    $(function () {
-        $("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
-        $('#newCustActivity_date').datepicker({minDate: 0});
-
-        $("#newCustActivity_startTime").inputmask("h:s", {});
-        $("#newCustActivity_endTime").inputmask("h:s", {});
-        $("#newCustActivity_cost").maskMoney();
-    });
-
-    $.validator.addMethod('time', function (value, element, param) {
-        return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
-    }, 'Enter a valid time: hh:mm');
-
-    $.validator.addMethod('currency', function (value, element, regexp) {
-        var re = /^\d{1,9}(\.\d{1,2})?$/;
-        return this.optional(element) || re.test(value);
-    }, '');
-
-    $().ready(function () {
-
-        $("#signupForm").validate({
-            rules: {
-
-                newCustActivity_name: {
-                    required: true,
-                    minlength: 2
-                },
-                newCustActivity_locName: {
-                    required: true,
-                    minlength: 2
-                },
-                newCustActivity_startTime: {
-                    required: true,
-                    minlength: 5,
-                    time: true
-                },
-                newCustActivity_endTime: {
-                    required: true,
-                    minlength: 5,
-                    time: true
-                },
-                newCustActivity_cost: {
-                    required: true,
-                    minlength: 4,
-                    currency: true
-                },
-                newCustActivity_date: {
-                    required: true,
-                    minlength: 8,
-                    date: true
-                }
-
-            },
-            messages: {
-                newCustActivity_name: {
-                    required: "Please enter a Name",
-                    minlength: "Your Name must consist of at least 2 characters"
-                },
-                newCustActivity_locName: {
-                    required: "Please enter a Location Name",
-                    minlength: "Your Name must consist of at least 2 characters"
-                },
-                newCustActivity_startTime: {
-                    required: "Please enter a Start time",
-                    minlength: "Valid format HH:mm"
-                },
-                newCustActivity_endTime: {
-                    required: "Please enter a End time",
-                    minlength: "Valid format HH:mm"
-                },
-                newCustActivity_cost: {
-                    required: "Please enter a valid amount. Default 0.00",
-                    minlength: "Valid format 0.00"
-                },
-                newCustActivity_date: {
-                    required: "Please enter valid start date",
-                    minlength: "Valid format mm/dd/yyyy"
-                }
-            }
-        });
-    });
-
-    $('#newCustActivity').click(function () {
-        if ($('#signupForm').valid()) {
-            if (!timeDiff()) {
-                return false;
-            }
-            createNewCustActivity();
-        } else {
-            showError("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
-        }
-    });
-
-    function timeDiff() {
-        var date = document.getElementById("newCustActivity_date").value;
-        var startTime = document.getElementById("newCustActivity_startTime").value;
-        var endTime = document.getElementById("newCustActivity_endTime").value;
-        var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
-        var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
-        var locName = document.getElementById("newCustActivity_locName").value;
-
-        if ($.trim(locName) == '') {
-            var thisMsg = "Missing Location Name";
-            showError(thisMsg, "#pickActivitySection .errorMsg");
-            return false;
-        }
-
-
-        if (!Date.parse(new Date(date + " " + startTime + " " + newCustActivity_startTime_AP))) {
-            var thisMsg = "Invalid Start Date,time. 12hr format: " + date + " " + startTime + " " + newCustActivity_startTime_AP;
-            showError(thisMsg, "#pickActivitySection .errorMsg");
-            return false;
-        }
-        if (!Date.parse(new Date(date + " " + endTime + " " + newCustActivity_endTime_AP))) {
-            var thisMsg = "Invalid End Date,time. 12hr format: " + date + " " + endTime + " " + newCustActivity_endTime_AP;
-            showError(thisMsg, "#pickActivitySection .errorMsg");
-            return false;
-        }
-
-
-        if ((new Date(date + " " + startTime + " " + newCustActivity_startTime_AP) - new Date(date + " " + endTime + " " + newCustActivity_endTime_AP)) >= 0) {
-            var thisMsg = "StartTime after/equal EndTime";
-            showError(thisMsg, "#pickActivitySection .errorMsg");
-            return false;
-        } else {
-            return true;
-        }
-    }
-</script>
 <div class="header clearfix">
-  <%
-  boolean isWarning = false;
-  String instruction = "Add an Activity";
-  if (isWarning) {
-  %>
+    <%
+        boolean isWarning = false;
+        String instruction = "Add an Activity";
+        if (isWarning) {
+    %>
     <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></span>
-  <% } %>
-  <h3 class="columns small-21"><%= instruction %></h3>
-  <a class=" columns small-3" onclick="closeModalPage()"  ><span id="gsModalClose">X</span></a>
+    <% } %>
+    <h3 class="columns small-21"><%= instruction %>
+    </h3>
+    <a class=" columns small-3" onclick="closeModalPage()"><span id="gsModalClose">X</span></a>
 </div>
 <div class="tabs-wrapper scroll">
     <dl class="tabs" data-tab>
         <dd id="createActivityTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Custom
             Activity</a></dd>
-        <dd id="pickActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('pick')">Council
+        <dd id="councilActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('council')">Council
             Activity</a></dd>
     </dl>
     <div class="modalBody tabs-content">
@@ -286,7 +96,7 @@
                         <input class="button right" type="button" value="Add Activity" id="newCustActivity" disabled/>
                     </form>
                 </div><!--/create activity-->
-                <div id="pickActivitySection">
+                <div id="councilActivitySection">
                     <form id="schFrm">
                         <!-- <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
                         <div class="errorMsg error"></div>
@@ -369,22 +179,213 @@
                             <div style="clear:both"></div>
                             <div id="searchResults"></div>
                     </form>
-                </div><!--/pickActivitySection-->
+                </div><!--/councilActivitySection-->
             </div><!--/small-24-->
             </row>
         </div><!--/modalBody-->
     </div><!--/tabs-wrapper-->
     <script>
+        function disabledButton(boolean) {
+            if (boolean) {
+                $('#view_activities_button').addClass('inactive-button');
+            } else {
+                $('#view_activities_button').removeClass('inactive-button');
+
+            }
+        }
+
+        function _checkInput() {
+            return $('#sch_keyword').val().length >= 3;
+        }
+
+        function _checkTags() {
+
+            var lvl = $.trim(checkAll('sch_lvl'));
+            var cat = $.trim(checkAll('sch_cats'));
+            if (lvl != '' || cat != '')
+                return true;
+            return false;
+
+        }
+
+        function _checkCalendar() {
+
+            return $('#sch_startDate').val() && $('#sch_endDate').val();
+
+        }
+
+
+        function inputLogic() {
+            return _checkTags() || ((_checkInput() && !_checkCalendar()) || (_checkCalendar() && _checkInput()) || (($('#sch_keyword').val().length == 0 || $('#sch_keyword').val() == "") && _checkCalendar()));
+        }
+
+
+        function doChkSubmitValid() {
+
+
+            //var x= document.getElementById("newCustActivity_date").value;
+            //var y =document.getElementById("newCustActivity_name").value;
+
+            if ($('#signupForm').valid()) {
+
+
+                if (!timeDiff()) {
+                    return false;
+                }
+
+                document.getElementById("newCustActivity").disabled = false;
+            }
+            /*
+            if( $.trim(x) == '' || $.trim(y) =='' ){
+
+                document.getElementById("newCustActivity").disabled=true;
+            }else{
+
+                document.getElementById("newCustActivity").disabled=false;
+            }
+            */
+
+        }
+
+        $(function () {
+            $("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
+            $('#newCustActivity_date').datepicker({minDate: 0});
+
+            $("#newCustActivity_startTime").inputmask("h:s", {});
+            $("#newCustActivity_endTime").inputmask("h:s", {});
+            $("#newCustActivity_cost").maskMoney();
+        });
+
+        $.validator.addMethod('time', function (value, element, param) {
+            return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
+        }, 'Enter a valid time: hh:mm');
+
+        $.validator.addMethod('currency', function (value, element, regexp) {
+            var re = /^\d{1,9}(\.\d{1,2})?$/;
+            return this.optional(element) || re.test(value);
+        }, '');
+
+        $().ready(function () {
+
+            $("#signupForm").validate({
+                rules: {
+
+                    newCustActivity_name: {
+                        required: true,
+                        minlength: 2
+                    },
+                    newCustActivity_locName: {
+                        required: true,
+                        minlength: 2
+                    },
+                    newCustActivity_startTime: {
+                        required: true,
+                        minlength: 5,
+                        time: true
+                    },
+                    newCustActivity_endTime: {
+                        required: true,
+                        minlength: 5,
+                        time: true
+                    },
+                    newCustActivity_cost: {
+                        required: true,
+                        minlength: 4,
+                        currency: true
+                    },
+                    newCustActivity_date: {
+                        required: true,
+                        minlength: 8,
+                        date: true
+                    }
+
+                },
+                messages: {
+                    newCustActivity_name: {
+                        required: "Please enter a Name",
+                        minlength: "Your Name must consist of at least 2 characters"
+                    },
+                    newCustActivity_locName: {
+                        required: "Please enter a Location Name",
+                        minlength: "Your Name must consist of at least 2 characters"
+                    },
+                    newCustActivity_startTime: {
+                        required: "Please enter a Start time",
+                        minlength: "Valid format HH:mm"
+                    },
+                    newCustActivity_endTime: {
+                        required: "Please enter a End time",
+                        minlength: "Valid format HH:mm"
+                    },
+                    newCustActivity_cost: {
+                        required: "Please enter a valid amount. Default 0.00",
+                        minlength: "Valid format 0.00"
+                    },
+                    newCustActivity_date: {
+                        required: "Please enter valid start date",
+                        minlength: "Valid format mm/dd/yyyy"
+                    }
+                }
+            });
+        });
+
+        $('#newCustActivity').click(function () {
+            if ($('#signupForm').valid()) {
+                if (!timeDiff()) {
+                    return false;
+                }
+                createNewCustActivity();
+            } else {
+                showError("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
+            }
+        });
+
+        function timeDiff() {
+            var date = document.getElementById("newCustActivity_date").value;
+            var startTime = document.getElementById("newCustActivity_startTime").value;
+            var endTime = document.getElementById("newCustActivity_endTime").value;
+            var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
+            var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
+            var locName = document.getElementById("newCustActivity_locName").value;
+
+            if ($.trim(locName) == '') {
+                var thisMsg = "Missing Location Name";
+                showError(thisMsg, "#councilActivitySection .errorMsg");
+                return false;
+            }
+
+
+            if (!Date.parse(new Date(date + " " + startTime + " " + newCustActivity_startTime_AP))) {
+                var thisMsg = "Invalid Start Date,time. 12hr format: " + date + " " + startTime + " " + newCustActivity_startTime_AP;
+                showError(thisMsg, "#councilActivitySection .errorMsg");
+                return false;
+            }
+            if (!Date.parse(new Date(date + " " + endTime + " " + newCustActivity_endTime_AP))) {
+                var thisMsg = "Invalid End Date,time. 12hr format: " + date + " " + endTime + " " + newCustActivity_endTime_AP;
+                showError(thisMsg, "#councilActivitySection .errorMsg");
+                return false;
+            }
+
+
+            if ((new Date(date + " " + startTime + " " + newCustActivity_startTime_AP) - new Date(date + " " + endTime + " " + newCustActivity_endTime_AP)) >= 0) {
+                var thisMsg = "StartTime after/equal EndTime";
+                showError(thisMsg, "#councilActivitySection .errorMsg");
+                return false;
+            } else {
+                return true;
+            }
+        }
+
         $("#newCustActivity_date").datepicker();
 
         function toggleSection(section) {
             $("#createActivityTab").removeClass("active");
-            $("#pickActivityTab").removeClass("active");
+            $("#councilActivityTab").removeClass("active");
             $("#createActivitySection").hide();
-            $("#pickActivitySection").hide();
-            if (section == "pick") {
-                $("#pickActivityTab").addClass("active");
-                $("#pickActivitySection").show();
+            $("#councilActivitySection").hide();
+            if (section == "council") {
+                $("#councilActivityTab").addClass("active");
+                $("#councilActivitySection").show();
             } else if (section == "create") {
                 $("#createActivityTab").addClass("active");
                 $("#createActivitySection").show();
@@ -470,11 +471,11 @@
 
         function searchActivities() {
 
-            showError(null, "#pickActivitySection .errorMsg");
+            showError(null, "#councilActivitySection .errorMsg");
             var keywrd = $.trim(document.getElementById("sch_keyword").value);
             if (keywrd.length > 0 && keywrd.length < 3) {
                 var thisMsg = "Min 3 character search for keyword: " + keywrd;
-                showError(thisMsg, "#pickActivitySection .errorMsg");
+                showError(thisMsg, "#councilActivitySection .errorMsg");
                 return false;
             }
 
@@ -511,7 +512,7 @@
             }
             if (lvl == '' && cat == '' && keywrd == '' && lvl == '' && cat == '' && startDate == '' && endDate == '') {
                 var thisMsg = "Please select search criteria.";
-                showError(thisMsg, "#pickActivitySection .errorMsg");
+                showError(thisMsg, "#councilActivitySection .errorMsg");
                 return false;
             }
 
