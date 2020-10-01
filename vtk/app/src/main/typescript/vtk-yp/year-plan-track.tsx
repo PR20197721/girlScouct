@@ -113,8 +113,7 @@ export function selectPlan(name: string, url: string, store?: Function) {
         name: name,
         url: url,
         is_show_meeting_lib:
-            (url != '' || ________app________ == 'senior' || ________app________ == 'ambassador' || ________app________ == 'cadette')
-                ? false : true
+            (url != '' ) ? false : true
     }, function () {
         modal.publish('pop-select', 'open')
     });
