@@ -1,56 +1,65 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page
-        import="org.girlscouts.vtk.models.SearchTag" %>
+<%@ page import="org.girlscouts.vtk.models.SearchTag,
+    org.girlscouts.vtk.models.VTKConfig,
+    java.util.Map,
+    java.util.Iterator" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp" %>
 
-<div class="header clearfix">
-    <%
-        boolean isWarning = false;
-        String instruction = "Add an Activity";
-        if (isWarning) {
-    %>
-    <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></span>
-    <% } %>
-    <h3 class="columns small-21"><%= instruction %>
-    </h3>
+<div class="header clearfix"><%
+    boolean isWarning = false;
+    String instruction = "Add an Activity";
+    String startTime = VTKConfig.CALENDAR_START_TIME_HOUR + ":" + VTKConfig.CALENDAR_START_TIME_MIN;
+    String endTime = VTKConfig.CALENDAR_END_TIME_HOUR + ":" + VTKConfig.CALENDAR_END_TIME_MIN;
+    SearchTag search = yearPlanUtil.searchA(user, selectedTroop, selectedTroop.getCouncilCode());
+    Map<String, String> levels = search.getLevels();
+    Map<String, String> categories = search.getCategories();
+    Map<String, String> region = search.getRegion();
+    if (isWarning) {
+        %><span class="warning">
+            <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/>
+        </span><%
+    }
+    %><h3 class="columns small-21"><%=instruction%></h3>
     <a class=" columns small-3" onclick="closeModalPage()"><span id="gsModalClose">X</span></a>
 </div>
 <div class="tabs-wrapper scroll">
     <dl class="tabs" data-tab>
-        <dd id="createActivityTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Custom
-            Activity</a></dd>
-        <dd id="councilActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('council')">Council
-            Activity</a></dd>
+        <dd id="createActivityTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Custom Activity</a></dd>
+        <dd id="councilActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('council')">Council Activity</a></dd>
     </dl>
     <div class="modalBody tabs-content">
         <div class="row">
             <div class="small-24 medium-24 large-24 columns">
                 <div id="createActivitySection">
                     <form class="cmxform" id="signupForm">
-                        <!--    <div class="sectionBar">Create a Custom Activity</div> -->
                         <div class="errorMsg error"></div>
                         <div class="row">
                             <div class="small-24 large-12 medium-12 columns">
-                                <input type="text" placeholder="Activity Name" name="newCustActivity_name"
-                                       id="newCustActivity_name" value="" onchange="doChkSubmitValid()"/>
-                                <!-- <span style="color:red;">*</span> -->
+                                <input type="text"
+                                       placeholder="Activity Name"
+                                       name="newCustActivity_name"
+                                       id="newCustActivity_name"
+                                       value=""
+                                       onchange="doChkSubmitValid()"/>
                             </div>
                             <div class="small-21 large-3 medium-3 columns date">
                                 <input type="text" id="newCustActivity_date" name="newCustActivity_date"
                                        placeholder="mm/dd/yyyy" class="date calendarField"
-                                       onchange="doChkSubmitValid()"/><!-- <span style="color:red;">*</span> -->
+                                       onchange="doChkSubmitValid()"/>
                             </div>
                             <div class="large-1 columns medium-1 small-3 date">
                                 <label for="newCustActivity_date"><i class="icon-calendar"></i></label>
                             </div>
                             <div class="small-16 medium-2 large-2 columns">
-                                <input type="text" id="newCustActivity_startTime" placeholder="Start Time"
+                                <input type="text"
+                                       id="newCustActivity_startTime"
+                                       placeholder="Start Time"
                                        name="newCustActivity_startTime"
-                                       value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>"
-                                       required class="time"/>
-                                <!-- <span style="color:red;">*</span> -->
+                                       value="<%=startTime%>"
+                                       required
+                                       class="time"/>
                             </div>
                             <div class="small-8 medium-2 large-2 columns">
                                 <select id="newCustActivity_startTime_AP" class="ampm">
@@ -61,9 +70,8 @@
                             <div class="small-16 medium-2 large-2 columns">
                                 <input type="text" placeholder="End Time" id="newCustActivity_endTime"
                                        name="newCustActivity_endTime"
-                                       value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"
+                                       value="<%=endTime%>"
                                        required class="time"/>
-                                <!-- <span style="color:red;">*</span> -->
                             </div>
                             <div class="small-8 medium-2 large-2 columns">
                                 <select id="newCustActivity_endTime_AP" class="ampm">
@@ -74,22 +82,31 @@
                         </div><!--/row-->
                         <div class="row">
                             <div class="small-24 medium-12 large-12 columns">
-                                <input type="text" name="newCustActivity_locName" id="newCustActivity_locName"
-                                       placeholder="Location Name" value="" onchange="doChkSubmitValid()"/>
-                                <!--   <span style="color:red;">*</span> -->
+                                <input type="text"
+                                       name="newCustActivity_locName"
+                                       id="newCustActivity_locName"
+                                       placeholder="Location Name"
+                                       value=""
+                                       onchange="doChkSubmitValid()"/>
                             </div>
-                            <div class="small-24 medium-12 large-12 columns"><input type="text"
-                                                                                    id="newCustActivity_locAddr"
-                                                                                    value=""
-                                                                                    placeholder="Location Address"/>
+                            <div class="small-24 medium-12 large-12 columns">
+                                <input type="text"
+                                       id="newCustActivity_locAddr"
+                                       value=""
+                                       placeholder="Location Address"/>
                             </div>
                         </div><!--/row-->
                         <div class="row">
-                            <div class="small-24 medium-12 large-12 columns"><input type="text"
-                                                                                    id="newCustActivity_cost" value=""
-                                                                                    placeholder="Cost"/></div>
                             <div class="small-24 medium-12 large-12 columns">
-                                <textarea id="newCustActivity_txt" rows="4" cols="5"
+                                <input type="text"
+                                       id="newCustActivity_cost"
+                                       value=""
+                                       placeholder="Cost"/>
+                            </div>
+                            <div class="small-24 medium-12 large-12 columns">
+                                <textarea id="newCustActivity_txt"
+                                          rows="4"
+                                          cols="5"
                                           placeholder="Activity Description"></textarea>
                             </div>
                         </div><!--/row-->
@@ -98,33 +115,38 @@
                 </div><!--/create activity-->
                 <div id="councilActivitySection">
                     <form id="schFrm">
-                        <!-- <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
                         <div class="errorMsg error"></div>
-                        <%
-                            SearchTag search = yearPlanUtil.searchA(user, selectedTroop, selectedTroop.getCouncilCode());
-                            java.util.Map<String, String> levels = search.getLevels();
-                            java.util.Map<String, String> categories = search.getCategories();
-                            java.util.Map<String, String> region = search.getRegion();
-                        %>
                         <div class="row">
                             <div class="small-24 medium-12 large-12 columns">
                                 <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
-                                <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords"
-                                                                  value="" onKeyUp="return submitenter(this,event)"/>
+                                <div class="looking-glass">
+                                    <input type="text"
+                                           id="sch_keyword"
+                                           placeholder="Keywords"
+                                           value=""
+                                           onKeyUp="return submitenter(this,event)"/>
                                 </div>
                             </div>
                             <div class="columns large-12 medium-12 small-24 end date">
                                 <label id="dateTitle" ACCESSKEY="r">Date</label>
                                 <div class="small-21 large-9 medium-9 columns">
-                                    <input type="text" id="sch_startDate" onchange="checkCalendar" value=""
-                                           placeholder="From" class="date calendarField"/>
+                                    <input type="text"
+                                           id="sch_startDate"
+                                           onchange="checkCalendar"
+                                           value=""
+                                           placeholder="From"
+                                           class="date calendarField"/>
                                 </div>
                                 <div class="large-3 columns medium-3 small-3">
                                     <label for="sch_startDate"><i class="icon-calendar"></i></label>
                                 </div>
                                 <div class="small-21 large-9 medium-9 columns">
-                                    <input type="text" id="sch_endDate" onchange="checkCalendar" value=""
-                                           placeholder="To" class="date calendarField"/>
+                                    <input type="text"
+                                           id="sch_endDate"
+                                           onchange="checkCalendar"
+                                           value=""
+                                           placeholder="To"
+                                           class="date calendarField"/>
                                 </div>
                                 <div class="large-3 columns medium-3 small-3">
                                     <label for="sch_endDate"><i class="icon-calendar"></i></label>
@@ -135,53 +157,57 @@
                         <div class="row">
                             <div class="columns small-24">
                                 <label for="sch_lvl" ACCESSKEY="p">Program Level</label>
-                                <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes">
-                                    <% java.util.Iterator itr1 = levels.keySet().iterator();
-                                        int i = 0;
-                                        while (itr1.hasNext()) {
-                                            i++;
-                                            String str = (String) itr1.next();
-                                    %>
-                                    <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"
-                                               onchange="submitenter(this, event)"/>
-                                        <label for="sch_lvl_<%=i %>"><p><span><%= levels.get(str) %></span></p></label>
-                                    </li>
-                                    <% } %>
-                                </ul>
+                                <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes"><%
+                                    Iterator itr1 = levels.keySet().iterator();
+                                    int i = 0;
+                                    while (itr1.hasNext()) {
+                                        i++;
+                                        String str = (String) itr1.next();
+                                        %><li>
+                                            <input type="checkbox"
+                                                   name="sch_lvl"
+                                                   id="sch_lvl_<%=i%>"
+                                                   value="<%=str%>"
+                                                   onchange="submitenter(this, event)"/>
+                                            <label for="sch_lvl_<%=i%>"><p><span><%=levels.get(str)%></span></p></label>
+                                        </li><%
+                                    }
+                                %></ul>
                             </div>
                         </div>
                         <div class="row">
                             <div class="columns small-24">
                                 <label for="sch_cats" ACCESSKEY="i">Categories</label>
-                                <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes">
-                                        <% java.util.Iterator itr= categories.keySet().iterator();
-                  i=0;
-                  while( itr.hasNext() ){
-                  i++;
-                  String str=(String) itr.next();
-                  %>
-                                    <li>
-                                        <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"
-                                               onchange="submitenter(this, event)"/>
-                                        <label class="tty" for="sch_cats_<%=i %>"><p>
-                                            <span><%= categories.get(str) %></span></p></label>
-                                    </li>
-                                        <% } %>
-                                    <ul>
-                                    </ul>
-                                        <%if(apiConfig.isDemoUser()){%>
-                                    <p style="color:orange;text-align: right; width:100%">Council activities are not
-                                        available in the demo at this time.</p>
-                                        <%}%>
-                            </div>
-                            <input id="view_activities_button" type="button" value="View Activities"
-                                   onclick='searchActivities()' class="button btn right inactive-button"/>
+                                <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes"><%
+                                    Iterator itr = categories.keySet().iterator();
+                                    i=0;
+                                    while( itr.hasNext() ){
+                                        i++;
+                                        String str=(String) itr.next();
+                                        %><li>
+                                            <input type="checkbox"
+                                                   name="sch_cats"
+                                                   id="sch_cats_<%=i%>"
+                                                   value="<%=str%>"
+                                                   onchange="submitenter(this, event)"/>
+                                            <label class="tty" for="sch_cats_<%=i %>"><p><span><%= categories.get(str) %></span></p></label>
+                                        </li><%
+                                    } %>
+                                </ul><%
+                                    if (apiConfig.isDemoUser()) {
+                                        %><p style="color:orange;text-align: right; width:100%">Council activities are not available in the demo at this time.</p><%
+                                    }
+                                %></div>
+                            <input id="view_activities_button"
+                                   type="button"
+                                   value="View Activities"
+                                   onclick='searchActivities()'
+                                   class="button btn right inactive-button"/>
                             <div style="clear:both"></div>
                             <div id="searchResults"></div>
                     </form>
                 </div><!--/councilActivitySection-->
             </div><!--/small-24-->
-            </row>
         </div><!--/modalBody-->
     </div><!--/tabs-wrapper-->
     <script>
@@ -190,7 +216,6 @@
                 $('#view_activities_button').addClass('inactive-button');
             } else {
                 $('#view_activities_button').removeClass('inactive-button');
-
             }
         }
 
@@ -199,62 +224,27 @@
         }
 
         function _checkTags() {
-
             var lvl = $.trim(checkAll('sch_lvl'));
             var cat = $.trim(checkAll('sch_cats'));
-            if (lvl != '' || cat != '')
-                return true;
-            return false;
-
+            return lvl != '' || cat != '';
         }
 
         function _checkCalendar() {
-
             return $('#sch_startDate').val() && $('#sch_endDate').val();
-
         }
-
 
         function inputLogic() {
             return _checkTags() || ((_checkInput() && !_checkCalendar()) || (_checkCalendar() && _checkInput()) || (($('#sch_keyword').val().length == 0 || $('#sch_keyword').val() == "") && _checkCalendar()));
         }
 
-
         function doChkSubmitValid() {
-
-
-            //var x= document.getElementById("newCustActivity_date").value;
-            //var y =document.getElementById("newCustActivity_name").value;
-
             if ($('#signupForm').valid()) {
-
-
                 if (!timeDiff()) {
                     return false;
                 }
-
                 document.getElementById("newCustActivity").disabled = false;
             }
-            /*
-            if( $.trim(x) == '' || $.trim(y) =='' ){
-
-                document.getElementById("newCustActivity").disabled=true;
-            }else{
-
-                document.getElementById("newCustActivity").disabled=false;
-            }
-            */
-
         }
-
-        $(function () {
-            $("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
-            $('#newCustActivity_date').datepicker({minDate: 0});
-
-            $("#newCustActivity_startTime").inputmask("h:s", {});
-            $("#newCustActivity_endTime").inputmask("h:s", {});
-            $("#newCustActivity_cost").maskMoney();
-        });
 
         $.validator.addMethod('time', function (value, element, param) {
             return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
@@ -265,8 +255,12 @@
             return this.optional(element) || re.test(value);
         }, '');
 
-        $().ready(function () {
-
+        $(function () {
+            $("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
+            $('#newCustActivity_date').datepicker({minDate: 0});
+            $("#newCustActivity_startTime").inputmask("h:s", {});
+            $("#newCustActivity_endTime").inputmask("h:s", {});
+            $("#newCustActivity_cost").maskMoney();
             $("#signupForm").validate({
                 rules: {
 
@@ -354,7 +348,6 @@
                 return false;
             }
 
-
             if (!Date.parse(new Date(date + " " + startTime + " " + newCustActivity_startTime_AP))) {
                 var thisMsg = "Invalid Start Date,time. 12hr format: " + date + " " + startTime + " " + newCustActivity_startTime_AP;
                 showError(thisMsg, "#councilActivitySection .errorMsg");
@@ -366,7 +359,6 @@
                 return false;
             }
 
-
             if ((new Date(date + " " + startTime + " " + newCustActivity_startTime_AP) - new Date(date + " " + endTime + " " + newCustActivity_endTime_AP)) >= 0) {
                 var thisMsg = "StartTime after/equal EndTime";
                 showError(thisMsg, "#councilActivitySection .errorMsg");
@@ -375,8 +367,6 @@
                 return true;
             }
         }
-
-        $("#newCustActivity_date").datepicker();
 
         function toggleSection(section) {
             $("#createActivityTab").removeClass("active");
@@ -426,13 +416,11 @@
 
                 var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
 
-
                 if (+(new Date(dateString)) <= +(new Date($('#sch_endDate').val()))) {
                     return [true, "", "Available"];
                 }
 
                 return [false, "", "unAvailable"];
-
             }
         });
         $('#sch_endDate').datepicker({
@@ -441,8 +429,6 @@
                 disabledButton(!inputLogic());
             },
             beforeShowDay: function (d) {
-
-
                 if ($('#sch_startDate').val() == "" || $('#sch_startDate').val() == undefined) {
                     return [true, "", "Available"];
                 }
@@ -455,7 +441,6 @@
                 }
 
                 return [false, "", "unAvailable"];
-
             }
         });
 
@@ -470,7 +455,6 @@
         }
 
         function searchActivities() {
-
             showError(null, "#councilActivitySection .errorMsg");
             var keywrd = $.trim(document.getElementById("sch_keyword").value);
             if (keywrd.length > 0 && keywrd.length < 3) {
@@ -484,7 +468,6 @@
             var startDate = $.trim(document.getElementById("sch_startDate").value);
             var endDate = $.trim(document.getElementById("sch_endDate").value);
 
-
             if (!isDate(startDate) && startDate != '') {
                 setError("Invalid Start Date");
                 return false;
@@ -493,20 +476,15 @@
                 setError("Invalid End Date");
                 return false;
             }
-
             if (startDate != '' && endDate == '') {
-
                 setError("Missing End Date");
-
                 return false;
             }
             if (startDate == '' && endDate != '') {
-
                 setError("Missing Start Date");
                 return false;
             }
             if (new Date(startDate) > new Date(endDate)) {
-
                 setError("The End Date cannot be less than Start Date");
                 return false;
             }
@@ -553,7 +531,6 @@
             document.getElementById("dateTitle").style.fontWeight = "bold";
             document.getElementById("activitySearchLabel").scrollIntoView();
         }
-
 
         function isDate(txtDate) {
             var currVal = txtDate;
