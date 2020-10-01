@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Header from "../vtk-yp/header";
 import { parseJSONVTK } from "../vtk-yp/data";
 import './../../scss/vtk-mtg-plan/vtk-mtg-plan-location.scss';
+import { HAS_PERMISSION_FOR } from "./permission";
 
 export interface VtkMtgPlanLocationProps {
     locationFind: any,
@@ -129,6 +130,7 @@ class VtkMtgPlanLocation extends React.Component<VtkMtgPlanLocationProps, VtkMtg
     }
 
     render() {
+        const permissionCheck = HAS_PERMISSION_FOR()("vtk_troop_haspermision_edit_yearplan_id");
         return (
             <div>
                 {(this.state.displayLocationName && this.state.displayLocationAddress) ?
@@ -147,10 +149,18 @@ class VtkMtgPlanLocation extends React.Component<VtkMtgPlanLocationProps, VtkMtg
                                 </a>
                             </span>
                         }
-                        <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")} style={{ marginRight: '10px' }}><i className="icon-pencil"></i></a>
-                        <a href="javascript:void(0)" onClick={() => this.saveData("remove")}><i className="icon-button-circle-cross"></i></a>
+                        {permissionCheck &&
+                            <span>
+                                <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("edit")} style={{ marginRight: '10px' }}><i className="icon-pencil"></i></a>
+                                <a href="javascript:void(0)" onClick={() => this.saveData("remove")}><i className="icon-button-circle-cross"></i></a>
+                            </span>
+                        }
                     </span>
-                    : <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("add")}><i className="icon-button-circle-plus"></i>Add a meeting location</a>
+                    : <span>
+                        {permissionCheck &&
+                            <a href="javascript:void(0)" onClick={() => this.toggleAddEdit("add")}><i className="icon-button-circle-plus"></i>Add a meeting location</a>
+                        }
+                    </span>
                 }
                 { this.state.isEditOpen &&
                     <div>
