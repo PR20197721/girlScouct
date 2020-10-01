@@ -402,7 +402,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         for(Contact contact:contacts){
             log.debug("contact "+contact);
             log.debug("VtkUtil.getCurrentGSYear() "+VtkUtil.getCurrentGSYear());
-            if(contact != null && "Girl".equals(contact.getRole()) && contact.getMembershipYear() >= VtkUtil.getCurrentGSYear()+1){
+            if(contact != null && "Girl".equals(contact.getRole()) && !contact.isRenewalDue()){
                 Troop dummyIRMTroop = ParentEntityToTroopMapper.map(entity);
                 log.debug("creating dummyIRMTroop "+dummyIRMTroop);
                 try {
