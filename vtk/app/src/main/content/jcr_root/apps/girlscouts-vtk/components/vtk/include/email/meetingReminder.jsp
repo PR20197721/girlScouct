@@ -255,7 +255,7 @@
     function addFormLink(link, formname, categoryId) {
         var url = window.location.href;
         var arr = url.split("/");
-        var host = arr[0] + "//" + arr[2];
+        var host = link.startsWith("/content") ? arr[0] + "//" + arr[2] : '';
         $('.jqte_editor #formLinks').append('<li><a href="' + host + link + '" target="_blank">' + formname + '</a></li>');
         $('.jqte_editor #formLinks p.hide').removeClass();
         $("dt[data-target='" + categoryId + "'] span").removeClass('on');
@@ -272,7 +272,7 @@
     function addAidLink(refId, title, uid) {
         var url = window.location.href;
         var arr = url.split("/");
-        var host = arr[0] + "//" + arr[2];
+        var host = refId.startsWith("/content") ? arr[0] + "//" + arr[2] : '';
         $('.jqte_editor #aidLinks').append('<li><a href="' + host + refId + '" target="_blank">' + title + '</a></li>');
         $('.jqte_editor #aidLinks p.hide').removeClass();
         $('#added').dialog('open');
