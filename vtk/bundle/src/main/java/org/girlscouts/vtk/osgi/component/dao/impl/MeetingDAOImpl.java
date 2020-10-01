@@ -162,6 +162,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     }
 
     public SearchTag searchA(User user, Troop troop, String councilCode) throws IllegalAccessException {
+        log.debug("Retrieving Activity Search Filter Configuration");
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
             throw new IllegalAccessException();
         }
@@ -184,7 +185,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Error occurred:", e);
             }
             java.util.Map<String, String> regionsMain = searchRegion(user, troop, councilStr);
             java.util.Map<String, String> categories = new java.util.TreeMap();
@@ -210,9 +211,10 @@ public class MeetingDAOImpl implements MeetingDAO {
                     if (regionsMain != null && regionsMain.size() > 0) {
                         defaultTags.setRegion(regionsMain);
                     }
+                    log.debug("Returning Activity Search Filter: ", defaultTags);
                     return defaultTags;
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error occurred:", e);
                 }
             }
             if (categories != null) {
@@ -239,10 +241,12 @@ public class MeetingDAOImpl implements MeetingDAO {
                 log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
+        log.debug("Returning Activity Search Filter: ", tags);
         return tags;
     }
 
     public SearchTag getDefaultTags(User user, Troop troop) throws IllegalAccessException {
+        log.debug("Getting default Activity Filter configuration");
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
             throw new IllegalAccessException();
         }
@@ -302,10 +306,12 @@ public class MeetingDAOImpl implements MeetingDAO {
                 log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
+        log.debug("returning "+tags);
         return tags;
     }
 
     public java.util.Map<String, String> searchRegion(User user, Troop troop, String councilStr) throws IllegalAccessException {
+        log.debug("Searching activity region for {}",councilStr);
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_LOGIN_ID)) {
             throw new IllegalAccessException();
         }
@@ -325,7 +331,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                     repoStr = homepage.getProperty("eventPath").getString();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Error Occurred: ", e);
             }
             java.util.Map<String, String> categories = new java.util.TreeMap();
             java.util.Map<String, String> levels = new java.util.TreeMap();
@@ -343,13 +349,12 @@ public class MeetingDAOImpl implements MeetingDAO {
                     try {
                         startDate = r.getValue("start").getDate();
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        log.error("searchRegion invalid startDate");
+                        log.error("searchRegion invalid startDate ", e);
                     }
                     try {
                         endDate = r.getValue("end").getDate();
                     } catch (Exception e) {
-                        log.error("searchRegion invalid endDate");
+                        log.error("searchRegion invalid endDate ",e);
                     }
                     if (endDate != null && endDate.before(now)) {
                         continue;
@@ -374,6 +379,7 @@ public class MeetingDAOImpl implements MeetingDAO {
                 log.error("Exception is thrown closing resource resolver: ", e);
             }
         }
+        log.debug("Returning {}", container);
         return container;
     }
 

@@ -38,4 +38,8 @@ public class SearchTag implements Serializable {
         this.levels = levels;
     }
 
+    @Override
+    public String toString() {
+        return "SearchTag{" + "categories=" + categories + ", levels=" + levels + ", region=" + region + ", searchKeyword='" + searchKeyword + '\'' + '}';
+    }
 }

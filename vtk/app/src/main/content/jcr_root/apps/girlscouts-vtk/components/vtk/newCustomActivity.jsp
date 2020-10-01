@@ -345,11 +345,11 @@
                                 <label for="sch_cats" ACCESSKEY="i">Categories</label>
                                 <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes">
                                         <% java.util.Iterator itr= categories.keySet().iterator();
-                  i=0;
-                  while( itr.hasNext() ){
-                  i++;
-                  String str=(String) itr.next();
-                  %>
+                                          i=0;
+                                          while( itr.hasNext() ){
+                                          i++;
+                                          String str=(String) itr.next();
+                                          %>
                                     <li>
                                         <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"
                                                onchange="submitenter(this, event)"/>
