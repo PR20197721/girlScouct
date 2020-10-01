@@ -141,7 +141,7 @@ class VtkMtgPlanLocation extends React.Component<VtkMtgPlanLocationProps, VtkMtg
                             </span>
                             : <span>
                                 {` ${this.state.displayLocationName} `}
-                                <a style={{ marginRight: '10px' }} target="_blank" href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${this.state.displayLocationAddress}`}>
+                                <a style={{ marginRight: '10px' }} target="_blank" href={`http://maps.google.com/maps?q=${this.state.displayLocationAddress}`}>
                                     {this.state.displayLocationAddress}
                                 </a>
                             </span>
