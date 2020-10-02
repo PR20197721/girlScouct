@@ -38,3 +38,14 @@ if (!id.isEmpty()) {
 	</script>
 <!-- END GA Tracking -->
 <% } %>
+<%-- <GSWP-2256> --%>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2646810-64"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-2646810-63');
+</script>
+<%-- </GSWP-2256> --%>
