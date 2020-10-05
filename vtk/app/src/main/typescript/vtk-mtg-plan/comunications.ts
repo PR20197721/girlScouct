@@ -35,10 +35,14 @@ module COMUNICATION {
             method: 'get',
             data: {}
         }), CALL({
-            url: `/content/vtkcontent/en/resources/volunteer-aids/vtkvideos/_jcr_content/content/middle/par.1.json`,
+            url: `/content/vtkcontent/en/resources/volunteer-aids/vtk-meeting-aids-links/_jcr_content/content/middle/par.1.json`,
             method: 'get',
             data: {}
-        })])
+        }), CALL({
+            url: `/content/vtkcontent/en/resources/volunteer-aids/vtk-additional-resources-links/_jcr_content/content/middle/par.1.json`,
+            method: 'get',
+            data: {}
+        })]);
     }
 
     export function INTERVAL_FETCH(url, resolve, _error): any {

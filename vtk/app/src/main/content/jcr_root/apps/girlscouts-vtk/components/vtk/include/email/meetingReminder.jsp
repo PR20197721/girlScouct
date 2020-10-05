@@ -1,5 +1,7 @@
-<%@ page import="java.util.Calendar" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Calendar,
+    java.util.Date,
+    java.util.ArrayList,
+    org.girlscouts.vtk.utils.GSUtils" %>
 <!-- /apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
 <div class="content clearfix">
     <%
@@ -95,39 +97,76 @@
 		</div>
 		<% }%>
 	</textarea>
-    <dl class="accordion" data-accordion>
-        <dt data-target="panel1"><h6 class="off">Include meeting aid</h6></dt>
+    <dl class="accordion resources" data-accordion>
+        <dt data-target="panel1"><h6 class="off">Include Meeting Aid</h6></dt>
         <dd class="accordion-navigation">
             <div class="content" id="panel1">
                 <ul class="small-block-grid-2"><%
-                    boolean isAidTag = false;
-                    if (planView.getAidTags() != null)
-                        for (int i = 0; i < planView.getAidTags().size(); i++) {
-                            String ext = planView.getAidTags().get(i).getDocType();
-                            if (ext == null) {
-                                ext = org.girlscouts.vtk.utils.GSUtils.getDocExtensionFromString(planView.getAidTags().get(i).getRefId());
-                            }
-                            isAidTag = true;
-                %>
-                    <li><span class="name icon <%=ext%>"><a href="<%=planView.getAidTags().get(i).getRefId()%>"
-                                                            target="_blank"><%= planView.getAidTags().get(i).getTitle() %></a></span>
-                    </li>
-                    <li><a class="add-links" href="#nogo" title="add"
-                           onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=_meeting.getUid() %>')"><i
-                            class="icon-button-circle-plus"></i></a></li>
-                    <%
-                            } %>
-                    <% if (!isAidTag) { %>
-                    <li>No Aids found</li>
-                    <% }%>
-                </ul>
+                    List<Asset> aidTags = planView.getAidTags() != null ? planView.getAidTags() : new ArrayList<>();
+                    String section = "meeting-aids";
+                    String linkParPath = "/content/vtkcontent/en/resources/volunteer-aids/vtk-" + section + "-links/_jcr_content/content/middle/par";
+                    aidTags.addAll(meetingUtil.getLinkAidsForMeeting(linkParPath, _meeting.getMeetingInfo().getId(), section));
+                    for (int i = 0; i < aidTags.size(); i++) {
+                        Asset aidTag = aidTags.get(i);
+                        if (!section.equals(aidTag.getSection())) continue;
+                        String refId = aidTag.getRefId();
+                        String title = aidTag.getTitle();
+                        String ext = aidTag.getDocType() != null ? aidTag.getDocType() : GSUtils.getDocExtensionFromString(refId);
+                        %><li>
+                            <span class="name icon <%=ext%>">
+                                <a href="<%=refId%>"target="_blank"><%=title%></a>
+                            </span>
+                        </li>
+                        <li>
+                            <a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=refId%>','<%=title%>','<%=_meeting.getUid()%>')">
+                                <i class="icon-button-circle-plus"></i>
+                            </a>
+                        </li><%
+                    }
+                    if (aidTags.isEmpty()) {
+                        %><li>No Meeting Aids found</li><%
+                    }
+                %></ul>
+            </div>
+        </dd>
+    </dl>
+    <dl class="accordion resources" data-accordion>
+        <dt data-target="panel2"><h6 class="off">Include Additional Resource</h6></dt>
+        <dd class="accordion-navigation">
+            <div class="content" id="panel2">
+                <ul class="small-block-grid-2"><%
+                    List<Asset> resourceTags = planView.getAidTags() != null ? planView.getAidTags() : new ArrayList<>();
+                    String resourceSection = "additional-resources";
+                    String resourceLinkParPath = "/content/vtkcontent/en/resources/volunteer-aids/vtk-" + resourceSection + "-links/_jcr_content/content/middle/par";
+                    resourceTags.addAll(meetingUtil.getLinkAidsForMeeting(resourceLinkParPath, _meeting.getMeetingInfo().getId(), resourceSection));
+                    for (int i = 0; i < resourceTags.size(); i++) {
+                        Asset aidTag = resourceTags.get(i);
+                        if (!resourceSection.equals(aidTag.getSection())) continue;
+                        String refId = aidTag.getRefId();
+                        String title = aidTag.getTitle();
+                        String ext = aidTag.getDocType() != null ? aidTag.getDocType() : GSUtils.getDocExtensionFromString(refId);
+                        %><li>
+                            <span class="name icon <%=ext%>">
+                                <a href="<%=refId%>"target="_blank"><%=title%></a>
+                            </span>
+                        </li>
+                       <li>
+                           <a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=refId%>','<%=title%>','<%=_meeting.getUid()%>')">
+                               <i class="icon-button-circle-plus"></i>
+                           </a>
+                       </li><%
+                    }
+                    if (resourceTags.isEmpty()) {
+                        %><li>No Additional Resources found</li><%
+                    }
+                %></ul>
             </div>
         </dd>
     </dl>
     <dl class="accordion" data-accordion>
-        <dt data-target="panel2"><h6>Include Form Link</h6></dt>
-        <dd class="accordion-navigation">s
-            <div class="content" id="panel2"><%
+        <dt data-target="panel3"><h6>Include Form Link</h6></dt>
+        <dd class="accordion-navigation">
+            <div class="content" id="panel3"><%
                 String councilId = null;
                 if (apiConfig != null) {
                     if (apiConfig.getUser().getTroops().size() > 0) {
@@ -216,7 +255,7 @@
     function addFormLink(link, formname, categoryId) {
         var url = window.location.href;
         var arr = url.split("/");
-        var host = arr[0] + "//" + arr[2];
+        var host = link.startsWith("/content") ? arr[0] + "//" + arr[2] : '';
         $('.jqte_editor #formLinks').append('<li><a href="' + host + link + '" target="_blank">' + formname + '</a></li>');
         $('.jqte_editor #formLinks p.hide').removeClass();
         $("dt[data-target='" + categoryId + "'] span").removeClass('on');
@@ -233,7 +272,7 @@
     function addAidLink(refId, title, uid) {
         var url = window.location.href;
         var arr = url.split("/");
-        var host = arr[0] + "//" + arr[2];
+        var host = refId.startsWith("/content") ? arr[0] + "//" + arr[2] : '';
         $('.jqte_editor #aidLinks').append('<li><a href="' + host + refId + '" target="_blank">' + title + '</a></li>');
         $('.jqte_editor #aidLinks p.hide').removeClass();
         $('#added').dialog('open');

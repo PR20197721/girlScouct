@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.osgi.component.util;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -512,7 +513,7 @@ public class MeetingUtil {
 
     }
 
-    public void addAids(User user, Troop troop, String aidId, String meetingId, String assetName, String docType) throws java.lang.IllegalAccessException, VtkException {
+    public void addAids(User user, Troop troop, String aidId, String meetingId, String assetName, String docType, String section) throws java.lang.IllegalAccessException, VtkException {
         if (troop != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
             throw new IllegalAccessException();
         }
@@ -526,6 +527,7 @@ public class MeetingUtil {
                 asset.setType(AssetComponentType.AID.toString());
                 asset.setTitle(assetName);
                 asset.setDocType(docType);
+                asset.setSection(section);
                 if (dbAsset != null) {
                     asset.setDescription(dbAsset.getDescription());
                     asset.setIsOutdoorRelated(dbAsset.getIsOutdoorRelated());
@@ -545,6 +547,7 @@ public class MeetingUtil {
                 }
                 assets.add(asset);
                 meeting.setAssets(assets);
+                log.error("ADD AIDS ASSET - {}", new Gson().toJson(asset));
                 troopUtil.updateTroop(user, troop);
                 return;
             }
@@ -556,6 +559,7 @@ public class MeetingUtil {
                 Asset asset = new Asset();
                 asset.setRefId(aidId);
                 asset.setType("AID");
+                asset.setSection(section);
                 java.util.List<Asset> assets = activity.getAssets();
                 assets = assets == null ? new java.util.ArrayList() : assets;
                 assets.add(asset);
@@ -625,8 +629,14 @@ public class MeetingUtil {
             MeetingE meeting = meetings.get(i);
             if (meeting.getUid().equals(meetingId)) {
                 java.util.List<Asset> assets = meeting.getAssets();
+                log.error("ASSETS ABLE TO REMOVE meetingId={} aidId={} assets={}", meetingId, aidId, new Gson().toJson(assets));
                 for (int y = 0; y < assets.size(); y++) {
-                    if (assets.get(y).getRefId().equals(aidId)) {
+                    if (assets.get(y).getUid().equals(aidId)) {
+                        assets.get(y).setPath(meeting.getPath() + "/assets/" + aidId);
+                        log.error("ASSET REMOVED - {}", new Gson().toJson(assets.get(y)));
+                        troopDAO.removeAsset(user, troop, assets.get(y));
+                        assets.get(y).setPath(meeting.getPath() + "/additionalResources/" + aidId);
+                        log.error("ASSET REMOVED - {}", new Gson().toJson(assets.get(y)));
                         troopDAO.removeAsset(user, troop, assets.get(y));
                         assets.remove(y);
                     }
@@ -690,6 +700,7 @@ public class MeetingUtil {
             }
             meetingInfo = yearPlanUtil.getMeeting(user, troop, meetingEvent.getRefId());
             assets = meetingAidUtil.getMeetingAids(meetingInfo, meetingEvent);
+            log.error("Assets - {}", new Gson().toJson(assets));
             meetingEvent.setMeetingInfo(meetingInfo);
             java.util.List<Activity> _activities = null;
             if (meetingInfo != null && meetingInfo.getActivities() != null) {
@@ -1038,8 +1049,13 @@ public class MeetingUtil {
         String potentialFirstDate = VtkUtil.getYearPlanStartDate(troop);
         troopUtil.selectYearPlan(user, troop, "", "Custom Year Plan");
         StringTokenizer t = new StringTokenizer(mids, ",");
+        Set<String> processedMids = new HashSet<>();
         while (t.hasMoreElements()) {
-            addMeetings(user, troop, t.nextToken(), potentialFirstDate);
+            String id = t.nextToken();
+            if(!processedMids.contains(id)) {
+                addMeetings(user, troop, id, potentialFirstDate);
+                processedMids.add(id);
+            }
         }
     }
 
@@ -1188,4 +1204,7 @@ public class MeetingUtil {
         return !(hasAttendanceUsers || (achievement == null ? false : Optional.ofNullable(achievement.getUsers()).map(StringUtils::isNotBlank).orElse(false)));
     }
 
+    public List<Asset> getLinkAidsForMeeting(String path, String meetingId, String section) {
+        return meetingAidUtil.getLinkAidsForMeeting(path, meetingId, section);
+    }
 }// edn class

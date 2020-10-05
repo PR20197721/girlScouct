@@ -1,7 +1,7 @@
 import * as React from 'react';
 import VtkContent from './common/content';
-
-import './../../scss/vtk-mtg-plan/vtk-mtg-plan-main-bar.scss'
+import VtkMtgPlanLocation from './vtk-mtg-plan-location';
+import './../../scss/vtk-mtg-plan/vtk-mtg-plan-main-bar.scss';
 import {connect} from 'react-redux';
 // import * as moment from 'moment';
 import * as moment from 'moment-timezone';
@@ -81,14 +81,7 @@ class VtkMtgPlanMainBar extends React.Component <VtkMtgPlanMainBarProps,
                         {meetingInfo.meetingInfo['meeting short description'].str}
                         <br/>
                         <br/> CATEGORY: {' '}{meetingInfo.cat}<br/><br/>
-                        {(locationFind && locationFind.length)
-                            ? <span>
-                  LOCATION:{' '}{locationFind[0].name}{' '}
-                                <a
-                                    href={`/content/girlscouts-vtk/controllers/vtk.map.html?address=${locationFind[0].address}`}
-                                    target="_blank">{locationFind[0].address}</a>
-                  <br/><br/></span>
-                            : null}
+                        <VtkMtgPlanLocation locationFind={locationFind} meetingPath={meetingEvents.path} yearPlanPath={meeting.path}/><br/>
                         {(meetingInfo.reqTitle)
                             ? <div className="row">
                                 <div className="columns small-24 medium-4" style={{fontSize: '14px'}}>

@@ -182,7 +182,8 @@
                         meetingUtil.addAids(user, selectedTroop, request.getParameter("addAids"),
                                 request.getParameter("meetingId"),
                                 java.net.URLDecoder.decode(request.getParameter("assetName")),
-                                request.getParameter("assetDocType"));
+                                request.getParameter("assetDocType"),
+                                request.getParameter("section"));
                     } else {
                         meetingUtil.addResource(user, selectedTroop, request.getParameter("addAids"),
                                 request.getParameter("meetingId"),
@@ -724,9 +725,9 @@
     <%
         Boolean condition = selectedTroop != null && selectedTroop.getSfTroopAge() != null && !selectedTroop.getSfTroopAge().toLowerCase().contains("multilevel");
         boolean isMeetingLib = true;
-        if (selectedTroop != null && selectedTroop.getSfTroopAge() != null && (selectedTroop.getSfTroopAge().toLowerCase().contains("senior") || selectedTroop.getSfTroopAge().toLowerCase().contains("cadette") || selectedTroop.getSfTroopAge().toLowerCase().contains("ambassador"))) {
+        /*if (selectedTroop != null && selectedTroop.getSfTroopAge() != null && (selectedTroop.getSfTroopAge().toLowerCase().contains("senior") || selectedTroop.getSfTroopAge().toLowerCase().contains("cadette") || selectedTroop.getSfTroopAge().toLowerCase().contains("ambassador"))) {
             isMeetingLib = false;
-        }
+        }*/
         if (condition) {
     %>
     <div class="columns large-push-2 medium-2 medium-push-2 small-2">

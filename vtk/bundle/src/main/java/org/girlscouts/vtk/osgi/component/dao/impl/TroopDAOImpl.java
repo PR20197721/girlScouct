@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.osgi.component.dao.impl;
 
 import com.day.cq.commons.jcr.JcrConstants;
+import com.google.gson.Gson;
+
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -333,10 +335,15 @@ public class TroopDAOImpl implements TroopDAO {
                 modifyNotes(user, troop, meeting.getNotes());
                 List<Asset> assets = meeting.getAssets();
                 if (assets != null) {
+                    log.error("UPDATE TROOP - {}", new Gson().toJson(assets));
                     for (int y = 0; y < assets.size(); y++) {
                         Asset asset = assets.get(y);
                         if (asset.getPath() == null) {
-                            asset.setPath(meeting.getPath() + "/assets/" + asset.getUid());
+                            if (asset.getSection() == null || "meeting-aids".equals(asset.getSection())) {
+                                asset.setPath(meeting.getPath() + "/assets/" + asset.getUid());
+                            } else {
+                                asset.setPath(meeting.getPath() + "/additionalResources/" + asset.getUid());
+                            }
                         }
                         modifyAsset(user, troop, asset);
                     }
@@ -356,7 +363,11 @@ public class TroopDAOImpl implements TroopDAO {
                     for (int y = 0; y < assets.size(); y++) {
                         Asset asset = assets.get(y);
                         if (asset.getPath() == null) {
-                            asset.setPath(meeting.getPath() + "/assets/" + asset.getUid());
+                            if (asset.getSection() == null || "meeting-aids".equals(asset.getSection())) {
+                                asset.setPath(meeting.getPath() + "/assets/" + asset.getUid());
+                            } else {
+                                asset.setPath(meeting.getPath() + "/additionalResources/" + asset.getUid());
+                            }
                         }
                         modifyAsset(user, troop, asset);
                     }
@@ -388,16 +399,23 @@ public class TroopDAOImpl implements TroopDAO {
                 throw new VtkException("Found no troop when creating asset# " + troop.getPath());
             }
             // check meeting
-            MeetingE meeting = meetingDAO.getMeetingE(user, troop, asset.getPath().substring(0, asset.getPath().lastIndexOf("/")).replace("/assets", ""));
+            String path = "meeting-aids".equals(asset.getSection()) ? "assets" : "additionalResources";
+            MeetingE meeting = meetingDAO.getMeetingE(user, troop, asset.getPath().substring(0, asset.getPath().lastIndexOf("/")).replace("/"+path, ""));
             if (meeting == null) {
                 throw new VtkException("Found no troop when creating asset# " + troop.getPath());
             }
             if (asset.getPath() == null) {
-                asset.setPath(meeting.getPath() + "/assets/" + asset.getUid());
+                if (asset.getSection() == null || "meeting-aids".equals(asset.getSection())) {
+                    asset.setPath(meeting.getPath() + "/assets/" + asset.getUid());
+                } else {
+                    asset.setPath(meeting.getPath() + "/additionalResources/" + asset.getUid());
+                }
             }
             if (girlScoutsAssetOCMService.read(asset.getPath()) == null) {
+                log.error("CREATE ASSET - {}", new Gson().toJson(asset));
                 girlScoutsAssetOCMService.create(asset);
             } else {
+                log.error("UPDATE ASSET - {}", new Gson().toJson(asset));
                 girlScoutsAssetOCMService.update(asset);
             }
             isUpdated = true;

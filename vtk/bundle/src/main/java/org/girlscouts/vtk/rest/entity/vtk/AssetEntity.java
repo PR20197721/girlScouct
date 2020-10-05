@@ -23,6 +23,8 @@ public class AssetEntity extends BaseEntity {
     private Boolean isOutdoorRelated;
     @SerializedName("isDbUpdate")
     private Boolean isDbUpdate;
+    @SerializedName("section")
+    private String section;
 
     public String getType() {
         return type;
@@ -103,4 +105,8 @@ public class AssetEntity extends BaseEntity {
     public void setDbUpdate(Boolean dbUpdate) {
         isDbUpdate = dbUpdate;
     }
+
+    public String getSection() { return section; }
+
+    public void setSection(String section) { this.section = section; }
 }

@@ -103,6 +103,8 @@ public class ActivityEntity extends BaseEntity {
     private String timezone;
     @SerializedName("level")
     private String level;
+    @SerializedName("eid")
+    private String eid;
 
     public String getPath() {
         return path;
@@ -486,5 +488,18 @@ public class ActivityEntity extends BaseEntity {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getEid() {
+        return eid;
+    }
+
+    public void setEid(String eid) {
+        this.eid = eid;
+    }
+
+    @Override
+    public String toString() {
+        return "ActivityEntity{" + "path='" + path + '\'' + ", name='" + name + '\'' + ", activityDescription='" + activityDescription + '\'' + ", activityNumber=" + activityNumber + ", materials='" + materials + '\'' + ", steps='" + steps + '\'' + ", endDate=" + endDate + ", date=" + date + ", content='" + content + '\'' + ", id='" + id + '\'' + ", sortOrder=" + sortOrder + ", refUid='" + refUid + '\'' + ", locationName='" + locationName + '\'' + ", locationAddress='" + locationAddress + '\'' + ", locationRef='" + locationRef + '\'' + ", assets=" + assets + ", uid='" + uid + '\'' + ", cost=" + cost + ", isEditable=" + isEditable + ", cancelled='" + cancelled + '\'' + ", registerUrl='" + registerUrl + '\'' + ", emlTemplate='" + emlTemplate + '\'' + ", sentEmails=" + sentEmails + ", isDbUpdate=" + isDbUpdate + ", img='" + img + '\'' + ", attendance=" + attendance + ", duration=" + duration + ", outdoor=" + outdoor + ", global=" + global + ", virtual=" + virtual + ", multiactivities=" + multiactivities + ", subtitle='" + subtitle + '\'' + ", isSelected=" + isSelected + ", type=" + type + ", regOpenDate=" + regOpenDate + ", regCloseDate=" + regCloseDate + ", adultFee='" + adultFee + '\'' + ", girlFee='" + girlFee + '\'' + ", priceRange='" + priceRange + '\'' + ", grades='" + grades + '\'' + ", maxAttend='" + maxAttend + '\'' + ", minAttend='" + minAttend + '\'' + ", progType='" + progType + '\'' + ", programCode='" + programCode + '\'' + ", regDisplay='" + regDisplay + '\'' + ", region='" + region + '\'' + ", timezone='" + timezone + '\'' + ", level='" + level + '\'' + ", eid='" + eid + '\'' + '}';
     }
 }

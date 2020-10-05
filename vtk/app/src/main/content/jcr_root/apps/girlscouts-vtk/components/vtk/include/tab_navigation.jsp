@@ -33,6 +33,8 @@
 
         }
         String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
+        boolean financeTabEnabled = !VtkUtil.getFinanceTabDisabledCouncils().contains(selectedTroop.getCouncilCode()) && 
+            (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()));
     %>
     <div id="troop" class="row">
         <div class="columns large-7 medium-9 right">
@@ -145,7 +147,7 @@
                     <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
                 </dd>
                 <% } %>
-                <% if (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole())))  { %>
+                <% if (financeTabEnabled) { %>
                 <dd
                         <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
                     <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
@@ -320,7 +322,7 @@
                         <% } %>
                     </li>
                     <% } %>
-                    <% if (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()))) { %>
+                    <% if (financeTabEnabled) { %>
                     <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
                             href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
                     </li>

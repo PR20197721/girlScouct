@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
 import com.day.cq.commons.jcr.JcrUtil;
+import com.google.gson.Gson;
+
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -170,6 +172,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
 
     @Override
     public <T extends JcrNode> boolean delete(T object) {
+        log.error("CONVERTED OBJECT path={} object={}", object.getPath(), new Gson().toJson(object));
         if (object != null && object.getPath() != null && !object.getPath().startsWith("/content/girlscouts-vtk")) {
             ResourceResolver rr = null;
             boolean isRemoved = false;

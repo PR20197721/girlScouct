@@ -135,7 +135,7 @@ public class ReplicationReceiverImpl
     /* Girl Scouts Customization BEGIN */
     String path = action.getPath();
     
-    log.debug("Received path: %s", path);
+    log.debug("Received path: {}", path);
 
     // Drop the node if the filter rejects it
     if (!replicationReceiverFilter.accept(path)) {

@@ -6,7 +6,7 @@
 	<!-- ====================================================================== -->
 	<groupId>org.girlscouts</groupId>
 	<artifactId>aem</artifactId>
-	<version>4.0.33-SNAPSHOT</version>
+	<version>4.0.37-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Girl Scouts AEM Project, including Web, VTK, GSUSA and GSActivities</name>
 	<properties>
@@ -206,7 +206,7 @@
 				<artifactId>com.adobe.granite.replication.core</artifactId>
 				<!-- 5.17.18-CQ610-B0004 is not available on Adobe nexus. -->
 				<!-- <version>5.15.26-CQ561-B0018</version> -->
-				<version>5.17.18-CQ610-B0004</version>
+				<version>6.2.26-CQ630-B0001</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>

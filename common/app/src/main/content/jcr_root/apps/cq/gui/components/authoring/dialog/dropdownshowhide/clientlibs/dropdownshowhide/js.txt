@@ -1,1 +1,2 @@
-js/dropdownshowhide.js
+#base=js
+dropdownshowhide.js

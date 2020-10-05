@@ -70,6 +70,7 @@ public class VtkUtil implements ConfigListener {
     private static String[] vtkHolidays;
     private static String[] gsCouncils;
     private static String gsFinanceYearCutoffDate;
+    private static List<String> gsFinanceTabDisabledCouncils;
     @Reference
     ConfigManager configManager;
 
@@ -285,6 +286,10 @@ public class VtkUtil implements ConfigListener {
         }
         return councilMap;
 
+    }
+
+    public static List<String> getFinanceTabDisabledCouncils() {
+        return gsFinanceTabDisabledCouncils;
     }
 
     /**
@@ -771,6 +776,8 @@ public class VtkUtil implements ConfigListener {
         gsNewYear = (String) configs.get("gsNewYear");
         vtkHolidays = (String[]) configs.get("vtkHolidays");
         gsFinanceYearCutoffDate = (String) configs.get("gsFinanceYearCutoffDate");
+        String[] rawGsFinanceTabDisabledCouncils = (String[]) configs.get("gsFinanceTabDisabledCouncils");
+        gsFinanceTabDisabledCouncils = rawGsFinanceTabDisabledCouncils != null ? Arrays.asList(rawGsFinanceTabDisabledCouncils) : new ArrayList<>();
         gsCouncils = (String[]) configs.get("councilMapping");
     }
 

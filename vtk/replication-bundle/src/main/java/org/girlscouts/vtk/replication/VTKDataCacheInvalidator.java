@@ -1,21 +1,10 @@
 package org.girlscouts.vtk.replication;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import javax.jcr.RepositoryException;
-import javax.jcr.PathNotFoundException;
-import javax.jcr.Session;
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Deactivate;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.commons.scheduler.Job;
@@ -24,6 +13,13 @@ import org.apache.sling.commons.scheduler.Scheduler;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @Service(
@@ -35,15 +31,15 @@ public class VTKDataCacheInvalidator {
     // Interval for the next invalidation, in milliseconds.
     private static final int INTERVAL = 4000;
     private static final String FLUSH_NODE = "/etc/replication/agents.publish/flush/jcr:content";
-    private static final String FLUSH_NODE2 = "/etc/replication/agents.publish/flush2/jcr:content";
+    //private static final String FLUSH_NODE2 = "/etc/replication/agents.publish/flush2/jcr:content";
     private static final String FLUSH_PROPERTY = "transportUri";
     private static final String SCHEDULER_PATH_PREFIX = "VTK_PATH_";
-    private static final String SCHEDULER_PATH_PREFIX2 = "VTK_PATH2_";
+    //private static final String SCHEDULER_PATH_PREFIX2 = "VTK_PATH2_";
 
     protected HttpClient httpClient;
     protected MultiThreadedHttpConnectionManager connectionManager;
     protected String flushUri;
-    protected String flushUri2 = "";
+    //protected String flushUri2 = "";
 
     @Reference
     protected Scheduler scheduler;
@@ -53,65 +49,13 @@ public class VTKDataCacheInvalidator {
 
     @Reference
     private ResourceResolverFactory resolverFactory;
+
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
     @Activate
     void activate() {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
-    }
-
-    private class CacheInvalidationJob implements Job {
-        private String path;
-
-        public CacheInvalidationJob(String path) {
-            this.path = path;
-        }
-        
-        public void execute(JobContext context) {
-        	log.info("VTKDataCacheInvalidator: ================== Replication Invalidating cache: ");
-            GetMethod get = new GetMethod(flushUri);
-            log.debug("VTKDataCacheInvalidator: Path: " + path);
-            get.setRequestHeader("CQ-Action", "Delete");
-            get.setRequestHeader("CQ-Handle", path);
-            get.setRequestHeader("CQ-Path", path);
-            try {
-                int resStatus = httpClient.executeMethod(get);
-                if (resStatus != 200) {
-                    log.error("VTKDataCacheInvalidator: Cannot invalidate this path: " + path);
-                } else {
-                    log.info("VTKDataCacheInvalidator: Successfully invalidate the cache: " + path);
-                }
-            } catch (Exception e) {
-                log.info("VTKDataCacheInvalidator: Cannot invalidate this path: " + path + ". Do nothing.");
-            } finally{
-            	get.releaseConnection();
-            }
-            log.info("VTKDataCacheInvalidator: Replication Invalidating cache done ==================");
-            
-            //second seasonal dispatcher if it exists
-            
-            if (!"".equals(flushUri2) && flushUri2 != null) {
-	            log.info("VTKDataCacheInvalidator2: ================== Replication Invalidating cache: ");
-	            GetMethod get2 = new GetMethod(flushUri2);
-	            log.debug("VTKDataCacheInvalidator2: Path: " + path);
-	            get2.setRequestHeader("CQ-Action", "Delete");
-	            get2.setRequestHeader("CQ-Handle", path);
-	            get2.setRequestHeader("CQ-Path", path);
-	            try {
-	                int resStatus = httpClient.executeMethod(get2);
-	                if (resStatus != 200) {
-	                    log.error("VTKDataCacheInvalidator2: Cannot invalidate this path: " + path);
-	                } else {
-	                    log.info("VTKDataCacheInvalidator2: Successfully invalidate the cache: " + path);
-	                }
-	            } catch (Exception e) {
-	                log.info("VTKDataCacheInvalidator2: Cannot invalidate this path: " + path + ". Do nothing.");
-	            } finally{
-	            	get2.releaseConnection();
-	            }
-	            log.info("VTKDataCacheInvalidator2: Replication Invalidating cache done==================");
-            }
-        }
+        log.debug("Activated");
     }
     
     @Activate
@@ -127,31 +71,7 @@ public class VTKDataCacheInvalidator {
             session.logout();
             log.info("Started.");
         } catch (RepositoryException e) {
-            log.error("VTKDataCacheInvalidator: RepositoryException while initializing.");
-            e.printStackTrace();
-        } catch (Exception e) {
-            log.error("Error Occurred: ", e);
-        } finally {
-            try {
-                if (rr != null) {
-                    rr.close();
-                }
-            } catch (Exception e) {
-                log.error("Exception is thrown closing resource resolver: ", e);
-            }
-        }
-        try {
-            rr = resolverFactory.getServiceResourceResolver(resolverParams);
-            Session session = rr.adaptTo(Session.class);
-            flushUri2 = session.getNode(FLUSH_NODE2).getProperty(FLUSH_PROPERTY).getString();
-            session.logout();
-            log.info("The second flush agent is up and Started. The flushUri is " + flushUri2 + " with the node " + FLUSH_NODE2);
-        } catch(PathNotFoundException pnfe) {
-        	log.info("VTKDataCacheInvalidator2. There is no second flush agent. Please ignore.");
-        	pnfe.printStackTrace();
-        } catch (RepositoryException e) {
-            log.error("VTKDataCacheInvalidator2: RepositoryException while initializing.");
-            e.printStackTrace();
+            log.error("VTKDataCacheInvalidator: RepositoryException while initializing.", e);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {
@@ -174,11 +94,6 @@ public class VTKDataCacheInvalidator {
         try {
         	scheduler.fireJobAt(SCHEDULER_PATH_PREFIX + path, new CacheInvalidationJob(path), null, new Date(System.currentTimeMillis() + INTERVAL));
         	log.info("scheduler 1 invalidator scheduled");
-        	
-        	if (!"".equals(flushUri2) && flushUri2 != null) {
-        		scheduler.fireJobAt(SCHEDULER_PATH_PREFIX2 + path, new CacheInvalidationJob(path), null, new Date(System.currentTimeMillis() + INTERVAL));
-        		log.info("scheduler 2 invalidator scheduled");
-        	}
         } catch (Exception e) {
             log.error("VTKDataCacheInvalidator: Cannot add path: " + path);
         }
@@ -193,5 +108,43 @@ public class VTKDataCacheInvalidator {
     }
     
     public void invalidateCache(Collection<String> paths) {
+    }
+
+    private class CacheInvalidationJob implements Job {
+        private String path;
+
+        public CacheInvalidationJob(String path) {
+            this.path = path;
+        }
+
+        public void execute(JobContext context) {
+            log.info("VTKDataCacheInvalidator: ================== Replication Invalidating cache: ");
+            try {
+                HttpClient client = new HttpClient();
+                PostMethod post = new PostMethod(flushUri);
+                post.setRequestHeader("CQ-Action", "Delete");
+                post.setRequestHeader("CQ-Handle", path);
+                StringRequestEntity body = new StringRequestEntity(path, null, null);
+                post.setRequestEntity(body);
+                post.setRequestHeader("Content-length", String.valueOf(body.getContentLength()));
+                try {
+                    int resStatus = client.executeMethod(post);
+                    if (resStatus != 200) {
+                        log.error("VTKDataCacheInvalidator: Cannot invalidate this path: " + path);
+                    } else {
+                        log.info("VTKDataCacheInvalidator: Successfully invalidate the cache: " + path);
+                    }
+                } catch (Exception e) {
+                    log.info("VTKDataCacheInvalidator: Cannot invalidate this path: " + path + ". Do nothing.");
+                } finally {
+                    post.releaseConnection();
+                }
+                //log the results
+                log.info("result: " + post.getResponseBodyAsString());
+            } catch (Exception e) {
+                log.error("Flushcache servlet exception: " + e.getMessage());
+            }
+
+        }
     }
 }

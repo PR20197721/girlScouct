@@ -48,8 +48,6 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
     CouncilMapper councilMapper;
     @Reference
     ResourceResolverFactory resolverFactory;
-    @Reference
-    GirlScoutsManualTroopLoadService girlScoutsManualTroopLoadService;
 
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
 
@@ -328,6 +326,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                 if (entity.getGradeLevel() != null && entity.getCouncilCode() != null && entity.getParticipationCode() != null && (irmCouncilCode.equals(entity.getParticipationCode()) || "Troop".equals(entity.getParticipationCode()))) {
                     isParent = true;
                     Troop troop = ParentEntityToTroopMapper.map(entity);
+                    
                     //Independent Registered Member
                     if (troop.getParticipationCode() != null && irmCouncilCode.equals(troop.getParticipationCode())) {
                         setDummyIRMTroops(apiConfig, user, userInfoResponseEntity, parentTroops, entity, troop);
@@ -344,20 +343,17 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         }
         List<Troop> additionalTroops = getTroopInfoByUserId(apiConfig, user.getSfUserId());
         Boolean isParentOfRenewedGirl = isParent && !parentTroops.isEmpty();
-
-        if (!user.isActive() && !isParentOfRenewedGirl) {
-            mergedTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
-            /*Set<Troop> removeNonRenewedParents = new HashSet<>();
-            for (Troop troop : mergedTroops) {
-                if ((!user.isActive() && "PA".equals(troop.getRole())) ||troop.getSfTroopName() == null || troop.getRole() == null || troop.getGradeLevel() == null || troop.getCouncilCode() == null || !isValidParticipationCode(troop)) {
-                    log.debug("Ignoring troop "+troop.getSfTroopId()+ ". Check all required parameters.");
-                    removeNonRenewedParents.add(troop);
-                }
-            }
-            mergedTroops.removeAll(removeNonRenewedParents);*/
+        //GSVTK-2777 REMOVED EXTENDED ACCESS TO NON-RENEWED
+        /*List<Troop> manuallyLoadedTroops = girlScoutsManualTroopLoadService.loadTroops(apiConfig.getUser());
+        Boolean isTroopLeader = manuallyLoadedTroops.stream().anyMatch(t -> "DP".equals(t.getRole()));
+        if (!user.isActive() && (!isParentOfRenewedGirl || isTroopLeader)) {
+            // Troop leaders
+            mergedTroops = manuallyLoadedTroops;
         } else {
+            // All parents, including IRM, excluding troop leaders
             mergedTroops = mergeTroops(parentTroops, additionalTroops);
-        }
+        }*/
+        mergedTroops = mergeTroops(parentTroops, additionalTroops);
         //Service Unit Manager
         if (user.isServiceUnitManager()) {
             mergedTroops.addAll(getServiceUnitManagerTroops(user.getSfUserId()));
@@ -377,7 +373,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
             }
             troop.setSfUserId(user.getSfUserId());
             setTroopPermissions(troop, user.isAdmin());
-            if(!girlScoutsManualTroopLoadService.isActive() || apiConfig.isDemoUser()) {
+            if(apiConfig.isDemoUser()) {
                 setTroopPath(troop);
             }
             troop.setHash(troopHashGenerator.hash(troop));
@@ -403,7 +399,7 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
         for(Contact contact:contacts){
             log.debug("contact "+contact);
             log.debug("VtkUtil.getCurrentGSYear() "+VtkUtil.getCurrentGSYear());
-            if(contact != null && "Girl".equals(contact.getRole()) && contact.getMembershipYear() >= VtkUtil.getCurrentGSYear()+1){
+            if(contact != null && "Girl".equals(contact.getRole()) && !contact.isRenewalDue()){
                 Troop dummyIRMTroop = ParentEntityToTroopMapper.map(entity);
                 log.debug("creating dummyIRMTroop "+dummyIRMTroop);
                 try {
