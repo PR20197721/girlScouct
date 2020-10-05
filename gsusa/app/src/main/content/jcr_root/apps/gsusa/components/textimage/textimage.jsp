@@ -96,7 +96,7 @@
 		styleImage += "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";
 	}
 	if (caption.length() > 0) {
-		styleCaption = "padding: 0px 5px 0px 5px; text-align: center;";
+		styleCaption = "padding: 0px 5px 0px 5px; line-height: 0.86rem";
 	} 
 	if (!"0".equals(width)) {
 		// newWidth expands width to accomodate for paddings
