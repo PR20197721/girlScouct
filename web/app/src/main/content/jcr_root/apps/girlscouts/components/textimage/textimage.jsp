@@ -112,7 +112,7 @@
 		styleImage = "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";
 	}
 	if (caption.length() > 0) {
-		styleCaption = "padding: 5px 5px 0px 5px; text-align: center;"; // 5 5 1 5
+		styleCaption = "padding: 0px 5px 0px 5px; line-height: 0.86rem"; // 5 5 1 5
 	}
 	if (!"0".equals(width)) {
 		// newWidth expands width to accomodate for paddings
