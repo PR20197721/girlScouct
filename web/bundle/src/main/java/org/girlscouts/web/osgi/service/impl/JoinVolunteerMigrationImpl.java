@@ -35,6 +35,9 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
     private String oldVolunteer = "";
     private String newVolunteer = "";
 
+    private String oldRenew = "";
+    private String newRenew = "";
+
     @Activate
     private void activate(Config config) {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
@@ -42,6 +45,8 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
         this.newJoin = config.newJoin();
         this.oldVolunteer = config.oldVolunteer();
         this.newVolunteer = config.newVolunteer();
+        this.oldRenew = config.oldRenew();
+        this.newRenew = config.newRenew();
         log.info("Activated.");
     }
 
@@ -87,6 +92,27 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
         }
     }
 
+    @Override
+    public void migrateRenewLink(String path, boolean dryRun) {
+        ResourceResolver rr = null;
+        try {
+            rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            log.debug("Path: "+path);
+            Resource resource = rr.resolve(path);
+            migrateNode(dryRun, resource, this.oldRenew, this.newRenew);
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        } finally {
+            try {
+                if (rr != null) {
+                    rr.close();
+                }
+            } catch (Exception e) {
+                log.error("Exception is thrown closing resource resolver: ", e);
+            }
+        }
+    }
+
     private void migrateNode(boolean dryRun, Resource resource, String oldValue, String newValue) throws RepositoryException {
         Node node = resource.adaptTo(Node.class);
         final ValueFactory valueFactory = node.getSession().getValueFactory();
@@ -99,7 +125,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                     String value = property.getString();
                     if (value.contains(oldValue)) {
                         log.debug("before update: " + property.getName() + "=" + value);
-                        value = value.replace(oldValue, newValue);
+                        value = value.replaceAll(oldValue, newValue);
                         node.setProperty(property.getName(), value);
                         saveNeeded = true;
                         log.debug("after update: " + property.getName() + "=" + value);
@@ -112,7 +138,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                             String value = valueArray[i].getString();
                             if (value.contains(oldValue)) {
                                 log.debug("before update: " + property.getName() + "=" + value);
-                                value = value.replace(oldValue, newValue);
+                                value = value.replaceAll(oldValue, newValue);
                                 valueArray[i] = valueFactory.createValue(value);
                                 saveNeeded = true;
                                 log.debug("after update: " + property.getName() + "=" + value);
@@ -135,12 +161,14 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
         }
     }
 
-    @ObjectClassDefinition(name = "Join Volunteer Migration Configuration")
+    @ObjectClassDefinition(name = "Join Volunteer Renew Migration Configuration")
     public @interface Config {
         @AttributeDefinition(name = "Old Join URL", type = AttributeType.STRING) String oldJoin() default "https://girlscouts.secure.force.com/girl";
         @AttributeDefinition(name = "New Join URL", type = AttributeType.STRING) String newJoin();
         @AttributeDefinition(name = "Old Volunteer URL", type = AttributeType.STRING) String oldVolunteer() default "https://girlscouts.secure.force.com";
         @AttributeDefinition(name = "New Volunteer URL", type = AttributeType.STRING) String newVolunteer();
+        @AttributeDefinition(name = "Old Renew URL", type = AttributeType.STRING) String oldRenew() default "https://gsmembers.force.com/members/login";
+        @AttributeDefinition(name = "New Renew URL", type = AttributeType.STRING) String newRenew();
     }
 
     public String getOldJoin() {
@@ -157,5 +185,13 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
 
     public String getNewVolunteer() {
         return newVolunteer;
+    }
+
+    public String getOldRenew() {
+        return oldRenew;
+    }
+
+    public String getNewRenew() {
+        return newRenew;
     }
 }
