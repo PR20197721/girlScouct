@@ -14,10 +14,9 @@
 <%!
     public static final String THREAD_NAME = "vtk-update-vs2-thread";
     public static final String RUNNABLE_NAME = "runnable";
-    public static  VTKDataMigrationUtil vtkDataMigrationUtil;
 %>
 <%
-    vtkDataMigrationUtil = sling.getService(VTKDataMigrationUtil.class);
+    VTKDataMigrationUtil  vtkDataMigrationUtil = sling.getService(VTKDataMigrationUtil.class);
     ServletContext ctxt = application.getContext("/apps/girlscouts-vtk/components/vtk-vs2-migration");
     String cmd = (request.getParameter("cmd") != null) ? request.getParameter("cmd") : "";
     boolean threadExists = ctxt.getAttribute(THREAD_NAME) != null;
@@ -33,7 +32,7 @@
     } else {
         if (!threadIsAlive && "run".equals(cmd)) {
             SlingRepository repository = sling.getService(SlingRepository.class);
-            MigrateVtkTroopIdThread wft = new MigrateVtkTroopIdThread(getServletContext(), dryRun, repository);
+            MigrateVtkTroopIdThread wft = new MigrateVtkTroopIdThread(getServletContext(), dryRun, vtkDataMigrationUtil,  repository);
             Thread t = new Thread(wft);
             ctxt.setAttribute(THREAD_NAME, t);
             ctxt.setAttribute(RUNNABLE_NAME, wft);
@@ -68,9 +67,10 @@
         private Set<String> mappedUserIds = new HashSet<String>();
         private Set<String> mappedContactIds = new HashSet<String>();
 
-        public MigrateVtkTroopIdThread(ServletContext ctxt, boolean dryRun, SlingRepository repository) {
+        public MigrateVtkTroopIdThread(ServletContext ctxt, boolean dryRun, VTKDataMigrationUtil vtkDataMigrationUtil, SlingRepository repository) {
             this.repository = repository ;
             this.ctxt = ctxt;
+            this.paths.add("/vtk2020");
             this.paths.add("/vtk2019");
             this.paths.add("/vtk2018");
             this.paths.add("/vtk2017");

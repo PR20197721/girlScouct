@@ -57,6 +57,7 @@ public class VTKDataMigrationUtil{
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
+            log.debug("Loading troop id mappings from {}", this.troopIdMappingFile);
             Resource csvResource = rr.resolve(this.troopIdMappingFile);
             if(csvResource != null && !ResourceUtil.isNonExistingResource(csvResource)){
                 loadContents(csvResource, troopIdMapping);
@@ -87,6 +88,7 @@ public class VTKDataMigrationUtil{
     }
 
     private void loadContents(Resource csvResource, Map<String, String> map) {
+        log.debug("Processing {}", csvResource.getPath());
         Asset asset = csvResource.adaptTo(Asset.class);
         BufferedReader br = null;
         try {
@@ -94,9 +96,14 @@ public class VTKDataMigrationUtil{
             String line;
             String cvsSplitBy = ",";
             while ((line = br.readLine()) != null) {
-                String[] mappingArray = line.split(cvsSplitBy);
-                if (mappingArray != null && mappingArray.length >= 2) {
-                    map.put(mappingArray[0], mappingArray[1]);
+                try {
+                    String[] mappingArray = line.split(cvsSplitBy);
+                    if (mappingArray != null && mappingArray.length >= 2) {
+                        map.put(mappingArray[0], mappingArray[1]);
+                        log.trace("Added Mapping  key:{} value:{}", mappingArray[0], mappingArray[1]);
+                    }
+                }catch(Exception e){
+                    log.error("Failed to read a line {} in mapping file.",line, e);
                 }
             }
         } catch (Exception e) {
