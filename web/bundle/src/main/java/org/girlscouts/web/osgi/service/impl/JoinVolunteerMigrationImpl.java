@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component(service = {JoinVolunteerMigration.class}, immediate = true, name = "org.girlscouts.web.osgi.service.impl.JoinVolunteerMigrationImpl")
 @Designate(ocd = JoinVolunteerMigrationImpl.Config.class)
@@ -37,6 +39,8 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
 
     private String oldRenew = "";
     private String newRenew = "";
+
+    String renewPattern = "<a.*\"https://gsmembers.force.com/members/login\".*>.*<img src=\".*renew.*\">.*</a>";
 
     @Activate
     private void activate(Config config) {
@@ -125,7 +129,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                     String value = property.getString();
                     if (value.contains(oldValue)) {
                         log.debug("before update: " + property.getName() + "=" + value);
-                        value = value.replaceAll(oldValue, newValue);
+                        value = updateValue(value, oldValue, newValue);
                         node.setProperty(property.getName(), value);
                         saveNeeded = true;
                         log.debug("after update: " + property.getName() + "=" + value);
@@ -138,7 +142,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                             String value = valueArray[i].getString();
                             if (value.contains(oldValue)) {
                                 log.debug("before update: " + property.getName() + "=" + value);
-                                value = value.replaceAll(oldValue, newValue);
+                                value = updateValue(value, oldValue, newValue);
                                 valueArray[i] = valueFactory.createValue(value);
                                 saveNeeded = true;
                                 log.debug("after update: " + property.getName() + "=" + value);
@@ -159,6 +163,36 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                 log.debug("Dry Run: Will not save!");
             }
         }
+    }
+
+    private String updateValue(String value, String oldURL, String newUrl){
+        //exact match, possible plain text field
+        if(value.trim().equals(oldURL)) {
+            log.debug("Found exact match for old url: {}",oldURL);
+            value = newUrl.trim();
+        }else{
+            log.debug("checking if reference is in html block of rich text component");
+            if(Pattern.matches(renewPattern, value)){
+                log.debug("Processing renew link");
+                String oldInQuotes = "\""+oldURL+"\"";
+                String newQuotes = "\""+newUrl+"\"";
+                Pattern pattern = Pattern.compile(renewPattern);
+                Matcher matcher = pattern.matcher(value);
+                StringBuffer bufStr = new StringBuffer();
+                while(matcher.find()){
+                    String matchedText = matcher.group();
+                    log.debug("Found exact match for old url: {}",oldURL);
+                    if(matchedText.contains(oldInQuotes)) {
+                        matcher.appendReplacement(bufStr, matchedText.replace(oldInQuotes, newQuotes));
+                    }
+                }
+                matcher.appendTail(bufStr);
+                value = bufStr.toString();
+            }else{
+                log.debug("Skipping. Value doesn't have any matches for "+renewPattern);
+            }
+        }
+        return value;
     }
 
     @ObjectClassDefinition(name = "Join Volunteer Renew Migration Configuration")
