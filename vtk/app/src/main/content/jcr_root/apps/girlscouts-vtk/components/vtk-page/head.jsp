@@ -25,10 +25,10 @@
 --%><%@include file="/libs/foundation/global.jsp" %><%
 %><%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@ page import="com.day.cq.commons.Doctype,
-					org.apache.sling.settings.SlingSettingsService,
 					com.day.cq.commons.Externalizer,
+					com.day.cq.wcm.api.Page,
 					org.apache.sling.api.SlingHttpServletRequest,
-					java.util.Set" %><%
+					org.apache.sling.settings.SlingSettingsService, java.util.Set" %><%
     String xs = Doctype.isXHTML(request) ? "/" : "";
     String favIcon = currentDesign.getPath() + "/favicon.ico";
     String ogTitle = properties.get("ogTitle", "");

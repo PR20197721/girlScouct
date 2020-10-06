@@ -170,7 +170,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                             setTroopPath(troop);
                             log.debug("Adding troop: " + troop);
                             setTroopPermissions(troop);
-                            if(!StringUtils.isBlank(troop.getRole()) && "DP".equals(troop.getRole())){
+                            if(!StringUtils.isBlank(troop.getRole()) && ("DP".equals(troop.getRole()) || "FA".equals(troop.getRole()))){
                                 troops.add(troop);
                             }
                         }catch(Exception e){
@@ -525,14 +525,22 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
     private void setTroopPermissions(Troop troop) {
         String roleType = troop.getRole();
         troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+        //Parent
         if ("PA".equals(roleType)) {
             troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
         }else {
+            //Troop Leader
             if ("DP".equals(roleType) || (troop.getParticipationCode() != null && troop.getParticipationCode().equals(irmCouncilCode))) {
                 troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
             }else {
+                //Council Admin
                 if ("CA".equals(roleType)) {
                     troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+                }else {
+                    //Finance/Administration
+                    if ("FA".equals(roleType)) {
+                        troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+                    }
                 }
             }
         }

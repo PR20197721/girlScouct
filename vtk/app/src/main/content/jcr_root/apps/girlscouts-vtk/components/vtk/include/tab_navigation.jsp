@@ -34,7 +34,7 @@
         }
         String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
         boolean financeTabEnabled = !VtkUtil.getFinanceTabDisabledCouncils().contains(selectedTroop.getCouncilCode()) && 
-            (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()));
+            (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole())));
     %>
     <div id="troop" class="row">
         <div class="columns large-7 medium-9 right">

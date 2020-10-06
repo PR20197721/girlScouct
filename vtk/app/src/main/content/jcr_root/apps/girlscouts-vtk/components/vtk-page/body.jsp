@@ -1,7 +1,7 @@
-<%@page import="com.day.cq.wcm.api.components.IncludeOptions,
+<%@page import="com.day.cq.wcm.api.Page,
+                com.day.cq.wcm.api.designer.Design,
                 org.apache.sling.settings.SlingSettingsService,
-                org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.osgi.component.CouncilMapper" %>
+                org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.osgi.component.CouncilMapper" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
 <%
@@ -13,16 +13,21 @@
     String councilId = null;
     String branch = "";
     Boolean isDemoUser = false;
+    Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
     if(apiConfig == null){
         councilId = "999";
         branch = "/content/vtkcontent";
     }else {
         isDemoUser = apiConfig.isDemoUser();
         try {
-            if (!apiConfig.getUser().isAdmin()) {
-                councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
-            } else {
-                councilId = apiConfig.getUser().getAdminCouncilId();
+            if(selectedTroop != null){
+                councilId = selectedTroop.getCouncilId();
+            }else {
+                if (!apiConfig.getUser().isAdmin()) {
+                    councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
+                } else {
+                    councilId = apiConfig.getUser().getAdminCouncilId();
+                }
             }
             branch = mapper.getCouncilBranch(councilId);
         } catch (Exception e) {

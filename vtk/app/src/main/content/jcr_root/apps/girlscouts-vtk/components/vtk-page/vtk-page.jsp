@@ -1,7 +1,7 @@
-<%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype,
-                                                                       com.day.cq.wcm.api.WCMMode,
+<%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.wcm.api.WCMMode,
                                                                        com.day.cq.wcm.foundation.ELEvaluator,
                                                                        org.girlscouts.vtk.auth.models.ApiConfig,
+                                                                       org.girlscouts.vtk.models.Troop,
                                                                        org.girlscouts.vtk.osgi.component.ConfigManager" %>
 <%@ page import="org.girlscouts.vtk.osgi.component.CouncilMapper, org.girlscouts.vtk.osgi.component.util.UserUtil" %>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -38,6 +38,7 @@
         String location = properties.get("cq:redirectTarget", "");
         // resolve variables in path
         location = ELEvaluator.evaluate(location, slingRequest, pageContext);
+        Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
         if ((location.length() > 0) && ((wcmModeIsDisabled) || (wcmModeIsPreview))) {
             // check for recursion
             if (currentPage != null && !location.equals(currentPage.getPath()) && location.length() > 0) {
@@ -70,10 +71,14 @@
             Page newCurrentPage = null;
             Design newCurrentDesign = null;
             try {
-                if (!apiConfig.getUser().isAdmin()) {
-                    councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
-                } else {
-                    councilId = apiConfig.getUser().getAdminCouncilId();
+                if(selectedTroop != null){
+                    councilId = selectedTroop.getCouncilId();
+                }else {
+                    if (!apiConfig.getUser().isAdmin()) {
+                        councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
+                    } else {
+                        councilId = apiConfig.getUser().getAdminCouncilId();
+                    }
                 }
                 branch = mapper.getCouncilBranch(councilId);
                 referer = branch;

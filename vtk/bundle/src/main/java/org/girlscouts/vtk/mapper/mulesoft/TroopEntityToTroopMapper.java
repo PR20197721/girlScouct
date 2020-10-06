@@ -59,8 +59,13 @@ public class TroopEntityToTroopMapper {
                         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
                         DateTime start = formatter.parseDateTime(startDate);
                         DateTime end = formatter.parseDateTime(endDate);
-                        if (start.isBeforeNow() && end.isAfterNow() && "Troop/Program Leader".equals(jobEntity.getJobCode())) {
-                            troop.setRole("DP");
+                        if (start.isBeforeNow() && end.isAfterNow()){
+                            if("Troop/Program Leader".equals(jobEntity.getJobCode())){
+                                troop.setRole("DP");
+                            }
+                            if("Finance/Administration".equals(jobEntity.getJobCode())){
+                                troop.setRole("FA");
+                            }
                         }
                     } catch (Exception e) {
                         log.error("Error occurred mapping {} to role ",jobEntity, e);

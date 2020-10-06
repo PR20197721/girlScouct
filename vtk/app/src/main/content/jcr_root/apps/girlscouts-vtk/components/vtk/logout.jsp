@@ -17,11 +17,12 @@
         user = apiConfig.getUser();
         troop = (Troop) session.getValue("VTK_troop");
     }
-    if (user != null){
-        councilId = user.getAdminCouncilId();
-    }
+
     if (troop != null && councilId == null) {
         councilId = troop.getSfCouncil();
+    }
+    if (user != null){
+        councilId = user.getAdminCouncilId();
     }
     if (councilId == null || councilId.equals("") && user != null) {
         try {

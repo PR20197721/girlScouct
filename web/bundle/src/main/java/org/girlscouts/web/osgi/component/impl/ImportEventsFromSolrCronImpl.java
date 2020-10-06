@@ -14,10 +14,10 @@ import org.girlscouts.common.components.GSEmailAttachment;
 import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.common.exception.GirlScoutsException;
 import org.girlscouts.common.osgi.component.CouncilCodeToPathMapper;
+import org.girlscouts.common.osgi.component.GirlscoutsVtkConfigProvider;
 import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.common.util.PageReplicationUtil;
 import org.girlscouts.web.osgi.MuleSoftActivitiesConstants;
-import org.girlscouts.common.osgi.component.GirlscoutsVtkConfigProvider;
 import org.girlscouts.web.osgi.service.MulesoftActivitiesRestClient;
 import org.girlscouts.web.rest.entity.mulesoft.ActivityEntity;
 import org.girlscouts.web.rest.entity.mulesoft.PayloadEntity;
@@ -75,7 +75,6 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
     protected Replicator replicator;
     @Reference
     CouncilCodeToPathMapper councilMapper;
-
     private Map<String, Object> resolverParams = new HashMap<String, Object>();
     private String host = "";
     private List<String> emails;
@@ -210,7 +209,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
             DateFormat format = new SimpleDateFormat(MODIFIED_DATE_FORMAT);
             String jsonDate = format.format(date.getTime());
             Set<GSEmailAttachment> attachments = new HashSet<>();
-            GSEmailAttachment attachment = new GSEmailAttachment("activities-"+jsonDate, json, null, GSEmailAttachment.MimeType.APPLICATION_JSON);
+            GSEmailAttachment attachment = new GSEmailAttachment("activities-" + jsonDate, json, null, GSEmailAttachment.MimeType.APPLICATION_JSON);
             attachments.add(attachment);
             if (errorList.size() == 0) {
                 gsEmailService.sendEmail("GS Activities Sync Process Completed", emails, sb.toString(), attachments);
@@ -221,7 +220,6 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                     sb.append("<li>" + activity + "</li>");
                 }
                 sb.append("</ul>");
-
                 gsEmailService.sendEmail("GS Activities Sync Process Completed (with Errors)", emails, sb.toString(), attachments);
 
             }
@@ -236,39 +234,39 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                 throw new GirlScoutsException(null, "Required fields (councilCode/id/title/start) missing.");
             }
             String councilName = councilMapper.getCouncilPath(payload.getCouncilCode());
-            if (councilName == null) {
-                throw new GirlScoutsException(null, "No mapping found for council code: " + payload.getCouncilCode());
-            }
-            int year = getYear(payload);
-            String parentPath = "/content/" + councilName + "/en/sf-events-repository/" + year;
-            Resource activityYearFolder;
-            try {
-                log.debug("Getting activities year path: " + parentPath);
-                activityYearFolder = ResourceUtil.getOrCreateResource(rr, parentPath, NT_SLING_ORDERED_FOLDER, null, true);
-            } catch (Exception e) {
-                log.error("Error occurred:", e);
-                throw new GirlScoutsException(e, "Fail to get/create parent path: " + parentPath);
-            }
-            if (activityYearFolder != null) {
-                Page activityPage = getEvent(parentPath, payload.getId(), rr);
+            if (councilName != null) {
+                int year = getYear(payload);
+                String parentPath = "/content/" + councilName + "/en/sf-events-repository/" + year;
+                Resource activityYearFolder;
                 try {
-                    if (activityPage == null) {
-                        try {
-                            String pageNodeTitle = payload.getTitle().replaceAll("[^a-zA-Z0-9]", "-");
-                            activityPage = rr.adaptTo(PageManager.class).create(parentPath, null, "girlscouts/templates/event-page", pageNodeTitle, false);
-                            log.info("Event page [path=" + activityPage.getPath() + "; eid=" + payload.getId() + "] created successfully.");
-                        } catch (Exception e) {
-                            log.error("Error occurred:", e);
-                            throw new GirlScoutsException(e, "Fail to create event page under " + parentPath);
-                        }
-                    }
-                    setActivityPageProperties(payload, activityPage, rr);
-                    return activityPage.getPath();
-                } catch (RepositoryException e) {
+                    log.debug("Getting activities year path: " + parentPath);
+                    activityYearFolder = ResourceUtil.getOrCreateResource(rr, parentPath, NT_SLING_ORDERED_FOLDER, null, true);
+                } catch (Exception e) {
                     log.error("Error occurred:", e);
-                    throw new GirlScoutsException(e, "Exception throw when adding data to" + activityPage.getPath() + "/jcr:content");
+                    throw new GirlScoutsException(e, "Fail to get/create parent path: " + parentPath);
                 }
-
+                if (activityYearFolder != null) {
+                    Page activityPage = getEvent(parentPath, payload.getId(), rr);
+                    try {
+                        if (activityPage == null) {
+                            try {
+                                String pageNodeTitle = payload.getTitle().replaceAll("[^a-zA-Z0-9]", "-");
+                                activityPage = rr.adaptTo(PageManager.class).create(parentPath, null, "girlscouts/templates/event-page", pageNodeTitle, false);
+                                log.info("Event page [path=" + activityPage.getPath() + "; eid=" + payload.getId() + "] created successfully.");
+                            } catch (Exception e) {
+                                log.error("Error occurred:", e);
+                                throw new GirlScoutsException(e, "Fail to create event page under " + parentPath);
+                            }
+                        }
+                        setActivityPageProperties(payload, activityPage, rr);
+                        return activityPage.getPath();
+                    } catch (RepositoryException e) {
+                        log.error("Error occurred:", e);
+                        throw new GirlScoutsException(e, "Exception throw when adding data to" + activityPage.getPath() + "/jcr:content");
+                    }
+                }
+            }else{
+                log.debug("Ignoring: {} Reason: No counil mapping for {}",payload.getId(), payload.getCouncilCode());
             }
         } catch (Exception e) {
             log.error("Error occured while creating/updating activity: " + payload.getTitle());
@@ -470,7 +468,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                 }
             } else {
                 log.debug("Could not locate activity with eid=" + payload.getId() + " in " + parentPath);
-                throw new GirlScoutsException(null,"Could not locate activity with eid=" + payload.getId() +" in "+parentPath);
+                //throw new GirlScoutsException(null,"Could not locate activity with eid=" + payload.getId() +" in "+parentPath);
             }
         } catch (Exception e) {
             log.error("Error occured while deleting activity: eid=" + payload.getId() + ", title=" + payload.getTitle());
