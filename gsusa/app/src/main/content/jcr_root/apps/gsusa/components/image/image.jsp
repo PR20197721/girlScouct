@@ -18,7 +18,7 @@
 --%>
 
 <%@ page session="false" %>
-<%@ page import="com.day.cq.commons.Doctype,com.day.cq.wcm.api.components.DropTarget,com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %>
+<%@ page import="com.day.cq.commons.Doctype,com.day.cq.wcm.api.components.DropTarget,com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder, com.day.cq.wcm.resource.details.AssetDetails" %>
 <%@ include file="/libs/foundation/global.jsp" %>
 <%@ include file="/apps/gsusa/components/global.jsp"%>
 <%@ taglib prefix="gsusa" uri="https://girlscouts.org/gsusa/taglib" %>
@@ -47,7 +47,20 @@
     if (!currentDesign.equals(resourceDesign)) {
     		suffix = currentDesign.getId();
     }
-    
+
+	//To get original width and height of the image
+	Image image = new Image(resource);
+	Long originalWidth=0L;
+	Long originalHeight=0L;
+	try {
+        Resource imageResource = slingRequest.getResourceResolver().getResource(image.getFileReference());
+        AssetDetails assetDetails = new AssetDetails(imageResource);
+        originalHeight = assetDetails.getHeight();
+        originalWidth = assetDetails.getWidth();
+    } catch(Exception e) {
+        e.printStackTrace();
+    }
+
 	String styleCaption = "";
 	
 	String pTop = properties.get("./ptop", "0");
@@ -55,8 +68,9 @@
 	String pLeft = properties.get("./pleft", "0");
 	String pRight = properties.get("./pright", "0");
 	String imageWidth = properties.get("./width", "0");
+	String imageHeight = properties.get("./height", "0");
 	String caption = properties.get("./jcr:description", "");
-		
+	String imageCaptionWidth = "width:" + originalWidth + "px";
 	String padding = pTop + pBottom + pLeft + pRight;
 	
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
@@ -70,13 +84,18 @@
 	if (!"0".equals(imageWidth)) {
 		// imageWidth + padding
 		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft) + Integer.parseInt(pRight);
-		styleImage += "width:" + newWidth + "px; max-width:100% !important;";
+		styleImage += "width:" + newWidth + "px; max-width:" + originalWidth + "px;";
+        imageCaptionWidth = "width:" + newWidth + "px; max-width:" + originalWidth + "px;";
 	}
+	if (!"0".equals(imageHeight)) {
+		// newImageHeight expands height to accomodate for paddings
+		int newImageHeight = Integer.parseInt(imageHeight) + Integer.parseInt(pTop) + Integer.parseInt(pBottom);
+		styleImage += "height:" + newImageHeight + "px; max-height:" + originalHeight + "px;";
+    }
 %>
 
-<div class="<%= "image-" + imageAlignment %>" id="<%= "cq-image-jsp-" + resource.getPath() %>" >
+<div class="<%= "image-" + imageAlignment %>" id="<%= "cq-image-jsp-" + resource.getPath() %>" style="<%= imageCaptionWidth %>">
 <% 
-		Image image = new Image(resource);
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	  	try{
 		    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));

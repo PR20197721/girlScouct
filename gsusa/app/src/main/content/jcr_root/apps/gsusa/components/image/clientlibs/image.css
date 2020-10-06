@@ -9,20 +9,28 @@ div.image img {
 div.image small {
     display: block;
 }
-.image-right img {
+.image-right {
 	float: right;    
  	margin: 0 0 0 15px;
 }
 
-.image-left img {
+.image-left {
 	float: left;    
  	margin: 0 15px 0 0;
 }
 
-.image-center img {
+.image-center {
  	display: block;
     margin-left: auto;
     margin-right: auto;
     width: fit-content;
+    width:-moz-fit-content;
+    width:-webkit-fit-content;
+    width:-ms-fit-content;
     max-width: 50%;
+}
+
+.image-caption small {
+	padding: 0;
+    line-height: 1.09rem !important;
 }

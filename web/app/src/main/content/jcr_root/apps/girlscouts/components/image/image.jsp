@@ -17,7 +17,7 @@
 
 --%><%@ page import="com.day.cq.commons.Doctype,
     com.day.cq.wcm.api.components.DropTarget, org.slf4j.Logger, org.slf4j.LoggerFactory,
-    com.day.cq.wcm.foundation.Image, javax.jcr.NodeIterator,javax.jcr.Node,com.day.cq.wcm.foundation.Placeholder" %><%
+    com.day.cq.wcm.foundation.Image, javax.jcr.NodeIterator,javax.jcr.Node,com.day.cq.wcm.foundation.Placeholder, com.day.cq.wcm.resource.details.AssetDetails" %><%
 %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -42,6 +42,20 @@
      }catch(Exception e){
         logger.error("Error finding cssPrint property: ",e);
      }
+
+	//To get original width and height of the image
+	Image image = new Image(resource);
+	Long originalWidth=0L;
+	Long originalHeight=0L;
+	try {
+        Resource imageResource = slingRequest.getResourceResolver().getResource(image.getFileReference());
+        AssetDetails assetDetails = new AssetDetails(imageResource);
+        originalHeight = assetDetails.getHeight();
+        originalWidth = assetDetails.getWidth();
+    } catch(Exception e) {
+        e.printStackTrace();
+    }
+
 	String styleImage = "";
 	String styleCaption = "";
 	
@@ -50,17 +64,16 @@
 	String pLeft = properties.get("./pleft", "0");
 	String pRight = properties.get("./pright", "0");
 	String imageWidth = properties.get("./width", "0");
+	String imageHeight = properties.get("./height", "0");
 	String caption = properties.get("./jcr:description", "");
+	String imageCaptionWidth = "width:" + originalWidth + "px";
     String buttonPath = currentPage.getPath() + "/print-css";
 	String padding = pTop + pBottom + pLeft + pRight;
 	String currentPath = currentPage.getPath();
 	
 	
 	if (caption.length() > 0) { // if there's caption, apply padding to the caption
-		styleCaption = "padding: 5px 5px 1px 5px;";
-		if (currentPath.contains("gsusa")) {
 			styleCaption = "padding: 0px 5px;";
-		}
 	}
 	
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
@@ -69,13 +82,18 @@
 	
 	if (!"0".equals(imageWidth)) {
 		// imageWidth + padding
-		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft);
-		styleImage += "width:" + newWidth + "px; max-width: 100%;";
+		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft) + Integer.parseInt(pRight);
+		styleImage += "width:" + newWidth + "px; max-width:" + originalWidth + "px;";
+        imageCaptionWidth = "width:" + newWidth + "px; max-width:" + originalWidth + "px;";
 	}
-	styleImage += "line-height: 1.15rem;";
+
+	if (!"0".equals(imageHeight)) {
+		// newImageHeight expands height to accomodate for paddings
+		int newImageHeight = Integer.parseInt(imageHeight) + Integer.parseInt(pTop) + Integer.parseInt(pBottom);
+		styleImage += "height:" + newImageHeight + "px; max-height:" + originalHeight + "px;";
+    }
 	
-	%><div class="img-wrapper img-print <%= "image-" + imageAlignment %>" id="<%= divId %>"><%
-	    Image image = new Image(resource);
+	%><div class="img-wrapper img-print <%= "image-" + imageAlignment %>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	    
 	  	try{
