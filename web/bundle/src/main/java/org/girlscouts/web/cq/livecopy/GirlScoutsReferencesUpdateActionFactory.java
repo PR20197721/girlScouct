@@ -1,10 +1,6 @@
 package org.girlscouts.web.cq.livecopy;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.jcr.*;
-import javax.jcr.Property;
-
+import com.day.cq.wcm.api.WCMException;
 import com.day.cq.wcm.msm.api.*;
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.resource.Resource;
@@ -17,7 +13,10 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.wcm.api.WCMException;
+import javax.jcr.Property;
+import javax.jcr.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
 @Component(metatype=false)
@@ -60,9 +59,10 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
         public void execute(Resource source, Resource target,
                 LiveRelationship relation, boolean autosave, boolean isResetRollout)
 				throws WCMException {
+            log.debug("Processing source:"+source.getPath()+", target:"+target.getPath());
         	String checkBlockReferenceUpdate= rolloutTemplatePageService.blockReferenceUpdateAction.get();//GSWP-2235 checks if update reference action was initiated from rollout workflow
-        	log.info("checking if update reference action is initiated from rollout workflow---"+checkBlockReferenceUpdate);
-        	if(checkBlockReferenceUpdate!=null) {
+        	log.info("checking if update reference action is initiated from rollout workflow, checkBlockReferenceUpdate="+checkBlockReferenceUpdate);
+        	if(checkBlockReferenceUpdate != null) {
         		if (checkBlockReferenceUpdate.equalsIgnoreCase("blockInitiatedFromWorkflow")) {
         		 log.info("Reference update action is initiated from rollout workflow, hence Quit");
         		 return;
