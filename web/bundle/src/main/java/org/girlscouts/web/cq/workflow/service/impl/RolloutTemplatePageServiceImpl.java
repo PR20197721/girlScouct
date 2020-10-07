@@ -271,6 +271,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                     String targetPath = newPageRelationship.getTargetPath();
                     cancelInheritance(rr, copyPage.getPath());
                     blockReferenceUpdateAction.set("blockInitiatedFromWorkflow");
+                    log.debug("Setting blockInitiatedFromWorkflow flag");
                     rolloutManager.rollout(rr, newPageRelationship, false);
                     if (updateReferences) {
                         Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
