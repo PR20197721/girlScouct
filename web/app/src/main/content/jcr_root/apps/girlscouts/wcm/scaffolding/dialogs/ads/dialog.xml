@@ -219,7 +219,22 @@
                     xtype="pathfield"/>
             </items>
 	   	</tab4>
-        
+        <tab5
+            jcr:primaryType="cq:Panel"
+            title="Mobile">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <text
+                    jcr:primaryType="cq:Widget"
+                    text="Select this option to hide this ad on all mobile devices on all pages."
+                    xtype="label"/>
+                <hideformobile
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Hide for mobile"
+                    name="./jcr:content/hideForMobile"
+                    type="checkbox"
+                    xtype="selection"/>
+            </items>
+        </tab5>
         
     </items>
 </jcr:root>

@@ -51,8 +51,11 @@ if(customized){
                         	</div>
 	                        <div class="show-for-small">
     	                    <div class="small-12 columns">
-        	                <% request.setAttribute(AD_ATTR, currentAd); %>
+        	                <% request.setAttribute(AD_ATTR, currentAd);
+								String hideForMobileCheck = currentAd.getProperties().get("hideForMobile", "false");
+                    			if(!hideForMobileCheck.equals("true")){	%>
             	            <cq:include script="display-ad.jsp"/>
+            	            <%} %>
                 	        </div>
                     	    </div>
                         	<% 
@@ -100,8 +103,12 @@ else{
                     </div>
                     <div class="show-for-small">
                     <div class="small-12 columns">
-                    <% request.setAttribute(AD_ATTR, currentAd); %>
+                    <% request.setAttribute(AD_ATTR, currentAd);
+						String hideForMobileCheck = currentAd.getProperties().get("hideForMobile", "false");
+                    			if(!hideForMobileCheck.equals("true")){	
+                    				%>
                     <cq:include script="display-ad.jsp"/>
+                    <%} %>
                     </div>
                     </div>
                     <% adCount--;
