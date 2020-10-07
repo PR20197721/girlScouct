@@ -539,7 +539,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
                 }else {
                     //Finance/Administration
                     if ("FA".equals(roleType)) {
-                        troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+                        troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_FINANCE_PERMISSIONS));
                     }
                 }
             }

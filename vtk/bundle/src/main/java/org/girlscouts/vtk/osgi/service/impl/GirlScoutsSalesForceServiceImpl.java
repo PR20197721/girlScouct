@@ -505,6 +505,9 @@ public class GirlScoutsSalesForceServiceImpl extends BasicGirlScoutsService impl
                         if ("DP".equals(_troop.getRole()) && "PA".equals(troop.getRole())) {
                             troop.setRole("DP");
                         }
+                        if ("DP".equals(_troop.getRole()) && "FA".equals(troop.getRole())) {
+                            troop.setRole("DP");
+                        }
                     } catch (Exception e) {
                         log.error("Error occurred while merging troops for user ", e);
                     }
