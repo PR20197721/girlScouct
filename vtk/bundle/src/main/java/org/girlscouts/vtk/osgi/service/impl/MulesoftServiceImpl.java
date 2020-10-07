@@ -316,7 +316,7 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
     private void setTroopsForUser(User user, UserInfoResponseEntity userInfoResponseEntity) {
         List<Troop> parentTroops = getParentTroops(user, userInfoResponseEntity);
         List<Troop> additionalTroops = getTroops(user);
-        List<Troop> mergedTroops = mergeTroops(parentTroops, additionalTroops);
+        List<Troop> mergedTroops = mergeParentAndJobTroops(parentTroops, additionalTroops);
         //Service Unit Manager
         if (user.isServiceUnitManager()) {
             mergedTroops.addAll(buildServiceUnitManagerTroops(user));
@@ -546,61 +546,61 @@ public class MulesoftServiceImpl extends BasicGirlScoutsService implements Mules
         }
     }
 
-    private List<Troop> mergeTroops(List<Troop> A, List<Troop> B) {
-        if ((A == null && B == null) || (A.size() <= 0 && B.size() <= 0)) {
+    private List<Troop> mergeParentAndJobTroops(List<Troop> parentTroops, List<Troop> jobTroops) {
+        List<Troop> resultTroops = new ArrayList<>();
+        if ((parentTroops == null && jobTroops == null) || (parentTroops.size() <= 0 && jobTroops.size() <= 0)) {
             return new ArrayList();
         }
-        if ((A == null || A.size() <= 0) && (B != null)) {
-            return B;
+        if ((parentTroops == null || parentTroops.size() <= 0) && (jobTroops != null)) {
+            return jobTroops;
         }
-        if ((B == null || B.size() <= 0) && A != null) {
-            return A;
+        if ((jobTroops == null || jobTroops.size() <= 0) && parentTroops != null) {
+            return parentTroops;
         }
-        List<Troop> troopDiff = getTroopsNotInA(A, B);
-        A.addAll(troopDiff);
-        for (int i = 0; i < A.size(); i++) {
-            Troop troop = A.get(i);
-            for (int y = 0; y < B.size(); y++) {
-                Troop _troop = B.get(y);
-                if (_troop.getTroopId().equals(troop.getTroopId())) {
-                    try {
-                        if ("DP".equals(_troop.getRole()) && "PA".equals(troop.getRole())) {
-                            troop.setRole("DP");
-                        }
-                    } catch (Exception e) {
-                        log.error("Error occurred while merging troops for user ", e);
-                    }
-                    try {
-                        if (troop.getPermissionTokens() == null) {
-                            troop.setPermissionTokens(new HashSet<Integer>());
-                        }
-                        troop.getPermissionTokens().addAll(_troop.getPermissionTokens());
-                    } catch (Exception e) {
-                        log.error("Error occurred while merging permissions for troops " + troop.getSfTroopId() + " and " + _troop.getSfTroopId(), e);
-                    }
-                }
-            }
-        }
-        return A;
+        resultTroops.addAll(parentTroops);
+        resultTroops.addAll(jobTroops);
+        resultTroops = mergeRoles(resultTroops);
+        return resultTroops;
     }
 
-    private List<Troop> getTroopsNotInA(List<Troop> A, List<Troop> B) {
-        List<Troop> troopDiff = new ArrayList();
-        for (int i = 0; i < B.size(); i++) {
-            Troop troop = B.get(i);
-            boolean isFound = false;
-            for (int y = 0; y < A.size(); y++) {
-                Troop _troop = A.get(y);
-                if (_troop.getTroopId().equals(troop.getTroopId())) {
-                    isFound = true;
-                    break;
+    private List<Troop> mergeRoles(List<Troop> jobTroops) {
+        Map<String,Troop> troopMap = new HashMap<>();
+        for (int i = 0; i < jobTroops.size(); i++) {
+            Troop troop1 = jobTroops.get(i);
+            Set<String> roles = new HashSet<>();
+            roles.add(troop1.getRole());
+            if(!troopMap.containsKey(troop1.getTroopId())){
+                for (int j = i; j < jobTroops.size(); j++) {
+                    Troop troop2 = jobTroops.get(j);
+                    if(troop1.getTroopId().equals(troop2.getTroopId())){
+                        roles.add(troop2.getRole());
+                    }
                 }
             }
-            if (!isFound) {
-                troopDiff.add(troop);
+            if(roles.contains("CA")) {
+                troop1.setRole("CA");
+                troop1.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+            } else {
+                if (roles.contains("DP")) {
+                    troop1.setRole("DP");
+                    troop1.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+                } else {
+                    if (roles.contains("FA")) {
+                        troop1.setRole("FA");
+                        troop1.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_FINANCE_PERMISSIONS));
+                    } else {
+                        if (roles.contains("PA")) {
+                            troop1.setRole("PA");
+                            troop1.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+                        }
+                    }
+                }
             }
+            troopMap.put(troop1.getTroopId(),troop1);
         }
-        return troopDiff;
+        jobTroops = new ArrayList<>();
+        jobTroops.addAll(troopMap.values());
+        return jobTroops;
     }
 
     private String getUserTimezone(String councilCode){
