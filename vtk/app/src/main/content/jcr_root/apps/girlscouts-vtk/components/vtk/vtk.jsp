@@ -18,7 +18,7 @@
             <script>self.location = "/content/girlscouts-vtk/en/vtk.finances.html"; </script>
             <%
         } else {
-            if (selectedTroop.getYearPlan() != null || (selectedTroop.getRole() != null && selectedTroop.getRole().equals("PA") && !"IRM".equals(selectedTroop.getParticipationCode()))) {
+            if (selectedTroop.getYearPlan() != null || (selectedTroop.getRole() != null && (selectedTroop.getRole().equals("PA") || selectedTroop.getRole().equals("FA")) && !"IRM".equals(selectedTroop.getParticipationCode()))) {
                 %>
                 <%@include file="plan.jsp" %>
                 <%

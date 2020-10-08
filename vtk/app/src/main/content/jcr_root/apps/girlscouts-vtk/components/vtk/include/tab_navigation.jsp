@@ -23,18 +23,22 @@
         if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("PA")) {
             isParent = true;
         }
+        boolean isFinanceAdmin = false;
+        if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("FA")) {
+            isFinanceAdmin = true;
+        }
         boolean isTroopLeader = false;
         if (selectedTroop.getRole() != null && selectedTroop.getRole().equals("DP") || "IRM".equals(selectedTroop.getParticipationCode())) {
             isTroopLeader = true;
         }
         String vtk_cache_uri = "/content/girlscouts-vtk/en";
-        if (isParent && !"IRM".equals(selectedTroop.getParticipationCode())) {
+        if ((isParent || isFinanceAdmin) && !"IRM".equals(selectedTroop.getParticipationCode())) {
             vtk_cache_uri = "/myvtk/" + councilMapper.getCouncilName(selectedTroop.getSfCouncil());
 
         }
         String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
         boolean financeTabEnabled = !VtkUtil.getFinanceTabDisabledCouncils().contains(selectedTroop.getCouncilCode()) && 
-            (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole())));
+            (!apiConfig.isDemoUser() && !selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()) || isFinanceAdmin));
     %>
     <div id="troop" class="row">
         <div class="columns large-7 medium-9 right">
@@ -97,7 +101,7 @@
                 <%}%>
                 <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_VIEW_YEARPLAN_ID) && !selectedTroop.getIsLoadedManualy()) { %>
                 <dd <%= "plan".equals(activeTab) ? "class='active'" : "class=''" %>>
-                    <%if (!isParent && selectedTroop.getYearPlan() == null) { %>
+                    <%if (!isParent && !isFinanceAdmin && selectedTroop.getYearPlan() == null) { %>
                     <a href="javascript:void(0)"
                        onclick="modalAlert.alert('YEAR PLAN & MEETING PLAN','<p>You must first make a selection on the Explore tab, in order to view a Year Plan or meeting</p>')">
                         <%= (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "")) ? "Year Plan" : "Past Year Plans"%>
@@ -121,7 +125,7 @@
                     <%
                     } else {
                         String emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"You must first make a selection on the Explore tab, in order to view a Year Plan or meeting\"";
-                        if (isParent) {
+                        if (isParent || isFinanceAdmin) {
                             emptyYearPlanPopup = "\"YEAR PLAN & MEETING PLAN\",\"Your leader must first set up a year plan before you can view meetings.\"";
                         }
                     %>
@@ -206,7 +210,7 @@
                             <li><a title="Add Activity" onclick="newActivity()">Add Activity</a></li>
                             <%
                                 java.util.Map archivedPlans = troopDAO.getArchivedYearPlans(user, selectedTroop);
-                                if (!isParent && new java.util.Date().after(new java.util.Date(configManager.getConfig("startShowingArchiveCmd"))) && !apiConfig.isDemoUser() && archivedPlans != null && archivedPlans.size() > 0) {
+                                if (!isParent && !isFinanceAdmin && new java.util.Date().after(new java.util.Date(configManager.getConfig("startShowingArchiveCmd"))) && !apiConfig.isDemoUser() && archivedPlans != null && archivedPlans.size() > 0) {
                             %>
                             <li><a title="Past Years"
                                    onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')">PAST YEARS</a>
@@ -446,7 +450,7 @@
                     <%
                         if (user.getCurrentYear().equals(VtkUtil.getCurrentGSYear() + "") && activeTab != null && "plan".equals(activeTab)) {
                             java.util.Map archivedPlans = troopDAO.getArchivedYearPlans(user, selectedTroop);
-                            if (!isParent && new java.util.Date().after(new java.util.Date(configManager.getConfig("startShowingArchiveCmd"))) && !apiConfig.isDemoUser() && archivedPlans != null && archivedPlans.size() > 0) {
+                            if (!isParent && !isFinanceAdmin && new java.util.Date().after(new java.util.Date(configManager.getConfig("startShowingArchiveCmd"))) && !apiConfig.isDemoUser() && archivedPlans != null && archivedPlans.size() > 0) {
                     %>
                     <div class="past_years">
                         <a title="Past Years" href="javascript:void(0)"

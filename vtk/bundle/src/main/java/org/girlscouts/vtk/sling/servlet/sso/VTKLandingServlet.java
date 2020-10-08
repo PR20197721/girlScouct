@@ -64,15 +64,54 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
         try {
             ResourceResolver resourceResolver = request.getResourceResolver();
             final Session jcrSession = resourceResolver.adaptTo(Session.class);
-            HttpSession httpSession = request.getSession();
             final UserManager userManager = resourceResolver.adaptTo(UserManager.class);
             final User aemUser = (User) userManager.getAuthorizable(jcrSession.getUserID());
             String principalName = aemUser.getPrincipal().getName();
             log.debug("Processing user {}",principalName);
-            String vtkRedirect = "/content/girlscouts-vtk/en/vtk.html";
-            if(!isActiveVTKSession(request)){
+
+            if(isActiveVTKSession(request)){
+                String vtkRedirect = "/content/girlscouts-vtk/en/vtk.html";
+                try {
+                    HttpSession httpSession = request.getSession();
+                    ApiConfig apiConfig = ((ApiConfig) httpSession.getAttribute(ApiConfig.class.getName()));
+                    if (apiConfig != null && !apiConfig.isFail()) {
+                        org.girlscouts.vtk.models.User vtkUser = apiConfig.getUser();
+                        List<Troop> userTroops = vtkUser.getTroops();
+                        if (userTroops.size() > 0) {
+                            try {
+
+                                Troop selectedTroop = userTroops.get(0);
+                                if (VtkUtil.getTroop(httpSession) != null) {
+                                    selectedTroop = VtkUtil.getTroop(httpSession);
+                                } else {
+                                    log.debug("setting current user as: "+apiConfig.getUser());
+                                    httpSession.setAttribute(org.girlscouts.vtk.models.User.class.getName(), apiConfig.getUser());
+                                    log.debug("setting current troop as: "+apiConfig.getUser().getTroops().get(0));
+                                    httpSession.setAttribute("VTK_troop", selectedTroop);
+                                }
+                                String councilId = selectedTroop.getCouncilCode();
+                                String userRole = selectedTroop.getRole();
+                                userRole = userRole == null ? "" : userRole;
+                                if (!userRole.equals("DP")) {
+                                    if (vtkUser.isAdmin()) {
+                                        vtkRedirect = "/myvtk/" + councilMapper.getCouncilName(councilId) + "/vtk.resource.html";
+                                    }
+                                }
+                            } catch (Exception e) {
+                            }
+                        }else{
+                            returnError( response,  httpSession,  vtkRedirect, "Unable to get troop details");
+                        }
+                    }
+                } catch (Exception e) {
+                    log.error("Error occured:", e);
+                }
+                response.sendRedirect(vtkRedirect);
+            }else{
+                String vtkRedirect = "/content/girlscouts-vtk/en/vtk.html";
                 ApiConfig apiConfig = mulesoftService.getApiConfig(aemUser);
                 log.debug("apiConfig="+apiConfig);
+                HttpSession httpSession = request.getSession();
                 if(apiConfig != null && apiConfig.getUser() != null && apiConfig.getUser().getTroops() != null && apiConfig.getUser().getTroops().size() != 0) {
                     String lastName = aemUser.getProperty("./profile/familyName") != null ? aemUser.getProperty("./profile/familyName")[0].getString() : null;
                     String firstName = aemUser.getProperty("./profile/givenName") != null ? aemUser.getProperty("./profile/givenName")[0].getString() : null;
@@ -81,7 +120,6 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
                     String gsUserType = aemUser.getProperty("./profile/gsUserType") != null ? aemUser.getProperty("./profile/gsUserType")[0].getString() : null;
                     log.debug("AEM User In Session: firstName:"+firstName+", lastName:"+lastName+", gsGlobalId="+gsGlobalId+", email="+email+", gsUserType="+gsUserType);
                     setNameInCookie(firstName, lastName, response);
-
                     httpSession.setAttribute(ApiConfig.class.getName(), apiConfig);
                     log.debug("setting current user as: "+apiConfig.getUser());
                     httpSession.setAttribute(org.girlscouts.vtk.models.User.class.getName(), apiConfig.getUser());
@@ -114,43 +152,6 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
                     }
 
                 }
-            }else{
-                if (isDemoUser(aemUser)) {
-                    vtkRedirect = "/content/girlscouts-demo/en.html";
-                }else {
-                    try {
-                        ApiConfig apiConfig = ((ApiConfig) request.getSession().getAttribute(ApiConfig.class.getName()));
-                        if (apiConfig != null && !apiConfig.isFail()) {
-                            org.girlscouts.vtk.models.User vtkUser = apiConfig.getUser();
-                            List<Troop> userTroops = vtkUser.getTroops();
-                            if (userTroops.size() > 0) {
-                                try {
-                                    Troop selectedTroop = userTroops.get(0);
-                                    if (VtkUtil.getTroop(httpSession) != null) {
-                                        selectedTroop = VtkUtil.getTroop(httpSession);
-                                    } else {
-                                        log.debug("setting current user as: "+apiConfig.getUser());
-                                        httpSession.setAttribute(org.girlscouts.vtk.models.User.class.getName(), apiConfig.getUser());
-                                        log.debug("setting current troop as: "+apiConfig.getUser().getTroops().get(0));
-                                        httpSession.setAttribute("VTK_troop", selectedTroop);
-                                    }
-                                    String councilId = selectedTroop.getCouncilCode();
-                                    String userRole = selectedTroop.getRole();
-                                    userRole = userRole == null ? "" : userRole;
-                                    if (!userRole.equals("DP")) {
-                                        if (vtkUser.isAdmin()) {
-                                            vtkRedirect = "/myvtk/" + councilMapper.getCouncilName(councilId) + "/vtk.resource.html";
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        log.error("Error occured:", e);
-                    }
-                }
-                response.sendRedirect(vtkRedirect);
             }
 
         } catch (Exception e) {
@@ -206,19 +207,6 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
             isActiveVtkSession = true;
         }
         return isActiveVtkSession;
-    }
-
-    private boolean isDemoUser(User user) {
-        Boolean isDemo = false;
-        try {
-            String email = user.getProperty("./profile/email") != null ? user.getProperty("./profile/email")[0].getString() : null;
-            if(email != null && email.endsWith("@vtkdemo.girlscouts.org")){
-                isDemo = true;
-            }
-        }catch(Exception e){
-            log.error("Error occurred:",e);
-        }
-        return isDemo;
     }
 
     /**
