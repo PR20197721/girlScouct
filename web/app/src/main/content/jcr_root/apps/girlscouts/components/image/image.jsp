@@ -66,7 +66,7 @@
 	String imageWidth = properties.get("./width", "0");
 	String imageHeight = properties.get("./height", "0");
 	String caption = properties.get("./jcr:description", "");
-	String imageCaptionWidth = "width:" + originalWidth + "px";
+	String imageCaptionWidth = "max-width:" + originalWidth + "px";
     String buttonPath = currentPage.getPath() + "/print-css";
 	String padding = pTop + pBottom + pLeft + pRight;
 	String currentPath = currentPage.getPath();

@@ -107,7 +107,7 @@
 	String caption = properties.get("./image/jcr:description", "");
 	String imgHeight = properties.get("./image/height", "0");
 	String padding = piTop + piBottom + piLeft + piRight;
-	String imageCaptionWidth = "width:" + originalWidth + "px";
+	String imageCaptionWidth = "max-width:" + originalWidth + "px";
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
 		styleImage = "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";
 	}

@@ -70,7 +70,7 @@
 	String imageWidth = properties.get("./width", "0");
 	String imageHeight = properties.get("./height", "0");
 	String caption = properties.get("./jcr:description", "");
-	String imageCaptionWidth = "width:" + originalWidth + "px";
+	String imageCaptionWidth = "max-width:" + originalWidth + "px";
 	String padding = pTop + pBottom + pLeft + pRight;
 	
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
