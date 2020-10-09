@@ -89,7 +89,7 @@
 	String width = properties.get("./image/width", "0");
 	String caption = properties.get("./image/jcr:description", "");	
 	String imgHeight = properties.get("./image/height", "0");
-	String imageCaptionWidth = "width:" + originalWidth + "px";
+	String imageCaptionWidth = "max-width:" + originalWidth + "px";
 	//styleImage = "margin: 0px !important;";
 	String padding = piTop + piBottom + piLeft + piRight;
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
