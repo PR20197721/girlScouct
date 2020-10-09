@@ -92,7 +92,7 @@ public class VTKLandingServlet extends SlingAllMethodsServlet implements OptingS
                                 String councilId = selectedTroop.getCouncilCode();
                                 String userRole = selectedTroop.getRole();
                                 userRole = userRole == null ? "" : userRole;
-                                if (!userRole.equals("DP")) {
+                                if (!userRole.equals("DP") && !userRole.equals("FA")) {
                                     if (vtkUser.isAdmin()) {
                                         vtkRedirect = "/myvtk/" + councilMapper.getCouncilName(councilId) + "/vtk.resource.html";
                                     }

@@ -359,10 +359,6 @@
                                         <% } %>
                                     <ul>
                                     </ul>
-                                        <%if(apiConfig.isDemoUser()){%>
-                                    <p style="color:orange;text-align: right; width:100%">Council activities are not
-                                        available in the demo at this time.</p>
-                                        <%}%>
                             </div>
                             <input id="view_activities_button" type="button" value="View Activities"
                                    onclick='searchActivities()' class="button btn right inactive-button"/>

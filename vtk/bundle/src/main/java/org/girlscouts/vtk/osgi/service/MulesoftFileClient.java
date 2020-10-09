@@ -7,13 +7,13 @@ import org.girlscouts.vtk.rest.entity.mulesoft.UserInfoResponseEntity;
 
 public interface MulesoftFileClient {
 
-    UserInfoResponseEntity getUser(String gsGlobalId, Boolean isDemo);
+    UserInfoResponseEntity getUser(String gsGlobalId);
 
-    TroopInfoResponseEntity getTroops(String gsGlobalId, Boolean isDemo);
+    TroopInfoResponseEntity getTroops(String gsGlobalId);
 
-    TroopMembersResponseEntity getMembers(String sfTroopId, Boolean isDemo);
+    TroopMembersResponseEntity getMembers(String sfTroopId);
 
-    TroopLeadersResponseEntity getTroopLeaders(String sfTroopId, Boolean isDemo);
+    TroopLeadersResponseEntity getTroopLeaders(String sfTroopId);
 
     TroopInfoResponseEntity getServiceUnitManagerTroops();
 

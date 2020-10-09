@@ -22,7 +22,6 @@ public class User implements Serializable {
     private boolean isActive;
     private boolean isAdmin;
     private boolean isServiceUnitManager;
-    private boolean isDemo;
     private String adminCouncilId;
     private List<Troop> troops;
 
@@ -186,16 +185,9 @@ public class User implements Serializable {
         this.timezone = timezone;
     }
 
-    public boolean isDemo() {
-        return isDemo;
-    }
-
-    public void setDemo(boolean demo) {
-        isDemo = demo;
-    }
 
     @Override
     public String toString() {
-        return "User{" + "sid='" + sid + '\'' + ", currentYear='" + currentYear + '\'' + ", currentFinanceYear=" + currentFinanceYear + ", gSFinanceCutOffDate=" + gSFinanceCutOffDate + ", name='" + name + '\'' + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", assistantPhone='" + assistantPhone + '\'' + ", homePhone='" + homePhone + '\'' + ", contactId='" + contactId + '\'' + ", sfUserId='" + sfUserId + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", timezone='" + timezone + '\'' + ", isActive=" + isActive + ", isAdmin=" + isAdmin + ", isServiceUnitManager=" + isServiceUnitManager + ", isDemo=" + isDemo + ", adminCouncilId='" + adminCouncilId + '\'' + ", troops=" + troops + '}';
+        return "User{" + "sid='" + sid + '\'' + ", currentYear='" + currentYear + '\'' + ", currentFinanceYear=" + currentFinanceYear + ", gSFinanceCutOffDate=" + gSFinanceCutOffDate + ", name='" + name + '\'' + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", assistantPhone='" + assistantPhone + '\'' + ", homePhone='" + homePhone + '\'' + ", contactId='" + contactId + '\'' + ", sfUserId='" + sfUserId + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", timezone='" + timezone + '\'' + ", isActive=" + isActive + ", isAdmin=" + isAdmin + ", isServiceUnitManager=" + isServiceUnitManager +  ", adminCouncilId='" + adminCouncilId + '\'' + ", troops=" + troops + '}';
     }
 }

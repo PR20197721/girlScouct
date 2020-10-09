@@ -12,13 +12,11 @@
     Design newCurrentDesign = null;
     String councilId = null;
     String branch = "";
-    Boolean isDemoUser = false;
     Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
     if(apiConfig == null){
         councilId = "999";
         branch = "/content/vtkcontent";
     }else {
-        isDemoUser = apiConfig.isDemoUser();
         try {
             if(selectedTroop != null){
                 councilId = selectedTroop.getCouncilId();
@@ -74,15 +72,11 @@
             if (newCurrentDesign != null) {
                 request.setAttribute("newCurrentDesign", newCurrentDesign);
             }
-            if (isDemoUser) {
-        %>
-        <cq:include script="headerDemo.jsp"/>
-        <%
-        } else {
-        %>
-        <cq:include script="header.jsp"/>
-        <%
-            }
+
+            %>
+            <cq:include script="header.jsp"/>
+            <%
+
             if (newCurrentPage != null) {
                 request.removeAttribute("newCurrentPage");
             }

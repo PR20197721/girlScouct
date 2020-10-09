@@ -29,7 +29,7 @@ if(globalNav != null){
 				<a class="<%= clazz %> homepage" href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">HOME</a>
 			</li>
 			<li>
-				<a class="<%= clazz %> homepage" href="<%= configManager.getCommunityUrl()%>">MEMBER PROFILE</a>
+				<a class="<%= clazz %> homepage" href="<%= configManager.getRenewUrl()%>">MEMBER PROFILE</a>
 			</li>
 	<%
 		} else {

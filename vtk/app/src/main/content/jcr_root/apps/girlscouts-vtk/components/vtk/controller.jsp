@@ -348,7 +348,7 @@
         } else if (request.getParameter("saveCouncilMilestones") != null) {
             vtklog.debug("saveCouncilMilestones");
 
-            if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
+            if(selectedTroop.getIsSUM()) {
                  yearPlanUtil.saveMilestones(user, null, request);
             } else {
                  yearPlanUtil.saveMilestones(user, selectedTroop, request);

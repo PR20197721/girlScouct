@@ -59,6 +59,8 @@ public class TroopEntityToTroopMapper {
                         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
                         DateTime start = formatter.parseDateTime(startDate);
                         DateTime end = formatter.parseDateTime(endDate);
+                        troop.setStartDate(start);
+                        troop.setEndDate(end);
                         if (start.isBeforeNow() && end.isAfterNow()){
                             if("Troop/Program Leader".equals(jobEntity.getJobCode())){
                                 troop.setRole("DP");
@@ -79,4 +81,5 @@ public class TroopEntityToTroopMapper {
         }
         return null;
     }
+
 }

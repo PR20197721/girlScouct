@@ -34,7 +34,6 @@ public class Troop extends JcrNode {
     private String participationCode;
     private String councilPath;
     private String hash;
-    private Boolean isDemoTroop = Boolean.FALSE;
     private Boolean isIRM = Boolean.FALSE;
     private Boolean isSUM = Boolean.FALSE;
     private Map<Date, YearPlanComponent> schedule;
@@ -276,22 +275,6 @@ public class Troop extends JcrNode {
 
     public void setSfParentId(String sfParentId) {
         this.sfParentId = sfParentId;
-    }
-
-    public Boolean getIsLoadedManualy() {
-        return isLoadedManualy;
-    }
-
-    public void setIsLoadedManualy(Boolean loadedManualy) {
-        this.isLoadedManualy = loadedManualy;
-    }
-
-    public Boolean getIsDemoTroop() {
-        return isDemoTroop;
-    }
-
-    public void setIsDemoTroop(Boolean demoTroop) {
-        isDemoTroop = demoTroop;
     }
 
     public DateTime getStartDate() {

@@ -71,27 +71,21 @@
                         if(selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())){
                             isIRM = true;
                         }
-                    if (apiConfig != null && !apiConfig.isDemoUser()) {
                         if (selectedTroop.getRole().equals("PA")) {
                             %>
                             <%if (!isIRM && VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
-                                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
+                                <a href="<%=configManager.getConfig("renewUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
                             <%}%>
-                                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
+                                <a href="<%=configManager.getConfig("renewUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
                             <%
                         } else {
                             %>
                             <%if (!isIRM && VtkUtil.isRenewMembership(contact.getMembershipYear())) {%>
-                                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
+                                <a href="<%=configManager.getConfig("renewUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
                             <%}%>
-                                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
+                                <a href="<%=configManager.getConfig("renewUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
                             <%
                         }
-                    } else {
-                        %>
-                        <a href="javascript:void(0)" class="button" disabled=true>UPDATE CONTACT INFO</a>
-                        <%
-                    }
                     %>
                 </div>
             </li>

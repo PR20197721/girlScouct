@@ -7,11 +7,7 @@
         src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <%
     String activeTab = "admin_milestones";
-    String councilCode = apiConfig.getUser().getAdminCouncilId();
-    if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
-        councilCode = user.getAdminCouncilId();
-        sessionlog.error("User Council Code: " + councilCode);
-    }
+    String councilCode = user.getAdminCouncilId();
     String councilId = request.getParameter("cid") == null ? councilCode : request.getParameter("cid");
 %>
 <div id="panelWrapper" class="row content milestones meeting-detail">
@@ -30,7 +26,7 @@
             <%
                 int i = 0;
                 java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(user, selectedTroop);
-                if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
+                if(selectedTroop.getIsSUM()) {
                      milestones = yearPlanUtil.getCouncilMilestones(user, null);
                 }
                 for (; i < milestones.size(); i++) {

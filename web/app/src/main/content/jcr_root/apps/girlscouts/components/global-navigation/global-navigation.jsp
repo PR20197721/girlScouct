@@ -144,14 +144,9 @@ if ((links == null || links.length == 0)) {
                     <a data-dropdown="drop1" aria-controls="drop1" class="<%= clazz %> show-for-medium-only menuHighlight" aria-expanded="false"><%= mLabel %></a>
                     <a data-dropdown="drop1" aria-controls="drop1" class="<%= clazz %> show-for-small-only menuHighlight" aria-expanded="false"><%= sLabel %></a>
                     <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
-                      <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
-                       <%if( configManager.isDemoSite()){ %>
-                         <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)" disabled="true">Member Profile</a></li>
-                         <li><a href="/content/girlscouts-demo/en.html">Demo</a></li>                         
-                      <%}else{ %>
-                         <li><a href="<%= configManager.getCommunityUrl()%>">Member Profile</a></li>
-                         <li><a href="<%= path %>">Volunteer Toolkit</a></li>
-                      <%} %>
+                        <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
+                     <li><a href="<%= configManager.getRenewUrl()%>">Member Profile</a></li>
+                     <li><a href="<%= path %>">Volunteer Toolkit</a></li>
                     </ul>
                 </li>
             <%

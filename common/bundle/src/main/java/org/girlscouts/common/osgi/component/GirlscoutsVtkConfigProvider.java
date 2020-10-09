@@ -6,7 +6,6 @@ public interface GirlscoutsVtkConfigProvider {
     public String getHelloUrl();
     public String getLoginUrl();
     public String getLogoutUrl() ;
-    public Boolean isDemoSite();
-    public String getCommunityUrl();
+    public String getRenewUrl();
 
 }

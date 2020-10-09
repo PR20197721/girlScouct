@@ -220,7 +220,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 						<div><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">HOME</a></div>
 					</li>
 					<li>
-						<div><a href="<%= configManager.getCommunityUrl()%>">MEMBER PROFILE</a></div>
+						<div><a href="<%= configManager.getRenewUrl()%>">MEMBER PROFILE</a></div>
 					</li><%
 				}
                     }catch(Exception e){}

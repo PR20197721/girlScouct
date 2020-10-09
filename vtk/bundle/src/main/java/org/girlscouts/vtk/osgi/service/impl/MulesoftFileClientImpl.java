@@ -25,24 +25,22 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     @Reference
     GirlScoutsRepoFileIOService girlScoutsRepoFileIOService;
     private String localJsonPath;
-    private String localDemoFolder;
     private String localDummyFolder;
 
     @Activate
     private void activate(ComponentContext context) {
         this.context = context;
         this.localJsonPath = getConfig("localJsonPath");
-        this.localDemoFolder = getConfig("localDemoFolder");
         this.localDummyFolder = getConfig("localDummyFolder");
         log.info(this.getClass().getName() + " activated.");
     }
 
     @Override
-    public UserInfoResponseEntity getUser(String gsGlobalId, Boolean isDemo) {
+    public UserInfoResponseEntity getUser(String gsGlobalId) {
         UserInfoResponseEntity user = null;
         String path = "";
         try {
-            path = getPath(gsGlobalId, isDemo,  "user");
+            path = getPath(gsGlobalId,  "user");
             log.debug("Loading user file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
@@ -54,11 +52,11 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     }
 
     @Override
-    public TroopInfoResponseEntity getTroops(String gsGlobalId, Boolean isDemo) {
+    public TroopInfoResponseEntity getTroops(String gsGlobalId) {
         TroopInfoResponseEntity troopInfoResponseEntity = null;
         String path = "";
         try {
-            path = getPath(gsGlobalId, isDemo, "troops");
+            path = getPath(gsGlobalId, "troops");
             log.debug("Loading troops file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             troopInfoResponseEntity = new Gson().fromJson(json, TroopInfoResponseEntity.class);
@@ -69,11 +67,11 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     }
 
     @Override
-    public TroopMembersResponseEntity getMembers(String sfTroopId, Boolean isDemo) {
+    public TroopMembersResponseEntity getMembers(String sfTroopId) {
         TroopMembersResponseEntity contactsInfoResponseEntity = null;
         String path = "";
         try {
-            path = getPath(sfTroopId, isDemo, "contacts");
+            path = getPath(sfTroopId, "contacts");
             log.debug("Loading contacts file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
@@ -85,11 +83,11 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     }
 
     @Override
-    public TroopLeadersResponseEntity getTroopLeaders(String sfTroopId, Boolean isDemo) {
+    public TroopLeadersResponseEntity getTroopLeaders(String sfTroopId) {
         TroopLeadersResponseEntity troopLeadersInfoResponseEntity = null;
         String path = "";
         try {
-            path = getPath(sfTroopId, isDemo, "troop_leaders");
+            path = getPath(sfTroopId, "troop_leaders");
             log.debug("Loading troop_leaders file from " + path);
             String json = girlScoutsRepoFileIOService.readFile(path);
             log.debug(json);
@@ -149,12 +147,8 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
 
     }
 
-    private String getPath(String id,  Boolean isDemo, String serviceName) {
-        if (!isDemo) {
-            return getConfig("localJsonPath") + "/" + id + "/" + serviceName + ".json";
-        } else {
-            return localJsonPath + localDemoFolder + "/" + id + "/" + serviceName + ".json";
-        }
+    private String getPath(String id,  String serviceName) {
+        return getConfig("localJsonPath") + "/" + id + "/" + serviceName + ".json";
     }
 
     @ObjectClassDefinition(name = "Girl Scouts VTK SalesForce file client configuration", description = "Girl Scouts VTK SalesForce file client configuration")

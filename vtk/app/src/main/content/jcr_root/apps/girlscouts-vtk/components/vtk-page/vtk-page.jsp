@@ -17,21 +17,7 @@
     try {
         HttpSession session = request.getSession();
         final ConfigManager configManager = sling.getService(ConfigManager.class);
-        boolean isDemoSite = false;
-        String _demoSite = configManager.getConfig("isDemoSite");
-        if (_demoSite != null && _demoSite.equals("true")) {
-            isDemoSite = true;
-        }
-        if (request.getParameter("useAsDemo") != null && !request.getParameter("useAsDemo").trim().equals("")) {
-            session.setAttribute("useAsDemo", request.getParameter("useAsDemo"));
-        } else {
-            session.removeAttribute("useAsDemo");
-        }
         String myUrl = request.getRequestURL().toString();
-        if (myUrl.trim().contains("vtk.demo.index.html")) {
-            org.girlscouts.vtk.auth.models.ApiConfig apiConfig = new org.girlscouts.vtk.auth.models.ApiConfig();
-            session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), apiConfig);
-        }
 
         // read the redirect target from the 'page properties' and perform the
         // redirect if WCM is disabled.

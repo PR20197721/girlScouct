@@ -24,8 +24,7 @@ public class GirlscoutsVtkConfigProviderImpl implements GirlscoutsVtkConfigProvi
 	private String helloUrl=null;
 	private String loginUrl=null;
 	private String logoutUrl=null;
-    private String communityUrl=null;
-	private Boolean isDemoSite=null;
+    private String renewUrl=null;
 	private String[] councilMapping=null;
 
 
@@ -34,9 +33,8 @@ public class GirlscoutsVtkConfigProviderImpl implements GirlscoutsVtkConfigProvi
 		this.helloUrl=config.helloUrl();
 		this.loginUrl=config.loginUrl();
 		this.logoutUrl=config.logoutUrl();
-		this.isDemoSite=config.isDemoSite();
 		this.councilMapping=config.councilMapping();
-		this.communityUrl = config.communityUrl();
+		this.renewUrl = config.renewUrl();
         log.info("Girl Scouts VTK Config Provider Activated.");
 	}
 
@@ -53,17 +51,12 @@ public class GirlscoutsVtkConfigProviderImpl implements GirlscoutsVtkConfigProvi
         return logoutUrl;
     }
     @Override
-    public Boolean isDemoSite() {
-        return isDemoSite;
-    }
-
-    @Override
     public String[] getCouncilMapping() {
         return councilMapping;
     }
     @Override
-    public String getCommunityUrl() {
-        return communityUrl;
+    public String getRenewUrl() {
+        return renewUrl;
     }
 
     @Deactivate
@@ -84,10 +77,7 @@ public class GirlscoutsVtkConfigProviderImpl implements GirlscoutsVtkConfigProvi
         String logoutUrl();
 
         @AttributeDefinition(name = "Member Community URL", type = AttributeType.STRING)
-        String communityUrl();
-
-        @AttributeDefinition(name = "is Demo Site", description = "Is Demo Site?", type = AttributeType.BOOLEAN)
-        boolean isDemoSite() default false;
+        String renewUrl();
 
         @AttributeDefinition(name = "Council Mapping", description = "Defines mappings between a council ID and a content branch. Format: council id::content branch. e.g. 12::gateway")
         String[] councilMapping();
@@ -95,6 +85,6 @@ public class GirlscoutsVtkConfigProviderImpl implements GirlscoutsVtkConfigProvi
 
     @Override
     public String toString() {
-        return "GirlscoutsVtkConfigProviderImpl{" + "helloUrl='" + helloUrl + '\'' + ", loginUrl='" + loginUrl + '\'' + ", logoutUrl='" + logoutUrl + '\'' + ", communityUrl='" + communityUrl + '\'' + ", isDemoSite=" + isDemoSite + ", councilMapping=" + Arrays.toString(councilMapping) + '}';
+        return "GirlscoutsVtkConfigProviderImpl{" + "helloUrl='" + helloUrl + '\'' + ", loginUrl='" + loginUrl + '\'' + ", logoutUrl='" + logoutUrl + '\'' + ", renewUrl='" + renewUrl + '\'' +  ", councilMapping=" + Arrays.toString(councilMapping) + '}';
     }
 }

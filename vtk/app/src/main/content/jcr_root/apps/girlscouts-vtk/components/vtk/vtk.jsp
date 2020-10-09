@@ -13,25 +13,19 @@
         %>
         <%@include file="include/session.jsp" %>
         <%
-        if (selectedTroop.getIsLoadedManualy()) {
+        if (selectedTroop.getYearPlan() != null || (selectedTroop.getRole() != null && (selectedTroop.getRole().equals("PA") || selectedTroop.getRole().equals("FA")) && !"IRM".equals(selectedTroop.getParticipationCode()))) {
             %>
-            <script>self.location = "/content/girlscouts-vtk/en/vtk.finances.html"; </script>
+            <%@include file="plan.jsp" %>
             <%
         } else {
-            if (selectedTroop.getYearPlan() != null || (selectedTroop.getRole() != null && (selectedTroop.getRole().equals("PA") || selectedTroop.getRole().equals("FA")) && !"IRM".equals(selectedTroop.getParticipationCode()))) {
+            if("VTK Admin View".equals(selectedTroop.getTroopName())){
                 %>
-                <%@include file="plan.jsp" %>
+                <script>self.location = "/content/girlscouts-vtk/en/vtk.finances.html"; </script>
                 <%
-            } else {
-                if("VTK Admin View".equals(selectedTroop.getTroopName())){
-                    %>
-                    <script>self.location = "/content/girlscouts-vtk/en/vtk.finances.html"; </script>
-                    <%
-                }else{
-                    %>
-                    <script>self.location = "/content/girlscouts-vtk/en/vtk.explore.html"; </script>
-                    <%
-                }
+            }else{
+                %>
+                <script>self.location = "/content/girlscouts-vtk/en/vtk.explore.html"; </script>
+                <%
             }
         }
     }
