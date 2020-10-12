@@ -71,10 +71,10 @@ public class GirlscoutsVtkConfigProviderImpl implements GirlscoutsVtkConfigProvi
         String helloUrl();
 
         @AttributeDefinition(name = "VTK Log In URL", type = AttributeType.STRING)
-        String loginUrl();
+        String loginUrl() default "/content/girlscouts-vtk/sso/landing.html";;
 
         @AttributeDefinition(name = "VTK Log Out URL", type = AttributeType.STRING)
-        String logoutUrl();
+        String logoutUrl() default "/system/sling/logout?resource=/content/girlscouts-vtk";
 
         @AttributeDefinition(name = "Member Community URL", type = AttributeType.STRING)
         String renewUrl();

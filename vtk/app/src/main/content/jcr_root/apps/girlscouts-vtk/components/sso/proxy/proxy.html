@@ -19,7 +19,12 @@
     </div>
 </div>
 <div class="content">
-    <div class="page-title">Going to the Volunteer Toolkit</div>
+    <sly data-sly-test="${ssoUtil.invalidateSession}">
+        <div class="page-title">Logging out of Volunteer Toolkit</div>
+    </sly>
+    <sly data-sly-test="${!ssoUtil.invalidateSession}">
+        <div class="page-title">Going to the Volunteer Toolkit</div>
+    </sly>
 </div>
 <div class="footer">
     <span>© 2020 Girl Scouts of the United States of America. A 501(c)(3) Organization. All rights reserved.</span>

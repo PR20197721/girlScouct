@@ -311,11 +311,11 @@ public class MulesoftServiceImpl implements MulesoftService {
         List<Troop> mergedTroops = mergeParentAndJobTroops(parentTroops, additionalTroops);
         //Service Unit Manager
         if (user.isServiceUnitManager()) {
-            additionalTroops.addAll(buildServiceUnitManagerTroops(user));
+            mergedTroops.addAll(buildServiceUnitManagerTroops(user));
         }
         //VTK Admin
         if(user.isAdmin()){
-            additionalTroops.add(buildVTKAdminTroop(user));
+            mergedTroops.add(buildVTKAdminTroop(user));
         }
         validateTroops(mergedTroops);
         for (Troop troop : mergedTroops) {

@@ -58,9 +58,14 @@ public class VTKSSOUtil {
         Boolean result = false;
         try {
             HttpSession httpSession = request.getSession();
-            if (httpSession != null) {
-                httpSession.invalidate();
-                result = true;
+            String page = request.getResource().getName();
+            boolean inProxy = page != null && "proxy".equals(page);
+            String mode = request.getParameter("mode");
+            if(!inProxy || "logout".equals(mode)){
+                if (httpSession != null) {
+                    httpSession.invalidate();
+                    result = true;
+                }
             }
         }catch(Exception e){
             log.error("Error occurred:", e );
