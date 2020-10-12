@@ -1107,8 +1107,8 @@ public class MeetingUtil {
         if (mid == null || message == null || message.trim().equals("")) {
             return null;
         }
-        List<Note> notes = getNotesByMid(user, troop, mid);
         MeetingE meeting = VtkUtil.findMeetingById(troop.getYearPlan().getMeetingEvents(), mid);
+        List<Note> notes = meeting.getNotes();
         if (notes == null) {
             notes = new java.util.ArrayList<Note>();
         }
@@ -1119,9 +1119,10 @@ public class MeetingUtil {
         note.setCreateTime(new java.util.Date().getTime());
         note.setRefId(meeting.getUid());
         note.setPath(meeting.getPath() + "/notes/" + note.getUid());
-        notes.add(note);
-        meeting.setNotes(notes);
-        troopUtil.updateTroop(user, troop);
+        note = meetingDAO.createNote(user, troop, note);
+        if(note != null) {
+            notes.add(note);
+        }
         return notes;
 
     }

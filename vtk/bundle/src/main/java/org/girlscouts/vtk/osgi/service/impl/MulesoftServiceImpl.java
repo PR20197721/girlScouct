@@ -311,11 +311,11 @@ public class MulesoftServiceImpl implements MulesoftService {
         List<Troop> mergedTroops = mergeParentAndJobTroops(parentTroops, additionalTroops);
         //Service Unit Manager
         if (user.isServiceUnitManager()) {
-            mergedTroops.addAll(buildServiceUnitManagerTroops(user));
+            additionalTroops.addAll(buildServiceUnitManagerTroops(user));
         }
         //VTK Admin
         if(user.isAdmin()){
-            mergedTroops.add(buildVTKAdminTroop(user));
+            additionalTroops.add(buildVTKAdminTroop(user));
         }
         validateTroops(mergedTroops);
         for (Troop troop : mergedTroops) {
@@ -401,6 +401,7 @@ public class MulesoftServiceImpl implements MulesoftService {
         return troop;
     }
     private List<Troop> getIRMTroops(User user, String accountId, String councilCode) {
+        log.debug("Generating IRM troops for {}", user.getSfUserId());
         List<Troop> irmTroops = new ArrayList<Troop>();
         try {
             //Generating dummy troops for each IRM girl under user
@@ -433,10 +434,12 @@ public class MulesoftServiceImpl implements MulesoftService {
         }catch(Exception e){
             log.error("Error Occurred:", e);
         }
+        log.debug("Generated IRM troops: {}", irmTroops);
         return irmTroops;
     }
 
     private Troop buildVTKAdminTroop(User user) {
+        log.debug("Building VTK Admin troop for: {}", user.getSfUserId());
         Troop dummyVTKAdminTroop = buildTroop(
                 user.getSfUserId(),
                 "CA_"+user.getSfUserId(),
@@ -448,12 +451,14 @@ public class MulesoftServiceImpl implements MulesoftService {
                 false,
                 false,
                 true);
+        dummyVTKAdminTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+        log.debug("Generated VTK Admin troop: ", dummyVTKAdminTroop);
         return dummyVTKAdminTroop;
     }
 
     private List<Troop> buildServiceUnitManagerTroops(Troop troop) {
         List<Troop> troops = new ArrayList<Troop>();
-        troops.add(buildTroop(
+        Troop troopLeaderTroop = buildTroop(
                 troop.getSfUserId(),
                 sumCouncilCode + "_" + troop.getSfUserId(),
                 troop.getCouncilCode(),
@@ -463,8 +468,10 @@ public class MulesoftServiceImpl implements MulesoftService {
                 "7-Multi-level",
                 true,
                 false,
-                false));
-        troops.add(buildTroop(
+                false);
+        troopLeaderTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+        troops.add(troopLeaderTroop);
+        Troop parentTroop = buildTroop(
                 troop.getSfUserId(),
                 sumCouncilCode + "_" + troop.getSfUserId(),
                 troop.getCouncilCode(),
@@ -474,12 +481,15 @@ public class MulesoftServiceImpl implements MulesoftService {
                 "7-Multi-level",
                 true,
                 false,
-                false));
+                false);
+        parentTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+        troops.add(parentTroop);
         return troops;
     }
     private List<Troop> buildServiceUnitManagerTroops(User user) {
+        log.debug("Building demo troops for: {}", user.getSfUserId());
         List<Troop> troops = new ArrayList<Troop>();
-        troops.add(buildTroop(
+        Troop troopLeaderTroop = buildTroop(
                 user.getSfUserId(),
                 sumCouncilCode + "_" + user.getSfUserId(),
                 user.getAdminCouncilId(),
@@ -489,8 +499,10 @@ public class MulesoftServiceImpl implements MulesoftService {
                 "7-Multi-level",
                 true,
                 false,
-                false));
-        troops.add(buildTroop(
+                false);
+        troopLeaderTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+        troops.add(troopLeaderTroop);
+        Troop parentTroop = buildTroop(
                 user.getSfUserId(),
                 sumCouncilCode + "_" + user.getSfUserId(),
                 user.getAdminCouncilId(),
@@ -500,7 +512,10 @@ public class MulesoftServiceImpl implements MulesoftService {
                 "7-Multi-level",
                 true,
                 false,
-                false));
+                false);
+        parentTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+        troops.add(parentTroop);
+        log.debug("Generated demo troops: {}", troops);
         return troops;
     }
 
@@ -558,25 +573,27 @@ public class MulesoftServiceImpl implements MulesoftService {
                     }
                 }
             }
-            if(roles.contains("CA")) {
-                troop1.setRole("CA");
-                troop1.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
-            } else {
-                if (roles.contains("DP")) {
-                    troop1.setRole("DP");
-                    troop1.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
-                } else {
-                    if (roles.contains("FA")) {
-                        troop1.setRole("FA");
-                        troop1.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_FINANCE_PERMISSIONS));
-                    } else {
-                        if (roles.contains("PA")) {
-                            troop1.setRole("PA");
-                            troop1.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
-                        }
-                    }
-                }
+            Set<Integer> permissions = new HashSet<>();
+            String role = "";
+            if (roles.contains("PA")) {
+                role = "PA";
+                permissions.addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
             }
+            if (roles.contains("FA")) {
+                role = "FA";
+                permissions.addAll(Permission.getPermissionTokens(Permission.GROUP_FINANCE_PERMISSIONS));
+            }
+            if (roles.contains("DP")) {
+                role = "DP";
+                permissions.addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+            }
+            if(roles.contains("CA")) {
+                role = "CA";
+                permissions.addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+            }
+            troop1.setRole(role);
+            troop1.setPermissionTokens(permissions);
+            log.debug("Troop: {}, Role: {}, Permissions: {}", troop1.getTroopId(),troop1.getRole(), permissions);
             troopMap.put(troop1.getTroopId(),troop1);
         }
         jobTroops = new ArrayList<>();

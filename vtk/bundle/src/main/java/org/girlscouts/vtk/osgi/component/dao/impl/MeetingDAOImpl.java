@@ -1240,6 +1240,22 @@ public class MeetingDAOImpl implements MeetingDAO {
 
     }
 
+    public Note createNote(User user, Troop troop, Note note) throws IllegalAccessException {
+        if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
+            throw new IllegalAccessException();
+        }
+        if (user.getSfUserId() != null && !user.getSfUserId().equals(note.getCreatedByUserId())) {
+            throw new IllegalAccessException();
+        }
+        try {
+            return girlScoutsNoteOCMService.create(note);
+        } catch (Exception e) {
+            log.error("Error Occurred: ", e);
+        }
+        return null;
+
+    }
+
     public boolean updateNote(User user, Troop troop, Note note) throws IllegalAccessException {
         boolean isRm = false;
         if (user != null && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)) {
