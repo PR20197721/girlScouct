@@ -99,7 +99,7 @@ public class MulesoftRestClientImpl extends BasicGirlScoutsService implements Mu
     public TroopLeadersResponseEntity getTroopLeaders(String troopId) {
         log.debug("Requesting troop leaders for troop " + troopId);
         TroopLeadersResponseEntity troopLeadersInfoResponseEntity = null;
-        String url = this.troopLeaderInfo+ "?Troop_ID=" + troopId;
+        String url = this.troopLeaderInfo+ "?TROOP_ID=" + troopId;
         try {
             String json = doGet(url);
             json = "{\"troopLeaders\":" + json + "}";//Fixing json from salesforce which is coming back in invalid format.

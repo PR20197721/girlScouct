@@ -8,13 +8,9 @@
     String troopId= request.getParameter("tid");
     String councilCode = request.getParameter("cid");
     String currentYear = user.getCurrentYear();
-
     String troopPath = "/vtk" + currentYear + "/" + councilCode + "/troops/" + troopId;
-
-    User impersonateRoot =(User) VtkUtil.deepClone(user);
-    Troop _troop = selectedTroop.getIsTransient() ? selectedTroop : troopUtil.getTroopByPath(impersonateRoot, troopPath);
-    java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,selectedTroop,
-            _troop.getYearPlan(), true, true);
+    Troop _troop = troopUtil.getTroopByPath(user, troopPath);
+    java.util.Map<java.util.Date, YearPlanComponent> sched = _troop.getSchedule();
     Set distinctGirl = new HashSet();
     int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
 %>
@@ -28,7 +24,7 @@
     <div class="content">
         <h4 id="troopName">
             <%
-                java.util.List<Contact> leaders = sling.getService(MulesoftService.class).getTroopLeaders(selectedTroop);
+                java.util.List<Contact> leaders = sling.getService(MulesoftService.class).getTroopLeaders(_troop);
                 if( leaders!=null ){
                     for( int i=0;i<leaders.size();i++){
                         Contact leader = leaders.get(i);

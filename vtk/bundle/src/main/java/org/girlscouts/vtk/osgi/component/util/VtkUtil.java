@@ -297,6 +297,7 @@ public class VtkUtil implements ConfigListener {
      */
     public static Object deepClone(Object object) {
         try {
+            log.debug("Cloning object {}", object.getClass().getName());
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(object);
