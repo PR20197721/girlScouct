@@ -100,7 +100,7 @@
     String councilId = null;
     String referer = "";
     try {
-        if (!apiConfig.getUser().isAdmin()) {
+        if (!apiConfig.getUser().isAdmin() && apiConfig.getUser().getTroops() != null && !apiConfig.getUser().getTroops().isEmpty()) {
             councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
         } else {
             councilId = apiConfig.getUser().getAdminCouncilId();
@@ -134,7 +134,7 @@
     councilId = null;
     String branch = "";
     try {
-        if (!apiConfig.getUser().isAdmin()) {
+        if (!apiConfig.getUser().isAdmin() && apiConfig.getUser().getTroops() != null && !apiConfig.getUser().getTroops().isEmpty()) {
             councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
         } else {
             councilId = apiConfig.getUser().getAdminCouncilId();
