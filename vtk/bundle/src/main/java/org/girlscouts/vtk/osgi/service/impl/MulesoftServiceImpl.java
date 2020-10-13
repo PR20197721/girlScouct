@@ -319,6 +319,21 @@ public class MulesoftServiceImpl implements MulesoftService {
         }
         validateTroops(mergedTroops);
         for (Troop troop : mergedTroops) {
+            String role = troop.getRole();
+            switch(role){
+                case "PA":
+                    troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+                    break;
+                case "DP":
+                    troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+                    break;
+                case "FA":
+                    troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_FINANCE_PERMISSIONS));
+                    break;
+                case "CA":
+                    troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+                    break;
+            }
             troop.setHash(troopHashGenerator.hash(troop));
             if(girlScoutsTroopOCMService.read(troop.getPath()) == null && !troop.getIsTransient()){
                 girlScoutsTroopOCMService.create(troop);
@@ -451,7 +466,6 @@ public class MulesoftServiceImpl implements MulesoftService {
                 false,
                 false,
                 true);
-        dummyVTKAdminTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
         log.debug("Generated VTK Admin troop: ", dummyVTKAdminTroop);
         return dummyVTKAdminTroop;
     }
@@ -469,7 +483,6 @@ public class MulesoftServiceImpl implements MulesoftService {
                 true,
                 false,
                 false);
-        troopLeaderTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
         troops.add(troopLeaderTroop);
         Troop parentTroop = buildTroop(
                 troop.getSfUserId(),
@@ -482,7 +495,6 @@ public class MulesoftServiceImpl implements MulesoftService {
                 true,
                 false,
                 false);
-        parentTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
         troops.add(parentTroop);
         return troops;
     }
@@ -500,7 +512,6 @@ public class MulesoftServiceImpl implements MulesoftService {
                 true,
                 false,
                 false);
-        troopLeaderTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
         troops.add(troopLeaderTroop);
         Troop parentTroop = buildTroop(
                 user.getSfUserId(),
@@ -513,7 +524,6 @@ public class MulesoftServiceImpl implements MulesoftService {
                 true,
                 false,
                 false);
-        parentTroop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
         troops.add(parentTroop);
         log.debug("Generated demo troops: {}", troops);
         return troops;
@@ -573,27 +583,21 @@ public class MulesoftServiceImpl implements MulesoftService {
                     }
                 }
             }
-            Set<Integer> permissions = new HashSet<>();
             String role = "";
             if (roles.contains("PA")) {
                 role = "PA";
-                permissions.addAll(Permission.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
             }
             if (roles.contains("FA")) {
                 role = "FA";
-                permissions.addAll(Permission.getPermissionTokens(Permission.GROUP_FINANCE_PERMISSIONS));
             }
             if (roles.contains("DP")) {
                 role = "DP";
-                permissions.addAll(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
             }
             if(roles.contains("CA")) {
                 role = "CA";
-                permissions.addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
             }
             troop1.setRole(role);
-            troop1.setPermissionTokens(permissions);
-            log.debug("Troop: {}, Role: {}, Permissions: {}", troop1.getTroopId(),troop1.getRole(), permissions);
+            log.debug("Troop: {}, Role: {}", troop1.getTroopId(),troop1.getRole());
             troopMap.put(troop1.getTroopId(),troop1);
         }
         jobTroops = new ArrayList<>();
