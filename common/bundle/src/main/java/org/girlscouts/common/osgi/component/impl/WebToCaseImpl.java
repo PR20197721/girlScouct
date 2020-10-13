@@ -24,6 +24,7 @@ public class WebToCaseImpl implements WebToCase {
 
     private String oid;
     private String apiURL;
+    private boolean sendEmail;
     private Map<String, String> recaptchaMap = new HashMap<>();
     private final Set<String> expectedParams = new HashSet<>();
 
@@ -32,6 +33,7 @@ public class WebToCaseImpl implements WebToCase {
 	private void activate(Config config) {
         this.oid = config.oid();
         this.apiURL = config.apiURL();
+        this.sendEmail = config.sendEmail();
         String[] recaptchaArr = config.recaptchaMap();
         if(recaptchaArr != null ){
             for(String mapping:recaptchaArr){
@@ -74,11 +76,23 @@ public class WebToCaseImpl implements WebToCase {
     }
 
     @Override
+    public boolean isSendEmail() {return this.sendEmail;}
+
+    @Override
     public Set<String> getExpectedParams(){
 	    return this.expectedParams;
     }
+
+
+
+
+
     @ObjectClassDefinition(name = "Girl Scouts Web To Lead Configuration Service")
     public @interface Config {
+        @AttributeDefinition(name = "Send Email") boolean sendEmail() default false;
+
+        @AttributeDefinition(name = "Path to email mapping file") String emailMappings() default "/content/dan/giirlscouts-shared/....";
+
         @AttributeDefinition(name = "Organization ID") String oid() default "00D220000004chr";
 
         @AttributeDefinition(name = "Form submit path") String apiURL() default "https://gsdev1--dev1.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";

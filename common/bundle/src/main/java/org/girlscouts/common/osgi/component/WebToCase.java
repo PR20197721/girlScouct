@@ -9,4 +9,5 @@ public interface WebToCase {
     public String getApiURL();
     public Map<String,String> getRecaptchaMap();
     public Set<String> getExpectedParams();
+    public boolean isSendEmail();
 }
