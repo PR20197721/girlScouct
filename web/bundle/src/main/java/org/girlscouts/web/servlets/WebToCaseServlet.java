@@ -35,11 +35,9 @@ import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.apache.sling.auth.core.AuthUtil;
 import org.girlscouts.common.osgi.component.CouncilCodeToPathMapper;
 import org.girlscouts.common.osgi.component.WebToCase;
 import org.girlscouts.common.osgi.service.GSEmailService;
-import org.girlscouts.web.servlets.handler.WebToCaseServletHandler;
 import org.girlscouts.web.util.WebToCaseUtils;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.ComponentContext;
@@ -49,7 +47,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.mailer.MailService;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
@@ -73,11 +70,6 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 	@Reference
 	private CouncilCodeToPathMapper councilCodeToPathMapper;
 
-	@Reference
-	protected MailService mailService;
-
-	private String councilEmailMapPath;
-
 	private boolean isSendEmail;
 	Dictionary<String, Object> properties;
 
@@ -89,7 +81,6 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 		this.recaptchaMap = webToCase.getRecaptchaMap();
 		this.expectedParams = webToCase.getExpectedParams();
 		this.isSendEmail = webToCase.isSendEmail();
-		this.councilEmailMapPath = webToCase.getCouncilEmailMapPath();
 
 	}
 
@@ -105,20 +96,11 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 
 	protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
 		if (isSendEmail) {
-
-			Resource resource = request.getResource();
-			PageManager pm = resource.getResourceResolver().adaptTo(PageManager.class);
-			Page currentPage = pm.getContainingPage(resource);
-			Page homepage = currentPage.getAbsoluteParent(2);
-			Page site = homepage.getParent();
-			String councilCode = councilCodeToPathMapper.getCouncilCode(site.getPath());
-			WebToCaseServletHandler webToCaseServletHandler = new WebToCaseServletHandler();
-			int status = webToCaseServletHandler.sendEmail(request, response, councilEmailMapPath, properties,
-					councilCode, mailService);
+			int status = webToCase.sendEmail(request, properties, councilCodeToPathMapper);
 			if (status == 200) {
 				respond(new WebToCaseResponse("success", null), response);
 			} else {
-				List<String> errors = null;
+				List<String> errors = new ArrayList<>();
 				errors.add("Error sending email");
 				respond(new WebToCaseResponse("error", errors), response);
 				return;

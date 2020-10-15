@@ -1,7 +1,10 @@
 package org.girlscouts.common.osgi.component;
 
+import java.util.Dictionary;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.sling.api.SlingHttpServletRequest;
 
 public interface WebToCase {
 
@@ -15,5 +18,7 @@ public interface WebToCase {
 
 	public boolean isSendEmail();
 
-	public String getCouncilEmailMapPath();
+	public int sendEmail(SlingHttpServletRequest request, Dictionary<String, Object> properties,
+			CouncilCodeToPathMapper councilCodeToPathMapper);
+
 }
