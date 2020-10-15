@@ -33,6 +33,8 @@ public class VTKDataMigrationUtil{
 
         @AttributeDefinition(name = "Path to Contact Id Mapping File", type = AttributeType.STRING) String contactIdMappingFile() default "/content/dam/vtk-vs2-data-migration/contact-id.csv";
 
+        @AttributeDefinition(name = "Path to Activity Id Mapping File", type = AttributeType.STRING) String activityIdMappingFile() default "/content/dam/vtk-vs2-data-migration/activity-id.csv";
+
     }
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -43,16 +45,19 @@ public class VTKDataMigrationUtil{
     private String troopIdMappingFile;
     private String userIdMappingFile;
     private String contactIdMappingFile;
+    private String activityIdMappingFile;
 
     private Map<String, String> troopIdMapping = new HashMap<String, String>();
     private Map<String, String> userIdMapping = new HashMap<String, String>();
     private Map<String, String> contactIdMapping = new HashMap<String, String>();
+    private Map<String, String> activityIdMapping = new HashMap<String, String>();
 
     @Activate
     void activate(VTKDataMigrationUtilConfiguration config) {
         this.troopIdMappingFile = config.troopIdMappingFile();
         this.userIdMappingFile = config.userIdMappingFile();
         this.contactIdMappingFile = config.contactIdMappingFile();
+        this.activityIdMappingFile = config.activityIdMappingFile();
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         ResourceResolver rr = null;
         try {
@@ -72,6 +77,11 @@ public class VTKDataMigrationUtil{
             if(csvResource != null && !ResourceUtil.isNonExistingResource(csvResource)){
                 loadContents(csvResource, contactIdMapping);
                 log.debug("Loaded {} mappings for contact id", contactIdMapping.size());
+            }
+            csvResource = rr.resolve(this.activityIdMappingFile);
+            if(csvResource != null && !ResourceUtil.isNonExistingResource(csvResource)){
+                loadContents(csvResource, activityIdMapping);
+                log.debug("Loaded {} mappings for activity id", activityIdMapping.size());
             }
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
@@ -129,5 +139,9 @@ public class VTKDataMigrationUtil{
 
     public Map<String, String> getContactIdMapping() {
         return this.contactIdMapping;
+    }
+
+    public Map<String, String> getActivityIdMapping() {
+        return this.activityIdMapping;
     }
 }

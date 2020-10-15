@@ -1,12 +1,12 @@
-<%@page session="false" import="org.apache.sling.jcr.api.SlingRepository,
-                                org.girlscouts.vtk.osgi.component.util.VTKActivitySetRegPathMigrationUtil,
+<%@page session="false" import="com.day.cq.wcm.api.Page,
+                                org.apache.commons.lang.StringUtils,
+                                org.apache.sling.api.resource.Resource,
+                                org.apache.sling.jcr.api.SlingRepository,
+                                org.girlscouts.vtk.osgi.component.util.VTKDataMigrationUtil,
                                 org.slf4j.Logger,
                                 org.slf4j.LoggerFactory,
                                 javax.jcr.Node,
-                                javax.jcr.Session,
-                                javax.jcr.query.Query,
-                                javax.jcr.query.QueryManager,
-                                javax.jcr.query.QueryResult, javax.jcr.query.Row, java.util.concurrent.TimeUnit, org.apache.commons.lang.StringUtils" %>
+                                javax.jcr.Session, javax.jcr.query.*, java.util.HashMap, java.util.Iterator, java.util.Map, java.util.concurrent.TimeUnit" %>
 <%
 %>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -16,8 +16,8 @@
     public static final String RUNNABLE_NAME = "runnable";
 %>
 <%
-    VTKActivitySetRegPathMigrationUtil  regPathUtil = sling.getService(VTKActivitySetRegPathMigrationUtil.class);
-    ServletContext ctxt = application.getContext("/apps/girlscouts-vtk/components/vtk-vs2-set-activity-reg-url");
+    VTKDataMigrationUtil  vtkDataMigrationUtil = sling.getService(VTKDataMigrationUtil.class);
+    ServletContext ctxt = application.getContext("/apps/girlscouts-vtk/components/vtk-vs2-activity-reg-migration");
     String cmd = (request.getParameter("cmd") != null) ? request.getParameter("cmd") : "";
     boolean threadExists = ctxt.getAttribute(THREAD_NAME) != null;
     boolean threadIsAlive = threadExists && ((Thread) (ctxt.getAttribute(THREAD_NAME))).isAlive();
@@ -26,13 +26,13 @@
         dryRun = true;
     }
     if ("stop".equals(cmd) && threadIsAlive) {
-        ((SetTempSFActivityRegistrationURL) (ctxt.getAttribute(RUNNABLE_NAME))).requestStop();
+        ((MigrateVtkActivityRegUrlThread) (ctxt.getAttribute(RUNNABLE_NAME))).requestStop();
         ((Thread) (ctxt.getAttribute(THREAD_NAME))).join();
         %>stopped<%
     } else {
         if (!threadIsAlive && "run".equals(cmd)) {
             SlingRepository repository = sling.getService(SlingRepository.class);
-            SetTempSFActivityRegistrationURL wft = new SetTempSFActivityRegistrationURL(getServletContext(), dryRun, regPathUtil,  repository);
+            MigrateVtkActivityRegUrlThread wft = new MigrateVtkActivityRegUrlThread(getServletContext(), dryRun, vtkDataMigrationUtil,  repository);
             Thread t = new Thread(wft);
             ctxt.setAttribute(THREAD_NAME, t);
             ctxt.setAttribute(RUNNABLE_NAME, wft);
@@ -49,19 +49,20 @@
         }
     }
 %><%!
-    public class SetTempSFActivityRegistrationURL implements Runnable {
+    public class MigrateVtkActivityRegUrlThread implements Runnable {
         private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
         private ServletContext ctxt;
         private volatile boolean stop;
         private boolean dryRun = true;
         private SlingRepository repository;
-        private String tempRegUrl;
+        private Map<String,String> activityIdMap = new HashMap<>();
 
-        public SetTempSFActivityRegistrationURL(ServletContext ctxt, boolean dryRun, VTKActivitySetRegPathMigrationUtil  regPathUtil, SlingRepository repository) {
+
+        public MigrateVtkActivityRegUrlThread(ServletContext ctxt, boolean dryRun, VTKDataMigrationUtil vtkDataMigrationUtil, SlingRepository repository) {
             this.repository = repository ;
             this.ctxt = ctxt;
             this.dryRun = dryRun;
-            this.tempRegUrl = regPathUtil.tempRegUrl();
+            this.activityIdMap = vtkDataMigrationUtil.getActivityIdMapping();
         }
 
         public void requestStop() {
@@ -72,8 +73,8 @@
         public void run() {
             long startTime = System.currentTimeMillis();
             try {
-                log.info("Running SetTempSFActivityRegistrationURLThread " + ((this.dryRun) ? " (Dry Run)" : "") + " with tempRegUrl=" +tempRegUrl);
-                if(!StringUtils.isBlank(tempRegUrl)) {
+                log.info("Running MigrateVtkActivityRegUrlThread " + ((this.dryRun) ? " (Dry Run)" : ""));
+                if(activityIdMap != null && activityIdMap.size() > 0) {
                     Session jcrSession = null;
                     try {
                         jcrSession = repository.loginAdministrative(null);
@@ -83,22 +84,34 @@
                         QueryResult result = q.execute();
                         for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
                             if(this.stop){
-                                log.debug("Stopping SetTempSFActivityRegistrationURLThread");
+                                log.debug("Stopping MigrateVtkActivityRegUrlThread");
                                 return;
                             }
                             Row r = it.nextRow();
                             Node activity = r.getNode();
                             try {
-                                if (activity.hasProperty("registerUrl")) {
-                                    String oldRegUrl = activity.getProperty("registerUrl").getString();
-                                    log.debug("{} before update registerUrl = {}",activity.getPath(),oldRegUrl);
-                                    activity.setProperty("registerUrl",tempRegUrl);
-                                    if(this.stop){
-                                        log.debug("Stopping SetTempSFActivityRegistrationURLThread");
-                                        return;
+                                if(activity.hasProperty("eid")){
+                                    String eid = activity.getProperty("eid").getString();
+                                    if (!StringUtils.isBlank(eid) && activity.hasProperty("registerUrl")) {
+                                        String refUid = activity.getProperty("refUid").getString();
+                                        String searchPath = refUid.substring(0,refUid.lastIndexOf("/"));
+                                        Node importedActivity = getEvent(searchPath,eid,jcrSession);
+                                        Node data = importedActivity.getNode("jcr:content/data");
+                                        if(data.hasProperty("registerUrl")){
+                                            String newRegisterUrl = data.getProperty("registerUrl").getString();
+                                            if(!StringUtils.isBlank(newRegisterUrl)) {
+                                                activity.setProperty("registerUrl", newRegisterUrl);
+                                                if(this.stop){
+                                                    log.debug("Stopping MigrateVtkActivityRegUrlThread");
+                                                    return;
+                                                }
+                                                activity.getSession().save();
+                                                log.debug("{} after update registerUrl = {}",activity.getPath(),newRegisterUrl);
+                                            }
+                                        }
                                     }
-                                    activity.getSession().save();
-                                    log.debug("{} after update registerUrl = {}",activity.getPath(),tempRegUrl);
+                                }else{
+                                    log.debug("No eid found on activity {}", activity.getPath());
                                 }
                             } catch (Exception e) {
                                 log.error("Exception occurred updating reg url for {}", activity.getPath());
@@ -119,7 +132,7 @@
                     log.debug("tempRegUrl is not set");
                 }
             } catch (Exception ie) {
-                log.info("SetTempSFActivityRegistrationURLThread: interrupted ", ie);
+                log.info("MigrateVtkActivityRegUrlThread: interrupted ", ie);
             } finally {
                 disposeOfThread();
                 long endTime = System.currentTimeMillis();
@@ -129,6 +142,24 @@
             }
         }
 
+        private Node getEvent(String activityYearFolder, String id, Session jcrSession) {
+            try {
+                String sql = "SELECT * FROM [cq:Page] AS s WHERE ISDESCENDANTNODE(s, '" + activityYearFolder + "') AND s.[jcr:content/data/eid]='" + id + "'";
+                QueryManager qm = jcrSession.getWorkspace().getQueryManager();
+                Query q = qm.createQuery(sql, Query.JCR_SQL2);
+                log.debug("Executing JCR-SQL2 query: " + sql);
+                QueryResult result = q.execute();
+                for (RowIterator it = result.getRows(); it.hasNext(); ) {
+                    Row r = it.nextRow();
+                    Node activity = r.getNode();
+                    return activity;
+                }
+
+            } catch (Exception e) {
+                log.error("Error occured:" + e);
+            }
+            return null;
+        }
         public void disposeOfThread() {
             synchronized (this.ctxt) {
                 log.debug("Disposing Thread "+THREAD_NAME+" "+RUNNABLE_NAME);
