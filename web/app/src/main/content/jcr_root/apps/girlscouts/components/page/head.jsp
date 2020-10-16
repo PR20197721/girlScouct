@@ -69,7 +69,6 @@
             favIcon = favIcon.replace(":80/", "/");
         }
     }
-<<<<<<< HEAD
 %><head>
     <%
         String pageCategory = "DEFAULT";
