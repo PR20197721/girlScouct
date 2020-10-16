@@ -350,6 +350,11 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                         } catch (Exception e) {
                             log.error("Error occurred while creating a tag {}", fullTagString, e);
                         }
+                        try {
+                            replicator.replicate(rr.adaptTo(Session.class), ReplicationActionType.ACTIVATE, fullTagString);
+                        } catch (Exception e) {
+                            log.error("Error occurred while replicating a tag {}", fullTagString, e);
+                        }
                     }
                     if (tag != null) {
                         aemTags.add(fullTagString);
