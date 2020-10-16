@@ -6,9 +6,9 @@
 	<!-- ====================================================================== -->
 	<groupId>org.girlscouts</groupId>
 	<artifactId>aem</artifactId>
-	<version>4.0.37-SNAPSHOT</version>
+	<version>4.0.38-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Girl Scouts AEM Project, including Web, VTK, GSUSA and GSActivities</name>
+	<name>Girl Scouts AEM Project, including Web, VTK, GSUSA</name>
 	<properties>
 		<slf4jVersion>1.7.12</slf4jVersion>
 		<junitVersion>4.12</junitVersion>

@@ -108,7 +108,7 @@ http://www.w3.org/TR/html401/struct/global.html
         <!-- GSDO-932 Allow only window.open function -->
         <regexp name="window-open" value="window.open\([A-Za-z0-9\,\.\-\_\'\:\/\/\=]+\)[\;]?[\s]?((return)\s(true|false)[\;]?)?$"/>
 		<!-- GSWP-2115 There's an issue with linking to external PDFs -Start  -->
-        <regexp name="validUrlPattern" value ="/((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/" />
+        <regexp name="validUrlPattern" value ="[A-Za-z0-9\,\.\-\_\'\:\/\/\=\%\(\)\?\&amp;\@\#\;\+\~]+" />
 		<!-- GSWP-2115 There's an issue with linking to external PDFs -End  -->
     </common-regexps>
 
@@ -809,7 +809,11 @@ http://www.w3.org/TR/html401/struct/global.html
             <attribute name="target" />
 
             <!--  onInvalid="filterTag" has been removed as per suggestion at OWASP SJ 2007 - just "name" is valid -->
-            <attribute name="href"/>
+            <attribute name="href" onInvalid="removeTag">
+				<regexp-list>
+					<regexp name="validUrlPattern"/>
+				</regexp-list>
+			</attribute>			
             <attribute name="onFocus"/>
             <attribute name="onBlur"/>
             <attribute name="onclick">
@@ -908,14 +912,8 @@ http://www.w3.org/TR/html401/struct/global.html
 
         <tag name="link" action="validate">
 
-            <!-- <attribute name="href" onInvalid="removeTag"/>  -->
-            <!--GSWP-2115 There's an issue with linking to external PDFs - Start -->
-            <attribute name="href" onInvalid="removeTag">
-				<regexp-list>
-					<regexp name="validUrlPattern"/>
-				</regexp-list>
-			</attribute>
-			<!--GSWP-2115 There's an issue with linking to external PDFs - End -->
+            <!-- <attribute name="href" onInvalid="removeTag"/>  -->          
+			
             <attribute name="media"/>
 
             <attribute name="type" onInvalid="removeTag">
