@@ -40,7 +40,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
     private String oldRenew = "";
     private String newRenew = "";
 
-    String renewPattern = "<a.*\"https://gsmembers.force.com/members/login\".*>.*<img src=\".*renew.*\">.*</a>";
+    private String renewPattern = "<a.*\"https://gsmembers.force.com/members/login\".*>.*<img src=\".*renew.*\">.*</a>";
 
     @Activate
     private void activate(Config config) {
@@ -51,6 +51,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
         this.newVolunteer = config.newVolunteer();
         this.oldRenew = config.oldRenew();
         this.newRenew = config.newRenew();
+        this.renewPattern = "<a.*\""+this.oldRenew+"\".*>.*<img src=\".*renew.*\">.*</a>";
         log.info("Activated.");
     }
 

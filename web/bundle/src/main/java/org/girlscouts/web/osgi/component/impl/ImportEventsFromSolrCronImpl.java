@@ -334,7 +334,8 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
             if (tags != null) {
                 List<String> aemTags = new ArrayList<>();
                 for (String tagStr : tags) {
-                    String fullTagString = ACTIVITY_TAG_NAMESPACE + ":" + tagStr;
+                    tagStr = tagStr.replace("event-focus","categories");
+                    String fullTagString = ACTIVITY_TAG_NAMESPACE + ":" + tagStr.replace(" ","-");
                     fullTagString = fullTagString.toLowerCase();
                     TagManager tagManager = rr.adaptTo(TagManager.class);
                     Tag tag = null;
