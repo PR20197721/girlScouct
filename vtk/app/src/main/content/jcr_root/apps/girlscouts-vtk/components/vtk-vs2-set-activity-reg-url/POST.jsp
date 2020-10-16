@@ -97,7 +97,9 @@
                                         log.debug("Stopping SetTempSFActivityRegistrationURLThread");
                                         return;
                                     }
-                                    activity.getSession().save();
+                                    if(!this.dryRun) {
+                                        activity.getSession().save();
+                                    }
                                     log.debug("{} after update registerUrl = {}",activity.getPath(),tempRegUrl);
                                 }
                             } catch (Exception e) {

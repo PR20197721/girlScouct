@@ -105,7 +105,9 @@
                                                     log.debug("Stopping MigrateVtkActivityRegUrlThread");
                                                     return;
                                                 }
-                                                activity.getSession().save();
+                                                if(!this.dryRun) {
+                                                    activity.getSession().save();
+                                                }
                                                 log.debug("{} after update registerUrl = {}",activity.getPath(),newRegisterUrl);
                                             }
                                         }
