@@ -3,7 +3,7 @@
     jcr:primaryType="nt:file">
     <jcr:content
         jcr:encoding="UTF-8"
-        jcr:lastModifiedBy="Administrator"
+        jcr:lastModifiedBy="sling-jcr-install"
         jcr:mimeType="text/plain"
         jcr:primaryType="nt:resource"/>
 </jcr:root>
