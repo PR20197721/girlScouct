@@ -17,8 +17,6 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component(service = {JoinVolunteerMigration.class}, immediate = true, name = "org.girlscouts.web.osgi.service.impl.JoinVolunteerMigrationImpl")
 @Designate(ocd = JoinVolunteerMigrationImpl.Config.class)
@@ -173,7 +171,8 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
             value = newUrl.trim();
         }else{
             log.debug("checking if reference is in html block of rich text component");
-            if(Pattern.matches(renewPattern, value)){
+            value = value.replaceAll(oldURL, newUrl);
+            /*if(Pattern.matches(renewPattern, value)){
                 log.debug("Processing renew link");
                 String oldInQuotes = "\""+oldURL+"\"";
                 String newQuotes = "\""+newUrl+"\"";
@@ -191,7 +190,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                 value = bufStr.toString();
             }else{
                 log.debug("Skipping. Value doesn't have any matches for "+renewPattern);
-            }
+            }*/
         }
         return value;
     }
@@ -199,11 +198,11 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
     @ObjectClassDefinition(name = "Join Volunteer Renew Migration Configuration")
     public @interface Config {
         @AttributeDefinition(name = "Old Join URL", type = AttributeType.STRING) String oldJoin() default "https://girlscouts.secure.force.com/girl";
-        @AttributeDefinition(name = "New Join URL", type = AttributeType.STRING) String newJoin();
+        @AttributeDefinition(name = "New Join URL", type = AttributeType.STRING) String newJoin() default "https://www.girlscouts.org/vs2tempjoin#join";
         @AttributeDefinition(name = "Old Volunteer URL", type = AttributeType.STRING) String oldVolunteer() default "https://girlscouts.secure.force.com";
-        @AttributeDefinition(name = "New Volunteer URL", type = AttributeType.STRING) String newVolunteer();
+        @AttributeDefinition(name = "New Volunteer URL", type = AttributeType.STRING) String newVolunteer() default "https://www.girlscouts.org/vs2tempjoin#volunteer";
         @AttributeDefinition(name = "Old Renew URL", type = AttributeType.STRING) String oldRenew() default "https://gsmembers.force.com/members/login";
-        @AttributeDefinition(name = "New Renew URL", type = AttributeType.STRING) String newRenew();
+        @AttributeDefinition(name = "New Renew URL", type = AttributeType.STRING) String newRenew() default "https://www.girlscouts.org/vs2temprenew";
     }
 
     public String getOldJoin() {

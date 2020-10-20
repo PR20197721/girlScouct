@@ -12,7 +12,6 @@ import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopLeadersResponseEntity;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopMembersResponseEntity;
 import org.girlscouts.vtk.rest.entity.mulesoft.UserInfoResponseEntity;
-import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
@@ -34,19 +33,19 @@ public class MulesoftRestClientImpl extends BasicGirlScoutsService implements Mu
     private String troopInfo;
     private String troopLeaderInfo;
     private String contactsInfo;
-    private String client_id;
+    private String clientId;
     private String client_secret;
 
     @Activate
-    private void activate(ComponentContext context) {
+    private void activate(Config config) {
         this.context = context;
-        this.endpoint = getConfig("endpoint");
-        this.userInfo = this.endpoint + getConfig("userInfo");
-        this.troopInfo = this.endpoint + getConfig("troopInfo");
-        this.troopLeaderInfo = this.endpoint + getConfig("troopLeaderInfo");
-        this.contactsInfo = this.endpoint + getConfig("contactsInfo");
-        this.client_id = getConfig("client_id");
-        this.client_secret = getConfig("client_secret");
+        this.endpoint = config.endpoint();
+        this.userInfo = this.endpoint + config.userInfo();
+        this.troopInfo = this.endpoint + config.troopInfo();
+        this.troopLeaderInfo = this.endpoint + config.troopLeaderInfo();
+        this.contactsInfo = this.endpoint + config.contactsInfo();
+        this.clientId = config.clientId();
+        this.client_secret = config.clientSecret();
         log.info("Girl Scouts VTK Mulesoft Rest Client Activated.");
     }
 
@@ -117,9 +116,9 @@ public class MulesoftRestClientImpl extends BasicGirlScoutsService implements Mu
             httpClient = HttpClientBuilder.create().build();
             HttpGet getRequest = new HttpGet(url);
             getRequest.addHeader("accept", "application/json");
-            getRequest.addHeader("client_id", this.client_id);
+            getRequest.addHeader("client_id", this.clientId);
             getRequest.addHeader("client_secret", this.client_secret);
-            log.debug("curl -X GET '" + url + "' -H 'Accept: application/json' -H 'client_id: " + this.client_id + "' -H 'client_secret:" + this.client_secret + "'");
+            log.debug("curl -X GET '" + url + "' -H 'Accept: application/json' -H 'client_id: " + this.clientId + "' -H 'client_secret:" + this.client_secret + "'");
             HttpResponse response = httpClient.execute(getRequest);
             String json = getJsonFromResponse(response);
             return json;
@@ -152,19 +151,19 @@ public class MulesoftRestClientImpl extends BasicGirlScoutsService implements Mu
 
     @ObjectClassDefinition(name = "Girl Scouts VTK Mulesoft Rest client configuration", description = "Girl Scouts VTK Mulesoft Rest client configuration")
     public @interface Config {
-        @AttributeDefinition(name = "Mulesoft rest endpoint url", type = AttributeType.STRING) String endpoint();
+        @AttributeDefinition(name = "Mulesoft rest endpoint url", type = AttributeType.STRING) String endpoint() default "https://api-uat.girlscoutsnetwork.org/api/sfdc/v1/ProductAccess";
 
-        @AttributeDefinition(name = "Mulesoft user info api", type = AttributeType.STRING) String userInfo();
+        @AttributeDefinition(name = "Mulesoft user info api", type = AttributeType.STRING) String userInfo() default "/UserInfo";
 
-        @AttributeDefinition(name = "Mulesoft troop info api", type = AttributeType.STRING) String troopInfo();
+        @AttributeDefinition(name = "Mulesoft troop info api", type = AttributeType.STRING) String troopInfo() default "/MyTroopData";
 
-        @AttributeDefinition(name = "Mulesoft troop leader info api", type = AttributeType.STRING) String troopLeaderInfo();
+        @AttributeDefinition(name = "Mulesoft troop leader info api", type = AttributeType.STRING) String troopLeaderInfo() default "/DPInfo";
 
-        @AttributeDefinition(name = "Mulesoft contacts info api", type = AttributeType.STRING) String contactsInfo();
+        @AttributeDefinition(name = "Mulesoft contacts info api", type = AttributeType.STRING) String contactsInfo() default "/TroopMembers";
 
-        @AttributeDefinition(name = "Girl Scouts Client Id", description = "Girl Scouts Client Id", type = AttributeType.STRING) String client_id();
+        @AttributeDefinition(name = "Girl Scouts Client Id", description = "Girl Scouts Client Id", type = AttributeType.STRING) String clientId() default "ef2595a3a9224ac6a04f1fba5ed1b980";
 
-        @AttributeDefinition(name = "Girl Scouts Client Secret", description = "Girl Scouts Client Secret", type = AttributeType.STRING) String client_secret();
+        @AttributeDefinition(name = "Girl Scouts Client Secret", description = "Girl Scouts Client Secret", type = AttributeType.STRING) String clientSecret() default "b9eC9e82c7754768B6DCD3768093A3E4";
 
     }
 

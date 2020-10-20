@@ -7,7 +7,6 @@ import org.girlscouts.vtk.rest.entity.mulesoft.TroopInfoResponseEntity;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopLeadersResponseEntity;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopMembersResponseEntity;
 import org.girlscouts.vtk.rest.entity.mulesoft.UserInfoResponseEntity;
-import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -28,10 +27,9 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     private String localDummyFolder;
 
     @Activate
-    private void activate(ComponentContext context) {
-        this.context = context;
-        this.localJsonPath = getConfig("localJsonPath");
-        this.localDummyFolder = getConfig("localDummyFolder");
+    private void activate(Config config) {
+        this.localJsonPath = config.localJsonPath();
+        this.localDummyFolder = config.localDummyFolder();
         log.info(this.getClass().getName() + " activated.");
     }
 
@@ -153,10 +151,8 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
 
     @ObjectClassDefinition(name = "Girl Scouts VTK SalesForce file client configuration", description = "Girl Scouts VTK SalesForce file client configuration")
     public @interface Config {
-        @AttributeDefinition(name = "Path to json directory", description = "Path to json directory in repository", type = AttributeType.STRING) String localJsonPath();
+        @AttributeDefinition(name = "Path to json directory", description = "Path to json directory in repository", type = AttributeType.STRING) String localJsonPath() default "/content/girlscouts-vtk/salesforce-data";
 
-        @AttributeDefinition(name = "Name of demo directory", description = "Name of demo directory in repository. (eg: /demo)", type = AttributeType.STRING) String localDemoFolder();
-
-        @AttributeDefinition(name = "Name of dummy directory", description = "Name of dummy directory in repository. (eg: /dummy)", type = AttributeType.STRING) String localDummyFolder();
+        @AttributeDefinition(name = "Name of dummy directory", description = "Name of dummy directory in repository. (eg: /dummy)", type = AttributeType.STRING) String localDummyFolder() default "/dummy";
     }
 }

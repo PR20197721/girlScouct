@@ -7,10 +7,11 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.web.osgi.service.WebToCaseMigration;
-import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.metatype.annotations.AttributeDefinition;
+import org.osgi.service.metatype.annotations.AttributeType;
 import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
@@ -35,9 +36,9 @@ public class WebToCaseMigrationImpl implements WebToCaseMigration {
     private Map<String, String> fieldNameMap = new HashMap<>();
 
     @Activate
-    private void activate(ComponentContext context) {
+    private void activate(Config config) {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
-        String[] fieldNameMapping = {"00NG000000DdNmL::00N22000000ltnr","00NG000000DdNmN::00N22000000ltnt","00NG000000DdNmM::00N22000000ltns"};
+        String[] fieldNameMapping = config.fieldNameMapping();
         for(String map:fieldNameMapping){
             String[]pair = map.split("::");
             fieldNameMap.put(pair[0], pair[1]);
@@ -90,6 +91,10 @@ public class WebToCaseMigrationImpl implements WebToCaseMigration {
 
     @ObjectClassDefinition(name = "Web To Case Migration configuration")
     public @interface Config {
-
+        @AttributeDefinition(name = "Field Name Mappings", type = AttributeType.STRING) String[] fieldNameMapping() default {
+                    "00NG000000DdNmL::00N0n000001oown",
+                    "00NG000000DdNmN::00N0n000001aKZ8",
+                    "00NG000000DdNmM::00N0n000001oowo"
+        };
     }
 }

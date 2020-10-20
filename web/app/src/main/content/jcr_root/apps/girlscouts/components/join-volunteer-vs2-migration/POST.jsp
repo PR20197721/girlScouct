@@ -11,14 +11,14 @@
         private ServletContext ctxt;
         private volatile boolean stop;
         private boolean dryRun = true;
-        private boolean updateJoin = false;
-        private boolean updateVolunteer = false;
-        private boolean updateRenew = false;
+        private boolean updateJoin = true;
+        private boolean updateVolunteer = true;
+        private boolean updateRenew = true;
         private SlingRepository repository;
         private JoinVolunteerMigration joinVolunteerMigration;
 
 
-        public JoinVolunteerMigrationThread(ServletContext ctxt, boolean dryRun, boolean updateJoin, boolean updateVolunteer, boolean updateRenew, SlingRepository repository, JoinVolunteerMigration joinVolunteerMigration) {
+        public JoinVolunteerMigrationThread(ServletContext ctxt, boolean dryRun, SlingRepository repository, JoinVolunteerMigration joinVolunteerMigration) {
             this.repository = repository ;
             this.ctxt = ctxt;
             this.dryRun = dryRun;
@@ -104,7 +104,7 @@
                                     try {
                                         Row row = rowIter.nextRow();
                                         Node node = row.getNode();
-                                        joinVolunteerMigration.migrateVolunteerLink(node.getPath(), dryRun);
+                                        joinVolunteerMigration.migrateRenewLink(node.getPath(), dryRun);
                                     }catch(Exception e){
                                         log.error("Error Occurred: ", e);
                                     }
@@ -150,30 +150,19 @@
     boolean threadExists = ctxt.getAttribute(THREAD_NAME) != null;
     boolean threadIsAlive = threadExists && ((Thread) (ctxt.getAttribute(THREAD_NAME))).isAlive();
     boolean dryRun = false;
-    boolean updateJoin = false;
-    boolean updateVolunteer = false;
-    boolean updateRenew = false;
-    if (request.getParameter("updateJoin") != null) {
-        updateJoin = true;
-    }
-    if (request.getParameter("updateVolunteer") != null) {
-        updateVolunteer = true;
-    }
-    if (request.getParameter("updateRenew") != null) {
-        updateRenew = true;
-    }
+
     if (request.getParameter("dry_run") != null) {
         dryRun = true;
     }
     if ("stop".equals(cmd) && threadIsAlive) {
-        ((JoinVolunteerMigration) (ctxt.getAttribute(RUNNABLE_NAME))).requestStop();
+        ((JoinVolunteerMigrationThread) (ctxt.getAttribute(RUNNABLE_NAME))).requestStop();
         ((Thread) (ctxt.getAttribute(THREAD_NAME))).join();
 %>stopped<%
 } else {
     if (!threadIsAlive && "run".equals(cmd)) {
         SlingRepository repository = sling.getService(SlingRepository.class);
         JoinVolunteerMigration joinVolunteerMigration = sling.getService(JoinVolunteerMigration.class);
-        JoinVolunteerMigrationThread wft = new JoinVolunteerMigrationThread(getServletContext(), dryRun, updateJoin, updateVolunteer, updateRenew,   repository, joinVolunteerMigration);
+        JoinVolunteerMigrationThread wft = new JoinVolunteerMigrationThread(getServletContext(), dryRun, repository, joinVolunteerMigration);
         Thread t = new Thread(wft);
         ctxt.setAttribute(THREAD_NAME, t);
         ctxt.setAttribute(RUNNABLE_NAME, wft);

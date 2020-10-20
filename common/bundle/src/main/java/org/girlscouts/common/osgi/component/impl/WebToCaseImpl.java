@@ -1,40 +1,18 @@
 package org.girlscouts.common.osgi.component.impl;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-
-import org.apache.commons.mail.ByteArrayDataSource;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.HtmlEmail;
-import org.apache.commons.mail.MultiPartEmail;
-import org.apache.commons.mail.SimpleEmail;
+import com.adobe.granite.asset.api.Asset;
+import com.day.cq.mailer.MailService;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.Replicator;
+import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
+import com.day.cq.wcm.foundation.forms.FieldDescription;
+import com.day.cq.wcm.foundation.forms.FieldHelper;
+import com.day.cq.wcm.foundation.forms.FormsHelper;
+import org.apache.commons.mail.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.request.RequestParameter;
-import org.apache.sling.api.resource.Resource;
-import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
-import org.apache.sling.api.resource.ResourceUtil;
-import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.resource.*;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.common.osgi.component.CouncilCodeToPathMapper;
 import org.girlscouts.common.osgi.component.WebToCase;
@@ -49,15 +27,13 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.granite.asset.api.Asset;
-import com.day.cq.mailer.MailService;
-import com.day.cq.replication.ReplicationActionType;
-import com.day.cq.replication.Replicator;
-import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageManager;
-import com.day.cq.wcm.foundation.forms.FieldDescription;
-import com.day.cq.wcm.foundation.forms.FieldHelper;
-import com.day.cq.wcm.foundation.forms.FormsHelper;
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component(service = {
 		WebToCase.class }, immediate = true, name = "org.girlscouts.common.osgi.component.impl.WebToCaseImpl")
@@ -68,6 +44,10 @@ public class WebToCaseImpl implements WebToCase {
 
 	private String oid;
 	private String apiURL;
+	private String caseSource;
+	private String tier;
+	private String recordType;
+
 	private boolean sendEmail;
 	private Map<String, String> recaptchaMap = new HashMap<>();
 	private final Set<String> expectedParams = new HashSet<>();
@@ -97,6 +77,9 @@ public class WebToCaseImpl implements WebToCase {
 		this.oid = config.oid();
 		this.apiURL = config.apiURL();
 		this.sendEmail = config.sendEmail();
+		this.caseSource = config.caseSource();
+		this.tier = config.tier();
+		this.recordType = config.recordType();
 		String[] recaptchaArr = config.recaptchaMap();
 		String emailMappingsPath = config.emailMappings();
 		this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
@@ -574,8 +557,22 @@ public class WebToCaseImpl implements WebToCase {
 	public Set<String> getExpectedParams() {
 		return this.expectedParams;
 	}
+    @Override
+    public String getCaseSource() {
+        return this.caseSource;
+    }
 
-	@ObjectClassDefinition(name = "Girl Scouts Web To Lead Configuration Service")
+    @Override
+    public String getTier() {
+        return tier;
+    }
+
+    @Override
+    public String getRecordType() {
+        return recordType;
+    }
+
+    @ObjectClassDefinition(name = "Girl Scouts Web To Case Configuration Service")
 	public @interface Config {
 		@AttributeDefinition(name = "Send Email")
 		boolean sendEmail()
@@ -590,12 +587,21 @@ public class WebToCaseImpl implements WebToCase {
 		@AttributeDefinition(name = "Organization ID")
 		String oid()
 
-		default "00D220000004chr";
+		default "00D0n00000011wp";
+
+        @AttributeDefinition(name = "Case Source Param Name")
+        String caseSource() default "00N0n000001oowC";
+
+        @AttributeDefinition(name = "Tier Param Name")
+        String tier() default "00N0n000001oowl";
+
+        @AttributeDefinition(name = "Record Type Value")
+        String recordType() default "0120n0000001Q7L";
 
 		@AttributeDefinition(name = "Form submit path")
 		String apiURL()
 
-		default "https://gsdev1--dev1.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
+		default "https://gsendtoend1--uat.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
 
 		@AttributeDefinition(name = "Recaptcha Key Map")
 		String[] recaptchaMap() default { "6LcuqJgUAAAAAInWzpQHvo-uWPfnVcR7bHPQw9S8::GoogleReCaptchaKeyPair1",
@@ -608,8 +614,8 @@ public class WebToCaseImpl implements WebToCase {
 				"6LfEtJgUAAAAAB4btse4kjSKN6fBFqy4U1M15dna::GoogleReCaptchaKeyPair8" };
 
 		@AttributeDefinition(name = "Expected Fields")
-		String[] expectedParams() default { "orgid", "00N22000000ltnH", "00N22000000ltnp", "00N22000000ltns",
-				"00N22000000ltnr", "00N22000000ltnt", "CouncilCode", "origin", "status", "name", "email", "phone",
+		String[] expectedParams() default { "orgid", "00N0n000001oowC", "00N0n000001oowl", "00N0n000001oowo",
+				"00N0n000001oown", "00N0n000001aKZ8", "CouncilCode", "origin", "status", "name", "email", "phone",
 				"type", "subject", "description", "g-recaptcha-response", "captcha_settings", "debug", "debugEmail" };
 	}
 

@@ -7,9 +7,6 @@ boolean stopThread = (request.getParameter("cmd") != null && request.getParamete
 boolean threadExists = ctxt.getAttribute("thread") != null;
 boolean threadIsAlive = threadExists && ((Thread)(ctxt.getAttribute("thread"))).isAlive();
 %>
-Migrate Join Links: <input name="updateJoin" type="checkbox" <%= (request.getParameter("updateJoin")!=null)?"checked":""%> /><br/>
-Migrate Volunteer Links: <input name="updateVolunteer" type="checkbox" <%= (request.getParameter("updateVolunteer")!=null)?"checked":""%> /><br/>
-Migrate Renew Links: <input name="updateRenew" type="checkbox" <%= (request.getParameter("updateRenew")!=null)?"checked":""%> /><br/>
 Dry Run?: <input name="dry_run" type="checkbox" <%= (request.getParameter("dry_run")!=null)?"checked":""%> /><br/>
 <input type="hidden" name="cmd" value="run" />
 </form>

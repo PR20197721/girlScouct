@@ -1,23 +1,11 @@
 package org.girlscouts.web.servlets;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.zip.GZIPInputStream;
-
-import javax.servlet.Servlet;
-
+import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
+import com.day.cq.wcm.foundation.forms.FieldDescription;
+import com.day.cq.wcm.foundation.forms.FieldHelper;
+import com.day.cq.wcm.foundation.forms.FormsHelper;
+import com.google.gson.Gson;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -47,12 +35,13 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.wcm.api.Page;
-import com.day.cq.wcm.api.PageManager;
-import com.day.cq.wcm.foundation.forms.FieldDescription;
-import com.day.cq.wcm.foundation.forms.FieldHelper;
-import com.day.cq.wcm.foundation.forms.FormsHelper;
-import com.google.gson.Gson;
+import javax.servlet.Servlet;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.*;
+import java.util.zip.GZIPInputStream;
 
 @Component(service = Servlet.class, property = { Constants.SERVICE_DESCRIPTION + "=Girl Scouts Web to Case Servlet",
 		"sling.servlet.methods=" + HttpConstants.METHOD_POST, "sling.servlet.extensions=html",
@@ -149,9 +138,9 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 		List<NameValuePair> data = new ArrayList<NameValuePair>();
 		data.add(new NameValuePair("status", "New"));
 		data.add(new NameValuePair("orgid", this.oid));
-		data.add(new NameValuePair("00N22000000ltnH", "Web"));
-		data.add(new NameValuePair("00N22000000ltnp", "Tier 1"));
-		data.add(new NameValuePair("recordType", "012220000000Tvw"));
+		data.add(new NameValuePair(webToCase.getCaseSource(), "Web"));
+		data.add(new NameValuePair(webToCase.getTier(), "Tier 1"));
+		data.add(new NameValuePair("recordType", webToCase.getRecordType()));
 		Resource resource = request.getResource();
 		PageManager pm = resource.getResourceResolver().adaptTo(PageManager.class);
 		Page currentPage = pm.getContainingPage(resource);
