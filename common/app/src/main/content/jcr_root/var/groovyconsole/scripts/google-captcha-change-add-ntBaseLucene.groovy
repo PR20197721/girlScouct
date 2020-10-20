@@ -18,6 +18,11 @@ propertyMap = [
     'sling:resourceType': newSlingResourceType
 ];
 
+// *** NOTE ***
+// This query can only run in environments that use ntBaseLucene or a similar index that aggregates both "actionType" and "sling:resourceType"
+// Please test environment applicability using the querydebug links below to see if the query returns results
+// and Explain Query from /libs/granite/operations/content/diagnosistools/queryPerformance.html to determine which index is being used
+
 // Filter
 filters = [
     dryRun: true
@@ -30,9 +35,6 @@ buildJSON = [
     hitCount: true,
     filters: true
 ];
-
-// For queries run on author, please ensure GSPropertyIndex doesn't have actionType like on publisher
-// so that ntBaseLucene can return both actionType and sling:resourceType properties
 
 //*
 //*
