@@ -4,9 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.girlscouts.vtk.osgi.cache.MulesoftContactsResponseCache;
-import org.girlscouts.vtk.osgi.service.impl.BasicGirlScoutsService;
 import org.girlscouts.vtk.rest.entity.mulesoft.TroopMembersResponseEntity;
-import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
@@ -20,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component(service = {MulesoftContactsResponseCache.class}, immediate = true, name = "org.girlscouts.vtk.osgi.cache.impl.MulesoftContactsResponseCacheImpl")
 @Designate(ocd = MulesoftContactsResponseCacheImpl.Config.class)
-public class MulesoftContactsResponseCacheImpl extends BasicGirlScoutsService implements MulesoftContactsResponseCache{
+public class MulesoftContactsResponseCacheImpl implements MulesoftContactsResponseCache{
 
     private static Logger log = LoggerFactory.getLogger(MulesoftContactsResponseCacheImpl.class);
 
@@ -31,22 +29,21 @@ public class MulesoftContactsResponseCacheImpl extends BasicGirlScoutsService im
     int expireAfter;
 
     @Activate
-    private void activate(ComponentContext context) {
-        this.context = context;
+    private void activate(Config config) {
         try {
-            this.isCacheEnabled = Boolean.parseBoolean(getConfig("isCacheEnabled"));
+            this.isCacheEnabled = config.isCacheEnabled();
         }catch(Exception e){
             log.error("Error occurred loading isCacheEnabled value from osgi config", e);
             this.isCacheEnabled = true;
         }
         try {
-            this.maxSize = Integer.parseInt(getConfig("maxSize"));
+            this.maxSize = config.maxSize();
         }catch(Exception e){
             log.error("Error occurred loading maxSize value from osgi config", e);
             this.maxSize = 500;
         }
         try {
-            this.expireAfter = Integer.parseInt(getConfig("expireAfter"));
+            this.expireAfter = config.expireAfter();
         }catch(Exception e){
             log.error("Error occurred loading expireAfter value from osgi config", e);
             this.expireAfter = 720;
@@ -102,10 +99,10 @@ public class MulesoftContactsResponseCacheImpl extends BasicGirlScoutsService im
 
     @ObjectClassDefinition(name = "Girl Scouts VTK Contacts cache configuration", description = "Girl Scouts VTK Contacts cache configuration")
     public @interface Config {
-        @AttributeDefinition(name = "Enable Caching", description = "Check to enable caching", type = AttributeType.BOOLEAN) boolean isCacheEnabled();
+        @AttributeDefinition(name = "Enable Caching", description = "Check to enable caching", type = AttributeType.BOOLEAN) boolean isCacheEnabled() default true;
 
-        @AttributeDefinition(name = "Max Size", description = "Specifies the maximum number of entries the cache may contain.", type = AttributeType.INTEGER) int maxSize();
+        @AttributeDefinition(name = "Max Size", description = "Specifies the maximum number of entries the cache may contain.", type = AttributeType.INTEGER) int maxSize() default 1000;
 
-        @AttributeDefinition(name = "Expiration Period (in min)", description = "Specifies that each entry should be automatically removed from the cache once a fixed duration has elapsed after the entry's creation, or the most recent replacement of its value.", type = AttributeType.INTEGER) int expireAfter();
+        @AttributeDefinition(name = "Expiration Period (in min)", description = "Specifies that each entry should be automatically removed from the cache once a fixed duration has elapsed after the entry's creation, or the most recent replacement of its value.", type = AttributeType.INTEGER) int expireAfter() default 60;
     }
 }

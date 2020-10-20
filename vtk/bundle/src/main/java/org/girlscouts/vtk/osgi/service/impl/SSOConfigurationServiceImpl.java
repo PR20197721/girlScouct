@@ -1,7 +1,6 @@
 package org.girlscouts.vtk.osgi.service.impl;
 
 import org.girlscouts.vtk.osgi.service.SSOConfigurationService;
-import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.metatype.annotations.AttributeDefinition;
@@ -13,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 @Component(service = {SSOConfigurationService.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.SSOConfigurationServiceImpl")
 @Designate(ocd = SSOConfigurationServiceImpl.Config.class)
-public class SSOConfigurationServiceImpl extends BasicGirlScoutsService implements SSOConfigurationService {
+public class SSOConfigurationServiceImpl implements SSOConfigurationService {
 
     @ObjectClassDefinition(name = "VTK SSO Screen Set Configuration Service")
     public @interface Config {
@@ -30,12 +29,11 @@ public class SSOConfigurationServiceImpl extends BasicGirlScoutsService implemen
     private String logOutPath;
 
     @Activate
-    private void activate(ComponentContext context) {
-        this.context = context;
-        this.apiKey = getConfig("apiKey");
-        this.spName = getConfig("spName");
-        this.logInPath = getConfig("logInPath");
-        this.logOutPath = getConfig("logOutPath");
+    private void activate(Config config) {
+        this.apiKey = config.apiKey();
+        this.spName = config.spName();
+        this.logInPath = config.logInPath();
+        this.logOutPath = config.logOutPath();
         log.info(this.getClass().getName() + " activated.");
     }
 

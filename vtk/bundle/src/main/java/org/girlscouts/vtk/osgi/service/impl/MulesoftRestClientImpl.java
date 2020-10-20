@@ -25,7 +25,7 @@ import java.io.IOException;
 
 @Component(service = {MulesoftRestClient.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.MulesoftRestClientImpl")
 @Designate(ocd = MulesoftRestClientImpl.Config.class)
-public class MulesoftRestClientImpl extends BasicGirlScoutsService implements MulesoftRestClient {
+public class MulesoftRestClientImpl implements MulesoftRestClient {
 
     private static Logger log = LoggerFactory.getLogger(MulesoftRestClientImpl.class);
     private String endpoint;
@@ -38,7 +38,6 @@ public class MulesoftRestClientImpl extends BasicGirlScoutsService implements Mu
 
     @Activate
     private void activate(Config config) {
-        this.context = context;
         this.endpoint = config.endpoint();
         this.userInfo = this.endpoint + config.userInfo();
         this.troopInfo = this.endpoint + config.troopInfo();

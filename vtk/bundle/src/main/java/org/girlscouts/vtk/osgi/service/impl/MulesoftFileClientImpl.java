@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 @Component(service = {MulesoftFileClient.class}, immediate = true, name = "org.girlscouts.vtk.osgi.service.impl.MulesoftFileClientImpl")
 @Designate(ocd = MulesoftFileClientImpl.Config.class)
-public class MulesoftFileClientImpl extends BasicGirlScoutsService implements MulesoftFileClient {
+public class MulesoftFileClientImpl implements MulesoftFileClient {
     private static Logger log = LoggerFactory.getLogger(MulesoftFileClientImpl.class);
     @Reference
     GirlScoutsRepoFileIOService girlScoutsRepoFileIOService;
@@ -146,7 +146,7 @@ public class MulesoftFileClientImpl extends BasicGirlScoutsService implements Mu
     }
 
     private String getPath(String id,  String serviceName) {
-        return getConfig("localJsonPath") + "/" + id + "/" + serviceName + ".json";
+        return this.localJsonPath + "/" + id + "/" + serviceName + ".json";
     }
 
     @ObjectClassDefinition(name = "Girl Scouts VTK SalesForce file client configuration", description = "Girl Scouts VTK SalesForce file client configuration")
