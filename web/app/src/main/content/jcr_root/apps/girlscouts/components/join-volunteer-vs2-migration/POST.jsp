@@ -91,7 +91,7 @@
                             }
                             if(updateRenew){
                                 log.debug("updating renew links ");
-                                String sql = "SELECT * FROM [nt:unstructured] as s where ISDESCENDANTNODE(["+site.getPath()+"]) AND CONTAINS(s.*, '"+joinVolunteerMigration.getOldVolunteer()+"')";
+                                String sql = "SELECT * FROM [nt:unstructured] as s where ISDESCENDANTNODE(["+site.getPath()+"]) AND CONTAINS(s.*, '"+joinVolunteerMigration.getOldRenew()+"')";
                                 log.debug("executing "+sql);
                                 Query q = qm.createQuery(sql, "JCR-SQL2");
                                 QueryResult result = q.execute();

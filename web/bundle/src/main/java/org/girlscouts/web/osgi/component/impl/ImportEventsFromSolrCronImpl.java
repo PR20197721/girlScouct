@@ -266,7 +266,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                     }
                 }
             }else{
-                log.debug("Ignoring: {} Reason: No counil mapping for {}",payload.getId(), payload.getCouncilCode());
+                log.debug("Ignoring: {} Reason: No council mapping for {}",payload.getId(), payload.getCouncilCode());
             }
         } catch (Exception e) {
             log.error("Error occured while creating/updating activity: " + payload.getTitle());
@@ -456,25 +456,27 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
         String deletedPath = payload.getTitle();
         try {
             String councilName = councilMapper.getCouncilPath(payload.getCouncilCode());
-            if (councilName == null) {
-                throw new GirlScoutsException(null, "No mapping found for council code: " + payload.getCouncilCode());
-            }
-            int year = getYear(payload);
-            String parentPath = "/content/" + councilName + "/en/sf-events-repository/" + year;
-            Page page = getEvent(parentPath, payload.getId(), rr);
-            if (page != null) {
-                try {
-                    deletedPath = page.getPath();
-                    replicator.replicate(rr.adaptTo(Session.class), ReplicationActionType.DEACTIVATE, page.getPath());
-                    PageManager pageManager = rr.adaptTo(PageManager.class);
-                    pageManager.delete(page, false, true);
-                } catch (Exception e) {
-                    log.error("Error occurred: ", e);
-                    throw new GirlScoutsException(e, "Error occurred unpublishing activity " + page.getPath());
+            if (councilName != null) {
+                log.debug("No mapping found for council code: " + payload.getCouncilCode());
+                int year = getYear(payload);
+                String parentPath = "/content/" + councilName + "/en/sf-events-repository/" + year;
+                Page page = getEvent(parentPath, payload.getId(), rr);
+                if (page != null) {
+                    try {
+                        deletedPath = page.getPath();
+                        replicator.replicate(rr.adaptTo(Session.class), ReplicationActionType.DEACTIVATE, page.getPath());
+                        PageManager pageManager = rr.adaptTo(PageManager.class);
+                        pageManager.delete(page, false, true);
+                    } catch (Exception e) {
+                        log.error("Error occurred: ", e);
+                        throw new GirlScoutsException(e, "Error occurred unpublishing activity " + page.getPath());
+                    }
+                } else {
+                    log.debug("Could not locate activity with eid=" + payload.getId() + " in " + parentPath);
+                    //throw new GirlScoutsException(null,"Could not locate activity with eid=" + payload.getId() +" in "+parentPath);
                 }
-            } else {
-                log.debug("Could not locate activity with eid=" + payload.getId() + " in " + parentPath);
-                //throw new GirlScoutsException(null,"Could not locate activity with eid=" + payload.getId() +" in "+parentPath);
+            }else{
+                log.debug("Ignoring: {} Reason: No council mapping for {}",payload.getId(), payload.getCouncilCode());
             }
         } catch (Exception e) {
             log.error("Error occured while deleting activity: eid=" + payload.getId() + ", title=" + payload.getTitle());

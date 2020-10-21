@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component(service = {JoinVolunteerMigration.class}, immediate = true, name = "org.girlscouts.web.osgi.service.impl.JoinVolunteerMigrationImpl")
 @Designate(ocd = JoinVolunteerMigrationImpl.Config.class)
@@ -38,8 +40,6 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
     private String oldRenew = "";
     private String newRenew = "";
 
-    private String renewPattern = "<a.*\"https://gsmembers.force.com/members/login\".*>.*<img src=\".*renew.*\">.*</a>";
-
     @Activate
     private void activate(Config config) {
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "workflow-process-service");
@@ -49,7 +49,6 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
         this.newVolunteer = config.newVolunteer();
         this.oldRenew = config.oldRenew();
         this.newRenew = config.newRenew();
-        this.renewPattern = "<a.*\""+this.oldRenew+"\".*>.*<img src=\".*renew.*\">.*</a>";
         log.info("Activated.");
     }
 
@@ -127,11 +126,11 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                 try {
                     String value = property.getString();
                     if (value.contains(oldValue)) {
-                        log.debug("before update: " + property.getName() + "=" + value);
+                        log.debug("before update: " + property.getName() + "=\n" + value);
                         value = updateValue(value, oldValue, newValue);
                         node.setProperty(property.getName(), value);
                         saveNeeded = true;
-                        log.debug("after update: " + property.getName() + "=" + value);
+                        log.debug("after update: " + property.getName() + "=\n" + value);
                     }
                 } catch (Exception e) {
                     log.error("possibly multivalued field: ", e);
@@ -140,11 +139,11 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                         for (int i = 0; i < valueArray.length; i++) {
                             String value = valueArray[i].getString();
                             if (value.contains(oldValue)) {
-                                log.debug("before update: " + property.getName() + "=" + value);
+                                log.debug("before update: " + property.getName() + "=\n" + value);
                                 value = updateValue(value, oldValue, newValue);
                                 valueArray[i] = valueFactory.createValue(value);
                                 saveNeeded = true;
-                                log.debug("after update: " + property.getName() + "=" + value);
+                                log.debug("after update: " + property.getName() + "=\n" + value);
                             }
                         }
                         node.setProperty(property.getName(), valueArray);
@@ -170,27 +169,28 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
             log.debug("Found exact match for old url: {}",oldURL);
             value = newUrl.trim();
         }else{
-            log.debug("checking if reference is in html block of rich text component");
-            value = value.replaceAll(oldURL, newUrl);
-            /*if(Pattern.matches(renewPattern, value)){
-                log.debug("Processing renew link");
-                String oldInQuotes = "\""+oldURL+"\"";
-                String newQuotes = "\""+newUrl+"\"";
-                Pattern pattern = Pattern.compile(renewPattern);
+            //is html
+            Pattern htmlPattern = Pattern.compile("</?[^>]+>");
+            Matcher htmlMatcher = htmlPattern.matcher(value);
+            if(htmlMatcher.find()) {
+                log.debug("processing html");
+                //value = value.replaceAll(oldURL, newUrl);
+                log.debug("checking for pattern \"" + oldURL.replaceAll("/","\\/") + ".*?\"");
+                Pattern pattern = Pattern.compile("\"" + oldURL.replaceAll("/","\\/") + ".*?\"");
                 Matcher matcher = pattern.matcher(value);
                 StringBuffer bufStr = new StringBuffer();
-                while(matcher.find()){
+                while (matcher.find()) {
                     String matchedText = matcher.group();
-                    log.debug("Found exact match for old url: {}",oldURL);
-                    if(matchedText.contains(oldInQuotes)) {
-                        matcher.appendReplacement(bufStr, matchedText.replace(oldInQuotes, newQuotes));
-                    }
+                    log.debug("Replacing {} with {}", matchedText, "\"" + newUrl + "\"");
+                    matcher.appendReplacement(bufStr, "\"" + newUrl + "\"");
                 }
                 matcher.appendTail(bufStr);
                 value = bufStr.toString();
             }else{
-                log.debug("Skipping. Value doesn't have any matches for "+renewPattern);
-            }*/
+                log.debug("processing textfield");
+                String replacePattern = oldURL + ".*";
+                value = value.replaceAll(replacePattern,newUrl);
+            }
         }
         return value;
     }
