@@ -1,21 +1,20 @@
 package org.girlscouts.common.osgi.component.impl;
 
 import com.adobe.granite.asset.api.Asset;
-import com.day.cq.mailer.MailService;
-import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
-import org.apache.commons.mail.*;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.resource.*;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.common.osgi.component.CouncilCodeToPathMapper;
 import org.girlscouts.common.osgi.component.WebToCase;
+import org.girlscouts.common.osgi.service.GSEmailService;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -59,8 +58,8 @@ public class WebToCaseImpl implements WebToCase {
 	@Reference
 	private ResourceResolverFactory resolverFactory;
 
-	@Reference
-	protected MailService localService;
+    @Reference
+    private GSEmailService gsEmailService;
 
 	@Reference
 	protected SlingSettingsService slingSettings;
@@ -151,7 +150,7 @@ public class WebToCaseImpl implements WebToCase {
 		final ValueMap values = ResourceUtil.getValueMap(request.getResource());
 		String councilCode = getCouncilCode(request, councilCodeToPathMapper);
 		final String mailTo = getMailToValue(councilCode);
-		if (null != mailTo && null != localService) {
+		if (null != mailTo && null != gsEmailService) {
 			status = 200;
 			try {
 				final StringBuilder builder = new StringBuilder();
@@ -234,176 +233,14 @@ public class WebToCaseImpl implements WebToCase {
 						// ignore
 					}
 				}
-
-				final Email email;
-
-				if (attachments.size() > 0) {
-					buffer.append("\n");
-					buffer.append(resBundle.getString("Attachments"));
-					buffer.append(":\n");
-					final MultiPartEmail mpEmail = new MultiPartEmail();
-					email = mpEmail;
-					for (final RequestParameter rp : attachments) {
-						final ByteArrayDataSource ea = new ByteArrayDataSource(rp.getInputStream(),
-								rp.getContentType());
-						mpEmail.attach(ea, rp.getFileName(), rp.getFileName());
-						buffer.append("- ");
-						buffer.append(rp.getFileName());
-						buffer.append("\n");
-					}
-				} else {
-					email = new SimpleEmail();
-				}
-
-				email.setCharset("utf-8");
-				email.setMsg(buffer.toString());
-				email.addTo(mailTo);
-				final String[] ccRecs = values.get("cc", String[].class);
-				if (ccRecs != null) {
-					for (final String rec : ccRecs) {
-						email.addCc(rec);
-					}
-				}
-
-				final String[] bccRecs = values.get("bcc", String[].class);
-				if (bccRecs != null) {
-					for (final String rec : bccRecs) {
-						email.addBcc(rec);
-					}
-				}
 				final String subject = values.get("subject", resBundle.getString("Form Mail"));
-				email.setSubject(subject);
-				final String fromAddress = values.get("from", "");
-				if (fromAddress.length() > 0) {
-					email.addReplyTo(fromAddress);
-				}
-
 				if (this.log.isDebugEnabled()) {
 					this.log.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
-							new Object[] { fromAddress, mailTo, subject, buffer });
+							new Object[] { "", mailTo, subject, buffer });
 				}
-				localService.sendEmail(email);
-
-				boolean storeContent = values.get("storeContent", false);
-
-				ResourceResolver rr = request.getResourceResolver();
-				if (storeContent) {
-					String contentPath = values.get("action", null);
-					if (contentPath != null && !contentPath.isEmpty()) {
-						Node contentBaseNode = null;
-						Resource contentResource = rr.getResource(contentPath);
-						if (contentResource == null) {
-							contentBaseNode = getFormStorageNode(
-									rr.getResource("/content/usergenerated").adaptTo(Node.class), contentPath);
-						} else {
-							contentBaseNode = contentResource.adaptTo(Node.class);
-						}
-
-						Date now = new Date();
-						Random rand = new Random();
-						String nodeId = now.getTime() + "_" + rand.nextInt(50);
-						Node submissionNode = contentBaseNode.addNode(nodeId, "sling:Folder");
-
-						Enumeration<String> paramNames = request.getParameterNames();
-						Map<String, List<String>> paramMap = new HashMap<>();
-						while (paramNames.hasMoreElements()) {
-							String n = paramNames.nextElement();
-							log.error("################PARAM NAME IS: " + n);
-
-							if (!n.contains(":") && !n.equals("_charset_") && !n.equals("Submit")
-									&& !n.equals("file-upload-max-size")) {
-								for (RequestParameter param : Arrays.asList(request.getRequestParameters(n))) {
-									if (param.getContentType() == null) {
-										List<String> valLst = new ArrayList<>(1);
-										valLst.add(param.getString());
-										paramMap.merge(n, valLst, (l1, l2) -> {
-											l1.addAll(l2);
-											return l1;
-										});
-									} else {
-										if (param.getSize() > 0) {
-											String val = param.getFileName();
-											submissionNode.setProperty(n, val);
-										}
-									}
-								}
-							}
-						}
-						for (Map.Entry<String, List<String>> entry : paramMap.entrySet()) {
-							if (entry.getValue().size() > 1) {
-								Object[] objVals = entry.getValue().toArray();
-								String[] strVals = new String[objVals.length];
-								for (int i = 0; i < objVals.length; i++) {
-									strVals[i] = Optional.ofNullable(objVals[i]).map(Object::toString).orElse(null);
-								}
-								submissionNode.setProperty(entry.getKey(), strVals);
-							} else {
-								submissionNode.setProperty(entry.getKey(), entry.getValue().get(0));
-							}
-						}
-						log.error("Submission Node path is: " + submissionNode.getPath());
-
-						submissionNode.save();
-						Set<String> runmodes = slingSettings.getRunModes();
-						boolean isPublish = false;
-						for (String mode : runmodes) {
-							if (mode.equalsIgnoreCase("publish")) {
-								isPublish = true;
-							}
-						}
-						if (isPublish) {
-							replicator.replicate(contentBaseNode.getSession(), ReplicationActionType.INTERNAL_POLL,
-									submissionNode.getPath());
-						}
-					}
-				}
-
-				boolean disableConfirmations = values.get("disableConfirmationEmails", false);
-				if (!disableConfirmations) {
-					final HtmlEmail confEmail;
-					confEmail = new HtmlEmail();
-					confEmail.setCharset("utf-8");
-					String confBody = getTemplate(request, values, formFields, confEmail, rr, attachments);
-					if (!("").equals(confBody)) {
-						confEmail.setHtmlMsg(confBody);
-						// mailto
-						for (String confEmailAddress : confirmationEmailAddresses) {
-							confEmail.addTo(confEmailAddress);
-						}
-						final String[] confMailTo = values.get(CONFIRM_MAILTO_PROPERTY, String[].class);
-						if (confMailTo != null) {
-							for (final String rec : confMailTo) {
-								confEmail.addBcc(rec);
-							}
-						}
-
-						// subject and from address
-						final String confSubject = values.get(CONFIRMATION_SUBJECT_PROPERTY,
-								resBundle.getString("Form Submission Received"));
-						confEmail.setSubject(confSubject);
-						final String confFromAddress = values.get(CONFIRMATION_FROM_PROPERTY, values.get("from", ""));
-						if (confFromAddress.length() > 0) {
-							// confEmail.setFrom(confFromAddress);
-							confEmail.addReplyTo(confFromAddress);
-						}
-						if (this.log.isDebugEnabled()) {
-							this.log.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
-									new Object[] { confFromAddress, confirmationEmailAddresses, confSubject,
-											confBody });
-						}
-						if (!attachments.isEmpty()) {
-							for (RequestParameter rp : attachments) {
-								final ByteArrayDataSource ea = new ByteArrayDataSource(rp.getInputStream(),
-										rp.getContentType());
-								confEmail.attach(ea, rp.getFileName(), rp.getFileName());
-							}
-						}
-						localService.sendEmail(confEmail);
-					} else {
-						log.debug("Email body null for " + request.getResource().getPath());
-					}
-				}
-
+                List<String> mailToAddresses = new ArrayList<>();
+				mailToAddresses.add(mailTo);
+                gsEmailService.sendEmail(subject, mailToAddresses, buffer.toString(), (String)null);
 			} catch (Exception e) {
 				log.error("Error sending email: " + e.getMessage(), e);
 				status = 500;
@@ -412,7 +249,6 @@ public class WebToCaseImpl implements WebToCase {
 			log.error("The mailto configuration is missing in the form begin at " + request.getResource().getPath());
 			status = 500;
 		}
-
 		return status;
 	}
 
