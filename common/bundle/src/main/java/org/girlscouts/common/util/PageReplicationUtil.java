@@ -796,10 +796,19 @@ public class PageReplicationUtil implements PageReplicationConstants {
         Matcher m = p.matcher(value);
         String sourceBranch = getBranch(srcComponent);
         String targetBranch = getBranch(targetComponent);
-        while (m.find()) {
+        List<String> hrefs = new ArrayList<>();
+        boolean isHtmlRef = false;
+        while (m.find()) { // If field value is HTML
+            isHtmlRef = true;
             String hrefValue = m.group(1);
-            String referenceKey = targetBranch+":"+hrefValue;
             log.debug("Found reference to: " + hrefValue);
+            hrefs.add(hrefValue);
+        }
+        if (!isHtmlRef) { // If field value is the link
+            hrefs.add(value);
+        }
+        for (String hrefValue : hrefs) {
+            String referenceKey = targetBranch+":"+hrefValue;
             //Is href pointing to template site page?
             if (hrefValue != null && hrefValue.startsWith(sourceBranch)) {
                 String newHrefValue = hrefValue.replace(sourceBranch, targetBranch);
