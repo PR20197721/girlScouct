@@ -11,12 +11,10 @@ div.image small {
 }
 .image-right {
 	float: right;    
- 	margin: 0 0 0 15px;
 }
 
 .image-left {
 	float: left;    
- 	margin: 0 15px 0 0;
 }
 
 .image-center {
