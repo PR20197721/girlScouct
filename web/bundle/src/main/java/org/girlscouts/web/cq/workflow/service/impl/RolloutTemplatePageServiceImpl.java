@@ -496,9 +496,18 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         Pattern p = Pattern.compile("href=\"(.*?)\"", Pattern.DOTALL);
         Matcher m = p.matcher(value);
         boolean isReplaced = false;
-        while (m.find()) {
+        List<String> hrefs = new ArrayList<>();
+        boolean isHtmlRef = false;
+        while (m.find()) { // If field value is HTML
+            isHtmlRef = true;
             String hrefValue = m.group(1);
             log.debug("Found href: " + hrefValue);
+            hrefs.add(hrefValue);
+        }
+        if (!isHtmlRef) { // If field value is the link
+            hrefs.add(value);
+        }
+        for (String hrefValue : hrefs) {
             //Is href pointing to template site page?
             if (hrefValue != null && hrefValue.startsWith(sourceBranch)) {
                 String referenceKey = targetBranch+":"+hrefValue;
