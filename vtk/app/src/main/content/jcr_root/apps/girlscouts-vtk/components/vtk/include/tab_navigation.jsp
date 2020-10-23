@@ -36,8 +36,7 @@
             vtk_cache_uri = "/myvtk/" + councilMapper.getCouncilName(selectedTroop.getSfCouncil());
 
         }
-        boolean financeTabEnabled = !VtkUtil.getFinanceTabDisabledCouncils().contains(selectedTroop.getCouncilCode()) && 
-            (!selectedTroop.getIsIRM() && (user.isAdmin() || "DP".equals(selectedTroop.getRole()) || isFinanceAdmin));
+        boolean financeTabEnabled = !VtkUtil.getFinanceTabDisabledCouncils().contains(selectedTroop.getCouncilCode()) && !selectedTroop.getIsIRM();
     %>
     <div id="troop" class="row">
         <div class="columns large-7 medium-9 right">
