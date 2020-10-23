@@ -6,6 +6,7 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.mapper.mulesoft.*;
 import org.girlscouts.vtk.models.Contact;
+import org.girlscouts.vtk.models.PrimaryGuardian;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.osgi.cache.MulesoftContactsResponseCache;
@@ -196,7 +197,7 @@ public class MulesoftServiceImpl implements MulesoftService {
         try {
             TroopMembersResponseEntity troopMembersResponseEntity = null;
             if (troop.getIsSUM()) {
-                troopMembersResponseEntity = fileClient.getServiceUnitManagerContacts();
+                return getServiceUnitManagerContacts(troop, user);
             } else {
                 if(contactsCache.contains(troop.getSfTroopId())){
                     troopMembersResponseEntity =  contactsCache.read(troop.getSfTroopId());
@@ -235,6 +236,83 @@ public class MulesoftServiceImpl implements MulesoftService {
         log.debug("returned "+contacts.size()+" contacts");
         return contacts;
     }
+
+    private List<Contact> getServiceUnitManagerContacts(Troop troop, User user) {
+        List<Contact> contacts = new ArrayList<>();
+        Contact girl = new Contact();
+        girl.setFirstName("Demo");
+        girl.setLastName("Girl");
+        girl.setType(0);
+        girl.setId("demo-girl-"+user.getSfUserId());
+        girl.setContactId("demo-girl-for-"+user.getSfUserId());
+        girl.setEmail("demo-girl+_1@gsfuture.org");
+        girl.setPhone("5155551234");
+        girl.setAddress("4 Smith Dr");
+        girl.setCity("Stanley");
+        girl.setState("NC");
+        girl.setCountry("USA");
+        girl.setZip("02910");
+        girl.setAge(10);
+        girl.setDob("12/23/2009");
+        girl.setMembershipYear_adult(0);
+        girl.setMembershipYear_girl(5);
+        girl.setRole("Girl");
+        girl.setAccountId(user.getSfUserId());
+        girl.setEmailOptIn(false);
+        girl.setTxtOptIn(false);
+        girl.setRenewalDue(false);
+        girl.setMembershipYear(VtkUtil.getCurrentGSYear());
+        PrimaryGuardian primaryGuardian = new PrimaryGuardian();
+        primaryGuardian.setGlobalId(user.getSfUserId());
+        primaryGuardian.setEmail(user.getEmail());
+        primaryGuardian.setEmailOptIn(false);
+        primaryGuardian.setFirstName("Demo");
+        primaryGuardian.setGlobalId(user.getSfUserId());
+        primaryGuardian.setLastName("Parent");
+        primaryGuardian.setMobilePhone("5155551234");
+        primaryGuardian.setPhone("5155551234");
+        primaryGuardian.setSmsOptIn(false);
+        girl.setPrimaryGuardian(primaryGuardian);
+        Contact subContact = new Contact();
+        subContact.setType(1);
+        subContact.setEmail(primaryGuardian.getEmail());
+        subContact.setFirstName(primaryGuardian.getFirstName());
+        subContact.setLastName(primaryGuardian.getLastName());
+        subContact.setId(primaryGuardian.getGlobalId());
+        subContact.setContactId(primaryGuardian.getGlobalId());
+        List<Contact> subContacts = new ArrayList<Contact>();
+        subContacts.add(subContact);
+        girl.setContacts(subContacts);
+        contacts.add(girl);
+        Contact adult = new Contact();
+        adult.setFirstName("Demo");
+        adult.setLastName("Volunteer");
+        adult.setType(0);
+        adult.setId("demo-volunteer-"+user.getSfUserId());
+        adult.setContactId("demo-volunteer-for-"+user.getSfUserId());
+        adult.setEmail("demo-volunteer+_1@gsfuture.org");
+        adult.setPhone("5155551234");
+        adult.setAddress("4 Smith Dr");
+        adult.setCity("Stanley");
+        adult.setState("NC");
+        adult.setCountry("USA");
+        adult.setZip("02910");
+        adult.setAge(30);
+        adult.setDob("12/23/2009");
+        adult.setMembershipYear_adult(5);
+        adult.setMembershipYear_girl(10);
+        adult.setRole("Volunteer");
+        adult.setAccountId(user.getSfUserId());
+        adult.setEmailOptIn(false);
+        adult.setTxtOptIn(false);
+        adult.setRenewalDue(false);
+        adult.setMembershipYear(VtkUtil.getCurrentGSYear());
+        adult.setPrimaryGuardian(primaryGuardian);
+        adult.setContacts(subContacts);
+        contacts.add(adult);
+        return contacts;
+    }
+
     @Override
     public List<Contact> getTroopLeaders(Troop troop) {
         List<Contact> contacts = new ArrayList<Contact>();

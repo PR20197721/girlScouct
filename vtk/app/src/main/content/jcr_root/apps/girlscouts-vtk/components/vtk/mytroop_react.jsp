@@ -92,7 +92,7 @@
         org.girlscouts.vtk.models.Contact contact = contacts.get(i);
         // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
         java.util.List<ContactExtras> infos = contactsExtras.get(contact);
-        if (VtkUtil.isUserCaregiverForContact(user, contact)) {
+        if (VtkUtil.isUserCaregiverForContact(user, contact) && "Girl".equals(contact.getRole())) {
             %>
             <div class="column large-24 large-centered mytroop">
                 <dl class="accordion" data-accordion>
