@@ -15,7 +15,6 @@
     response.setHeader("Content-Encoding", "UTF-8");
     response.setContentType("text/csv; charset=UTF-8");
     response.setHeader("Content-Disposition","attachment; filename=Girl Scout Achievement Report.csv");
-
     StringBuilder csv= new StringBuilder();
     List<Contact> contacts = (List<Contact>) session.getAttribute("vtk_cachable_contacts");
     Map<Contact, List<ContactExtras>> contactsExtras= contactUtil.getContactsExtras( user,  selectedTroop, contacts);
@@ -60,7 +59,7 @@ if( contacts!=null){
             if (!"Girl".equals(gsContact.getRole()))
                 continue;
             //check permission again:must be TL
-            if (!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) || user.getApiConfig() == null || VtkUtil.isUserCaregiverForContact(user, gsContact))) {
+            if (!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) || apiConfig == null || VtkUtil.isUserCaregiverForContact(user, gsContact))) {
                 continue;
             }
             PrimaryGuardian caregiver = gsContact.getPrimaryGuardian();

@@ -56,12 +56,14 @@
         private boolean dryRun = true;
         private SlingRepository repository;
         private String tempRegUrl;
+        private String oldRegUrl;
 
         public SetTempSFActivityRegistrationURL(ServletContext ctxt, boolean dryRun, VTKActivitySetRegPathMigrationUtil  regPathUtil, SlingRepository repository) {
             this.repository = repository ;
             this.ctxt = ctxt;
             this.dryRun = dryRun;
             this.tempRegUrl = regPathUtil.tempRegUrl();
+            this.oldRegUrl = regPathUtil.oldRegUrlPattern();
         }
 
         public void requestStop() {
@@ -77,7 +79,7 @@
                     Session jcrSession = null;
                     try {
                         jcrSession = repository.loginAdministrative(null);
-                        String sql = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([/vtk2020]) and CONTAINS(s.[refUid], 'sf-events-repository') and CONTAINS(s.[registerUrl], 'gsmembers.force.com')";
+                        String sql = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([/vtk2020]) and CONTAINS(s.[refUid], 'sf-events-repository') and CONTAINS(s.[registerUrl], '"+this.oldRegUrl+"')";
                         QueryManager qm = jcrSession.getWorkspace().getQueryManager();
                         Query q = qm.createQuery(sql, Query.JCR_SQL2);
                         QueryResult result = q.execute();

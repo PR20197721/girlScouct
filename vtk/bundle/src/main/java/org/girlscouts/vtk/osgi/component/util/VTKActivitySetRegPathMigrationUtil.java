@@ -15,20 +15,26 @@ public class VTKActivitySetRegPathMigrationUtil {
 
     @ObjectClassDefinition(name = "Girl Scouts VTK VS 2.0 Activity Registration URL Migration Configuration")
     public @interface Config {
-        @AttributeDefinition(name = "Path to temp sf activity registration page", type = AttributeType.STRING) String tempRegUrl() default "";
+        @AttributeDefinition(name = "New Registration URL", type = AttributeType.STRING) String tempRegUrl() default "";
+        @AttributeDefinition(name = "OLD Registration URL pattern", type = AttributeType.STRING) String oldRegUrlPattern() default "gsmembers.force.com";
     }
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
     private String tempRegUrl = "";
+    private String oldRegUrlPattern = "";
 
     @Activate
     void activate(Config config) {
         this.tempRegUrl = config.tempRegUrl();
+        this.oldRegUrlPattern = config.oldRegUrlPattern();
         log.info("Girl Scouts VTK VS 2.0 Data Migration activated.");
     }
 
     public String tempRegUrl(){
         return this.tempRegUrl;
+    }
+    public String oldRegUrlPattern(){
+        return this.oldRegUrlPattern;
     }
 }

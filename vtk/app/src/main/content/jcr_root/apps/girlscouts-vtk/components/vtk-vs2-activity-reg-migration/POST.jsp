@@ -56,6 +56,7 @@
         private boolean dryRun = true;
         private SlingRepository repository;
         private Map<String,String> activityIdMap = new HashMap<>();
+        private String activityRegPattern = "";
 
 
         public MigrateVtkActivityRegUrlThread(ServletContext ctxt, boolean dryRun, VTKDataMigrationUtil vtkDataMigrationUtil, SlingRepository repository) {
@@ -63,6 +64,7 @@
             this.ctxt = ctxt;
             this.dryRun = dryRun;
             this.activityIdMap = vtkDataMigrationUtil.getActivityIdMapping();
+            this.activityRegPattern = vtkDataMigrationUtil.getActivityRegPattern();
         }
 
         public void requestStop() {
@@ -74,11 +76,11 @@
             long startTime = System.currentTimeMillis();
             try {
                 log.info("Running MigrateVtkActivityRegUrlThread " + ((this.dryRun) ? " (Dry Run)" : ""));
-                if(activityIdMap != null && activityIdMap.size() > 0) {
+                //if(activityIdMap != null && activityIdMap.size() > 0) {
                     Session jcrSession = null;
                     try {
                         jcrSession = repository.loginAdministrative(null);
-                        String sql = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([/vtk2020]) and CONTAINS(s.[refUid], 'sf-events-repository') and CONTAINS(s.[registerUrl], 'gsmembers.force.com')";
+                        String sql = "SELECT * FROM [nt:base] AS s WHERE ISDESCENDANTNODE([/vtk2020]) and CONTAINS(s.[refUid], 'sf-events-repository') and CONTAINS(s.[registerUrl], '"+this.activityRegPattern+"')";
                         QueryManager qm = jcrSession.getWorkspace().getQueryManager();
                         Query q = qm.createQuery(sql, Query.JCR_SQL2);
                         QueryResult result = q.execute();
@@ -130,9 +132,9 @@
                             log.error("Exception is thrown closing resource resolver: ", e);
                         }
                     }
-                }else{
+                /*}else{
                     log.debug("tempRegUrl is not set");
-                }
+                }*/
             } catch (Exception ie) {
                 log.info("MigrateVtkActivityRegUrlThread: interrupted ", ie);
             } finally {

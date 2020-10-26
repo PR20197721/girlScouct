@@ -1,5 +1,5 @@
 <%@page session="false" %><%@include file="/libs/foundation/global.jsp"%>
-VTK VS 2.0 Troop ID, User ID, Contact ID Migration Script: <br/>
+VTK VS 2.0 Set Temporary Activity registration URL Script: <br/>
 <form id="form" method="post">
 <%
 ServletContext ctxt = application.getContext("/apps/girlscouts-vtk/components/vtk-vs2-set-activity-reg-url");
