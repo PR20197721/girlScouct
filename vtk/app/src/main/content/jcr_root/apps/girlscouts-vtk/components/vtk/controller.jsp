@@ -347,12 +347,7 @@
             response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
         } else if (request.getParameter("saveCouncilMilestones") != null) {
             vtklog.debug("saveCouncilMilestones");
-
-            if(selectedTroop.getIsSUM()) {
-                 yearPlanUtil.saveMilestones(user, null, request);
-            } else {
-                 yearPlanUtil.saveMilestones(user, selectedTroop, request);
-            }
+            yearPlanUtil.saveMilestones(user, selectedTroop, request);
             response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
         } else if (request.getParameter("createCouncilMilestones") != null) {
             vtklog.debug("createCouncilMilestones");

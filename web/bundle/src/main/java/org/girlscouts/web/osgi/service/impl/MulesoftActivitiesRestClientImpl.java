@@ -99,8 +99,8 @@ public class MulesoftActivitiesRestClientImpl extends BasicGirlScoutsService imp
 
     @ObjectClassDefinition(name = "MuleSoft Activities Rest client configuration", description = "MuleSoft Activities Rest client configuration")
     public @interface Config {
-        @AttributeDefinition(name = "MuleSoft Activities rest service url", type = AttributeType.STRING) String restEndPoint();
-        @AttributeDefinition(name = "MuleSoft Activities rest service client id", type = AttributeType.STRING) String clientId();
-        @AttributeDefinition(name = "MuleSoft Activities rest service client secret", type = AttributeType.STRING) String clientSecret();
+        @AttributeDefinition(name = "MuleSoft Activities rest service url", type = AttributeType.STRING) String restEndPoint() default "https://api-uat.girlscoutsnetwork.org/api/hybris/v1/activities/get";
+        @AttributeDefinition(name = "MuleSoft Activities rest service client id", type = AttributeType.STRING) String clientId() default "891613a40f1042fc85c99e7c67b68ae2";
+        @AttributeDefinition(name = "MuleSoft Activities rest service client secret", type = AttributeType.STRING) String clientSecret() default "C88AB78715204a94b42B8D764CCc00cB";
     }
 }

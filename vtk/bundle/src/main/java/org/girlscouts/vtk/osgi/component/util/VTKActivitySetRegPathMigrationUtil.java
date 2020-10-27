@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 @Designate(ocd = VTKActivitySetRegPathMigrationUtil.Config.class)
 public class VTKActivitySetRegPathMigrationUtil {
 
-    @ObjectClassDefinition(name = "Girl Scouts VTK VS 2.0 Activity Registration URL Migration Configuration")
+    @ObjectClassDefinition(name = "Girl Scouts VTK VS 2.0 Temp Activity Registration URL Configuration")
     public @interface Config {
         @AttributeDefinition(name = "New Registration URL", type = AttributeType.STRING) String tempRegUrl() default "";
         @AttributeDefinition(name = "OLD Registration URL pattern", type = AttributeType.STRING) String oldRegUrlPattern() default "gsmembers.force.com";

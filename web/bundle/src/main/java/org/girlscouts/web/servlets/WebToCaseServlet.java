@@ -94,7 +94,6 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 				respond(new WebToCaseResponse("error", errors), response);
 				return;
 			}
-
 		} else {
 			boolean debug = (request.getParameter("debug") != null && "true".equals(request.getParameter("debug")));
 			if (debug) {
