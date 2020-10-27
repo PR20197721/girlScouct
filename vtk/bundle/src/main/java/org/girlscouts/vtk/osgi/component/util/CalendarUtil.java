@@ -1,6 +1,5 @@
 package org.girlscouts.vtk.osgi.component.util;
 
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -70,18 +69,13 @@ public class CalendarUtil {
                 newDate = c.getTime();
             }
         }
-        sched = sched.replace("" + currDate, newDate.getTime() + "");
+        if (sched.contains("" + currDate)) {
+            sched = sched.replace("" + currDate, newDate.getTime() + "");
+        } else {
+            sched += newDate.getTime() + ",";
+        }
         updateSchedMeetings(meetings, currDate, newDate.getTime());
-        //sort meetings by Date
-        if (meetings != null) {
-            Collections.sort(meetings, new MeetingEDateComparator());
-        }
-        for (int i = 0; i < meetings.size(); i++) {
-            if (meetings.get(i).getSortOrder() != (i)) {
-                meetings.get(i).setSortOrder((i));
-                meetings.get(i).setDbUpdate(true);
-            }
-        }
+
         cal.setDates(sched);
         cal.setDbUpdate(true);
         troopUtil.updateTroop(user, troop);
@@ -359,18 +353,13 @@ public class CalendarUtil {
                 newDate = c.getTimeInMillis();
             }
         }
-        sched = sched.replace("" + currDate, newDate + "");
+        if (sched.contains("" + currDate)) {
+            sched = sched.replace("" + currDate, newDate + "");
+        } else {
+            sched += newDate + ",";
+        }
         updateSchedMeetings(meetings, currDate, newDate);
-        //sort meetings by Date
-        if (meetings != null) {
-            Collections.sort(meetings, new MeetingEDateComparator());
-        }
-        for (int i = 0; i < meetings.size(); i++) {
-            if (meetings.get(i).getSortOrder() != i) {
-                meetings.get(i).setSortOrder(i);
-                meetings.get(i).setDbUpdate(true);
-            }
-        }
+
         cal.setDates(sched);
         StringTokenizer t = new StringTokenizer(sched, ",");
         while (t.hasMoreElements()) {
@@ -384,11 +373,33 @@ public class CalendarUtil {
     }
 
     private java.util.List<MeetingE> updateSchedMeetings(java.util.List<MeetingE> meetings, long currDate, long newDate) {
-        for (int i = 0; i < meetings.size(); i++) {
-            if (meetings.get(i).getDate().getTime() == currDate) {
-                meetings.get(i).setDate(new java.util.Date(newDate));
+        if (meetings == null) return null;
+
+        // Update dates
+        Date newDateObj = new java.util.Date(newDate);
+        boolean updated = false;
+        for (MeetingE m : meetings) {
+            // Look for existing currDate
+            if (m.getDate() != null && m.getDate().getTime() == currDate) {
+                m.setDate(newDateObj);
+                updated = true;
+                break;
             }
         }
+        if (!updated) {
+            // Look for missing date
+            meetings.stream().filter(m -> m.getDate() == null).findFirst().ifPresent(m -> m.setDate(newDateObj));
+        }
+
+        // Sort meetings by date
+        Collections.sort(meetings, new MeetingEDateComparator());
+        for (int i = 0; i < meetings.size(); i++) {
+            if (meetings.get(i).getSortOrder() != (i)) {
+                meetings.get(i).setSortOrder((i));
+                meetings.get(i).setDbUpdate(true);
+            }
+        }
+
         return meetings;
     }
 
