@@ -128,14 +128,14 @@
         <div class="column large-24 large-centered mytroop">
             <dl class="accordion" data-accordion>
                 <dt data-target="panel1">
-                    <h3 class="on"><%=selectedTroop.getSfTroopName() %> INFO</h3>
+                    <h3 class><%=selectedTroop.getSfTroopName() %> INFO</h3>
                     <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
                     <div id="mailBtn">
                         <a id="#mailTroop"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></div>
                     <%} %>
                 </dt>
                 <dd class="accordion-navigation">
-                    <div class="content active" id="panel1">
+                    <div class="content active" id="panel1" style="display:none">
                         <%try{%>
                             <%@include file='include/troop_member_detail.jsp' %>
                         <%}catch(Exception e){
@@ -154,7 +154,7 @@
             <div class="column large-24 large-centered mytroop">
                 <dl class="accordion" data-accordion>
                     <dt data-target="panel2">
-                        <h3 class="on"><%=selectedTroop.getSfTroopName() %> VOLUNTEERS</h3>
+                        <h3 class><%=selectedTroop.getSfTroopName() %> VOLUNTEERS</h3>
                         <% if (VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
                         <a style="float:right;margin-right: 20px"
                            href="<%= sling.getService(ConfigManager.class).getConfig("communityUrl")%>/Membership_Troop_Renewal">Add
@@ -164,7 +164,7 @@
                         <%} %>
                     </dt>
                     <dd class="accordion-navigation">
-                        <div class="content active" id="panel2">
+                        <div class="content active" id="panel2" style="display:none">
                             <%try{%>
                                 <%@include file='include/troop_volunteer_detail.jsp' %>
                             <%}catch(Exception e){
