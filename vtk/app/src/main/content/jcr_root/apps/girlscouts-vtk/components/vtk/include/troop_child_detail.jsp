@@ -1,5 +1,5 @@
 <dd class="accordion-navigation clearfix">
-    <div id="panel<%=i+1%>b" class="content clearfix">
+    <div id="panel<%=i+1%>b" class="content clearfix" style="display:none">
         <ul class="column large-4">
             <%if (contact.getDob() != null) {%>
             <li>DOB:
