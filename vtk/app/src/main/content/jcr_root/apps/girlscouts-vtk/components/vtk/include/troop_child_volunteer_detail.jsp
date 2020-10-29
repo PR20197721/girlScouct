@@ -1,5 +1,5 @@
 <dd class="accordion-navigation clearfix">
-    <div id="panel<%=i+1%>b" class="content" style="padding:20px">
+    <div id="panel<%=i+1%>b" class="content" style="display:none">
         <div class="screenboard-white row">
             <div class="row">
                 <div class="column small-24 medium-8">

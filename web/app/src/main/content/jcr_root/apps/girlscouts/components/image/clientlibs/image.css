@@ -60,3 +60,9 @@ div.image.right div.img-wrapper {
 	padding: 0;
     line-height: 1.15rem;
 }
+
+/*GSDO-1077- Image and caption width*/
+
+   .image-left, .image-right, .image-center, .image-left img, .image-right img, .image-center img {
+		max-width: 100%;
+	}
