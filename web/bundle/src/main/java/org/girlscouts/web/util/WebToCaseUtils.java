@@ -16,8 +16,7 @@ public class WebToCaseUtils {
         String type = request.getParameter("type");
         String subject = request.getParameter("subject");
         String description = request.getParameter("description");
-        //String g_recaptcha_response = request.getParameter("g-recaptcha-response");
-        //String g_recaptcha_ts = request.getParameter("g-recaptcha-ts");
+        String g_recaptcha_response = request.getParameter("g-recaptcha-response");
         if (StringUtils.isBlank(email)){
             errors.add("Missing value for required field: email");
         }
@@ -36,13 +35,9 @@ public class WebToCaseUtils {
         if (StringUtils.isBlank(description)){
             errors.add("Missing value for required field: description");
         }
-        /*if (StringUtils.isBlank(g_recaptcha_response)){
+        if (StringUtils.isBlank(g_recaptcha_response)){
             errors.add("Missing value for required field: g-recaptcha-response");
-        }*/
-        /*if (StringUtils.isBlank(g_recaptcha_ts)){
-            errors.add("Missing value for required field: g-recaptcha-ts");
-        }*/
-
+        }
         return errors;
     }
 }

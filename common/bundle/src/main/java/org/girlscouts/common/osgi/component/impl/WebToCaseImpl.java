@@ -4,13 +4,12 @@ import com.adobe.granite.asset.api.Asset;
 import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
-import com.day.cq.wcm.foundation.forms.FieldDescription;
-import com.day.cq.wcm.foundation.forms.FieldHelper;
-import com.day.cq.wcm.foundation.forms.FormsHelper;
-import org.apache.commons.mail.HtmlEmail;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.request.RequestParameter;
-import org.apache.sling.api.resource.*;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.common.osgi.component.CouncilCodeToPathMapper;
 import org.girlscouts.common.osgi.component.WebToCase;
@@ -26,13 +25,9 @@ import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component(service = {
 		WebToCase.class }, immediate = true, name = "org.girlscouts.common.osgi.component.impl.WebToCaseImpl")
@@ -63,6 +58,9 @@ public class WebToCaseImpl implements WebToCase {
 
 	@Reference
 	protected SlingSettingsService slingSettings;
+
+    @Reference
+    private CouncilCodeToPathMapper councilCodeToPathMapper;
 
 	@Reference
 	private Replicator replicator;
@@ -142,205 +140,44 @@ public class WebToCaseImpl implements WebToCase {
 		}
 		return councilMap;
 	}
+    @Override
+    public void sendEmail(SlingHttpServletRequest request, List<NameValuePair> data, List<String> errors, boolean debug) {
+	    log.debug("Sending Email instead of Post to Salesforce");
+        String councilCode = getCouncilCode(request, councilCodeToPathMapper);
+        String mailTo = getMailToValue(councilCode);
+        if(StringUtils.isNotBlank(councilCode) && StringUtils.isNotBlank(mailTo)){
+            List<String> mailToAddresses = new ArrayList<>();
+            mailToAddresses.add(mailTo);
+            final StringBuilder emailBodyBuilder = new StringBuilder();
+            emailBodyBuilder.append(request.getScheme());
+            emailBodyBuilder.append("://");
+            emailBodyBuilder.append(request.getServerName());
+            if ((request.getScheme().equals("https") && request.getServerPort() != 443)
+                    || (request.getScheme().equals("http") && request.getServerPort() != 80)) {
+                emailBodyBuilder.append(':');
+                emailBodyBuilder.append(request.getServerPort());
+            }
+            emailBodyBuilder.append(request.getRequestURI());
+            emailBodyBuilder.append("\n\nValues:\n\n");
+            String subject = "Form Data:";
+            for(NameValuePair nameValuePair:data){
+                if("subject".equalsIgnoreCase(nameValuePair.getName()) && StringUtils.isNotBlank(nameValuePair.getValue())){
+                    subject = nameValuePair.getValue();
+                }
+                if(!nameValuePair.getName().contains("debug") && !nameValuePair.getName().contains("captcha")){
+                    emailBodyBuilder.append(nameValuePair.getName()+": "+nameValuePair.getValue()+"\r\n");
+                }
+            }
+            try {
+                log.debug("Sending email: subject:{}, to:{}, body:{}",subject, mailToAddresses, emailBodyBuilder);
+                gsEmailService.sendEmail(subject, mailToAddresses, emailBodyBuilder.toString(), (String) null);
+            }catch (Exception e){
+                errors.add("Unable to send email");
+                log.error("Unable to send email ", e);
+            }
+        }
+    }
 
-	public int sendEmail(SlingHttpServletRequest request, Dictionary<String, Object> properties,
-			CouncilCodeToPathMapper councilCodeToPathMapper) {
-		int status = 200;
-		final ResourceBundle resBundle = request.getResourceBundle(null);
-		final ValueMap values = ResourceUtil.getValueMap(request.getResource());
-		String councilCode = getCouncilCode(request, councilCodeToPathMapper);
-		final String mailTo = getMailToValue(councilCode);
-		if (null != mailTo && null != gsEmailService) {
-			status = 200;
-			try {
-				final StringBuilder builder = new StringBuilder();
-				builder.append(request.getScheme());
-				builder.append("://");
-				builder.append(request.getServerName());
-				if ((request.getScheme().equals("https") && request.getServerPort() != 443)
-						|| (request.getScheme().equals("http") && request.getServerPort() != 80)) {
-					builder.append(':');
-					builder.append(request.getServerPort());
-				}
-				builder.append(request.getRequestURI());
-				final StringBuilder buffer = new StringBuilder();
-				String text = resBundle.getString("You've received a new form based mail from {0}.");
-				text = text.replace("{0}", builder.toString());
-				buffer.append(text);
-				buffer.append("\n\n");
-				buffer.append(resBundle.getString("Values"));
-				buffer.append(":\n\n");
-
-				final List<String> contentNamesList = new ArrayList<>();
-				final Iterator<String> names = FormsHelper.getContentRequestParameterNames(request);
-				while (names.hasNext()) {
-					final String name = names.next();
-					contentNamesList.add(name);
-				}
-				Collections.sort(contentNamesList);
-
-				List<String> confirmationEmailAddresses = new ArrayList<>();
-				final List<String> namesList = new ArrayList<>();
-				final Iterator<Resource> fields = FormsHelper.getFormElements(request.getResource());
-				while (fields.hasNext()) {
-					final Resource field = fields.next();
-					final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, field);
-					for (final FieldDescription desc : descs) {
-						contentNamesList.remove(desc.getName());
-						if (!desc.isPrivate()) {
-							namesList.add(desc.getName());
-						}
-						ValueMap childProperties = ResourceUtil.getValueMap(field);
-						if (childProperties.get("confirmationemail", false)) {
-							final String[] pValues = request.getParameterValues(desc.getName());
-							for (final String v : pValues) {
-								confirmationEmailAddresses.add(v);
-							}
-						}
-					}
-				}
-				namesList.addAll(contentNamesList);
-				final List<RequestParameter> attachments = new ArrayList<>();
-				Map<String, List<String>> formFields = new HashMap<>();
-
-				for (final String name : namesList) {
-					if (name.equals("Submit") || name.equals("file-upload-max-size")) {
-						continue;
-					}
-					final RequestParameter rp = request.getRequestParameter(name);
-					if (rp == null) {
-						log.debug("skipping form element {} from mail content because it's not in the request", name);
-					} else if (rp.isFormField()) {
-						buffer.append(name);
-						buffer.append(" : \n");
-						final String[] pValues = request.getParameterValues(name);
-						for (final String v : pValues) {
-							if (null == formFields.get(name)) {
-								List<String> formField = new ArrayList<>();
-								formField.add(v);
-								formFields.put(name, formField);
-							} else {
-								formFields.get(name).add(v);
-							}
-							buffer.append(v);
-							buffer.append("\n");
-						}
-						buffer.append("\n");
-					} else if (rp.getSize() > 0) {
-						attachments.add(rp);
-
-					} else {
-						// ignore
-					}
-				}
-				final String subject = values.get("subject", resBundle.getString("Form Mail"));
-				if (this.log.isDebugEnabled()) {
-					this.log.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
-							new Object[] { "", mailTo, subject, buffer });
-				}
-                List<String> mailToAddresses = new ArrayList<>();
-				mailToAddresses.add(mailTo);
-                gsEmailService.sendEmail(subject, mailToAddresses, buffer.toString(), (String)null);
-			} catch (Exception e) {
-				log.error("Error sending email: " + e.getMessage(), e);
-				status = 500;
-			}
-		} else {
-			log.error("The mailto configuration is missing in the form begin at " + request.getResource().getPath());
-			status = 500;
-		}
-		return status;
-	}
-
-	public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String, List<String>> formFields,
-			HtmlEmail confEmail, ResourceResolver rr, List<RequestParameter> attachments) {
-		try {
-			String templatePath = values.get(TEMPLATE_PATH_PROPERTY,
-					"/content/girlscouts-template/en/email-templates/default_template");
-			if (templatePath.trim().isEmpty()) {
-				templatePath = "/content/girlscouts-template/en/email-templates/default_template";
-			}
-			log.error("GSMailServlet temnplate Path is:  " + templatePath);
-			String parsed = "";
-			Resource templateResource = rr.getResource(templatePath);
-			log.error("GSMailServlet got template path ");
-			if (templateResource != null) {
-				Resource dataResource = templateResource.getChild("jcr:content/data");
-				log.error("Data resource path is: " + dataResource.getPath());
-				ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
-				log.error("GSMailServlet template content is:  " + templateProps.get("content", ""));
-				parsed = parseHtml(templateProps.get("content", ""), formFields);
-			}
-			if (parsed.isEmpty()) {
-				parsed = "The following fields and values were submitted for form: " + request.getParameter(":formid")
-						+ "<br/> \n";
-				for (String key : formFields.keySet()) {
-					List<String> lvalues = formFields.get(key);
-					String valstring = "";
-					for (String lval : lvalues) {
-						valstring = valstring.concat(lval + " ");
-					}
-					parsed = parsed.concat(" Name: " + key + " Value: " + valstring + "<br/> \n");
-
-				}
-			}
-			if (!attachments.isEmpty()) {
-				parsed = parsed.concat("<br/> \n Attachments: <br/>\n");
-				for (RequestParameter rp : attachments) {
-					parsed = parsed.concat(rp.getFileName() + " <br/> \n");
-				}
-			}
-			String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"
-					+ "<html xmlns=\"http://www.w3.org/1999/xhtml\">"
-					+ "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
-					+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
-					+ "<title>Girl Scouts</title></head>";
-			String html = head + "<body>" + parsed + "</body></html>";
-			return html;
-		} catch (Exception e) {
-			log.error("No valid template found for " + request.getResource().getPath());
-			e.printStackTrace();
-			return "";
-		}
-	}
-
-	public String parseHtml(String html, Map<String, List<String>> fields) {
-		// Part 1: Insert field variables whenever %%{field_id}%% is found
-		final Pattern pattern = Pattern.compile("%%(.*?)%%");
-		final Matcher matcher = pattern.matcher(html);
-		final StringBuffer sb = new StringBuffer();
-		while (matcher.find()) {
-			List<String> matched = fields.get(matcher.group(1));
-			if (matched != null) {
-				if (matched.size() > 1) {
-					matcher.appendReplacement(sb, matched.toString());
-				} else if (matched.toString().length() >= 1) {
-					matcher.appendReplacement(sb, matched.toString().substring(1, matched.toString().length() - 1));
-				}
-			}
-		}
-		matcher.appendTail(sb);
-		html = sb.toString();
-
-		return html;
-	}
-
-	private Node getFormStorageNode(Node node, String path) throws RepositoryException {
-		Node rootNode = node;
-		String relativePath = path.replaceAll("/content/usergenerated/", "");
-		String[] subNames = relativePath.split("/");
-		for (int i = 0; i < subNames.length; i++) {
-			String temp = subNames[i];
-			if (rootNode.hasNode(temp)) {
-				rootNode = rootNode.getNode(temp);
-			} else {
-				Node tempNode = rootNode.addNode(temp, "sling:Folder");
-				rootNode = tempNode;
-
-			}
-		}
-		return rootNode;
-	}
 
 	private String getMailToValue(String councilCode) {
 		String emailId = null;
@@ -407,6 +244,8 @@ public class WebToCaseImpl implements WebToCase {
     public String getRecordType() {
         return recordType;
     }
+
+
 
     @ObjectClassDefinition(name = "Girl Scouts Web To Case Configuration Service")
 	public @interface Config {

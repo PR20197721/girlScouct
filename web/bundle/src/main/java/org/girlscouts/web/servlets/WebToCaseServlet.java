@@ -56,8 +56,9 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 	private WebToCase webToCase;
 	@Reference
 	private GSEmailService gsEmailService;
-	@Reference
-	private CouncilCodeToPathMapper councilCodeToPathMapper;
+
+    @Reference
+    private CouncilCodeToPathMapper councilCodeToPathMapper;
 
 	private boolean isSendEmail;
 	Dictionary<String, Object> properties;
@@ -70,7 +71,7 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 		this.recaptchaMap = webToCase.getRecaptchaMap();
 		this.expectedParams = webToCase.getExpectedParams();
 		this.isSendEmail = webToCase.isSendEmail();
-
+        logger.debug("Activated");
 	}
 
 	@Override
@@ -84,53 +85,46 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 	}
 
 	protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
-		if (isSendEmail) {
-			int status = webToCase.sendEmail(request, properties, councilCodeToPathMapper);
-			if (status == 200) {
-				respond(new WebToCaseResponse("success", null), response);
-			} else {
-				List<String> errors = new ArrayList<>();
-				errors.add("Error sending email");
-				respond(new WebToCaseResponse("error", errors), response);
-				return;
-			}
-		} else {
-			boolean debug = (request.getParameter("debug") != null && "true".equals(request.getParameter("debug")));
-			if (debug) {
-				logger.debug("Submitting Web-To-Case data in debug mode.");
-			} else {
-				logger.debug("Submitting Web-To-Case data.");
-			}
-			List<String> errors = WebToCaseUtils.validateForm(request);
-			if (errors != null && errors.size() > 0) {
-				WebToCaseResponse respObj = new WebToCaseResponse("error", errors);
-				respond(respObj, response);
-				return;
-			} else {
-				if (ResourceUtil.isNonExistingResource(request.getResource())) {
-					errors.add("Received invalid request!");
-					logger.error("Received invalid request!");
-					respond(new WebToCaseResponse("error", errors), response);
-					return;
-				}
-				List<NameValuePair> data = new LinkedList<NameValuePair>();
-				data.addAll(getSubmittedParams(request));
-				data.addAll(getAdditionalParams(request));
-				postToSF(data, errors, debug);
-				if (errors.size() > 0) {
-					respond(new WebToCaseResponse("error", errors), response);
-					return;
-				} else {
-					final ValueMap props = ResourceUtil.getValueMap(request.getResource());
-					boolean disableConfirmations = props.get("disableConfirmationEmails", false);
-					// Ensure that override is off
-					if (!disableConfirmations) {
-						sendConfirmationEmail(request, props);
-					}
-					respond(new WebToCaseResponse("success", null), response);
-				}
-			}
-		}
+        logger.debug("Processing Post");
+        boolean debug = (request.getParameter("debug") != null && "true".equals(request.getParameter("debug")));
+        if (debug) {
+            logger.debug("Submitting Web-To-Case data in debug mode.");
+        } else {
+            logger.debug("Submitting Web-To-Case data.");
+        }
+        List<String> errors = WebToCaseUtils.validateForm(request);
+        if (errors != null && errors.size() > 0) {
+            WebToCaseResponse respObj = new WebToCaseResponse("error", errors);
+            respond(respObj, response);
+            return;
+        } else {
+            if (ResourceUtil.isNonExistingResource(request.getResource())) {
+                errors.add("Received invalid request!");
+                logger.error("Received invalid request!");
+                respond(new WebToCaseResponse("error", errors), response);
+                return;
+            }
+            List<NameValuePair> data = new LinkedList<NameValuePair>();
+            data.addAll(getSubmittedParams(request));
+            data.addAll(getAdditionalParams(request));
+            if (isSendEmail) {
+                webToCase.sendEmail(request, data, errors, debug);
+            }else {
+                postToSF(data, errors, debug);
+            }
+            if (errors.size() > 0) {
+                respond(new WebToCaseResponse("error", errors), response);
+                return;
+            } else {
+                final ValueMap props = ResourceUtil.getValueMap(request.getResource());
+                boolean disableConfirmations = props.get("disableConfirmationEmails", false);
+                // Ensure that override is off
+                if (!disableConfirmations) {
+                    sendConfirmationEmail(request, props);
+                }
+                respond(new WebToCaseResponse("success", null), response);
+            }
+        }
 	}
 
 	private List<NameValuePair> getAdditionalParams(SlingHttpServletRequest request) {
@@ -238,7 +232,9 @@ public class WebToCaseServlet extends SlingAllMethodsServlet implements OptingSe
 					this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
 							new Object[] { confFromAddress, confirmationEmailAddresses, confSubject, confBody });
 				}
-				gsEmailService.sendEmail(confSubject, confirmationEmailAddresses, confBody, confFromAddress);
+				if(!confirmationEmailAddresses.isEmpty()) {
+                    gsEmailService.sendEmail(confSubject, confirmationEmailAddresses, confBody, confFromAddress);
+                }
 			} else {
 				logger.debug("Email body null for " + request.getResource().getPath());
 			}

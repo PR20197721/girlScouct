@@ -54,6 +54,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
     private void activate() {
         this.oid = webToLead.getOID();
         this.apiURL = webToLead.getApiURL();
+        logger.debug("Activated");
     }
 
     @Override
@@ -68,6 +69,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
+        logger.debug("Processing Post");
         List<String> errors = WebToLeadUtils.validateForm(request);
         if(errors!= null && errors.size() > 0){
             WebToLeadResponse respObj = new WebToLeadResponse("error", errors);
