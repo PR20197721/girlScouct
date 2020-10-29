@@ -339,13 +339,14 @@ public class Troop extends JcrNode {
                 if (plan.getSchedule() != null) {
                     String calMeeting = plan.getSchedule().getDates();
                     String[] calendarDates = calMeeting.split(",");
-                    int numOfDates = calendarDates.length >= meetingEvents.size() ? meetingEvents.size() : calendarDates.length;
+                    String lastDate = Arrays.asList(calendarDates).stream().sorted().reduce((a, b) -> b).orElse(null);
                     int maxDates = 500;
-                    for (int i = 0; i < numOfDates; i++) {
+                    for (int i = 0; i < meetingEvents.size(); i++) { // Loop through every meeting to prevent orphaned nodes
                         if (i >= maxDates) {
                             break;
                         }
-                        Date meetingDate = new Date(Long.parseLong(calendarDates[i]));
+                        String calendarDate = i < calendarDates.length ? calendarDates[i] : lastDate; // If a meeting does not have a date, use the last date
+                        Date meetingDate = new Date(Long.parseLong(calendarDate));
                         if (schedule.containsKey(meetingDate)) {
                             while (schedule.containsKey(meetingDate)) {
                                 meetingDate = new Date(meetingDate.getTime() + TimeUnit.MILLISECONDS.toMillis(1));

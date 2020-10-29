@@ -89,20 +89,31 @@
 	String width = properties.get("./image/width", "0");
 	String caption = properties.get("./image/jcr:description", "");	
 	String imgHeight = properties.get("./image/height", "0");
-	String imageCaptionWidth = "width:" + originalWidth + "px";
+	String imageCaptionWidth= "";
 	//styleImage = "margin: 0px !important;";
 	String padding = piTop + piBottom + piLeft + piRight;
+	int newWidth = 0;
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
 		styleImage += "padding: " + piTop + "px " + piRight + "px " + piBottom + "px " + piLeft + "px;";
 	}
 	if (caption.length() > 0) {
 		styleCaption = "padding: 0px 5px 0px 5px; line-height: 0.86rem";
+        if ("0".equals(width)) {
+			imageCaptionWidth += "width:" + originalWidth + "px";
+        }
 	} 
 	if (!"0".equals(width)) {
 		// newWidth expands width to accomodate for paddings
-		int newWidth = Integer.parseInt(width) + Integer.parseInt(piLeft) + Integer.parseInt(piRight);
-		styleImage += "width:" + newWidth + "px; max-width:" + originalWidth + "px;";
-		imageCaptionWidth = "width:" + newWidth + "px; max-width:" + originalWidth + "px;";
+		newWidth = Integer.parseInt(width) + Integer.parseInt(piLeft) + Integer.parseInt(piRight);
+        if (newWidth > originalWidth) {
+			styleImage += "width:" + originalWidth + "px";
+            imageCaptionWidth += "width:" + originalWidth + "px";
+    	}
+        else {
+			styleImage += "width:" + newWidth + "px";
+            imageCaptionWidth += "width:" + newWidth + "px";
+        }
+
 	}
 	
 	if (!"0".equals(imgHeight)) {

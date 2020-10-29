@@ -5,14 +5,14 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
 <%
-    HttpSession session = request.getSession(true);
+    HttpSession httpSession = request.getSession(true);
     CouncilMapper mapper = sling.getService(CouncilMapper.class);
-    ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
+    ApiConfig apiConfig = (ApiConfig) httpSession.getAttribute(ApiConfig.class.getName());
     Page newCurrentPage = null;
     Design newCurrentDesign = null;
     String councilId = null;
     String branch = "";
-    Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
+    Troop selectedTroop = (Troop) httpSession.getAttribute("VTK_troop");
     if(apiConfig == null){
         councilId = "999";
         branch = "/content/vtkcontent";
@@ -21,7 +21,7 @@
             if(selectedTroop != null){
                 councilId = selectedTroop.getCouncilId();
             }else {
-                if (!apiConfig.getUser().isAdmin()) {
+                if (!apiConfig.getUser().isAdmin() && apiConfig.getUser().getTroops() != null && !apiConfig.getUser().getTroops().isEmpty()) {
                     councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
                 } else {
                     councilId = apiConfig.getUser().getAdminCouncilId();

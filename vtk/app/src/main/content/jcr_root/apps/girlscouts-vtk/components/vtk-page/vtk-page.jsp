@@ -60,7 +60,7 @@
                 if(selectedTroop != null){
                     councilId = selectedTroop.getCouncilId();
                 }else {
-                    if (!apiConfig.getUser().isAdmin()) {
+                    if (!apiConfig.getUser().isAdmin() && apiConfig.getUser().getTroops() != null && !apiConfig.getUser().getTroops().isEmpty()) {
                         councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
                     } else {
                         councilId = apiConfig.getUser().getAdminCouncilId();
@@ -109,10 +109,10 @@
                 request.setAttribute("newCurrentDesign", newCurrentDesign);
             }
         }
-        %>
-        <cq:include script="head.jsp"/>
-        <cq:include script="body.jsp"/>
-        <%
+%>
+<cq:include script="head.jsp"/>
+<cq:include script="body.jsp"/>
+<%
     } catch (Exception e) {
         e.printStackTrace();
     }
