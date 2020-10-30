@@ -19,7 +19,6 @@
         adsPath="/content/gateway/en/ad-page"
         calendarPath="/content/gateway/en/events/event-calendar"
         email1="SSGattupally@girlscouts.org"
-        email2="SSGattupally@girlscouts.org"
         eventLanding="/content/gateway/en/events/event-list"
         eventPath="/content/gateway/en/events-repository"
         footerTracking="&lt;script src=&quot;https://www.girlscouts.org/includes/join/council_ebiz_conversion_include.js&quot;>&lt;/script>"
