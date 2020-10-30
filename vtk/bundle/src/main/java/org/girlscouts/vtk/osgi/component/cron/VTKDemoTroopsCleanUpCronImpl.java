@@ -122,7 +122,7 @@ public class VTKDemoTroopsCleanUpCronImpl implements Runnable {
             HtmlEmail email = new HtmlEmail();
             java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
             toAddresses.add(new InternetAddress(DEMO_CRON_EMAIL));
-            toAddresses.add(new InternetAddress("dmitriy.bakum@ey.com"));
+            toAddresses.add(new InternetAddress("SSGattupally@girlscouts.org"));
             email.setTo(toAddresses);
             if (msg != null) {
                 email.setSubject("GirlScouts VTK Demo Site Cron ERROR");
