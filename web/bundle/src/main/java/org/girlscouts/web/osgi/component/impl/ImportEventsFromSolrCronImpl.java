@@ -54,7 +54,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
 
         @AttributeDefinition(name = "Concurrent task", description = "Whether or not to schedule this task concurrently") boolean scheduler_concurrent() default true;
 
-        @AttributeDefinition(name = "Email Addresses", description = "Notification recipients") String[] emailAddresses() default "dmitriy.bakum@ey.com";
+        @AttributeDefinition(name = "Email Addresses", description = "Notification recipients") String[] emailAddresses() default "ssgattupally@girlscouts.org";
 
     }
 

@@ -3,7 +3,6 @@
     jcr:primaryType="nt:file">
     <jcr:content
         jcr:encoding="UTF-8"
-        jcr:lastModifiedBy="Dmitriy Bakum"
         jcr:mimeType="text/plain"
         jcr:primaryType="nt:resource"/>
 </jcr:root>
