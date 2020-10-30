@@ -38,8 +38,6 @@ public class MulesoftServiceImpl implements MulesoftService {
     @Reference
     MulesoftRestClient restClient;
     @Reference
-    MulesoftFileClient fileClient;
-    @Reference
     TroopHashGenerator troopHashGenerator;
     @Reference
     MulesoftContactsResponseCache contactsCache;
@@ -78,9 +76,13 @@ public class MulesoftServiceImpl implements MulesoftService {
         log.debug("Getting apiConfig");
         ApiConfig apiConfig = new ApiConfig();
         try {
+            //Building VTK User Object
             User vtkUser = getUser(user);
+            //Set user in API config
             apiConfig.setUser(vtkUser);
+            //Set user's troops in API config
             apiConfig.setTroops(vtkUser.getTroops());
+            //Set user's GSGlobalId in API config
             apiConfig.setUserId(vtkUser.getSfUserId());
         }catch(Exception e){
             log.error("Exception occured",e);
@@ -93,27 +95,34 @@ public class MulesoftServiceImpl implements MulesoftService {
         log.debug("Getting user details for "+user);
         User vtkUser = new User();
         try {
+            //retrieve user details from AEM user object
             String gsGlobalId = user.getProperty("./profile/GSGlobalID")!=null ? user.getProperty("./profile/GSGlobalID")[0].getString() : null;
             String email = user.getProperty("./profile/email") != null ? user.getProperty("./profile/email")[0].getString() : null;
             log.debug("gsGlobalId="+gsGlobalId +" email="+email);
             if(gsGlobalId != null){
                 UserInfoResponseEntity userInfoResponseEntity = null;
                 log.debug("getting user details from mulesoft");
+                //get information about user from mulesoft API
                 userInfoResponseEntity = restClient.getUser(gsGlobalId);
                 log.debug("User Entity:"+userInfoResponseEntity);
+                //map user info response json entity to vtk user model
                 vtkUser = UserInfoResponseEntityToUserMapper.map(userInfoResponseEntity);
+                //determine girl scouts membership year
                 vtkUser.setCurrentYear(String.valueOf(VtkUtil.getCurrentGSYear()));
                 try {
+                    //determine user's timezone based on council timezone property in council site /en page properties
                     vtkUser.setTimezone(getUserTimezone(vtkUser.getAdminCouncilId()));
                 }catch(Exception e){
 
                 }
                 log.debug("Generated user "+vtkUser);
+                //set troops affiliations for this user
                 setTroopsForUser(vtkUser, userInfoResponseEntity);
             }
         } catch (Exception e) {
             log.error("Error occurred: ", e);
         }
+        //return generated vtk user object
         return vtkUser;
     }
 
@@ -123,28 +132,39 @@ public class MulesoftServiceImpl implements MulesoftService {
         List<Troop> troops = new ArrayList<Troop>();
         try {
             TroopInfoResponseEntity troopInfoResponseEntity = null;
+            //Check if response is cached
             if(troopsCache.contains(user.getSfUserId())){
                 log.debug("Getting troop details from cache");
+                //reading from cache
                 troopInfoResponseEntity = troopsCache.read(user.getSfUserId());
             }else{
                 log.debug("Getting troop details from mulesoft");
+                //calling mulesoft api to get troop information based on GS Global IID
                 troopInfoResponseEntity = restClient.getTroops(user.getSfUserId());
+                //Store response in cache
                 troopsCache.write(user.getSfUserId(), troopInfoResponseEntity);
             }
             log.debug("Troop Info Entity:"+troopInfoResponseEntity);
             if (troopInfoResponseEntity != null) {
                 List<TroopWrapperEntity> entities = troopInfoResponseEntity.getTroops();
                 if (entities != null) {
+                    //iterate through all affiliations
                     for (TroopWrapperEntity entity : entities) {
                         try {
+                            //map each troop affiliiation in response to VTK troop model
                             Troop troop = TroopEntityToTroopMapper.map(entity.getTroop());
+                            //auto set participation code
                             troop.setParticipationCode("Troop");
+                            //auto set user id to current user gs global id
                             troop.setSfUserId(user.getSfUserId());
+                            //set path for troop so we can load stored yearplan if exists later
                             setTroopPath(troop);
                             log.debug("Adding troop: " + troop);
+                            //validate users role in this troop, if not DP or FA then ignore this troop affiliation
                             if(!StringUtils.isBlank(troop.getRole()) && ("DP".equals(troop.getRole()) || "FA".equals(troop.getRole()))){
                                 troops.add(troop);
                             }
+                            //check if this user requires dummy demo troops to be available in drop down
                             if(isDemoViewRequired(entity)){
                                 //Comment line below if we create demo troop selection per user primary council
                                 user.setServiceUnitManager(true);
@@ -167,6 +187,8 @@ public class MulesoftServiceImpl implements MulesoftService {
         try{
             List<VolunteerJobsEntity> jobs = entity.getTroop().getVolunteerJobs();
             if (jobs != null) {
+                //iterate through all troop affiliations and check users job code in each. if user
+                // has one of the job codes that require demo troops then return true
                 for (VolunteerJobsEntity jobEntity : jobs) {
                     try {
                         String endDate = jobEntity.getEndDate();
@@ -196,17 +218,22 @@ public class MulesoftServiceImpl implements MulesoftService {
         List<Contact> contacts = new ArrayList<Contact>();
         try {
             TroopMembersResponseEntity troopMembersResponseEntity = null;
+            //are we getting contacts for dummy demo troop
             if (troop.getIsSUM()) {
+                //return mock demo contacts
                 return getServiceUnitManagerContacts(troop, user);
             } else {
+                //check for cached contacts response for this troop id
                 if(contactsCache.contains(troop.getSfTroopId())){
                     troopMembersResponseEntity =  contactsCache.read(troop.getSfTroopId());
                 }else{
+                    //is this a dummy IRM troop
                     if(troop.getIsIRM()) {
                         troopMembersResponseEntity = restClient.getMembers(troop.getIrmTroopId());
                     }else{
                         troopMembersResponseEntity = restClient.getMembers(troop.getSfTroopId());
                     }
+                    //store response in cache
                     contactsCache.write(troop.getSfTroopId(), troopMembersResponseEntity);
                 }
             }
@@ -214,6 +241,7 @@ public class MulesoftServiceImpl implements MulesoftService {
             if (troopMembersResponseEntity != null) {
                 List<MembersEntity> entities = troopMembersResponseEntity.getMembers();
                 if (entities != null) {
+                    //loop through all members of this troop
                     for (MembersEntity entity : entities) {
                         Contact contact = TroopMemberEntityToContactMapper.map(entity, troopMembersResponseEntity.getTroop());
                         if (!troop.getIsIRM()){
@@ -238,6 +266,9 @@ public class MulesoftServiceImpl implements MulesoftService {
     }
 
     private List<Contact> getServiceUnitManagerContacts(Troop troop, User user) {
+        //manually build two Demo users
+        //troop leader troop
+        //parent troop
         List<Contact> contacts = new ArrayList<>();
         Contact girl = new Contact();
         girl.setFirstName("Demo");
@@ -317,6 +348,7 @@ public class MulesoftServiceImpl implements MulesoftService {
     public List<Contact> getTroopLeaders(Troop troop) {
         List<Contact> contacts = new ArrayList<Contact>();
         try {
+            //get all troop leaders for a given troop
             TroopLeadersResponseEntity troopLeadersInfoResponseEntity = null;
             troopLeadersInfoResponseEntity = restClient.getTroopLeaders(troop.getSfTroopId());
             log.debug("Troop Leaders Info Entity:"+troopLeadersInfoResponseEntity);
@@ -336,7 +368,8 @@ public class MulesoftServiceImpl implements MulesoftService {
     }
 
 
-
+    //Used to find IRM girls that are children of current users
+    //so that we can generate dummy IRM troops which do not exist in salesforce
     public List<Contact> getContactsForIRMParent(String accountId, User user) {
         log.debug("Getting contacts for Account Id: "+accountId);
         List<Contact> contacts = new ArrayList<Contact>();
@@ -383,19 +416,28 @@ public class MulesoftServiceImpl implements MulesoftService {
     }
 
 
+    //
     private void setTroopsForUser(User user, UserInfoResponseEntity userInfoResponseEntity) {
+        //determine if a user has troops where he/she is a parent and if there are any troops where he/she holds a job
+        //parent troops are retrieved from affiliations from user response
         List<Troop> parentTroops = getParentTroops(user, userInfoResponseEntity);
+        //get troops where user holds a job role
         List<Troop> additionalTroops = getTroops(user);
+        //if user is parent of a girl of the same troop where user holds a job role we need to merge roles
         List<Troop> mergedTroops = mergeParentAndJobTroops(parentTroops, additionalTroops);
         //Service Unit Manager
+        //if user has a SUM flag = true this user needs demo troops to be generated
         if (user.isServiceUnitManager()) {
             mergedTroops.addAll(buildServiceUnitManagerTroops(user));
         }
         //VTK Admin
+        //if user has isVTKAdmin flag = true this user VTK Admin view in troop selector dropdown
         if(user.isAdmin()){
             mergedTroops.add(buildVTKAdminTroop(user));
         }
+        //make sure all troops have all required parameters
         validateTroops(mergedTroops);
+        //merge roles
         for (Troop troop : mergedTroops) {
             String role = troop.getRole();
             switch(role){
@@ -422,8 +464,9 @@ public class MulesoftServiceImpl implements MulesoftService {
     }
 
 
-
+    //get a list of troops where user is a parent from user info affiliations
     private List<Troop> getParentTroops(User user, UserInfoResponseEntity userInfoResponseEntity) {
+
         List<Troop> parentTroops = new ArrayList<Troop>();
         try {
             List<AffiliationsEntity> affiliations = userInfoResponseEntity.getAffiliations();
@@ -438,6 +481,7 @@ public class MulesoftServiceImpl implements MulesoftService {
                             if (troop.getParticipationCode() != null && ("IRG".equals(troop.getParticipationCode()) || "Troop".equals(troop.getParticipationCode()))) {
                                 if (troop.getGradeLevel() != null || "IRG".equals(troop.getParticipationCode())) {
                                     if (troop.getCouncilCode() != null) {
+                                        //If participation code in json = IRG, it is an IRM affiliation
                                         if ("IRG".equals(troop.getParticipationCode())) {
                                             log.debug("IRG Affiliation:" + entity);
                                             if(!processedIRMAccounts.contains(troop.getSfTroopId())) {
@@ -445,6 +489,7 @@ public class MulesoftServiceImpl implements MulesoftService {
                                                 processedIRMAccounts.add(troop.getSfTroopId());
                                             }
                                         } else {
+                                            //regular parent troop
                                             log.debug("Parent Affiliation:" + entity);
                                             setTroopPath(troop);
                                             log.debug("adding parent troop" + troop);
@@ -472,6 +517,8 @@ public class MulesoftServiceImpl implements MulesoftService {
         }
         return parentTroops;
     }
+
+    //Generic function to build a troop object
     private Troop buildTroop(String userId, String troopId, String councilCode, String role, String participationCode, String troopName, String gradeLevel, boolean isSUM, boolean isIRM, boolean isTransient){
         Troop troop = new Troop();
         troop.setSfUserId(userId);
@@ -493,11 +540,12 @@ public class MulesoftServiceImpl implements MulesoftService {
         setTroopPath(troop);
         return troop;
     }
+    //Generating dummy troops for each IRM girl under user
     private List<Troop> getIRMTroops(User user, String accountId, String councilCode) {
         log.debug("Generating IRM troops for {}", user.getSfUserId());
         List<Troop> irmTroops = new ArrayList<Troop>();
         try {
-            //Generating dummy troops for each IRM girl under user
+            //get all IRM girls for user
             List<Contact> contacts = getContactsForIRMParent(accountId, user);
             for (Contact contact : contacts) {
                 if (contact != null && "Girl".equals(contact.getRole()) && isChildOfUser(contact, user)) {
