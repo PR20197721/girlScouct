@@ -158,14 +158,27 @@ public class WebToCaseImpl implements WebToCase {
                 emailBodyBuilder.append(request.getServerPort());
             }
             emailBodyBuilder.append(request.getRequestURI());
-            emailBodyBuilder.append("\n\nValues:\n\n");
+            emailBodyBuilder.append("</br>"+"\n\nValues:\n\n"+"</br>");
             String subject = "Form Data:";
             for(NameValuePair nameValuePair:data){
                 if("subject".equalsIgnoreCase(nameValuePair.getName()) && StringUtils.isNotBlank(nameValuePair.getValue())){
                     subject = nameValuePair.getValue();
                 }
                 if(!nameValuePair.getName().contains("debug") && !nameValuePair.getName().contains("captcha")){
-                    emailBodyBuilder.append(nameValuePair.getName()+": "+nameValuePair.getValue()+"\r\n");
+                	if(nameValuePair.getName().equals("00N0n000001oowo")) {
+                		emailBodyBuilder.append("Preferred Method of Contact: "+nameValuePair.getValue()+"</br>"+"\r\n");
+                		log.debug("Preferred Method of Contact: "+nameValuePair.getValue());
+                    } else if(nameValuePair.getName().equals("00N0n000001oown")) {
+                    	emailBodyBuilder.append("Best Time To Call: "+nameValuePair.getValue()+"</br>"+"\r\n");
+                    	log.debug("Best Time To Call: "+nameValuePair.getValue());
+                    } else if(nameValuePair.getName().equals("00N0n000001aKZ8")) {
+                    	emailBodyBuilder.append("Zip Code: "+nameValuePair.getValue()+"</br>"+"\r\n");
+                    	log.debug("Zip Code:"+nameValuePair.getValue());
+                    }else {
+                    emailBodyBuilder.append(nameValuePair.getName()+": "+nameValuePair.getValue()+"</br>"+"\r\n");
+                    log.debug(nameValuePair.getName()+": "+nameValuePair.getValue());
+                    }
+                	emailBodyBuilder.append("</br>");
                 }
             }
             try {
