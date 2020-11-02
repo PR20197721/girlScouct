@@ -105,7 +105,7 @@
                     var url = Granite.HTTP.externalize(activator.data("href"));
                     var payloadJSON = {};
                     var itemsJSON = [];
-		    	    var isSearch= $(".cq-searchadmin-admin-actions-trashcan-activator");
+                    var isSearch= $(".cq-searchadmin-admin-actions-trashcan-activator");
                     var isInTrash = false;
                     var isTrash = false;
                     if(isSearch && isSearch.length){
