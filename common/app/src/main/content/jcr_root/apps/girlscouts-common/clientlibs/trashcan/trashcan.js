@@ -1,6 +1,6 @@
 (function (document, $) {
     "use strict";
-    //download action
+    // download action
     $(document).on('foundation-selections-change', '.foundation-collection', function () {
         var collection = $(this);
         var trashcanActivator = "button.cq-siteadmin-admin-actions-trashcan-activator";
@@ -111,7 +111,7 @@
                     if(isSearch && isSearch.length){
                         payloadJSON.action = "trash";
                         header = "Moving to trashcan";
-                        inTrashMessage = "<p>Following items are in trashcan:</p><ol>";
+                        inTrashMessage = "<p>Following items are already in trashcan:</p><ol>";
                         message = "<p>Following items will be moved to trashcan:</p><ol>";
                         for(var i=0; i<items.length; i++){
                             var item = $(items[i]);
