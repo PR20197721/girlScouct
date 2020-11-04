@@ -57,8 +57,9 @@ def void findAllEvents(Resource res) {
                                     && !registerUrl.contains("https://www.girlscouts.org/vs2tempeventreg?")) {
                                 println("CRX Path " + jcrContent.path);
                                 println("Old URL " + registerUrl);
+                                def toEncode = "https://gsmembers.force.com/members/Event_join?EventId=";
                                 registerUrl = registerUrl.replace("https://gsmembers.force.com/members/Event_join?EventId=",
-                                        "https://www.girlscouts.org/vs2tempeventreg?url=https://gsmembers.force.com/members/Event_join?EventId=");
+                                        "https://www.girlscouts.org/vs2tempeventreg?url="+toEncode.encodeURL());
                                 println("New URL " + registerUrl);
 
                                 dataNode.put("register", registerUrl);
@@ -73,5 +74,9 @@ def void findAllEvents(Resource res) {
         } catch (Exception exception) {
             println("Exception >>" + exception)
         }
+    }
+
+    String.metaClass.encodeURL = {
+        java.net.URLEncoder.encode(delegate, "UTF-8")
     }
 }
