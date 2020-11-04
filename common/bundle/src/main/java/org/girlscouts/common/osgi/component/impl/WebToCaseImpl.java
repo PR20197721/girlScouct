@@ -175,7 +175,7 @@ public class WebToCaseImpl implements WebToCase {
                     	emailBodyBuilder.append("Zip Code: "+nameValuePair.getValue()+"</br>"+"\r\n");
                     	log.debug("Zip Code:"+nameValuePair.getValue());
                     }else {
-                    emailBodyBuilder.append(nameValuePair.getName()+": "+nameValuePair.getValue()+"</br>"+"\r\n");
+                    emailBodyBuilder.append(nameValuePair.getName()+": "+nl2br(nameValuePair.getValue())+"</br>"+"\r\n");
                     log.debug(nameValuePair.getName()+": "+nameValuePair.getValue());
                     }
                 	emailBodyBuilder.append("</br>");
@@ -191,6 +191,9 @@ public class WebToCaseImpl implements WebToCase {
         }
     }
 
+    private static String nl2br(String text) {
+        return text.replace("\n\n", "<p>").replace("\n", "<br>");
+    }
 
 	private String getMailToValue(String councilCode) {
 		String emailId = null;
