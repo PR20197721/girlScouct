@@ -23,6 +23,7 @@
     <filter root="/apps/granite/core/content/cug-dxp-login"/>
     <filter root="/apps/granite/core/content/cug-future-login"/>
     <filter root="/apps/granite/core/content/cug-login"/>
+    <filter root="/apps/granite/omnisearch/content/metadata"/>
     <filter root="/apps/settings/cq"/>
     <filter root="/apps/wcm"/>
     <!-- <filter root="/apps/wcm/core/content/common/availablecolumns/startDate"/> -->

@@ -35,7 +35,7 @@ public class VTKDataCheckCronImpl implements Runnable {
         boolean scheduler_concurrent() default true;
 
         @AttributeDefinition(name = "Email Addresses", description = "Notification recipients")
-        String[] emailAddresses() default  "";
+        String[] emailAddresses() default  "SSGattupally@girlscouts.org";
 
     }
 
@@ -402,10 +402,8 @@ public class VTKDataCheckCronImpl implements Runnable {
                                                 }
                                             }
                                         } else {
-                                            //TODO
-                                            //log.debug(yearPlan.getPath() + " Invalid YearPlan Node");
-                                           // errorList.add(yearPlan.getPath() + " Invalid YearPlan Node");
-
+                                            log.debug(yearPlan.getPath() + " Invalid YearPlan Node");
+                                            errorList.add(yearPlan.getPath() + " Invalid YearPlan Node");
                                         }
                                     }
                                 } catch (Exception e) {
