@@ -69,8 +69,16 @@ if(mobileImage != null){
 %>
 
 <script>
-    document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%=id%>:before { background: url('<%= fullImageSrc %>') no-repeat 0% 0%/contain transparent; } }", 0);
-    document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%=mobileImageElement%> { background: url('<%= mobileImageSrc %>') no-repeat 0% 0%/contain transparent; } }", 0);
+    // Create a CSS stylesheet
+    function createStyleSheet() {
+        var style = document.createElement("style");
+        style.appendChild(document.createTextNode(""));
+        document.head.appendChild(style);
+        return style.sheet;
+    }
+
+    createStyleSheet().insertRule("@media only screen and (min-width: 48.1225em) { #<%=id%>:before { background: url('<%= fullImageSrc %>') no-repeat 0% 0%/contain transparent; } }", 0);
+    createStyleSheet().insertRule("@media only screen and (max-width: 48em) { #<%=mobileImageElement%> { background: url('<%= mobileImageSrc %>') no-repeat 0% 0%/contain transparent; } }", 0);
     $(document).ready(function () {
         bindSubmitHash({
             formElement: "form[name='find-cookies']",
