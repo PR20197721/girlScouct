@@ -33,8 +33,6 @@ public class VTKDataMigrationUtil{
 
         @AttributeDefinition(name = "Path to Contact Id Mapping File", type = AttributeType.STRING) String contactIdMappingFile() default "/content/dam/vtk-vs2-data-migration/contact-id.csv";
 
-        @AttributeDefinition(name = "Activity Registration URL pattern", type = AttributeType.STRING) String activityRegPattern() default "gsmembers.force.com";
-
     }
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -45,7 +43,6 @@ public class VTKDataMigrationUtil{
     private String troopIdMappingFile;
     private String userIdMappingFile;
     private String contactIdMappingFile;
-    private String activityRegPattern;
 
     private Map<String, String> troopIdMapping = new HashMap<String, String>();
     private Map<String, String> userIdMapping = new HashMap<String, String>();
@@ -56,7 +53,6 @@ public class VTKDataMigrationUtil{
         this.troopIdMappingFile = config.troopIdMappingFile();
         this.userIdMappingFile = config.userIdMappingFile();
         this.contactIdMappingFile = config.contactIdMappingFile();
-        this.activityRegPattern = config.activityRegPattern();
         this.resolverParams.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         ResourceResolver rr = null;
         try {
@@ -135,7 +131,4 @@ public class VTKDataMigrationUtil{
         return this.contactIdMapping;
     }
 
-    public String getActivityRegPattern() {
-        return this.activityRegPattern;
-    }
 }
