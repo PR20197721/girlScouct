@@ -1,11 +1,12 @@
 (function (document, $) {
     "use strict";
-    //download action
+    // download action
     $(document).on('foundation-selections-change', '.foundation-collection', function () {
         var collection = $(this);
         var trashcanActivator = "button.cq-siteadmin-admin-actions-trashcan-activator";
         var trashcanRestoreActivator = "button.cq-siteadmin-admin-actions-trashcan-restore-activator";
         var damTrashcanActivator = "button.cq-damadmin-admin-actions-trashcan-activator";
+        var searchTrashcanActivator = "button.cq-searchadmin-admin-actions-trashcan-activator";
         var damTrashcanRestoreActivator = "button.cq-damadmin-admin-actions-trashcan-restore-activator";
         if (Granite.HTTP.getPath().includes("/trashcan")) {
             $(trashcanActivator).hide();
@@ -99,31 +100,68 @@
             function handleTrashcanEvent() {
                 if (items.length) {
                     var message = "";
+                    var inTrashMessage = "";
                     var header = "";
                     var url = Granite.HTTP.externalize(activator.data("href"));
                     var payloadJSON = {};
                     var itemsJSON = [];
-                    if($(items[0]).data("foundation-collection-item-id").includes("/trashcan/")){
-                        payloadJSON.action = "restore";
-                        var item = $(items[0]);
-                        var itemPath = item.data("foundation-collection-item-id");
-                        itemPath = encodeURIComponent(itemPath);
-                        header = "Restoring from trashcan"
-                        message = "<p>Following item will be restored from trashcan:</p><ol><li>"+item.data("foundation-collection-item-id")+"</li></ol>";
-                        itemsJSON.push({source:itemPath, target:restorePath})
-                    }else{
+                    var isSearch= $(".cq-searchadmin-admin-actions-trashcan-activator");
+                    var isInTrash = false;
+                    var isTrash = false;
+                    if(isSearch && isSearch.length){
                         payloadJSON.action = "trash";
                         header = "Moving to trashcan";
+                        inTrashMessage = "<p>Following items are already in trashcan:</p><ol>";
                         message = "<p>Following items will be moved to trashcan:</p><ol>";
                         for(var i=0; i<items.length; i++){
                             var item = $(items[i]);
                             var itemPath = item.data("foundation-collection-item-id");
-                            itemPath = encodeURIComponent(itemPath);
-                            message += "<li>"+decodeURIComponent(itemPath)+"</li>";
-                            itemsJSON.push({source:itemPath, target:null})
+                            if(itemPath.includes("/trashcan/")){
+                                itemPath = encodeURIComponent(itemPath);
+                            	inTrashMessage += "<li>"+decodeURIComponent(itemPath)+"</li>";
+                                isInTrash = true;
+                            }else {
+                                itemPath = encodeURIComponent(itemPath);
+                            	message += "<li>"+decodeURIComponent(itemPath)+"</li>";
+                            	itemsJSON.push({source:itemPath, target:null});
+                                isTrash = true;
+                            }
+
                         }
+                        inTrashMessage += "</ol>";
                         message += "</ol>";
+                        if(isInTrash && isTrash){
+                            message += inTrashMessage;
+                        }else if (isInTrash && !isTrash){
+                            header = "Nothing to move to trashcan";
+                            message = inTrashMessage;
+                        }
+
+
+                    } else{
+                        if($(items[0]).data("foundation-collection-item-id").includes("/trashcan/")){
+                        	payloadJSON.action = "restore";
+                        	var item = $(items[0]);
+                        	var itemPath = item.data("foundation-collection-item-id");
+                        	itemPath = encodeURIComponent(itemPath);
+                        	header = "Restoring from trashcan"
+                        	message = "<p>Following item will be restored from trashcan:</p><ol><li>"+item.data("foundation-collection-item-id")+"</li></ol>";
+                        	itemsJSON.push({source:itemPath, target:restorePath})
+                    	}else{
+                        	payloadJSON.action = "trash";
+                        	header = "Moving to trashcan";
+                        	message = "<p>Following items will be moved to trashcan:</p><ol>";
+                        	for(var i=0; i<items.length; i++){
+                            	var item = $(items[i]);
+                            	var itemPath = item.data("foundation-collection-item-id");
+                            	itemPath = encodeURIComponent(itemPath);
+                            	message += "<li>"+decodeURIComponent(itemPath)+"</li>";
+                            	itemsJSON.push({source:itemPath, target:null})
+                        	}
+                        	message += "</ol>";
+                    	}
                     }
+
                     payloadJSON.items = itemsJSON;
                     var dialog = new Coral.Dialog().set({
                         id: "trashcanDialog",
@@ -177,6 +215,8 @@
         $(trashcanRestoreActivator).bind("click", trashcanEventHandler);
         $(damTrashcanActivator).unbind("click");
         $(damTrashcanActivator).bind("click", trashcanEventHandler);
+        $(searchTrashcanActivator).unbind("click");
+        $(searchTrashcanActivator).bind("click", trashcanEventHandler);
         $(damTrashcanRestoreActivator).unbind("click");
         $(damTrashcanRestoreActivator).bind("click", trashcanEventHandler);
     });
