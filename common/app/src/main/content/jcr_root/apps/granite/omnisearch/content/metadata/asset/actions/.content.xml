@@ -9,7 +9,6 @@
             activeSelectionCount="multiple"
             icon="delete"
             relScope="none"
-            target=".cq-damadmin-admin-childpages"
             text="Move to trashcan"
             variant="actionBar">
             <granite:data
