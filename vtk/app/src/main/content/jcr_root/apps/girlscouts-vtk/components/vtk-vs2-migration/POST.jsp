@@ -1,4 +1,4 @@
-<%@page session="false" import="org.apache.commons.lang.StringUtils,
+<%@page session="false" import="org.apache.commons.lang.StringUtils,org.apache.sling.api.resource.*,
                                 org.apache.sling.jcr.api.SlingRepository,
                                 org.girlscouts.vtk.osgi.component.util.VTKDataMigrationUtil,
                                 org.slf4j.Logger,
@@ -112,6 +112,9 @@
 
                             }
                             if(council != null ) {
+                            	if(!council.hasProperty("ocm_classname")){
+                            		council.setProperty("ocm_classname","org.girlscouts.vtk.ocm.CouncilNode");
+                            	}
                                 if (council.hasProperty("ocm_classname") && "org.girlscouts.vtk.ocm.CouncilNode".equals(council.getProperty("ocm_classname").getString())) {
                                     Node troops = council.getNode("troops");
                                     NodeIterator it2 = troops.getNodes();
@@ -229,6 +232,13 @@
             session.move(oldPath, newPath);
             Node newNode = session.getNode(newPath);
             log.debug("Updating properties for "+newNode.getPath());
+            String vs1UserId = newNode.getProperty("sfUserId").getValue().getString();
+            String vs2UserId = userIdMap.get(vs1UserId);
+            log.debug("old User ID::" + vs1UserId);
+            log.debug("Updating vs1UserId:::::" + vs1UserId  + "to New User ID:::::"+ vs2UserId);
+            if(null != vs2UserId){
+            	newNode.setProperty("sfUserId",vs2UserId);
+            }
             newNode.setProperty("id",vs2TroopId);
             newNode.setProperty("sfTroopId",vs2TroopId);
             newNode.setProperty("vs1-id",vs1TroopId);
