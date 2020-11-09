@@ -13,14 +13,6 @@ java.util.Arrays" %>
 <%
 final int DEFAULT_AD_COUNT = 2;
 final String AD_ATTR = "apps.girlscouts.components.advertisement.currentAd";
-//Setting adCount
-String tempAdCount = currentDesign.getStyle("three-column-page/right-rail-banners").get("adCount", "");
-int adCount = DEFAULT_AD_COUNT;
-if (!tempAdCount.isEmpty()) {
-    try {
-        adCount = Integer.parseInt(tempAdCount);
-    } catch (NumberFormatException e) {}
-}
 %>
 <%!public boolean isAd(Page currentAd){//return true if page is ad page
     if(currentAd==null) { return false; }
@@ -37,9 +29,8 @@ String[] adPages = properties.get("pages", new String[] {});
 String[] excludedPages = properties.get("excludedPages", new String[] {});
 
 if(customized){
-	if (adPages!=null && adPages.length>0) {
+	if (adPages!=null) {
     	for(String itemUrl : adPages){
-            if(adCount > 0){
                 try{
                 	if(resourceResolver.getResource(itemUrl)!=null) {
 	                	Page currentAd = resourceResolver.getResource(itemUrl).adaptTo(Page.class);
@@ -58,12 +49,10 @@ if(customized){
             	            <%} %>
                 	        </div>
                     	    </div>
-                        	<% 
-	                        adCount--;
+                        	<%
     	                }
                     }
               	}catch(Exception e){ e.printStackTrace();}
-            }else{ break;}
         }
 	}else{
 		%><div data-emptytext="<%=component.getTitle()%>" class="cq-placeholder"></div><%
@@ -91,7 +80,7 @@ else{
             Iterator<Page> iter = adRoot.listChildren();
             int renderCount = 0;
             boolean adWasRendered = false;
-            while(iter.hasNext() && adCount > 0) {
+            while(iter.hasNext()) {
                 Page currentAd = iter.next();
                 adWasRendered = false;
                 if(isAd(currentAd) && !excludedSet.contains(currentAd.getPath())) {
@@ -105,13 +94,13 @@ else{
                     <div class="small-12 columns">
                     <% request.setAttribute(AD_ATTR, currentAd);
 						String hideForMobileCheck = currentAd.getProperties().get("hideForMobile", "false");
-                    			if(!hideForMobileCheck.equals("true")){	
+                    			if(!hideForMobileCheck.equals("true")){
                     				%>
                     <cq:include script="display-ad.jsp"/>
                     <%} %>
                     </div>
                     </div>
-                    <% adCount--;
+                    <%
                     adWasRendered = Boolean.TRUE == request.getAttribute("adWasRendered");
                     if(adWasRendered){
 						renderCount++;
