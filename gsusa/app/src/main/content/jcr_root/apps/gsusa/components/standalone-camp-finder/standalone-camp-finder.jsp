@@ -49,9 +49,17 @@ if (image == null) {
                 currentUrl: "<%=relativeCurrentPath%>"
             });
         });
+        
+     // Create a CSS stylesheet
+        function createStyleSheet() {
+            var style = document.createElement("style");
+            style.appendChild(document.createTextNode(""));
+            document.head.appendChild(style);
+            return style.sheet;
+        }
 
         // Add important to stretch properly on mobile-camp-finder, overrule Retina.js
-        document.styleSheets[0].insertRule("#<%=id%> { background: url('<%=imageRendition%>') no-repeat 0% 0%/100% 100% transparent !important; }", 0);
+        createStyleSheet().insertRule("#<%=id%> { background: url('<%=imageRendition%>') no-repeat 0% 0%/100% 100% transparent !important; }", 0);
     </script>
 
     <div class="row">
