@@ -24,7 +24,6 @@ if (result != null) {
 			Row row = rowIter.nextRow()
 			Node node = row.getNode()
 			numberOfPages++
-			//Node filterNode = row.getNode(row.getPath()+"/filters")
 			if (node.hasNode("filters")) {
 				Node filtersNode = node.getNode("filters")
 				NodeIterator childNodes = filtersNode.getNodes()
