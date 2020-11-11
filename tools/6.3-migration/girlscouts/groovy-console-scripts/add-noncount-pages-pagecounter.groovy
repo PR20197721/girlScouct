@@ -24,6 +24,8 @@ if (result != null) {
 			Row row = rowIter.nextRow()
 			Node node = row.getNode()
 			numberOfPages++
+			String nodePath = node.getPath();
+			String[] arrOfStr = nodePath.split("/");
 			if (node.hasNode("filters")) {
 				Node filtersNode = node.getNode("filters")
 				NodeIterator childNodes = filtersNode.getNodes()
@@ -35,15 +37,16 @@ if (result != null) {
 				Node itemNode = filtersNode.addNode("item"+count, "nt:unstructured")
 				itemNode.setProperty("label", "Troop Leader Blueprint")
 				itemNode.setProperty("pageOnly", "true")
-				itemNode.setProperty("path", "/en/for-volunteers/troop-leader-blueprint")
+				itemNode.setProperty("path", "/"+arrOfStr[1]+"/"+arrOfStr[2]+"/en/for-volunteers/troop-leader-blueprint")
 				itemNode.setProperty("subDirOnly", "true")
 				println("Item node:" + itemNode.getPath())
+				println("path:" + "/"+arrOfStr[1]+"/"+arrOfStr[2]+"/en/for-volunteers/troop-leader-blueprint")
 			}else{
 				Node filtersNode = node.addNode("filters", "nt:unstructured")
 				Node itemNode = filtersNode.addNode("item0", "nt:unstructured")
 				itemNode.setProperty("label", "Troop Leader Blueprint")
 				itemNode.setProperty("pageOnly", "true")
-				itemNode.setProperty("path", "/en/for-volunteers/troop-leader-blueprint")
+				itemNode.setProperty("path", "/"+arrOfStr[1]+"/"+arrOfStr[2]+"/en/for-volunteers/troop-leader-blueprint")
 				itemNode.setProperty("subDirOnly", "true")
 				println("item node:" + itemNode.getPath())
 			}
