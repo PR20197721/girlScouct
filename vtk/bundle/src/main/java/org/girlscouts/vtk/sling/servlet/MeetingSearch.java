@@ -59,7 +59,7 @@ public class MeetingSearch extends SlingAllMethodsServlet {
             LinkedHashSet<MeetingResult> results = new LinkedHashSet<>();
             if(result != null) {
                 int index = 0;
-                Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
+                Troop troop = VtkUtil.getTroop(request.getSession());
                 List<MeetingE> myMeetings = new ArrayList();
                 List<String> myMeetingIds= new ArrayList();
                 if (troop != null && troop.getYearPlan() != null && troop.getYearPlan().getMeetingEvents() != null){

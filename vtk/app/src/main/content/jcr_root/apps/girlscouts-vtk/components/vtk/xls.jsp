@@ -23,8 +23,8 @@ private final Logger log = LoggerFactory.getLogger(this.getClass());
     allowedReportUsers.add("005G0000006oBVG");
     allowedReportUsers.add("005g0000002G004");
     StringBuffer sb = new StringBuffer();
-    if (!allowedReportUsers.contains(user.getApiConfig().getUserId())) {
-        out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
+    if (!allowedReportUsers.contains(user.getSfUserId())) {
+        out.println("You do not have no access to this page [" + user.getSfUserId() + "].");
         return;
     } else {
         boolean isHtml = true;

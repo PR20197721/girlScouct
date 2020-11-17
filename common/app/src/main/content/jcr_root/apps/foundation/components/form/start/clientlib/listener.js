@@ -281,22 +281,17 @@
   		}
 	});
 
-
     $(document).on("dialog-ready", function() {
-
         var actionField = $("[name='./action']");
         actionField = actionField.find("input");
         var f = actionField.closest("form");
         var pageEditorPath = f.attr("data-cq-dialog-pageeditor");
-
         if(pageEditorPath && !actionField.val()){
             console.log("Inside if");
 			actionField.val(pageEditorPath.replace("/editor.html/content", "/content/usergenerated").replace(".html", "") + "/");
 			console.log("Set Val");	
         }
-
 	});
-
     
     $(window).adaptTo("foundation-registry").register("foundation.validation.validator", {
   		selector: "[data-validationpattern]",

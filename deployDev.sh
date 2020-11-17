@@ -13,8 +13,6 @@ echo $VERSION
 
 ./web/deployDev.sh $VERSION  && sleep 20s
 
-./gsactivities/deployDev.sh $VERSION && sleep 20s
-
 ./gsusa/deployDev.sh $VERSION && sleep 20s
 
 ./vtk/deployDev.sh $VERSION

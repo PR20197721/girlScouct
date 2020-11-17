@@ -1,15 +1,6 @@
 <%@page import="
-                com.day.cq.dam.api.Asset,
-                com.day.cq.search.PredicateGroup,
-                com.day.cq.search.Query,
-                com.day.cq.search.QueryBuilder,
-                com.day.cq.search.result.SearchResult,
-                com.day.cq.wcm.api.Page,
-                com.day.cq.wcm.api.PageManager,
-                org.apache.sling.api.adapter.Adaptable,
                 org.apache.sling.api.resource.Resource,
-                org.apache.sling.api.resource.ResourceResolver,
-                javax.jcr.Session,
+                javax.jcr.Node,
                 java.io.PrintWriter,
                 java.io.StringWriter" %>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -27,7 +18,7 @@
         String councilId = null;
         if (apiConfig != null) {
             if (userTroops.size() > 0) {
-                councilId = apiConfig.getUser().getAdminCouncilId();
+                councilId = selectedTroop.getCouncilCode();
             }
         }
         CouncilMapper mapper = sling.getService(CouncilMapper.class);

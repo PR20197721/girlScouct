@@ -406,29 +406,24 @@
                                 <div class="title section">
 
 
-                                    <h1>Temporarily Unavailable</h1>
+                                    <h1>MYGS Temporarily Unavailable</h1>
 
 
                                 </div>
                                 <div class="text parbase section">
 
-                                    <p>Hello!</p>
-                                    <p>The Volunteer Toolkit is currently unavailable while we make some updates
+
+                                    <p>Starting November 18 at 11:59 PM EST, Girl Scouts will begin system-wide updates that will temporarily pause access to myGS including your member profile, VTK and gsLearn for approximately 2-3 weeks.  
+                                        Please watch for an email from Girl Scouts in early December announcing the debut of our refreshed member account management system as well as updated login information and instructions for accessing 
+                                        your account.
                                     </p>
 
-                                    <p> Thank you for your patience during this period of maintenance! Our team is
-                                        continually working to enhance your VTK experience</p>
-
-                                    <p>You can still access Your Member Profile: <a
-                                            href="https://gsmembers.force.com/members">here</a></p>
+                                    <p> To continue the fun with your Girl Scout(s) during this time, visit our national <a
+                                            href="https://www.girlscouts.org/athome">Girl Scouts at Home page</a> for badge and Journey activities, service projects, patches, and event recordings that you can use either in-person or virtually. 
+                                        You can also visit the <a href="https://www.girlscoutshop.com">Girl Scout Shop</a> for printed or downloadable program materials by badge and Journey.</p>
 
 
-                                    <p>If you have any questions or need support, please contact the Customer Care team
-                                        at your council.</p>
-
-                                    <strong>Please check back with us Tomorrow After 5am EST -The GSUSA VTK
-                                        Team</strong>
-
+                                    <p>Thank you for your patience while we work to enhance your Girl Scout member experience.</p>
 
                                 </div>
 

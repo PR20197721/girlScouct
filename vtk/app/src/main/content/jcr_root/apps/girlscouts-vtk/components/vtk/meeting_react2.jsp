@@ -26,13 +26,6 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <% String sectionClassDefinition = ""; %>
 <%@include file="include/bodyTop.jsp" %>
-<%if(selectedTroop.getIsLoadedManualy()){%>
-<div class="column small-24 large-centered large-20">
-    <div class="demo-info-message">
-        <p>From July 1 - July 21 you will not be able to record attendance and achievements. This feature will return on July 21!</p>
-    </div>
-</div>
-<%}%>
 <%@include file="include/modals/modal_help.jsp" %>
 <%@include file="include/modals/modal_agenda.jsp" %>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
@@ -119,7 +112,7 @@
         if (!vtkNotesInstances) {
             appVTK = initNotes;
 
-            appVTK.getNotes('<%=meeting.getUid()%>', '<%=user.getApiConfig().getUser().getSfUserId()%>').done(function (json) {
+            appVTK.getNotes('<%=meeting.getUid()%>', '<%=user.getSfUserId()%>').done(function (json) {
                 appVTK.interateNotes(json);
             });
 

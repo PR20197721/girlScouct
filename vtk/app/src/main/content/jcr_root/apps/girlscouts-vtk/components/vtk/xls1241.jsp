@@ -20,7 +20,7 @@
     allowedReportUsers.add("005G0000006oEjsIAE");
     StringBuffer sb = new StringBuffer();
     if (false) {// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
-        out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
+        out.println("You do not have no access to this page [" + user.getSfUserId() + "].");
         return;
     } else {
         boolean isHtml = true;

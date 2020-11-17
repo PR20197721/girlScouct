@@ -170,12 +170,14 @@ public class TroopUtil {
             newSelectedTroopCloned.setPermissionTokens(permis);
             newSelectedTroop = newSelectedTroopCloned;
         }
-        Troop newSelectedTroopRepoData = getTroopByPath(user, newSelectedTroop.getPath());
-        if (newSelectedTroopRepoData == null) {
-            createCouncil(user, newSelectedTroop);
-        } else {
-            newSelectedTroop.setYearPlan(newSelectedTroopRepoData.getYearPlan());
-            newSelectedTroop.setCurrentTroop(newSelectedTroopRepoData.getCurrentTroop());
+        if(!newSelectedTroop.getIsTransient()) {
+            Troop newSelectedTroopRepoData = getTroopByPath(user, newSelectedTroop.getPath());
+            if (newSelectedTroopRepoData == null) {
+                createCouncil(user, newSelectedTroop);
+            } else {
+                newSelectedTroop.setYearPlan(newSelectedTroopRepoData.getYearPlan());
+                newSelectedTroop.setCurrentTroop(newSelectedTroopRepoData.getCurrentTroop());
+            }
         }
         session.setAttribute("VTK_troop", newSelectedTroop);
         session.setAttribute("VTK_planView_memoPos", null);

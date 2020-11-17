@@ -99,6 +99,7 @@ public class CouncilDAOImpl implements CouncilDAO {
     }
 
     private CouncilInfo getCouncilInfo(User user, Troop troop) {
+        //log.debug("Getting council info for user:{} troop:{}",user, troop);
         CouncilInfo cinfo = null;
         try {
             String path;
@@ -131,15 +132,8 @@ public class CouncilDAOImpl implements CouncilDAO {
     public void updateCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException {
         //TODO: permissions here Permission.PERMISSION_EDIT_MILESTONE_ID
         try {
-            CouncilInfo councilInfo;
-            if(troop == null) {
-                councilInfo = getCouncilInfo(user, null);
-            } else {
-                councilInfo = getCouncilInfo(user, troop);
-            }
-
-
-            java.util.List<Milestone> oldMilestones = councilInfo.getMilestones();
+            CouncilInfo councilInfo = getCouncilInfo(user, troop);
+            List<Milestone> oldMilestones = councilInfo.getMilestones();
             sortMilestonesByDate(oldMilestones);
             int i = 0;
             for (; i < oldMilestones.size(); i++) {

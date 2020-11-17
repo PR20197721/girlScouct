@@ -15,6 +15,8 @@ public interface GSEmailService {
 			throws AddressException, EmailException, MessagingException;
 	public void sendEmail(String subject, List<String> toAddresses, String body, String fromAddress)
 			throws AddressException, EmailException, MessagingException;
+    public void sendEmail(String subject, List<String> toAddresses, List<String> bccAddresses, String body, String fromAddress)
+            throws AddressException, EmailException, MessagingException;
 	public void sendEmail(String subject, List<String> toAddresses, String body, Set<GSEmailAttachment> attachments)
 			throws EmailException, MessagingException, IOException;
 	public void sendEmail(String subject, List<String> toAddresses, String body, Set<GSEmailAttachment> attachments, String fromAddress)

@@ -59,8 +59,6 @@ public class NodeListener implements EventListener {
 
         councilInfoPattern = Pattern.compile(yearPlanBase + "[0-9]+/councilInfo/.*");
     }
-
-
     public void onEvent(EventIterator iter) {
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         String affectedTroop = null;
@@ -74,13 +72,10 @@ public class NodeListener implements EventListener {
 
         for (NodeEvent event : events) {
             String path = event.getPath();
-
             if (path.endsWith("jcr:content")) {
                 continue;
             }
-
             int type = event.getType();
-
             try {
                 if (type == Constants.EVENT_UPDATE) {
                     log.debug("Performing ReplicationActionType.ACTIVATE for NodeEvent type EVENT_UPDATE");
@@ -94,7 +89,6 @@ public class NodeListener implements EventListener {
             } catch (ReplicationException re) {
                 log.error("Replication Exception. Event not handled. type = {} path = {} error = {}", type, path, re);
             }
-
             // Get the affected troop
             if (affectedTroop == null) {
                 Matcher troopMatcher = troopPattern.matcher(path);
@@ -103,7 +97,6 @@ public class NodeListener implements EventListener {
                     log.debug("Affected Troop found: " + affectedTroop);
                 }
             }
-
             // Get the affected council info
             if (affectedCouncilInfo == null) {
                 Matcher councilInfoMatcher = councilInfoPattern.matcher(path);
@@ -116,7 +109,7 @@ public class NodeListener implements EventListener {
 
         // Found affected troop. Invalidate VTK data cache on dispatcher.
         if (affectedTroop != null) {
-            String troopPath = troopHashGenerator.getPath(affectedTroop);
+            String troopPath = troopHashGenerator.getCachePath(affectedTroop);
             cacheInvalidator.addPath(troopPath, true);
         }
 

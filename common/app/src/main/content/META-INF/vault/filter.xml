@@ -44,4 +44,5 @@
     <filter root="/etc/workflow/models/dam/gs_update_asset"/>
     <filter root="/oak:index/GSTag" mode="merge"/>
     <filter root="/var/workflow/models" mode="merge"/>
+    <filter root="/var/groovyconsole/scripts" mode="merge"/>
 </workspaceFilter>
