@@ -20,14 +20,22 @@ $(document).ready(function() {
     if (zip == undefined) {
         // TODO: error: zip not found.
     } else {
-        var radius = getParameterByName('radius');
-        var date = getParameterByName('date');
-        var sortBy = getParameterByName('sortBy');
+        var radius,date,sortBy;
+        //accessing boothFinderFilterObj from session and getting the set filters
+        if(sessionStorage.boothFinderFilterObj){
+            var boothFinderFilterObj = JSON.parse(sessionStorage.boothFinderFilterObj);
+            if(boothFinderFilterObj){
+                radius = boothFinderFilterObj['radius'];
+                date = boothFinderFilterObj['date']
+                sortBy = boothFinderFilterObj['sortBy'];
+            }
+        }
         if (!radius) radius = 500;
         if (!date) date = 60;
         if (!sortBy) sortBy = 'distance';
+        //Code for Troop Listing, creating new parameter as
 
-        boothFinder = new BoothFinder("/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
+        boothFinder = new BoothFinder("/content/dam/gsusa/api/booth_list_merged.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
 });
@@ -121,9 +129,11 @@ BoothFinder.prototype.processResult = function(result) {
         templateId = result.council.PreferredPath.toLowerCase(); // e.g. path1
         if (templateId == 'path1' || templateId == 'path2') {
             setTimeout(function() {
-                var radiusEmpty = getParameterByName('radius');
-                var dateEmpty = getParameterByName('date');
-                var sortByEmpty = getParameterByName('sortBy');
+                //accessing boothFinderFilterObj from session and getting the set filters
+                var boothFinderFilterObj = JSON.parse(sessionStorage.boothFinderFilterObj);
+                var radius = boothFinderFilterObj['radius'];
+                var date = boothFinderFilterObj['date']
+                var sortBy = boothFinderFilterObj['sortBy'];
                 if (!radiusEmpty) radiusEmpty = 500;
                 if (!dateEmpty) dateEmpty = 60;
                 if (!sortByEmpty) sortByEmpty = 'distance'
@@ -249,10 +259,11 @@ BoothFinder.prototype.processResult = function(result) {
 
         if (this.page == 1) {
             // Reset form values
-
-            var radius = getParameterByName('radius');
-            var date = getParameterByName('date');
-            var sortBy = getParameterByName('sortBy');
+            //accessing boothFinderFilterObj from session and getting the set filters
+            var boothFinderFilterObj = JSON.parse(sessionStorage.boothFinderFilterObj);
+            var radius = boothFinderFilterObj['radius'];
+            var date = boothFinderFilterObj['date']
+            var sortBy = boothFinderFilterObj['sortBy'];
             if (!radius) radius = 500;
             if (!date) date = 60;
             if (!sortBy) sortBy = 'distance'
@@ -439,3 +450,26 @@ function initFB() {
     });
 }
 //booth-detail-script - End
+
+//function getUpdatedFilterResult
+function getUpdatedFilterResult(event){
+    var boothFinderFilterObj = {};
+    var zip = $('input[name="zip"]').val();
+
+    if(event.target.name=="radius"){
+        boothFinderFilterObj["radius"] = event.target.value;
+        boothFinderFilterObj["sortBy"] = $('select[name="sortBy"]').val();
+        boothFinderFilterObj["date"] = $('select[name="date"]').val();
+    }else if(event.target.name=="date"){
+        boothFinderFilterObj["date"] = event.target.value;
+        boothFinderFilterObj["radius"] = $('select[name="radius"]').val();
+        boothFinderFilterObj["sortBy"] = $('select[name="sortBy"]').val();
+    } else if(event.target.name=="sortBy"){
+        boothFinderFilterObj["sortBy"] = event.target.value;
+        boothFinderFilterObj["radius"] = $('select[name="radius"]').val();
+        boothFinderFilterObj["date"] = $('select[name="date"]').val();
+    }
+    boothFinderFilterObj["zip"] = zip;
+    sessionStorage.setItem('boothFinderFilterObj', JSON.stringify(boothFinderFilterObj));
+    window.location.reload();
+}
