@@ -1,8 +1,9 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 
-<h3>Ship Cookies from a Troop</h3>
-
+<h4><b>Ship Cookies from a Troop</b></h4>
+<div><%=properties.get("troopLinkDescription")%></div>
+<div>The troop you will be supporting:</div>
 <b>Select distance, date, and sorting method to filter your results:</b>
 <form class="sort-form clearfix" style="margin-top: 0.7rem;">
     <section>

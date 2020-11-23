@@ -86,6 +86,7 @@ TroopListing.prototype.getResult = function() {
 }
 
 TroopListing.prototype.processResult = function(result) {
+    result = sortTroopsDistanceWise(result);
     var troops = result.Troops;
     // Add zip to environment
     result = result || {};
@@ -111,7 +112,9 @@ TroopListing.prototype.processResult = function(result) {
 
         var templatePathID = 'template-troop-listing';
         var html = Handlebars.compile($('#' + templatePathID).html())(result);
-        $('#booth-finder-result').html(html);
+        $('#troop-listing-result').html(html);
+
+        formDataReset();
     }
 
 }
@@ -251,7 +254,31 @@ function getUpdatedTroopListingFilterResult(event){
         troopListingFilterObj["troopListingRadius"] = $('select[name="troopListingRadius"]').val();
         troopListingFilterObj["troopListingDate"] = $('select[name="troopListingDate"]').val();
     }
-    boothFinderFilterObj["troopListingZip"] = troopListingZip;
+    troopListingFilterObj["troopListingZip"] = troopListingZip;
     sessionStorage.setItem('troopListingFilterObj', JSON.stringify(troopListingFilterObj));
     window.location.reload();
+}
+
+function formDataReset(){
+            // Reset form values
+            //accessing troopListingFilterObj from session and getting the set filters
+            var troopListingFilterObj = JSON.parse(sessionStorage.troopListingFilterObj);
+            var troopListingRadius = troopListingFilterObj['troopListingRadius'];
+            var troopListingDate = troopListingFilterObj['troopListingDate']
+            var troopListingSortBy = troopListingFilterObj['troopListingSortBy'];
+            if (!troopListingRadius) troopListingRadius = 5000;
+            if (!troopListingDate) troopListingDate = 60;
+            if (!troopListingSortBy) troopListingSortBy = 'distance'
+            $('select[name="troopListingRadius"]').val(troopListingRadius);
+            $('select[name="troopListingDate"]').val(troopListingDate);
+            $('select[name="troopListingSortBy"]').val(troopListingSortBy);
+
+            // Bind click more
+            $('.troop-listing #more').on('click', function() {
+                troopListing.getResult();
+            });
+}
+
+function sortTroopsDistanceWise(result){
+
 }
