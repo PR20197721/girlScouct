@@ -3,8 +3,9 @@ $(document).ready(function() {
     var geocoder;
     var troopListingZip;
     var boothDetails;
-    var numPerPage = 10;
     var numPerPage = $("#troop-listing-details").data("num-per-page");
+    var showOneLink = $("#troop-listing-config").data("show-one-link");
+    var supportAnotherTroop = $("#troop-listing-config").data("support-another-troop");
     LoadGoogle();
     // Get zip from param
     troopListingZip = getParameterByName('zip');
@@ -36,20 +37,21 @@ $(document).ready(function() {
         if (!troopListingSortBy) troopListingSortBy = 'distance';
         //Code for Troop Listing, creating new parameter as
 
-        troopListing = new TroopListing("/content/dam/gsusa/api/trooplisting.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
+        troopListing = new TroopListing("/content/dam/gsusa/api/trooplisting.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/, showOneLink, supportAnotherTroop );
         troopListing.getResult();
     }
 });
 
 
-function TroopListing(url, troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage) {
+function TroopListing(url, troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage , showOneLink, supportAnotherTroop) {
     this.url = url;
     this.zip = troopListingZip;
     this.radius = troopListingRadius;
     this.date = troopListingDate;
     this.sortBy = troopListingSortBy;
     this.numPerPage = numPerPage;
-
+    this.showOneLink = showOneLink;
+    this.supportAnotherTroop = supportAnotherTroop;
     this.page = 1;
 }
 
@@ -86,7 +88,8 @@ TroopListing.prototype.getResult = function() {
 }
 
 TroopListing.prototype.processResult = function(result) {
-    result = sortTroopsDistanceWise(result);
+    //Sorting the result to get the nearest first.
+    result.Troops = result.Troops.sort(function(a, b){return a.Distance-b.Distance});
     var troops = result.Troops;
     // Add zip to environment
     result = result || {};
@@ -109,7 +112,11 @@ TroopListing.prototype.processResult = function(result) {
             }
             console.log(troop)
         }
-
+        //if showOneLink is true then return only the first result set.
+        if(this.showOneLink){
+          // Remove "more" items
+          troops.splice(1);
+        }
         var templatePathID = 'template-troop-listing';
         var html = Handlebars.compile($('#' + templatePathID).html())(result);
         $('#troop-listing-result').html(html);
@@ -277,8 +284,4 @@ function formDataReset(){
             $('.troop-listing #more').on('click', function() {
                 troopListing.getResult();
             });
-}
-
-function sortTroopsDistanceWise(result){
-
 }

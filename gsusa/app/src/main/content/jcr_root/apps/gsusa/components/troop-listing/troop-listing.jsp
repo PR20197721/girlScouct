@@ -24,7 +24,8 @@ long currentDateTimestamp = currentDate.getTime();
 
 if(onTimeTimestamp<=currentDateTimestamp  && currentDateTimestamp<=offTimeTimestamp){
 %>
-<div data-attribute-troopListing="yes"></div>
+<span id="troop-listing-config" data-troop-listing="yes" data-show-one-link="<%= properties.get("showOneLink")%>"  data-support-another-troop="<%= properties.get("supportAnotherTroop")%>"></span>
+
 <div id="troop-listing-details" data-fb-id="<%= currentSite.get("facebookId", "") %>"  data-num-per-page="<%= properties.get("numPerPage", 25)%>" data-res-path="<%= resource.getPath() %>"></div>
 
     <cq:includeClientLib categories="apps.gsusa.components.troopListing" />
