@@ -1,9 +1,8 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
-<!--
+
 <h3>Ship Cookies from a Troop</h3>
--->
-<h4>Booth Locations near you:</h4>
+
 <b>Select distance, date, and sorting method to filter your results:</b>
 <form class="sort-form clearfix" style="margin-top: 0.7rem;">
     <section>
@@ -60,7 +59,7 @@
     </section>
 </div>
 
-<cq:include script="booth-list-more.jsp" />
+<cq:include script="troop-list-more.jsp" />
 <div class="row show-more">
     <a id="more" title="show more results">MORE</a>
 </div>

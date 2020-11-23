@@ -10,7 +10,7 @@
             <p>{{City}}, {{State}} {{ZipCode}}</p>
         </section>
         <section>
-            <p>{{DateStart}}</p>
+            <p>{{DateEnd}}</p>
         </section>
         <section>
             <p>{{Distance}} Miles</p>

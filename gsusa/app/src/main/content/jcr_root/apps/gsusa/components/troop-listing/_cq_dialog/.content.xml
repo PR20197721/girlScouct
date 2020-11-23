@@ -36,7 +36,7 @@
                                         displayTimezoneMessage="{Boolean}true"
                                         fieldLabel="Campaign From"
                                         name="./onTime"
-                                        renderReadOnly="{Boolean}true"
+                                        renderReadOnly="{Boolean}false"
                                         type="datetime">
                                         <granite:data
                                             jcr:primaryType="nt:unstructured"
@@ -50,7 +50,7 @@
                                         displayTimezoneMessage="{Boolean}true"
                                         fieldLabel="Campaign To"
                                         name="./offTime"
-                                        renderReadOnly="{Boolean}true"
+                                        renderReadOnly="{Boolean}false"
                                         type="datetime">
                                         <granite:data
                                             jcr:primaryType="nt:unstructured"
@@ -219,8 +219,8 @@
                             <num-per-page
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                fieldDescription="Number of booths shown on each page"
-                                fieldLabel="Number of Booths Per Page"
+                                fieldDescription="Listing Page Size"
+                                fieldLabel="Listing Page Size"
                                 name="./numPerPage"/>
                             <showOneLink
                                 jcr:primaryType="nt:unstructured"

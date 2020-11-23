@@ -4,6 +4,7 @@ $(document).ready(function() {
     var troopListingZip;
     var boothDetails;
     var numPerPage = 10;
+    var numPerPage = $("#troop-listing-details").data("num-per-page");
     LoadGoogle();
     // Get zip from param
     troopListingZip = getParameterByName('zip');
@@ -35,13 +36,13 @@ $(document).ready(function() {
         if (!troopListingSortBy) troopListingSortBy = 'distance';
         //Code for Troop Listing, creating new parameter as
 
-        boothFinder = new BoothFinder("/content/dam/gsusa/api/trooplisting.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
-        boothFinder.getResult();
+        troopListing = new TroopListing("/content/dam/gsusa/api/trooplisting.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
+        troopListing.getResult();
     }
 });
 
 
-function BoothFinder(url, troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage) {
+function TroopListing(url, troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage) {
     this.url = url;
     this.zip = troopListingZip;
     this.radius = troopListingRadius;
@@ -52,7 +53,7 @@ function BoothFinder(url, troopListingZip, troopListingRadius, troopListingDate,
     this.page = 1;
 }
 
-BoothFinder.prototype.getResult = function() {
+TroopListing.prototype.getResult = function() {
     var data = {
         z: this.zip,
         r: this.radius,
@@ -80,11 +81,11 @@ BoothFinder.prototype.getResult = function() {
         url: this.url,
         dataType: "json",
         data: data,
-        success: BoothFinder.prototype.processResult.bind(this)
+        success: TroopListing.prototype.processResult.bind(this)
     });
 }
 
-BoothFinder.prototype.processResult = function(result) {
+TroopListing.prototype.processResult = function(result) {
     var troops = result.Troops;
     // Add zip to environment
     result = result || {};
@@ -107,6 +108,10 @@ BoothFinder.prototype.processResult = function(result) {
             }
             console.log(troop)
         }
+
+        var templatePathID = 'template-troop-listing';
+        var html = Handlebars.compile($('#' + templatePathID).html())(result);
+        $('#booth-finder-result').html(html);
     }
 
 }
@@ -228,7 +233,7 @@ function initFB() {
 }
 //booth-detail-script - End
 
-//function getUpdatedFilterResult
+//function getUpdatedFilterResult, this gets called when someone change any filter value.
 function getUpdatedTroopListingFilterResult(event){
     var troopListingFilterObj = {};
     var troopListingZip = $('input[name="troopListingZip"]').val();
