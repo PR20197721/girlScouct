@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
     jcr:primaryType="nt:unstructured"
-    jcr:title="Booth Finder"
+    jcr:title="Troop Listing"
     sling:resourceType="cq/gui/components/authoring/dialog">
     <content
         jcr:primaryType="nt:unstructured"
@@ -13,7 +13,7 @@
         <items jcr:primaryType="nt:unstructured">
             <tab1
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Booth Finder"
+                jcr:title="Cookie Care Campaign"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
@@ -23,12 +23,6 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            <num-per-page
-                                jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                fieldDescription="Number of booths shown on each page"
-                                fieldLabel="Number of Booths Per Page"
-                                name="./numPerPage"/>
                             <onofftime
                                 cq:showOnCreate="{Boolean}false"
                                 jcr:primaryType="nt:unstructured"
@@ -69,6 +63,184 @@
                     </columns>
                 </items>
             </tab1>
+            <tab2
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Troop Link Listing"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <troopLinkDescription
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldDescription="Troop Link Description"
+                                fieldLabel="Troop Link Description"
+                                height="{Long}300"
+                                name="./troopLinkDescription"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                            </troopLinkDescription>
+                            <notFoundMessage
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldDescription="Not Found Message"
+                                fieldLabel="Not Found Message"
+                                height="{Long}300"
+                                name="./notFoundMessage"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                            </notFoundMessage>
+                        </items>
+                    </columns>
+                </items>
+            </tab2>
+            <tab3
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Get Cookies - Button"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <getCookieButtonColor
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Get Cookies Button Color"
+                                fieldLabel="Get Cookies Button Color"
+                                name="./getCookieButtonColor"/>
+                            <hoverButtonColor
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Get Cookies Hover Button Color"
+                                fieldLabel="Get Cookies Hover Button Color"
+                                name="./hoverButtonColor"/>
+                            <textColor
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Get Cookies Text Color"
+                                fieldLabel="Get Cookies Text Color"
+                                name="./textColor"/>
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text"
+                                fieldLabel="Text"
+                                name="./text"/>
+                        </items>
+                    </columns>
+                </items>
+            </tab3>
+            <tab4
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Want to support another troop?  - Button"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <showAnotherTroop
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./showAnotherTroop"
+                                text="Want to support another troop?"
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
+                            <anotherTroopButtonColor
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Button Color"
+                                fieldLabel="Button Color"
+                                name="./anotherTroopButtonColor"/>
+                            <hoverButtonColor
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Hover Button Color"
+                                fieldLabel=" Hover Button Color"
+                                name="./anotherTroopHoverButtonColor"/>
+                            <textColor
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text Color"
+                                fieldLabel="Text Color"
+                                name="./anotherTroopTextColor"/>
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text"
+                                fieldLabel="Text"
+                                name="./anotherTroopText"/>
+                        </items>
+                    </columns>
+                </items>
+            </tab4>
+            <tab5
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Miscellaneous Config"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <num-per-page
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                fieldDescription="Number of booths shown on each page"
+                                fieldLabel="Number of Booths Per Page"
+                                name="./numPerPage"/>
+                            <showOneLink
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./showOneLink"
+                                text="Show One Link ?"
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
+                            <supportAnotherTroop
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                name="./supportAnotherTroop"
+                                text="Want to support another troop?"
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
+                        </items>
+                    </columns>
+                </items>
+            </tab5>
         </items>
     </content>
+    <items/>
 </jcr:root>

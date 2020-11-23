@@ -1,52 +1,52 @@
 $(document).ready(function() {
     var map;
     var geocoder;
-    var zip;
+    var troopListingZip;
     var boothDetails;
-    var numPerPage = $("#booth-finder-details").data("num-per-page");
+    var numPerPage = 10;
     LoadGoogle();
     // Get zip from param
-    zip = getParameterByName('zip');
+    troopListingZip = getParameterByName('zip');
     // Get zip from hash
-    zip = (function(zip) {
+    troopListingZip = (function(troopListingZip) {
         var hash = window.location.hash;
         if (hash.indexOf('#') == 0) {
             hash = hash.substring(1);
         }
         var zipRegex = /[0-9]{5}/;
-        return zipRegex.test(hash) ? hash : zip;
-    })(zip);
+        return zipRegex.test(hash) ? hash : troopListingZip;
+    })(troopListingZip);
 
-    if (zip == undefined) {
+    if (troopListingZip == undefined) {
         // TODO: error: zip not found.
     } else {
-        var radius,date,sortBy;
-        //accessing boothFinderFilterObj from session and getting the set filters
-        if(sessionStorage.boothFinderFilterObj){
-            var boothFinderFilterObj = JSON.parse(sessionStorage.boothFinderFilterObj);
-            if(boothFinderFilterObj){
-                radius = boothFinderFilterObj['radius'];
-                date = boothFinderFilterObj['date']
-                sortBy = boothFinderFilterObj['sortBy'];
+        var troopListingRadius,troopListingDate,troopListingSortBy;
+        //accessing troopListingFilterObj from session and getting the set filters
+        if(sessionStorage.troopListingFilterObj){
+            var troopListingFilterObj = JSON.parse(sessionStorage.troopListingFilterObj);
+            if(troopListingFilterObj){
+                troopListingRadius = troopListingFilterObj['troopListingRadius'];
+                troopListingDate = troopListingFilterObj['troopListingDate']
+                troopListingSortBy = troopListingFilterObj['troopListingSortBy'];
             }
         }
-        if (!radius) radius = 500;
-        if (!date) date = 60;
-        if (!sortBy) sortBy = 'distance';
+        if (!troopListingRadius) troopListingRadius = 5000;
+        if (!troopListingDate) troopListingDate = 60;
+        if (!troopListingSortBy) troopListingSortBy = 'distance';
         //Code for Troop Listing, creating new parameter as
 
-        boothFinder = new BoothFinder("/content/dam/gsusa/api/booth_list_merged.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
+        boothFinder = new BoothFinder("/content/dam/gsusa/api/trooplisting.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
 });
 
 
-function BoothFinder(url, zip, radius, date, sortBy, numPerPage) {
+function BoothFinder(url, troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage) {
     this.url = url;
-    this.zip = zip;
-    this.radius = radius;
-    this.date = date;
-    this.sortBy = sortBy;
+    this.zip = troopListingZip;
+    this.radius = troopListingRadius;
+    this.date = troopListingDate;
+    this.sortBy = troopListingSortBy;
     this.numPerPage = numPerPage;
 
     this.page = 1;
@@ -85,13 +85,29 @@ BoothFinder.prototype.getResult = function() {
 }
 
 BoothFinder.prototype.processResult = function(result) {
-    var council = result.council;
-    var booths = result.booths;
+    var troops = result.Troops;
     // Add zip to environment
     result = result || {};
     result.env = result.env || {};
     result.env.zip = this.zip;
-    var templateId;
+    if (troops.length != 0) {
+        // there are troops available for given filter search
+        var min = Math.min(troops.length, this.numPerPage); // length - 1 to omit the "more" one
+        for (var troopIndex = 0; troopIndex < min; troopIndex++) {
+             var troop = troops[troopIndex];
+                if(troop.StoreURL != null && (troop.StoreURL.includes("http://") || troop.StoreURL.includes("https://"))){
+                troop.Location = "<a href=\""+troop.StoreURL+"\" target=\"_blank\">"+troop.TroopName+"</a>";
+                troop.detailsText = "Get Cookies";
+                troop.City = troop.City;
+                troop.Distance = troop.Distance;
+                troop.State = troop.State;
+                troop.ZipCode = troop.ZipCode;
+                troop.DateEnd = troop.DateEnd;
+                troop.visitBoothUrl = troop.StoreURL;
+            }
+            console.log(troop)
+        }
+    }
 
 }
 
@@ -213,24 +229,24 @@ function initFB() {
 //booth-detail-script - End
 
 //function getUpdatedFilterResult
-function getUpdatedFilterResult(event){
-    var boothFinderFilterObj = {};
-    var zip = $('input[name="zip"]').val();
+function getUpdatedTroopListingFilterResult(event){
+    var troopListingFilterObj = {};
+    var troopListingZip = $('input[name="troopListingZip"]').val();
 
-    if(event.target.name=="radius"){
-        boothFinderFilterObj["radius"] = event.target.value;
-        boothFinderFilterObj["sortBy"] = $('select[name="sortBy"]').val();
-        boothFinderFilterObj["date"] = $('select[name="date"]').val();
-    }else if(event.target.name=="date"){
-        boothFinderFilterObj["date"] = event.target.value;
-        boothFinderFilterObj["radius"] = $('select[name="radius"]').val();
-        boothFinderFilterObj["sortBy"] = $('select[name="sortBy"]').val();
-    } else if(event.target.name=="sortBy"){
-        boothFinderFilterObj["sortBy"] = event.target.value;
-        boothFinderFilterObj["radius"] = $('select[name="radius"]').val();
-        boothFinderFilterObj["date"] = $('select[name="date"]').val();
+    if(event.target.name=="troopListingRadius"){
+        troopListingFilterObj["troopListingRadius"] = event.target.value;
+        troopListingFilterObj["troopListingSortBy"] = $('select[name="troopListingSortBy"]').val();
+        troopListingFilterObj["troopListingSortBy"] = $('select[name="troopListingSortBy"]').val();
+    }else if(event.target.name=="troopListingDate"){
+        troopListingFilterObj["troopListingDate"] = event.target.value;
+        troopListingFilterObj["troopListingRadius"] = $('select[name="troopListingRadius"]').val();
+        troopListingFilterObj["troopListingSortBy"] = $('select[name="troopListingSortBy"]').val();
+    } else if(event.target.name=="troopListingSortBy"){
+        troopListingFilterObj["troopListingSortBy"] = event.target.value;
+        troopListingFilterObj["troopListingRadius"] = $('select[name="troopListingRadius"]').val();
+        troopListingFilterObj["troopListingDate"] = $('select[name="troopListingDate"]').val();
     }
-    boothFinderFilterObj["zip"] = zip;
-    sessionStorage.setItem('boothFinderFilterObj', JSON.stringify(boothFinderFilterObj));
+    boothFinderFilterObj["troopListingZip"] = troopListingZip;
+    sessionStorage.setItem('troopListingFilterObj', JSON.stringify(troopListingFilterObj));
     window.location.reload();
 }
