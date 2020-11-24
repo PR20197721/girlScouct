@@ -553,10 +553,14 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         params.paragraphs = componentsToRollout.toArray(new String[componentsToRollout.size()]);
         params.trigger = RolloutManager.Trigger.ROLLOUT;
         params.reset = false;
+        log.info("Params before reference:: {}", params);
         //GSWP-2235 inform  GirlScoutsReferencesUpdateAction to stop updating reference as rollout is from workflow
         blockReferenceUpdateAction.set("blockInitiatedFromWorkflow");
+        log.info("Params before rollout:: {}", params);
         rolloutManager.rollout(params);
+        log.info("Params:: {}", params);
         rolloutLog.add("Rolled out content to " + relationPath);
+        log.info("Rollout log:: {}", rolloutLog);
         log.info("Successfully rolled out content for {}.", relationPath);
     }
 
