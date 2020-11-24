@@ -32,16 +32,24 @@ public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService 
 
     @Override
     public Troop create(Troop object) {
-        TroopNode node = NodeToModelMapper.INSTANCE.toNode(object);
-        node = girlScoutsOCMRepository.create(node);
-        return NodeToModelMapper.INSTANCE.toModel(node);
+        if(!object.getIsTransient()) {
+            TroopNode node = NodeToModelMapper.INSTANCE.toNode(object);
+            node = girlScoutsOCMRepository.create(node);
+            return NodeToModelMapper.INSTANCE.toModel(node);
+        }else{
+            return object;
+        }
     }
 
     @Override
     public Troop update(Troop object) {
-        TroopNode node = NodeToModelMapper.INSTANCE.toNode(object);
-        node = girlScoutsOCMRepository.update(node);
-        return NodeToModelMapper.INSTANCE.toModel(node);
+        if(!object.getIsTransient()) {
+            TroopNode node = NodeToModelMapper.INSTANCE.toNode(object);
+            node = girlScoutsOCMRepository.update(node);
+            return NodeToModelMapper.INSTANCE.toModel(node);
+        }else{
+            return object;
+        }
     }
 
     @Override
@@ -54,7 +62,11 @@ public class GirlScoutsTroopOCMServiceImpl implements GirlScoutsTroopOCMService 
 
     @Override
     public boolean delete(Troop object) {
-        return girlScoutsOCMRepository.delete(NodeToModelMapper.INSTANCE.toNode(object));
+        if(!object.getIsTransient()) {
+            return girlScoutsOCMRepository.delete(NodeToModelMapper.INSTANCE.toNode(object));
+        }else{
+            return false;
+        }
     }
 
     @Override

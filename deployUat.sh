@@ -13,6 +13,4 @@ fi
 
 ./gsusa/deployUat.sh $VERSION && sleep 20s
 
-./gsactivities/deployUat.sh $VERSION && sleep 20s
-
 ./vtk/deployUat.sh $VERSION

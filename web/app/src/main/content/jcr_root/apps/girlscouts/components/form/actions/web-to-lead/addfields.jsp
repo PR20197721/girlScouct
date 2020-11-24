@@ -1,31 +1,40 @@
-<%@include file="/libs/foundation/global.jsp"
-%><%@ page session="false" %><%
-%><%@ page import="java.util.List,
-                org.apache.sling.api.resource.ResourceUtil,
-                   org.apache.commons.lang3.StringEscapeUtils,
-                   org.apache.sling.api.resource.Resource,
-                   org.apache.sling.api.resource.ValueMap,
-                   java.util.HashMap,
-                   com.day.cq.wcm.foundation.forms.FormsConstants,
-                   com.day.cq.wcm.foundation.forms.FormResourceEdit,
-                   org.girlscouts.common.webtolead.config.WebToLeadConfig"%><%
-%><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
-%><sling:defineObjects/><%
-    
-	WebToLeadConfig webToLeadConfig = sling.getService(WebToLeadConfig.class);	
-    final ValueMap props = ResourceUtil.getValueMap(resource);
-	String campaignID = props.get("campaignID", "");
-	//String organizationID = webToLeadConfig.getOID();
-	String campaignIDFieldName1 = webToLeadConfig.getCampaignIDPrimaryName();
-	String campaignIDFieldName2 = webToLeadConfig.getCampaignIDSecondaryName();
-	String apiURL = webToLeadConfig.getAPIURL();
-    if(!campaignID.isEmpty()){
+<%@include file="/libs/foundation/global.jsp"%>
+<%@ page session="false" %>
+<%@ page import="com.day.cq.wcm.foundation.forms.FormResourceEdit,
+                 com.day.cq.wcm.foundation.forms.FormsConstants,
+                 org.apache.commons.lang3.StringUtils,
+                 org.apache.sling.api.resource.Resource,
+                 org.apache.sling.api.resource.ResourceUtil,
+                 org.apache.sling.api.resource.ValueMap, org.girlscouts.common.osgi.component.CouncilCodeToPathMapper" %>
+<%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %>
+<sling:defineObjects/>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
+<cq:includeClientLib categories="apps.girlscouts.components.form.actions.web-to-lead" />
+<div id="validation-errors" class="form_error"></div>
+<%
+final ValueMap props = ResourceUtil.getValueMap(resource);
+String campaignID = props.get("campaignID", "");
+String leadType = props.get("leadType", "");
+CouncilCodeToPathMapper councilCodeToPathMapper = sling.getService(CouncilCodeToPathMapper.class);
+Page site = currentPage.getAbsoluteParent(1);
+String councilCode = councilCodeToPathMapper.getCouncilCode(site.getPath());
+if (!StringUtils.isBlank(councilCode)) {
+    %>
+    <input class="form_field" name="CouncilCode" value="<%=xssAPI.encodeForHTMLAttr(councilCode)%>" type="hidden"/>
+    <%
+}
+if (!StringUtils.isBlank(leadType)) {
+    %>
+    <input class="form_field" name="LeadType" value="<%=xssAPI.encodeForHTMLAttr(leadType)%>" type="hidden"/>
+    <%
+}
+if (!StringUtils.isBlank(campaignID)) {
+    %>
+    <input class="form_field" name="CampaignID" value="<%=xssAPI.encodeForHTMLAttr(campaignID)%>" type=hidden />
+    <%
+}
 %>
+<input class="form_field" name="UTM_Campaign" value="" type="hidden"/>
+<input class="form_field" name="UTM_Medium" value="" type="hidden"/>
+<input class="form_field" name="UTM_Source" value="" type="hidden"/>
 
-<!-- CAMPAIGN ID -->
-<input type=hidden name="<%=campaignIDFieldName1%>" value="<%=campaignID%>" />
-<input type=hidden name="<%=campaignIDFieldName2%>" value="<%=campaignID%>" />
-<!-- API URL -->
-<input type=hidden name="apiUrl" value="<%=apiURL%>" />
-
-<%  } %>

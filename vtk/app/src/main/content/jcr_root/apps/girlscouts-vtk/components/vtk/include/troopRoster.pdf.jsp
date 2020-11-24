@@ -29,26 +29,27 @@
     int girlCounter = 0, adultCounter = 0;
     if (contacts != null)
         for (Contact gsContact : contacts) {
-            Contact caregiver = VtkUtil.getSubContact(gsContact, 1);
-            if (caregiver == null) continue;
             //check permission again:must be TL
             if (!(VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
-                    user.getApiConfig() == null || user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId()))) {
+                    apiConfig == null || VtkUtil.isUserCaregiverForContact(user, gsContact))) {
                 continue;
             }
-            if ("Girl".equals(gsContact.getRole())) {
-                pdfDataDetails.append("<tr><td style=\"width:20%;max-width:20%;\">" + (gsContact.getFirstName() + " " + gsContact.getRole()) + "</td>");
-                pdfDataDetails.append("<td style=\"width:20%;max-width:20%;\">" + (caregiver == null ? "" : (caregiver.getFirstName() == null ? "" : caregiver.getFirstName())) + " " + ((caregiver.getLastName() == null ? "" : caregiver.getLastName())) + "</td>");
-                pdfDataDetails.append("<td style=\"width:40%;max-width:40%;\">" + gsContact.getEmail() + "</td>");
-                pdfDataDetails.append("<td style=\"width:20%;max-width:20%;\">" + (gsContact.getPhone() == null ? "" : gsContact.getPhone()) + "</td>");
-                pdfDataDetails.append("</tr>");
-                girlCounter++;
-            } else if ("Adult".equals(gsContact.getRole())) {
-                pdfDataDetails_adults.append("<tr><td style=\"width:20%;max-width:20%;\">" + (gsContact.getFirstName() + " " + gsContact.getRole()) + "</td>");
-                pdfDataDetails_adults.append("<td style=\"width:40%;max-width:40%;\">" + gsContact.getEmail() + "</td>");
-                pdfDataDetails_adults.append("<td style=\"width:20%;max-width:20%;\">" + (gsContact.getPhone() == null ? "" : gsContact.getPhone()) + "</td>");
-                pdfDataDetails_adults.append("</tr>");
-                adultCounter++;
+            PrimaryGuardian caregiver = gsContact.getPrimaryGuardian();
+            if (caregiver != null) {
+                if ("Girl".equals(gsContact.getRole())) {
+                    pdfDataDetails.append("<tr><td style=\"width:20%;max-width:20%;\">" + (gsContact.getFirstName() + " " + gsContact.getRole()) + "</td>");
+                    pdfDataDetails.append("<td style=\"width:20%;max-width:20%;\">" + (caregiver == null ? "" : (caregiver.getFirstName() == null ? "" : caregiver.getFirstName())) + " " + ((caregiver.getLastName() == null ? "" : caregiver.getLastName())) + "</td>");
+                    pdfDataDetails.append("<td style=\"width:40%;max-width:40%;\">" + gsContact.getEmail() + "</td>");
+                    pdfDataDetails.append("<td style=\"width:20%;max-width:20%;\">" + (gsContact.getPhone() == null ? "" : gsContact.getPhone()) + "</td>");
+                    pdfDataDetails.append("</tr>");
+                    girlCounter++;
+                } else if ("Adult".equals(gsContact.getRole())) {
+                    pdfDataDetails_adults.append("<tr><td style=\"width:20%;max-width:20%;\">" + (gsContact.getFirstName() + " " + gsContact.getRole()) + "</td>");
+                    pdfDataDetails_adults.append("<td style=\"width:40%;max-width:40%;\">" + gsContact.getEmail() + "</td>");
+                    pdfDataDetails_adults.append("<td style=\"width:20%;max-width:20%;\">" + (gsContact.getPhone() == null ? "" : gsContact.getPhone()) + "</td>");
+                    pdfDataDetails_adults.append("</tr>");
+                    adultCounter++;
+                }
             }
 
         }

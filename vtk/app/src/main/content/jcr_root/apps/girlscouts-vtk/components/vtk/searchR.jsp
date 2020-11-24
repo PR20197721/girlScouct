@@ -75,7 +75,7 @@
                     </p>
                 </td><!--  end 2 -->
                 <td width="40">
-                        <%if(!apiConfig.isDemoUser() && search.getAssetType().equals(AssetComponentType.AID)  && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID ) ){ %>
+                        <%if(search.getAssetType().equals(AssetComponentType.AID)  && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_EDIT_MEETING_ID ) ){ %>
                     <input type="button" value="Add to Meeting"
                            onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>','<%=AssetComponentType.AID %>')"
                            class="button linkButton"/>

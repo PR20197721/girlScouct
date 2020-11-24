@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html data-sly-use.ssoUtil="org.girlscouts.vtk.sling.model.VTKSSOUtil">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
+        <sly data-sly-call="${clientlib.all @ categories='apps.girlscouts-vtk.components.sso.proxy'}"/>
+    </sly>
+    ${ssoUtil.proxyScript @context = 'unsafe'}
+    <title>Volunteer Toolkit Login Page</title>
+</head>
+<body>
+<div class="header">
+    <div>
+        <img class="gsusa-logo" src="https://www.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png" alt="Logo" id="logoImg"/>
+    </div>
+</div>
+<div class="content">
+    <sly data-sly-test="${ssoUtil.invalidateSession}">
+        <div class="page-title">Logging out of Volunteer Toolkit</div>
+    </sly>
+    <sly data-sly-test="${!ssoUtil.invalidateSession}">
+        <div class="page-title">Going to the Volunteer Toolkit</div>
+    </sly>
+</div>
+<div class="footer">
+    <span>© 2020 Girl Scouts of the United States of America. A 501(c)(3) Organization. All rights reserved.</span>
+    <a href="https://www.girlscouts.org/en/help/help/privacy-policy.html">Privacy Policy</a>
+    <a href="https://www.girlscouts.org/en/help/help/terms-and-conditions.html">Terms and Conditions</a>
+</div>
+</body>
+</html>

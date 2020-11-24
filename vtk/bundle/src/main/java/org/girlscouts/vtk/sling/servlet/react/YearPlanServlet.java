@@ -70,10 +70,10 @@ public class YearPlanServlet extends SlingAllMethodsServlet implements OptingSer
             response.addHeader("pragma", "no-cache");
             response.addHeader("expires", "0");
             JsonObject json = new JsonObject();
-            User user = ((User) request.getSession().getAttribute(User.class.getName()));
+            User user = VtkUtil.getUser(request.getSession());
             if(user != null) {
                 boolean isViewingArchived = !user.getCurrentYear().equals(String.valueOf(vtkUtil.getCurrentGSYear()));
-                Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
+                Troop troop = VtkUtil.getTroop(request.getSession());
                 if (isViewingArchived) {
                     troop = (Troop) request.getSession().getAttribute("VTK_archived_troop");
                 }

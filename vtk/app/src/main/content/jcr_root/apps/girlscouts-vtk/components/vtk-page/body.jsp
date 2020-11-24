@@ -1,38 +1,48 @@
-<%@page import="com.day.cq.wcm.api.components.IncludeOptions,
+<%@page import="com.day.cq.wcm.api.Page,
+                com.day.cq.wcm.api.designer.Design,
                 org.apache.sling.settings.SlingSettingsService,
-                org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.osgi.component.CouncilMapper" %>
+                org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.osgi.component.CouncilMapper" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
 <%
-    HttpSession session = request.getSession(true);
+    HttpSession httpSession = request.getSession(true);
     CouncilMapper mapper = sling.getService(CouncilMapper.class);
-    ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
+    ApiConfig apiConfig = (ApiConfig) httpSession.getAttribute(ApiConfig.class.getName());
     Page newCurrentPage = null;
     Design newCurrentDesign = null;
     String councilId = null;
     String branch = "";
-    try {
-        if (!apiConfig.getUser().isAdmin() && apiConfig.getUser().getTroops() != null && !apiConfig.getUser().getTroops().isEmpty()) {
-            councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
-        } else {
-            councilId = apiConfig.getUser().getAdminCouncilId();
-        }
-        branch = mapper.getCouncilBranch(councilId);
-    } catch (Exception e) {
-        Cookie[] cookies = request.getCookies();
-        String refererCouncil = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("vtk_referer_council")) {
-                    refererCouncil = cookie.getValue();
+    Troop selectedTroop = (Troop) httpSession.getAttribute("VTK_troop");
+    if(apiConfig == null){
+        councilId = "999";
+        branch = "/content/vtkcontent";
+    }else {
+        try {
+            if(selectedTroop != null){
+                councilId = selectedTroop.getCouncilId();
+            }else {
+                if (!apiConfig.getUser().isAdmin() && apiConfig.getUser().getTroops() != null && !apiConfig.getUser().getTroops().isEmpty()) {
+                    councilId = apiConfig.getUser().getTroops().get(0).getCouncilCode();
+                } else {
+                    councilId = apiConfig.getUser().getAdminCouncilId();
                 }
             }
-        }
-        if (refererCouncil != null && !refererCouncil.isEmpty() && refererCouncil.length() > 0) {
-            branch = "/content/" + refererCouncil;
-        } else {
-            branch = mapper.getCouncilBranch();
+            branch = mapper.getCouncilBranch(councilId);
+        } catch (Exception e) {
+            Cookie[] cookies = request.getCookies();
+            String refererCouncil = null;
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("vtk_referer_council")) {
+                        refererCouncil = cookie.getValue();
+                    }
+                }
+            }
+            if (refererCouncil != null && !refererCouncil.isEmpty() && refererCouncil.length() > 0) {
+                branch = "/content/" + refererCouncil;
+            } else {
+                branch = mapper.getCouncilBranch();
+            }
         }
     }
     // TODO: language
@@ -62,15 +72,11 @@
             if (newCurrentDesign != null) {
                 request.setAttribute("newCurrentDesign", newCurrentDesign);
             }
-            if (apiConfig.isDemoUser()) {
-        %>
-        <cq:include script="headerDemo.jsp"/>
-        <%
-        } else {
-        %>
-        <cq:include script="header.jsp"/>
-        <%
-            }
+
+            %>
+            <cq:include script="header.jsp"/>
+            <%
+
             if (newCurrentPage != null) {
                 request.removeAttribute("newCurrentPage");
             }

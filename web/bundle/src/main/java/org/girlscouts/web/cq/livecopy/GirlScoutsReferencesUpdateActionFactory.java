@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.jcr.Property;
 import javax.jcr.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,7 +62,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
         public void execute(Resource source, Resource target,
                 LiveRelationship relation, boolean autosave, boolean isResetRollout)
 				throws WCMException {
-            log.debug("Processing source:"+source.getPath()+", target:"+target.getPath());
+            //log.debug("Processing source:"+source.getPath()+", target:"+target.getPath());
         	String checkBlockReferenceUpdate= rolloutTemplatePageService.blockReferenceUpdateAction.get();//GSWP-2235 checks if update reference action was initiated from rollout workflow
         	log.info("checking if update reference action is initiated from rollout workflow, checkBlockReferenceUpdate="+checkBlockReferenceUpdate);
         	if(checkBlockReferenceUpdate != null) {
@@ -179,9 +182,18 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
             Pattern p = Pattern.compile("href=\"(.*?)\"", Pattern.DOTALL);
             Matcher m = p.matcher(value);
             boolean isReplaced = false;
-            while (m.find()){
+            List<String> hrefs = new ArrayList<>();
+            boolean isHtmlRef = false;
+            while (m.find()) { // If field value is HTML
+                isHtmlRef = true;
                 String hrefValue = m.group(1);
                 log.debug("Found href: "+hrefValue);
+                hrefs.add(hrefValue);
+            }
+            if (!isHtmlRef) { // If field value is the link
+                hrefs.add(value);
+            }
+            for (String hrefValue : hrefs) {
                 //Is href pointing to template site page?
                 if(hrefValue != null && hrefValue.startsWith(sourceBranch)){
                     log.debug("Replacing : "+sourceBranch + " with " + targetBranch);

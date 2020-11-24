@@ -1,25 +1,24 @@
 <%@page
         import="com.day.cq.commons.Doctype,
-                com.day.cq.commons.ImageHelper,
-                com.day.cq.commons.jcr.JcrUtil,
                 com.day.cq.wcm.api.components.DropTarget,
                 com.day.cq.wcm.foundation.Image,
-                com.day.image.Layer,
                 com.google.gson.Gson,
                 com.google.gson.GsonBuilder,
-				org.girlscouts.vtk.ocm.*,
-				org.girlscouts.vtk.osgi.service.*,
-				org.girlscouts.vtk.osgi.component.dao.*,
                 org.apache.commons.beanutils.BeanComparator,
                 org.girlscouts.vtk.auth.permission.Permission,
-                org.girlscouts.vtk.osgi.component.util.CouncilRpt,
-                org.girlscouts.vtk.models.EmailMeetingReminder,
-                org.girlscouts.vtk.osgi.component.util.VtkYearPlanChangeException,
                 org.girlscouts.vtk.mapper.vtk.CollectionModelToEntityMapper,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
-                org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
-                org.joda.time.LocalDate" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper, org.girlscouts.vtk.osgi.component.util.Emailer, org.girlscouts.vtk.utils.ActivityNumberComparator" %>
+				org.girlscouts.vtk.mapper.vtk.ModelToRestEntityMapper,
+				org.girlscouts.vtk.models.EmailMeetingReminder,
+				org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
+                org.girlscouts.vtk.osgi.component.TroopHashGenerator,
+                org.girlscouts.vtk.osgi.component.util.CouncilRpt,
+                org.girlscouts.vtk.osgi.component.util.Emailer,
+                org.girlscouts.vtk.osgi.component.util.VtkYearPlanChangeException,
+                org.girlscouts.vtk.osgi.service.GirlScoutsTroopOCMService,
+                org.girlscouts.vtk.osgi.service.MulesoftService,
+                org.girlscouts.vtk.utils.ActivityNumberComparator,
+                java.util.Collections" %>
+<%@ page import="java.util.LinkedList, java.util.StringTokenizer" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects/>
@@ -173,7 +172,8 @@
                     // Generator the new troopDataToken so the client can fetch data from the dispatcher.
                     Troop newTroop = (Troop) session.getAttribute("VTK_troop");
                     String troopId = newTroop.getTroopId();
-                    Cookie cookie = new Cookie("troopDataToken", newTroop.getHash());
+                    TroopHashGenerator troopHashGenerator = sling.getService(TroopHashGenerator.class);
+                    Cookie cookie = new Cookie("troopDataToken", troopHashGenerator.getCachePath(newTroop.getPath()));
                     cookie.setPath("/");
                     response.addCookie(cookie);
                     return;
@@ -279,9 +279,9 @@
             emr.setMeetingId(meetingId);
             emr.setTemplate(template);
             emr.setEmailToSelf("true");
-            emr.setTo(user.getApiConfig().getUser().getEmail());
+            emr.setTo(user.getEmail());
             if (email_to_gp.equals("true")) {
-                java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
+                java.util.List<Contact> contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop, user);
                 String emails = null;
                 for (int i = 0; i < contacts.size(); i++) {
                     String contactEmail = contacts.get(i).getEmail();
@@ -347,12 +347,7 @@
             response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
         } else if (request.getParameter("saveCouncilMilestones") != null) {
             vtklog.debug("saveCouncilMilestones");
-
-            if(apiConfig.isDemoUser() || user.isServiceUnitManager()) {
-                 yearPlanUtil.saveMilestones(user, null, request);
-            } else {
-                 yearPlanUtil.saveMilestones(user, selectedTroop, request);
-            }
+            yearPlanUtil.saveMilestones(user, selectedTroop, request);
             response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
         } else if (request.getParameter("createCouncilMilestones") != null) {
             vtklog.debug("createCouncilMilestones");
@@ -418,7 +413,7 @@
                     } else {
                         selectedTroop = prefTroop;
                     }
-                    Troop selectedTroopRepoData = troopUtil.getTroopByPath(user, selectedTroop.getPath());
+                    Troop selectedTroopRepoData = selectedTroop.getIsTransient() ? selectedTroop : troopUtil.getTroopByPath(user, selectedTroop.getPath());
                     java.util.List<MeetingE> tt = selectedTroopRepoData.getYearPlan().getMeetingEvents();
                     //end archive
                     selectedTroop.setYearPlan(selectedTroopRepoData.getYearPlan());
@@ -680,11 +675,11 @@
         if(userTroop.getParticipationCode() != null && "IRM".equals(userTroop.getParticipationCode())){
             troopGradeLevel="";
         }
-%>
-    <option value="<%=userTroop.getHash()%>"
-            <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%>
-    </option>
-    <%
+        %>
+        <option value="<%=userTroop.getHash()%>"
+                <%=selectedTroop.getHash().equals(userTroop.getHash()) ? "selected" : ""%>><%=userTroop.getTroopName()%><%=troopGradeLevel%>
+        </option>
+        <%
         }
     %></select><%
 } else if (request.getParameter("printCngYearPlans") != null) {

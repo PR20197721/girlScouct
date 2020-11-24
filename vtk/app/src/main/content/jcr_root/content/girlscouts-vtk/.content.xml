@@ -4,5 +4,6 @@
     <controllers/>
     <salesforce-data/>
     <service/>
+    <sso/>
     <en/>
 </jcr:root>

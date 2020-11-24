@@ -193,12 +193,7 @@ public class YearPlanUtil {
     }
 
     public void saveCouncilMilestones(User user, List<Milestone> milestones, Troop troop) throws IllegalAccessException {
-        if(troop == null) {
-            councilDAO.updateCouncilMilestones(user, milestones, null);
-        } else {
-            councilDAO.updateCouncilMilestones(user, milestones, troop);
-        }
-
+        councilDAO.updateCouncilMilestones(user, milestones, troop);
     }
 
     public java.util.List<Activity> searchA1(User user, Troop troop, String lvl, String cat, String keywrd, java.util.Date startDate, java.util.Date endDate, String region) throws IllegalAccessException {
@@ -279,12 +274,7 @@ public class YearPlanUtil {
             }
         }
         try {
-            if(user.isServiceUnitManager() || true) {
-                saveCouncilMilestones(user, milestones, null);
-            } else {
-                saveCouncilMilestones(user, milestones, troop);
-            }
-
+            saveCouncilMilestones(user, milestones, troop);
         } catch (Exception e) {
             e.printStackTrace();
         }

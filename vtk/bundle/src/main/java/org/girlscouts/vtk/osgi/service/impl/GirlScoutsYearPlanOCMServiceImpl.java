@@ -2,7 +2,6 @@ package org.girlscouts.vtk.osgi.service.impl;
 
 import org.girlscouts.vtk.mapper.ocm.NodeToModelMapper;
 import org.girlscouts.vtk.models.MeetingE;
-import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.ocm.YearPlanNode;
 import org.girlscouts.vtk.osgi.service.GirlScoutsMeetingOCMService;
@@ -72,11 +71,13 @@ public class GirlScoutsYearPlanOCMServiceImpl implements GirlScoutsYearPlanOCMSe
     public List<YearPlan> findObjects(String path, Map<String, String> params) {
         List<YearPlanNode> nodes = girlScoutsOCMRepository.findObjects(path, params, YearPlanNode.class);
         List<YearPlan> models = new ArrayList<>();
-        nodes.forEach(yearPlanNode -> {
-            YearPlan yearPlan = NodeToModelMapper.INSTANCE.toModel(yearPlanNode);
-            populateMeetingInfo(yearPlan);
-            models.add(yearPlan);
-        });
+        if(nodes != null) {
+            nodes.forEach(yearPlanNode -> {
+                YearPlan yearPlan = NodeToModelMapper.INSTANCE.toModel(yearPlanNode);
+                populateMeetingInfo(yearPlan);
+                models.add(yearPlan);
+            });
+        }
         return models;
     }
 

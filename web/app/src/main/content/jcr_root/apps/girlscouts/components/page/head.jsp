@@ -69,16 +69,7 @@
             favIcon = favIcon.replace(":80/", "/");
         }
     }
-%>
-<head>
-    <%
-        Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
-        Boolean isProd = set.contains("prod");
-        String eventToSalesforce = isProd ? "https://gsmembers.force.com/members/Event_join?EventId=" : "https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=";
-    %>
-    <script>
-        eventToSalesforce = "<%= eventToSalesforce %>";
-    </script>
+%><head>
     <%
         String pageCategory = "DEFAULT";
         Object pageCategoryObject = request.getAttribute("PAGE_CATEGORY");

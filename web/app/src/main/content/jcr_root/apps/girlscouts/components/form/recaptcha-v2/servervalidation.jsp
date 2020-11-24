@@ -9,6 +9,7 @@
                 java.net.URL, java.nio.charset.Charset, com.google.gson.Gson,
                 com.google.gson.JsonParser, com.google.gson.JsonObject"%>
 <%
+    /*
     FieldDescription desc = FieldHelper.getConstraintFieldDescription(slingRequest);
     desc.setName(":g-recaptcha-response");
     String recaptcha_secret = currentSite.get("recaptcha_secret", "");
@@ -31,5 +32,5 @@
     } catch (Exception e) {
         ValidationInfo.addConstraintError(slingRequest, desc);
     }
-
+*/
 %>

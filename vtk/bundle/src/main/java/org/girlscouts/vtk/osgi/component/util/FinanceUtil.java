@@ -136,7 +136,7 @@ public class FinanceUtil {
             emailRecipients.add(new InternetAddress(recipient));
             //email.setFrom("girlscouts@amsmail.adobecqms.net");
             email.setTo(emailRecipients);
-            email.setSubject("Troop financial Report \"" + troop.getTroopName() + "\" - " + user.getApiConfig().getUser().getFirstName() + " : " + user.getApiConfig().getUser().getLastName());
+            email.setSubject("Troop financial Report \"" + troop.getTroopName() + "\" - " + user.getFirstName() + " : " + user.getLastName());
             email.attach(new ByteArrayDataSource(csvContents.getBytes(), "text/csv"), "finances.csv", "Finances Data");
             if (messageGateway == null) {
             } else {

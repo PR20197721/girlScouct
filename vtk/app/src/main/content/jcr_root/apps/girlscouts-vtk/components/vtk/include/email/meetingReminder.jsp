@@ -221,7 +221,7 @@
         </dd>
     </dl>
     <div class="right clearfix">
-        <input type="button" value="Send email" class="button btn" onclick="this.disabled=true; <%=user.getApiConfig().isDemoUser() ? "" : "sendEmail()"%> "/>
+        <input type="button" value="Send email" class="button btn" onclick="this.disabled=true; "/>
     </div>
     <div id="added">
         <p>Added to email.</p>

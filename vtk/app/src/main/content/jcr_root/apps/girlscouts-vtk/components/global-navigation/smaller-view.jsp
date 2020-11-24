@@ -1,4 +1,4 @@
-<%@ page import="com.day.cq.wcm.api.WCMMode, org.girlscouts.web.osgi.component.*" %>
+<%@ page import="org.apache.sling.api.resource.Resource, org.apache.sling.api.resource.ValueMap, org.girlscouts.common.osgi.component.GirlscoutsVtkConfigProvider" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <div id="right-canvas-menu">
@@ -29,7 +29,7 @@ if(globalNav != null){
 				<a class="<%= clazz %> homepage" href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">HOME</a>
 			</li>
 			<li>
-				<a class="<%= clazz %> homepage" href="<%= configManager.getConfig("communityUrl")%>">MEMBER PROFILE</a>
+				<a class="<%= clazz %> homepage" href="<%= configManager.getRenewUrl()%>">MEMBER PROFILE</a>
 			</li>
 	<%
 		} else {
