@@ -18,10 +18,10 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
     private static final String BASE = "/vtk-data/";
     private static final String SALT = "\u90B9\u6B23\u822A\u2308\u2208%^%@2H3^&8\u0008\u1308\u0021\u0223\u0046";
 
-    public String hash(String troopId) {
+    public String hash(String path, String role) {
         byte[] origBytes;
         try {
-            origBytes = (SALT + troopId).getBytes(StandardCharsets.UTF_8);
+            origBytes = (SALT + path + role).getBytes(StandardCharsets.UTF_8);
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             byte[] digestBytes = md5.digest(origBytes);
             StringBuffer sb = new StringBuffer();
@@ -29,39 +29,35 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
                 sb.append(String.format("%02x", b & 0xff));
             }
             String hash = sb.toString();
-            // prepend last seven characters of troopId
-            int length = troopId.length();
-            String prepend = length >= 7 ? troopId.substring(length - 7) : troopId;
+            // prepend last seven characters of path
+            int length = path.length();
+            String prepend = length >= 7 ? path.substring(length - 7) : path;
             hash = prepend + "_" + hash;
             log.debug("Hash generated: " + hash);
             return hash;
         } catch (NoSuchAlgorithmException e) {
-            log.warn("Cannot generate hash from: " + troopId + ". NoSuchAlgorithmException.");
+            log.warn("Cannot generate hash from: " + path + ". NoSuchAlgorithmException.");
             return null;
         }
     }
 
     public String hash(Troop troop) {
-        return hash(troop.getPath());
+        return hash(troop.getPath(), troop.getRole());
     }
 
-    public String getPath(String troopId) {
-        String hash = hash(troopId);
+    public String getCachePath(String path) {
+        String hash = hash(path, "");
         if (hash != null) {
             return BASE + hash;
         } else {
             log.warn("Could not generate hash, use basic obfuscation instead.");
-            String reversed = new StringBuilder(troopId).reverse().toString();
+            String reversed = new StringBuilder(path).reverse().toString();
             if (reversed.length() > 3) {
                 return BASE + reversed.substring(3) + reversed.substring(0, 3);
             } else {
                 return BASE + reversed;
             }
         }
-    }
-
-    public String getPath(Troop troop) {
-        return getPath(troop.getTroopId());
     }
 
     public String getBase() {

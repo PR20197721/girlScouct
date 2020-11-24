@@ -46,7 +46,7 @@ public class VTKTroopImageServlet extends SlingAllMethodsServlet implements Opti
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
-        Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
+        Troop selectedTroop = VtkUtil.getTroop(session);
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
         ResourceResolver vtkServiceResolver = null;
@@ -147,7 +147,7 @@ public class VTKTroopImageServlet extends SlingAllMethodsServlet implements Opti
     protected void doDelete(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
         try {
-            Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
+            Troop selectedTroop = VtkUtil.getTroop(session);
             Map<String, Object> paramMap = new HashMap<String, Object>();
             paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
             ResourceResolver adminResolver = null;

@@ -2,12 +2,12 @@
 <%@ page import="org.girlscouts.vtk.models.Achievement,
                  org.girlscouts.vtk.models.Attendance,
                  org.girlscouts.vtk.models.Contact,
-                 org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+                 org.girlscouts.vtk.osgi.service.MulesoftService" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../session.jsp" %>
 <%
-    java.util.List<Contact> contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
+    java.util.List<Contact> contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop, user);
     String YEAR_PLAN_EVENT = "meetingEvents";
     String eventType = request.getParameter("eType");
     if (eventType != null && eventType.equals("ACTIVITY"))
@@ -15,8 +15,8 @@
     String path = VtkUtil.getYearPlanBase(user, selectedTroop) + selectedTroop.getSfCouncil() + "/troops/" + selectedTroop.getSfTroopId() + "/yearPlan/" + YEAR_PLAN_EVENT + "/" + request.getParameter("mid");
     Attendance attendance = meetingUtil.getAttendance(user, selectedTroop, path + "/attendance");
     Achievement achievement = meetingUtil.getAchievement(user, selectedTroop, path + "/achievement");
-    boolean isIRM = (selectedTroop.getParticipationCode() != null && "IRM".equals(selectedTroop.getParticipationCode())) ? true :false;
-    boolean isSUM = (selectedTroop.getCouncilCode() != null && "SUM".equals(selectedTroop.getCouncilCode())) ? true :false;
+    boolean isIRM = selectedTroop.getIsIRM();
+
     boolean isAttendance = true, isAchievement = true;
     if (attendance == null) {
         isAttendance = false;
@@ -47,7 +47,7 @@
 	<div class="scroll">
 		<div class="content clearfix" id="modal_A_A">
 			<h4><%=request.getParameter("mName")%></h4>
-            <%if(isSUM){%>
+            <%if(selectedTroop.getIsSUM()){%>
                 <div class="demo-info-message">
                     <p>This feature is to help you with training and support. The information below is not real and for demo purposes only.</p>
                 </div>

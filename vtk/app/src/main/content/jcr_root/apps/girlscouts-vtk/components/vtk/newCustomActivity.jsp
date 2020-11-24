@@ -345,11 +345,11 @@
                                 <label for="sch_cats" ACCESSKEY="i">Categories</label>
                                 <ul class="small-block-grid-1 large-block-grid-4 medium-block-grid-3 formCheckboxes">
                                         <% java.util.Iterator itr= categories.keySet().iterator();
-                  i=0;
-                  while( itr.hasNext() ){
-                  i++;
-                  String str=(String) itr.next();
-                  %>
+                                          i=0;
+                                          while( itr.hasNext() ){
+                                          i++;
+                                          String str=(String) itr.next();
+                                          %>
                                     <li>
                                         <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"
                                                onchange="submitenter(this, event)"/>
@@ -359,10 +359,6 @@
                                         <% } %>
                                     <ul>
                                     </ul>
-                                        <%if(apiConfig.isDemoUser()){%>
-                                    <p style="color:orange;text-align: right; width:100%">Council activities are not
-                                        available in the demo at this time.</p>
-                                        <%}%>
                             </div>
                             <input id="view_activities_button" type="button" value="View Activities"
                                    onclick='searchActivities()' class="button btn right inactive-button"/>

@@ -69,6 +69,8 @@ public interface MeetingDAO {
 
     java.util.List<Note> getNotes(User user, Troop troop, String path) throws IllegalAccessException, VtkException;
 
+    Note createNote(User user, Troop troop, Note note) throws IllegalAccessException;
+
     boolean updateNote(User user, Troop troop, Note note) throws IllegalAccessException;
 
     boolean rmNote(User user, Troop troop, Note note) throws IllegalAccessException;

@@ -89,6 +89,7 @@ public class PageCounter {
                 defaultValues.add(format("News", newsURL, "false", "true"));
                 defaultValues.add(format("Site Search", sitesearchURL, "true", "false"));
                 defaultValues.add(format("Email Templates", councilPath + "/en/email-templates", "true", "false"));
+                defaultValues.add(format("Troop Leader Blueprint", councilPath + "/en/for-volunteers/troop-leader-blueprint", "true", "true"));
                 // Get some links from homepage footer such as Terms and Conditions, Policy
                 Set<String> footerLinkFilters = listToArray(FOOTER_LINK_FILTERs);
                 String footernavnodepath = top.getPath() + "/en/jcr:content/footer/nav";

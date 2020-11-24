@@ -1,8 +1,8 @@
 <%
-    String activeTab = "plan";
-    boolean showVtkNav = true;
-    boolean isParent = "PA".equals(selectedTroop.getRole());
-    boolean isAdmin = user.getApiConfig().getUser().isAdmin();
+        String activeTab = "plan";
+        boolean showVtkNav = true;
+        boolean isParent = "PA".equals(selectedTroop.getRole());
+        boolean isFinanceAdmin = "FA".equals(selectedTroop.getRole());
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
@@ -10,13 +10,6 @@
     String sectionClassDefinition = "meeting-detail";
 %>
 <%@include file="include/bodyTop.jsp" %>
-<%if(selectedTroop.getIsLoadedManualy()){%>
-<div class="column small-24 large-centered large-20">
-    <div class="demo-info-message">
-        <p>This is your 2019 - 2020 Year Plan. This plan will archive on July 20 in preparation for our release of new content on July 21. Until that time you are not able to record attendance or achievements.</p>
-    </div>
-</div>
-<%}%>
 <%@include file="include/modals/modal_help.jsp" %>
 <%@include file="include/loader.jsp" %>
 <%PlanView planView = meetingUtil.planView(user, selectedTroop, request);%>
@@ -960,7 +953,7 @@
                     if (date.toString() == 'NaN') {
                         date = new Date(this.props.date).getTime();
                     }
-                    var src = "<%=relayUrl %>/content/girlscouts-vtk/en/vtk.details.html?elem=" + date;
+                    var src = "/content/girlscouts-vtk/en/vtk.details.html?elem=" + date;
                     return (
 
                         //React.createElement("a", {href: src}, this.props.name +":Outdoor available? "+this.props.isOutdoorAvailable+" Outdoor selected? : "+ this.props.isOutdoor)
@@ -1079,7 +1072,7 @@
         </script>
     </div>
     <%
-        if (!isParent || isAdmin) {
+        if ((!isParent && !isFinanceAdmin) || user.isAdmin()) {
     %>
     <div style="text-align: center;">
         <button class="btn button btn-line" onclick="doMeetingLib(true)"><i class="icon-search-magnifying-glass"></i>

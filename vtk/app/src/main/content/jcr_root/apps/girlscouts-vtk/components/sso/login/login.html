@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html data-sly-use.ssoUtil="org.girlscouts.vtk.sling.model.VTKSSOUtil">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
+        <sly data-sly-call="${clientlib.all @ categories='apps.girlscouts-vtk.components.sso.login'}"/>
+    </sly>
+    ${ssoUtil.apiScript @context = 'unsafe'}
+    <title>Volunteer Toolkit Login Page</title>
+</head>
+<body>
+<div class="header">
+    <div>
+        <img class="gsusa-logo" src="https://www.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png" alt="Logo" id="logoImg"/>
+    </div>
+</div>
+<div class="content">
+    <form id="login-form" class="needs-validation" novalidate data-sly-attribute.data-sp-name="${ssoUtil.sPName}">
+        <div class="welcome-message">Welcome to the Member Community</div>
+        <div class="form-title">Log in</div>
+        <div class="username">
+            <label class="field-label">Username</label>
+            <input id="loginID" class="textfield form-control" name="username" type="text" placeholder="Username" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$" required/>
+            <div class="invalid-feedback">
+                Please provide a valid email address.
+            </div>
+        </div>
+        <div class="password">
+            <label class="field-label">Password</label>
+            <input class="textfield form-control" id="password" name="password" type="password" placeholder="Password" required/>
+            <div class='toggle-password-icon'><i class="far fa-eye" id="password-eye"></i></div>
+            <div class="invalid-feedback">
+                Please provide a valid password.
+            </div>
+        </div>
+        <div class="remember-me">
+            <input id="remember-me" type="checkbox" name="remember-me">
+            <label>Remember me</label>
+        </div>
+        <div class="forgot-password">
+            <a href="#" data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password ?</a>
+        </div>
+        <div class="log-in">
+            <button id="log-in-btn" type="submit">Log In</button>
+        </div>
+        ${ssoUtil.logInScript @context = 'unsafe'}
+        <div id="error">
+        </div>
+    </form>
+</div>
+<div class="footer">
+    <span>© 2020 Girl Scouts of the United States of America. A 501(c)(3) Organization. All rights reserved.</span>
+    <a href="https://www.girlscouts.org/en/help/help/privacy-policy.html">Privacy Policy</a>
+    <a href="https://www.girlscouts.org/en/help/help/terms-and-conditions.html">Terms and Conditions</a>
+</div>
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form class="needs-validation" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalTitle">Forgot Password?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Enter your email address to send a reset link to your email.</p>
+                    <label class="field-label">Email address</label>
+                    <input id="forgot-password-email" class="textfield form-control" name="username" type="text" placeholder="Email Address *" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,5}$" required/>
+                    <div class="invalid-feedback">
+                        Please provide a valid email address.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="forgot-password-btn" type="button" class="btn btn-primary send-link" type="submit">Send Link</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

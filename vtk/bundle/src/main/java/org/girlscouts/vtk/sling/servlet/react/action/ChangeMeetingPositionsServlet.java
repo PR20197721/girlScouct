@@ -2,7 +2,6 @@ package org.girlscouts.vtk.sling.servlet.react.action;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.HttpConstants;
@@ -63,10 +62,10 @@ public class ChangeMeetingPositionsServlet extends SlingAllMethodsServlet implem
                 order = order.replaceAll(",,", ",");
             }
             StringTokenizer t = new StringTokenizer(order, ",");
-            User user = ((User) request.getSession().getAttribute(User.class.getName()));
+            User user = VtkUtil.getUser(request.getSession());
             boolean isViewingArchived = !user.getCurrentYear().equals(String.valueOf(vtkUtil.getCurrentGSYear()));
             if(!isViewingArchived){
-                Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
+                Troop troop = VtkUtil.getTroop(request.getSession());
                 if (troop != null) {
                     if (troop.getYearPlan().getMeetingEvents().size() != t.countTokens()) {
                         String tmp = order;

@@ -11,6 +11,7 @@ public class Contact extends JcrNode implements java.io.Serializable, Comparable
     private boolean renewalDue, emailOptIn, txtOptIn;
     private Integer membershipYear_girl, membershipYear_adult;
     private Integer membershipYear;
+    private PrimaryGuardian primaryGuardian;
 
     public static long getSerialversionuid() {
         return serialVersionUID;
@@ -208,6 +209,14 @@ public class Contact extends JcrNode implements java.io.Serializable, Comparable
         this.renewalDue = renewalDue;
     }
 
+    public PrimaryGuardian getPrimaryGuardian() {
+        return primaryGuardian;
+    }
+
+    public void setPrimaryGuardian(PrimaryGuardian primaryGuardian) {
+        this.primaryGuardian = primaryGuardian;
+    }
+
     public int compareTo(Contact other) {
         if (this.getId() == null && (other == null || other.getId() == null)) {
             return 0;
@@ -221,6 +230,6 @@ public class Contact extends JcrNode implements java.io.Serializable, Comparable
 
     @Override
     public String toString() {
-        return "Contact{" + "age=" + age + ", type=" + type + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", address='" + address + '\'' + ", address1='" + address1 + '\'' + ", city='" + city + '\'' + ", state='" + state + '\'' + ", zip='" + zip + '\'' + ", suite='" + suite + '\'' + ", role='" + role + '\'' + ", dob='" + dob + '\'' + ", country='" + country + '\'' + ", contactId='" + contactId + '\'' + ", contacts=" + contacts + ", accountId='" + accountId + '\'' + ", renewalDue=" + renewalDue + ", emailOptIn=" + emailOptIn + ", txtOptIn=" + txtOptIn + ", membershipYear_girl=" + membershipYear_girl + ", membershipYear_adult=" + membershipYear_adult + ", membershipYear=" + membershipYear + '}';
+        return "Contact{" + "age=" + age + ", type=" + type + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", address='" + address + '\'' + ", address1='" + address1 + '\'' + ", city='" + city + '\'' + ", state='" + state + '\'' + ", zip='" + zip + '\'' + ", suite='" + suite + '\'' + ", role='" + role + '\'' + ", dob='" + dob + '\'' + ", country='" + country + '\'' + ", contactId='" + contactId + '\'' + ", contacts=" + contacts + ", accountId='" + accountId + '\'' + ", renewalDue=" + renewalDue + ", emailOptIn=" + emailOptIn + ", txtOptIn=" + txtOptIn + ", membershipYear_girl=" + membershipYear_girl + ", membershipYear_adult=" + membershipYear_adult + ", membershipYear=" + membershipYear + ", primaryGuardian=" + primaryGuardian + '}';
     }
 }

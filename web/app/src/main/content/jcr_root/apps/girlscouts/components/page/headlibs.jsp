@@ -1,5 +1,5 @@
 <%@ page session="false" %>
-<%@page import="com.day.cq.wcm.api.WCMMode, org.girlscouts.web.osgi.component.*"%>
+<%@page import="com.day.cq.wcm.api.WCMMode, org.girlscouts.web.osgi.component.*, org.girlscouts.common.osgi.component.GirlscoutsVtkConfigProvider"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/headlibs.jsp -->
@@ -34,18 +34,19 @@ if (newCurrentDesign != null) {
 <%
     GirlscoutsVtkConfigProvider configManager = sling.getService(GirlscoutsVtkConfigProvider.class);
 
-	String helloUrl = configManager.getConfig("helloUrl");
-	String callbackUrl = configManager.getConfig("callbackUrl");
+	String helloUrl = configManager.getHelloUrl();
+	String loginUrl = configManager.getLoginUrl();
+    String logoutUrl = configManager.getLogoutUrl();
 	String refererCouncil = null;
 	try {
 		String councilRoot = currentPage.getAbsoluteParent(1).getPath(); // /content/gsnetx
 		refererCouncil = councilRoot.split("/")[2];  // gsnetx
 	} catch (Exception e) {} // Not in a normal council
-	String signInUrl = callbackUrl + "?action=signin";
+	String signInUrl =loginUrl;
 	if (refererCouncil != null) {
-	    signInUrl = signInUrl + "&refererCouncil=" + refererCouncil;
+	    signInUrl = signInUrl + "?refererCouncil=" + refererCouncil;
 	}
-	String signOutUrl = callbackUrl + "?action=signout";
+	String signOutUrl = logoutUrl;
 	String siteRoot = currentPage.getAbsoluteParent(2).getPath();
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
 	
