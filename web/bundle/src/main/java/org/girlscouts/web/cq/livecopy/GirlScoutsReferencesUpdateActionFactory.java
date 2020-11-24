@@ -62,7 +62,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
         public void execute(Resource source, Resource target,
                 LiveRelationship relation, boolean autosave, boolean isResetRollout)
 				throws WCMException {
-            log.debug("Processing source:"+source.getPath()+", target:"+target.getPath());
+            //log.debug("Processing source:"+source.getPath()+", target:"+target.getPath());
         	String checkBlockReferenceUpdate= rolloutTemplatePageService.blockReferenceUpdateAction.get();//GSWP-2235 checks if update reference action was initiated from rollout workflow
         	log.info("checking if update reference action is initiated from rollout workflow, checkBlockReferenceUpdate="+checkBlockReferenceUpdate);
         	if(checkBlockReferenceUpdate != null) {
