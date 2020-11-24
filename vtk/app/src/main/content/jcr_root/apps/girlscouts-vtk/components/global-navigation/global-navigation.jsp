@@ -1,5 +1,5 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode,
-                 org.girlscouts.web.osgi.component.*,
+                 org.girlscouts.common.osgi.component.*,
                  java.util.HashMap,
                  com.google.gson.Gson,
                  java.text.SimpleDateFormat,
@@ -146,13 +146,8 @@
         </a>
         <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
             <li><a href="<%= generateLink(resourceResolver, currentPage.getAbsoluteParent(1).getPath() + "/en")%>">Home</a></li>
-            <%if (configManager.getConfig("isDemoSite") != null && configManager.getConfig("isDemoSite").equals("true")) { %>
-            <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)" disabled="true">Member Profile</a></li>
-            <li><a href="<%= generateLink(resourceResolver, "/content/girlscouts-demo/en")%>>Demo</a></li>
-            <%} else { %>
-            <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
+            <li><a href="<%= configManager.getRenewUrl()%>">Member Profile</a></li>
             <li><a href="<%= path %>">Volunteer Toolkit</a></li>
-            <%} %>
         </ul>
     </li>
     <%

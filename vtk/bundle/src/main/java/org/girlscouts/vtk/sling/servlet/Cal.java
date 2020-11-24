@@ -7,6 +7,7 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.component.util.YearPlanUtil;
 
 import javax.servlet.ServletOutputStream;
@@ -23,8 +24,8 @@ public class Cal extends SlingSafeMethodsServlet {
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
-        User user = ((org.girlscouts.vtk.models.User) request.getSession().getAttribute(org.girlscouts.vtk.models.User.class.getName()));
-        Troop troop = (Troop) request.getSession().getAttribute("VTK_troop");
+        User user = VtkUtil.getUser(request.getSession());
+        Troop troop = VtkUtil.getTroop(request.getSession());
         response.setHeader("Content-Disposition", "attachment;filename=\"" + troop.getYearPlan().getName() + ".ics\"");
         response.setContentType("text/calendar");
         try {

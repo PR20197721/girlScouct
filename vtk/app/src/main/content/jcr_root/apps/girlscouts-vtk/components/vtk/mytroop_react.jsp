@@ -1,123 +1,119 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect.BiMap" %>
 <%@ page
-        import="com.google.common.collect.HashBiMap, org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService" %>
+        import="com.google.common.collect.HashBiMap, org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.osgi.service.MulesoftService" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery-te-1.4.0.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <%
     Logger mytroopreactlogger = LoggerFactory.getLogger(this.getClass().getName());
-    java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
-	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
-    boolean isSUM = (selectedTroop.getCouncilCode() != null && "SUM".equals(selectedTroop.getCouncilCode())) ? true :false;
-	if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
-		contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
-	}
-	if( contacts==null ){
-		contacts = sling.getService(GirlScoutsSalesForceService.class).getContactsForTroop(user.getApiConfig(), selectedTroop);
-		if( contacts!=null ) {
-			session.setAttribute("vtk_cachable_contacts" , contacts);
-		}
-		String emailTo=",";
-		try{
-			for(int i=0;i<contacts.size();i++)
-			if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains( contacts.get(i).getEmail().trim()+"," )) {
-				emailTo += (contacts.get(i).getFirstName()!=null ? contacts.get(i).getFirstName().replace(" ","%20") : "") + java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">")+",";
-			}
-			emailTo = emailTo.trim();
-			if( emailTo.endsWith(",") )  {
-				emailTo= emailTo.substring(0, emailTo.length()-1);
-			}
-			if( emailTo.startsWith(",") ) {
-				emailTo= emailTo.substring(1, emailTo.length());
-			}
-		}catch(Exception e){e.printStackTrace();}
-		
-		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
-		try{
-			 //GOOD-sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
-			sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, false);
-		}catch(Exception e){e.printStackTrace();}
-
-		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
-		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
-		contactsExtras = contactUtil.getContactsExtras( user,  selectedTroop, contacts);
-	%>
-	<div class="email">
-	    <div class="email-content">
-            <div class="email-modal-header">
-       		    <div class="vtk-email-news-button" onclick="cancelEmail()">
-                    <span id="email-close-button">X</span>
-                </div>
-                 <h3 class="emailHeader">Troop Email Content <br/></h3>
-      	    </div>
-            <div class="email-modal-body">
-                <h6 class="emailInput"> Email To: </h6>
-                <ul class="small-block-grid-3">
-                    <li style="width:100%; padding: 0px;">
-                        <input type="checkbox" id="email_troop" checked/>
-                        <label for="email_troop"><p>Troop</p></label>
-                    </li>
-                    <li style="width:100%; padding: 0px; margin-left: 7px;">
-                        <label for="email_more">Enter additional emails:</label>
-                        <input type="email" id="email_more" placeholder="Enter email addresses separated by semicolons"/>
-                    </li>
-                </ul>
-                <h6 class="emailInput"> Subject: </h6>
-                <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
-                <h6 style="margin-top:10px;" class="emailInput"> Body and attachments <span id="limit">(25MB limit): </span></h6>
-                <textarea name="message" class="jqte-test" id="message" rows="10" cols="30"></textarea>
-            </div>
-            <form id='file-catcher'>
-                <input id='file-input' type='file' multiple onchange="updateFiles()"/>
-                <div id="email-buttons">
-                    <div id="cancelEmail" onclick="cancelEmail()" class="button tiny add-to-year-plan">Cancel</div>
-                    <div id="clearEmail" onclick="clearEmail()" class="button tiny add-to-year-plan">Clear Attachments</div>
-                    <div id="sendEmail" class="button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
-                </div>
-            </form>
-            <div id='file-list-display'></div>
-            <div class="email-modal-footer"></div>
-        </div>
-    </div>
-    <%if(isSUM){%>
-        <div class="column small-24 large-centered large-20">
-            <div class="demo-info-message">
-                <p>This feature is to help you with training and support. The information below is not real and for demo purposes only.</p>
-            </div>
-        </div>
-    <%}%>
-    <%if(selectedTroop.getIsLoadedManualy()){%>
-    <div class="column small-24 large-centered large-20">
-        <div class="demo-info-message">
-            <p>The following roster includes your registered members for the 2021 membership year. Attendance and achievements will not be available until July 21.</p>
-        </div>
-    </div>
-    <%}%>
-    <%@include file='myTroopImg.jsp' %>
-    <% if (!VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)) {
+    java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = null;
+    java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
+    contacts = sling.getService(MulesoftService.class).getContactsForTroop(selectedTroop, user);
+    if (contacts != null) {
+        session.setAttribute("vtk_cachable_contacts", contacts);
+    }
+    String emailTo = ",";
+    try {
         for (int i = 0; i < contacts.size(); i++) {
-            org.girlscouts.vtk.models.Contact contact = contacts.get(i);
-            // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
-            java.util.List<ContactExtras> infos = contactsExtras.get(contact);
-            if (user.getContactId().equals(contact.getContactId())) {
-                %>
-                <div class="column large-24 large-centered mytroop">
-                    <dl class="accordion" data-accordion>
-                        <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %>
-                        </h3></dt>
-                        <dd class="accordion-navigation">
-                            <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
-                                <%try{%>
+            if (contacts.get(i).getEmail() != null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains(contacts.get(i).getEmail().trim() + ",")) {
+                emailTo += (contacts.get(i).getFirstName() != null ? contacts.get(i).getFirstName().replace(" ", "%20") : "") + java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() + ">") + ",";
+            }
+        }
+        emailTo = emailTo.trim();
+        if (emailTo.endsWith(",")) {
+            emailTo = emailTo.substring(0, emailTo.length() - 1);
+        }
+        if (emailTo.startsWith(",")) {
+            emailTo = emailTo.substring(1, emailTo.length());
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    java.util.Map<java.util.Date, YearPlanComponent> sched = null;
+    try {
+        //GOOD-sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
+        sched = meetingUtil.getYearPlanSched(user, selectedTroop, selectedTroop.getYearPlan(), true, false);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
+    com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
+    contactsExtras = contactUtil.getContactsExtras(user, selectedTroop, contacts);
+%>
+<div class="email">
+    <div class="email-content">
+        <div class="email-modal-header">
+            <div class="vtk-email-news-button" onclick="cancelEmail()">
+                <span id="email-close-button">X</span>
+            </div>
+            <h3 class="emailHeader">Troop Email Content <br/></h3>
+        </div>
+        <div class="email-modal-body">
+            <h6 class="emailInput"> Email To: </h6>
+            <ul class="small-block-grid-3">
+                <li style="width:100%; padding: 0px;">
+                    <input type="checkbox" id="email_troop" checked/>
+                    <label for="email_troop"><p>Troop</p></label>
+                </li>
+                <li style="width:100%; padding: 0px; margin-left: 7px;">
+                    <label for="email_more">Enter additional emails:</label>
+                    <input type="email" id="email_more" placeholder="Enter email addresses separated by semicolons"/>
+                </li>
+            </ul>
+            <h6 class="emailInput"> Subject: </h6>
+            <textarea name="subject" id="subject" rows="1" cols="30"></textarea>
+            <h6 style="margin-top:10px;" class="emailInput"> Body and attachments <span id="limit">(25MB limit): </span>
+            </h6>
+            <textarea name="message" class="jqte-test" id="message" rows="10" cols="30"></textarea>
+        </div>
+        <form id='file-catcher'>
+            <input id='file-input' type='file' multiple onchange="updateFiles()"/>
+            <div id="email-buttons">
+                <div id="cancelEmail" onclick="cancelEmail()" class="button tiny add-to-year-plan">Cancel</div>
+                <div id="clearEmail" onclick="clearEmail()" class="button tiny add-to-year-plan">Clear Attachments</div>
+                <div id="sendEmail" class="button tiny add-to-year-plan" emails="<%= emailTo%>">Send Emails</div>
+            </div>
+        </form>
+        <div id='file-list-display'></div>
+        <div class="email-modal-footer"></div>
+    </div>
+</div>
+<%if (selectedTroop.getIsSUM()) {%>
+<div class="column small-24 large-centered large-20">
+    <div class="demo-info-message">
+        <p>This feature is to help you with training and support. The information below is not real and for demo purposes only.</p>
+    </div>
+</div>
+<%}%>
+<%@include file='myTroopImg.jsp' %>
+<% if (!VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)) {
+    for (int i = 0; i < contacts.size(); i++) {
+        org.girlscouts.vtk.models.Contact contact = contacts.get(i);
+        // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, selectedTroop, contact);
+        java.util.List<ContactExtras> infos = contactsExtras.get(contact);
+        if (VtkUtil.isUserCaregiverForContact(user, contact) && "Girl".equals(contact.getRole())) {
+            %>
+            <div class="column large-24 large-centered mytroop">
+                <dl class="accordion" data-accordion>
+                    <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %>
+                    </h3></dt>
+                    <dd class="accordion-navigation">
+                        <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
+                            <%
+                                try {
+                                    %>
                                     <%@include file='include/troop_child_achievmts.jsp' %>
-                                <%}catch(Exception e){
-                                    mytroopreactlogger.error("Error occured:",e);
-                                }%>
-                            </div>
-                        </dd>
-                    </dl>
-                </div>
-                <%
+                                    <%
+                                } catch (Exception e) {
+                                    mytroopreactlogger.error("Error occured:", e);
+                                }
+                            %>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <%
             }
         }//edn for
     }//edn if
@@ -174,9 +170,11 @@
                     </dd>
                 </dl>
             </div>
-    <%  }
-    }%>
-<%}//edn if contact %>
+        </dd>
+    </dl>
+</div>
+<% }
+}%>
 <script>
     var fileInput = document.getElementById('file-input');
     var fileListDisplay = document.getElementById('file-list-display');

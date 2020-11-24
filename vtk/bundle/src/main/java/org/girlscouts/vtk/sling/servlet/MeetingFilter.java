@@ -13,6 +13,7 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.girlscouts.vtk.osgi.component.util.YearPlanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,8 +59,8 @@ public class MeetingFilter extends SlingAllMethodsServlet {
                     }
                 } else {
                     List<Meeting> meetings = new ArrayList<>();
-                    User user = (User) session.getAttribute(User.class.getName());
-                    Troop troop = (Troop) session.getAttribute("VTK_troop");
+                    User user = VtkUtil.getUser(session);
+                    Troop troop = VtkUtil.getTroop(session);
                     try {
                         meetings = yearPlanUtil.getAllActiveMeetings(user, troop);
                     } catch (Exception e) {

@@ -4,6 +4,7 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,7 @@ public class BuildInfoServlet extends SlingSafeMethodsServlet {
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession(false);
         try {
-            if (session == null || session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) == null) {
+            if (session == null || VtkUtil.getUser(session) == null) {
                 response.getWriter().write("forbidden");
                 response.setStatus(401);
                 return;

@@ -1,12 +1,9 @@
 package org.girlscouts.vtk.models;
 
-import org.girlscouts.vtk.auth.models.ApiConfig;
-
 import java.io.Serializable;
 import java.util.List;
 
 public class User implements Serializable {
-    private ApiConfig apiConfig;
     private String sid;
     private String currentYear;
     private int currentFinanceYear;
@@ -27,14 +24,6 @@ public class User implements Serializable {
     private boolean isServiceUnitManager;
     private String adminCouncilId;
     private List<Troop> troops;
-
-    public ApiConfig getApiConfig() {
-        return apiConfig;
-    }
-
-    public void setApiConfig(ApiConfig apiConfig) {
-        this.apiConfig = apiConfig;
-    }
 
     public String getSid() {
         return sid;
@@ -194,5 +183,11 @@ public class User implements Serializable {
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+    }
+
+
+    @Override
+    public String toString() {
+        return "User{" + "sid='" + sid + '\'' + ", currentYear='" + currentYear + '\'' + ", currentFinanceYear=" + currentFinanceYear + ", gSFinanceCutOffDate=" + gSFinanceCutOffDate + ", name='" + name + '\'' + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", assistantPhone='" + assistantPhone + '\'' + ", homePhone='" + homePhone + '\'' + ", contactId='" + contactId + '\'' + ", sfUserId='" + sfUserId + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", timezone='" + timezone + '\'' + ", isActive=" + isActive + ", isAdmin=" + isAdmin + ", isServiceUnitManager=" + isServiceUnitManager +  ", adminCouncilId='" + adminCouncilId + '\'' + ", troops=" + troops + '}';
     }
 }

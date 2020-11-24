@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.girlscouts.aem</groupId>
         <artifactId>vtk</artifactId>
-        <version>4.0.39-SNAPSHOT</version>
+        <version>4.0.43-SNAPSHOT</version>
     </parent>
     <!-- ====================================================================== -->
     <!-- P R O J E C T D E S C R I P T I O N -->
@@ -198,40 +198,74 @@
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.6</version>
                 <executions>
-                    <execution>
-                        <id>install-node-and-npm</id>
-                        <goals><goal>install-node-and-npm</goal></goals>
-                        <phase>generate-resources</phase>
-                    </execution>
-                    <execution>
-                        <id>npm-install-vtk-yp</id>
-                        <goals><goal>npm</goal></goals>
-                        <configuration>
-                            <arguments>-prefix src/main/typescript/vtk-yp/ install</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>webpack-build-vtk-yp</id>
-                        <goals><goal>npm</goal></goals>
-                        <configuration>
-                            <arguments>-prefix src/main/typescript/vtk-yp/ run build</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm-install-vtk-mtg-plan</id>
-                        <goals><goal>npm</goal></goals>
-                        <configuration>
-                            <arguments>-prefix src/main/typescript/vtk-mtg-plan/ install</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>webpack-build-vtk-mtg-plan</id>
-                        <goals><goal>npm</goal></goals>
-                        <configuration>
-                            <arguments>-prefix src/main/typescript/vtk-mtg-plan/ run build</arguments>
-                        </configuration>
-                    </execution>
-                </executions>
+					<execution>
+						<id>install-node-and-npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<installDirectory>src\main\typescript\vtk-yp\</installDirectory>
+							<workingDirectory>src\main\typescript\vtk-yp\</workingDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm-install-vtk-yp</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+							<installDirectory>src\main\typescript\vtk-yp\</installDirectory>
+							<workingDirectory>src\main\typescript\vtk-yp\</workingDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>webpack-build-vtk-yp</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+							<installDirectory>src\main\typescript\vtk-yp\</installDirectory>
+							<workingDirectory>src\main\typescript\vtk-yp\</workingDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-node-and-npm-2</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<installDirectory>src\main\typescript\vtk-mtg-plan\</installDirectory>
+							<workingDirectory>src\main\typescript\vtk-mtg-plan\</workingDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm-install-vtk-mtg-plan</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+							<installDirectory>src\main\typescript\vtk-mtg-plan\</installDirectory>
+							<workingDirectory>src\main\typescript\vtk-mtg-plan\</workingDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>webpack-build-vtk-mtg-plan</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+							<installDirectory>src\main\typescript\vtk-mtg-plan\</installDirectory>
+							<workingDirectory>src\main\typescript\vtk-mtg-plan\</workingDirectory>
+						</configuration>
+
+					</execution>
+				</executions>
                 <configuration>
                     <nodeVersion>v11.9.0</nodeVersion>
                     <npmVersion>6.5.0</npmVersion>

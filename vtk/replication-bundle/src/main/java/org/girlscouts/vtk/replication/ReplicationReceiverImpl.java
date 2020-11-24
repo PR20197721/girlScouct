@@ -151,7 +151,7 @@ public class ReplicationReceiverImpl
       log.debug("Affected Troop found: " + affectedTroop);
     }
     if (affectedTroop != null) {
-      String troopPath = troopHashGenerator.getPath(affectedTroop);
+      String troopPath = troopHashGenerator.getCachePath(affectedTroop);
       log.debug("Invalidate troop: " + troopPath);
       invalidator.addPath(troopPath);
     }

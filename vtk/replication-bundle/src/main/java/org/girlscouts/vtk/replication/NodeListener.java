@@ -52,7 +52,6 @@ public class NodeListener implements EventListener {
         troopPattern = Pattern.compile(yearPlanBase + "[0-9]+/troops/([^/]+)");
         councilInfoPattern = Pattern.compile(yearPlanBase + "[0-9]+/councilInfo/.*");
     }
-
     public void onEvent(EventIterator iter) {
         log.debug("VTK Event");
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
@@ -102,7 +101,7 @@ public class NodeListener implements EventListener {
         }
         // Found affected troop. Invalidate VTK data cache on dispatcher.
         if (affectedTroop != null) {
-            String troopPath = troopHashGenerator.getPath(affectedTroop);
+            String troopPath = troopHashGenerator.getCachePath(affectedTroop);
             cacheInvalidator.addPath(troopPath, true);
         }
         // Now troops are not separated by councils when caching:

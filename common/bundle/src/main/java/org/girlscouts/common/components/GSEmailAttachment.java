@@ -110,6 +110,7 @@ public class GSEmailAttachment {
         TEXT_HTML("text/html", "html"),
         VIDEO_MP4("video/mp4", ".mp4"),
         APPLICATION_PDF("application/pdf", "pdf"),
+        APPLICATION_JSON("application/json", "json"),
         APPLICATION_DOC("application/msword", "doc"),
         APPLICATION_DOCX("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "docx"),
         APPLICATION_PPT("application/vnd.ms-powerpoint", "ppt"),

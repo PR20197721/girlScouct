@@ -1,7 +1,7 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode,org.girlscouts.web.osgi.component.*,
 				java.util.HashMap,
 				com.google.gson.Gson,
-                java.text.SimpleDateFormat,java.util.*" %>
+                java.text.SimpleDateFormat,java.util.*, org.girlscouts.common.osgi.component.GirlscoutsVtkConfigProvider" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
@@ -144,14 +144,9 @@ if ((links == null || links.length == 0)) {
                     <a data-dropdown="drop1" aria-controls="drop1" class="<%= clazz %> show-for-medium-only menuHighlight" aria-expanded="false"><%= mLabel %></a>
                     <a data-dropdown="drop1" aria-controls="drop1" class="<%= clazz %> show-for-small-only menuHighlight" aria-expanded="false"><%= sLabel %></a>
                     <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
-                      <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
-                       <%if( configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")){ %>
-                         <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)" disabled="true">Member Profile</a></li>
-                         <li><a href="/content/girlscouts-demo/en.html">Demo</a></li>                         
-                      <%}else{ %>
-                         <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
-                         <li><a href="<%= path %>">Volunteer Toolkit</a></li>
-                      <%} %>
+                        <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
+                     <li><a href="<%= configManager.getRenewUrl()%>">Member Profile</a></li>
+                     <li><a href="<%= path %>">Volunteer Toolkit</a></li>
                     </ul>
                 </li>
             <%

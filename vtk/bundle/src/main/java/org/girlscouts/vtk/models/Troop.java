@@ -1,6 +1,7 @@
 package org.girlscouts.vtk.models;
 
 import org.girlscouts.vtk.utils.MeetingESortOrderComparator;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,9 @@ public class Troop extends JcrNode {
     private Boolean isSUM = Boolean.FALSE;
     private Map<Date, YearPlanComponent> schedule;
     private Boolean isLoadedManualy = Boolean.FALSE;
+    private Boolean isTransient = Boolean.FALSE;
+    private DateTime startDate;
+    private DateTime endDate;
 
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -273,12 +277,28 @@ public class Troop extends JcrNode {
         this.sfParentId = sfParentId;
     }
 
-    public Boolean getIsLoadedManualy() {
-        return isLoadedManualy;
+    public DateTime getStartDate() {
+        return startDate;
     }
 
-    public void setIsLoadedManualy(Boolean loadedManualy) {
-        this.isLoadedManualy = loadedManualy;
+    public void setStartDate(DateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public DateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(DateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public Boolean getIsTransient() {
+        return isTransient;
+    }
+
+    public void setIsTransient(Boolean aTransient) {
+        isTransient = aTransient;
     }
 
     public void clearSchedule(){

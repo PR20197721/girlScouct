@@ -1,9 +1,5 @@
-<%@ page import="java.util.*,
-        org.girlscouts.vtk.auth.models.ApiConfig,
-        org.girlscouts.vtk.models.*,
-        org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,
-        org.slf4j.Logger,
-        org.slf4j.LoggerFactory" %>
+<%@ page import="org.girlscouts.vtk.osgi.service.MulesoftService,
+        java.util.StringTokenizer" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../../include/session.jsp"%>
@@ -12,13 +8,9 @@
     String troopId= request.getParameter("tid");
     String councilCode = request.getParameter("cid");
     String currentYear = user.getCurrentYear();
-
     String troopPath = "/vtk" + currentYear + "/" + councilCode + "/troops/" + troopId;
-
-    User impersonateRoot =(User) VtkUtil.deepClone(user);
-    Troop _troop = troopUtil.getTroopByPath(impersonateRoot, troopPath);
-    java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,selectedTroop,
-            _troop.getYearPlan(), true, true);
+    Troop _troop = troopUtil.getTroopByPath(user, troopPath);
+    java.util.Map<java.util.Date, YearPlanComponent> sched = _troop.getSchedule();
     Set distinctGirl = new HashSet();
     int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
 %>
@@ -32,7 +24,7 @@
     <div class="content">
         <h4 id="troopName">
             <%
-                java.util.List<Contact> leaders = sling.getService(GirlScoutsSalesForceService.class).getTroopLeaderInfoByTroopId(apiConfig, troopId);
+                java.util.List<Contact> leaders = sling.getService(MulesoftService.class).getTroopLeaders(_troop);
                 if( leaders!=null ){
                     for( int i=0;i<leaders.size();i++){
                         Contact leader = leaders.get(i);

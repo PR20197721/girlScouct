@@ -5,6 +5,7 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +30,9 @@ public class HelloServlet extends SlingSafeMethodsServlet {
                 // TODO: Users may be lazy loaded. May refactor later.
                 User user = null;
                 try {
-                    user = (User) session.getAttribute(User.class.getName());
+                    user = VtkUtil.getUser(session);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error occurred:", e);
                 }
                 if (user == null && session.getAttribute("fatalError") == null) {
                     sayPleaseSignIn(out);
@@ -53,7 +54,6 @@ public class HelloServlet extends SlingSafeMethodsServlet {
     }
 
     private void sayHello(PrintWriter out, String name) {
-        out.println("$.cookie('girl-scout-name', '" + name + "', {path: '/'});");
         out.println("girlscouts.components.login.sayHello('signedin', '" + name + "');");
     }
 }

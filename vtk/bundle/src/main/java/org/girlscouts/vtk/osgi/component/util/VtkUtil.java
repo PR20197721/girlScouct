@@ -91,13 +91,9 @@ public class VtkUtil implements ConfigListener {
             try {
                 String preParsedCost = ((String) o).replaceAll(",", "").replaceAll(" ", "");
                 parsedDouble = Double.parseDouble(preParsedCost);
-            } catch (NumberFormatException npe) {
-                // do nothing -- leave cost at 0.00
-            } catch (ClassCastException cce) {
-                // doo nothing -- leave cost at 0.00
             } catch (Exception e) {
                 // print error
-                e.printStackTrace();
+                log.error("Error Occurred:",e);
             }
         }
         return parsedDouble;
@@ -251,7 +247,7 @@ public class VtkUtil implements ConfigListener {
         try {
             newYear.setTime(sdf.parse(currentYear + _gsNewYear));
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("Error Occurred:",e);
         }
         
         return now.before(newYear) ? currentYear - 1 : currentYear;
@@ -283,9 +279,8 @@ public class VtkUtil implements ConfigListener {
                     try {
                         councilMap.put(Long.valueOf(FORMAT_YYYYMMdd.parse(configRecord[0]).getTime()), configRecord[1]);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log.error("Error Occurred:",e);
                     }
-                } else {
                 }
             }
         }
@@ -302,6 +297,7 @@ public class VtkUtil implements ConfigListener {
      */
     public static Object deepClone(Object object) {
         try {
+            log.debug("Cloning object {}", object.getClass().getName());
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);
             oos.writeObject(object);
@@ -309,7 +305,7 @@ public class VtkUtil implements ConfigListener {
             ObjectInputStream ois = new ObjectInputStream(bais);
             return ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred:",e);
             return null;
         }
     }
@@ -320,30 +316,26 @@ public class VtkUtil implements ConfigListener {
     }
 
     public static User getUser(HttpSession session) {
-        ApiConfig apiConfig = null;
         try {
             if (session.getAttribute(ApiConfig.class.getName()) != null) {
-                apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
+                ApiConfig apiConfig = ((ApiConfig) session.getAttribute(ApiConfig.class.getName()));
                 return apiConfig.getUser();
             }
-        } catch (ClassCastException cce) {
-            return null;
+        } catch (Exception e) {
+            log.error("Error Occurred:",e);
         }
         return null;
     }
 
     public static Troop getTroop(HttpSession session) {
-        org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
         try {
-            if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
-                apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
-            } else {
-                return null;
+            if (session.getAttribute(ApiConfig.class.getName()) != null) {
+                return (Troop) session.getAttribute("VTK_troop");
             }
-        } catch (ClassCastException cce) {
-            return null;
+        } catch (Exception e) {
+            log.error("Exception occurred: ",e);
         }
-        return (Troop) session.getAttribute("VTK_troop");
+        return null;
     }
 
     public static boolean isValidUrl(User user, Troop troop, String uri, String councilName) {
@@ -360,9 +352,8 @@ public class VtkUtil implements ConfigListener {
             if (cid.trim().toLowerCase().equals(councilName)) {//troop.getSfCouncil().trim().toLowerCase()) ){
                 return true;
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred:",e);
         }
         return false;
     }
@@ -376,7 +367,7 @@ public class VtkUtil implements ConfigListener {
                 try {
                     err = (VtkError) session.getAttribute("fatalError");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("Error Occurred:",e);
                 }
                 if (err != null) {
                     errors.add(err);
@@ -387,7 +378,7 @@ public class VtkUtil implements ConfigListener {
                 errors.addAll(apiConfig.getErrors());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred:",e);
         }
         return errors;
     }
@@ -401,6 +392,7 @@ public class VtkUtil implements ConfigListener {
                 return null;
             }
         } catch (ClassCastException cce) {
+            log.error("Error Occurred:",cce);
             return null;
         }
         return apiConfig;
@@ -422,7 +414,7 @@ public class VtkUtil implements ConfigListener {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred:",e);
         }
     }
 
@@ -644,7 +636,7 @@ public class VtkUtil implements ConfigListener {
         try {
             _html = PDFHtmlFormatter.format(_html);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred:",e);
         }
         try {
             String CSS = "";
@@ -705,7 +697,7 @@ public class VtkUtil implements ConfigListener {
             fmtDate = dateFormat.format(UTC_DATE);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred:",e);
         }
         return fmtDate;
 
@@ -745,7 +737,7 @@ public class VtkUtil implements ConfigListener {
             StringTokenizer td = new StringTokenizer(troop.getYearPlan().getSchedule().getDates(), ",");
             startDate = td.nextToken();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error Occurred:",e);
         }
         return startDate;
     }
@@ -808,5 +800,18 @@ public class VtkUtil implements ConfigListener {
      */
     public int _getCurrentGSYear() {
         return VtkUtil.getCurrentGSDate();
+    }
+
+    public static boolean isUserCaregiverForContact(User user, Contact contact){
+        log.debug("Checking if user "+user+" is caregiver for "+contact);
+        boolean result = false;
+        String userEmail = user.getEmail();
+        String primaryGuardianEmail = (contact.getPrimaryGuardian() != null && contact.getPrimaryGuardian().getEmail() != null) ? contact.getPrimaryGuardian().getEmail() : null;
+        log.debug("user email = "+user.getEmail()+"; contacts primary guardian email="+primaryGuardianEmail);
+        if(userEmail != null && primaryGuardianEmail != null){
+            result =  (userEmail != null && primaryGuardianEmail != null && primaryGuardianEmail.equals(userEmail));
+        }
+        log.debug("isUserCaregiverForContact = "+result);
+        return result;
     }
 }//end class

@@ -1,18 +1,18 @@
 <%@ page
-        import="org.girlscouts.vtk.osgi.component.util.CouncilRpt, org.girlscouts.vtk.models.CouncilRptBean,  org.girlscouts.vtk.models.User,org.girlscouts.vtk.osgi.service.GirlScoutsSalesForceService,java.util.Map, org.apache.commons.lang3.StringUtils" %>
+        import="org.girlscouts.vtk.osgi.component.util.CouncilRpt, org.girlscouts.vtk.models.CouncilRptBean,  org.girlscouts.vtk.models.User,java.util.Map, org.apache.commons.lang3.StringUtils, org.girlscouts.vtk.auth.models.ApiConfig" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <!-- %@include file="include/session.jsp"% -->
 <%
     String activeTab = "reports";
     String sectionClassDefinition = "reports";
-    GirlScoutsSalesForceService gsSalesForceService = sling.getService(GirlScoutsSalesForceService.class);
 %>
 <%@include file="include/bodyTop.jsp" %>
 <div class="column medium-23 medium-centered">
     <%
         HttpSession session = request.getSession();
-        User user = ((org.girlscouts.vtk.models.User) session.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
+        ApiConfig apiConfig = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
+        User user = VtkUtil.getUser(session);
         //security concern.
         String cid = user.getAdminCouncilId();
         if (!(user.isAdmin() && StringUtils.isNotBlank(user.getAdminCouncilId()))) {
@@ -41,7 +41,7 @@
     if (request.getParameter("cid") != null) {
         cid = (String) request.getParameter("cid");
     }
-    java.util.List<CouncilRptBean> container = councilRpt.getRpt(cid, user.getApiConfig());
+    java.util.List<CouncilRptBean> container = councilRpt.getRpt(cid, apiConfig);
     int count = 0;
     for (String ageGroup : ageGroups) {
         java.util.List<CouncilRptBean> councilReportBeans = councilRpt.getCollection_byAgeGroup(container, ageGroup);

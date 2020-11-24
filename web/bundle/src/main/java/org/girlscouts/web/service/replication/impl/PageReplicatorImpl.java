@@ -147,6 +147,23 @@ public class PageReplicatorImpl
 		}
 		log.error("Finished PageReplicatorImpl");
 	}
+    @Override
+    public void processReplicationNode(String dateRolloutNode) {
+        ResourceResolver rr = null;
+        try {
+            rr = resolverFactory.getServiceResourceResolver(serviceParams);
+            processReplicationNode(rr.resolve(dateRolloutNode).adaptTo(Node.class), rr);
+        } catch (Exception e) {
+            log.error("Girlscouts Page Replicator encountered error: ", e);
+        } finally {
+            if(rr != null){
+                try {
+                    rr.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
 
 	@Override
 	public void processReplicationNode(Node dateRolloutNode, ResourceResolver rr) throws RepositoryException {

@@ -1,0 +1,227 @@
+.header {
+  height: 154px;
+  width: 960px;
+  background-color: #00AE58;
+  margin: 0px auto;
+
+  .gsusa-logo {
+    height: 66px;
+    width: 168px;
+    margin: 50px 396px 38px 396px;
+  }
+}
+
+.content {
+  height: 505px;
+  width: 960px;
+  background-color: #FFFFFF;
+  margin: 0px auto;
+
+  .welcome-message {
+    height: 17px;
+    width: 493px;
+    color: #000000;
+    font-family: "Trefoil Sans Web";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 17px;
+    text-align: center;
+    margin: 46px auto 20px auto;
+  }
+
+  .form-title {
+    height: 37px;
+    width: 959px;
+    color: #000000;
+    font-family: "Trefoil Sans Web";
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 37px;
+    text-align: center;
+  }
+
+  .username, .password {
+    width: 275px;
+    margin: 0 auto;
+    label {
+      color: #000000;
+      font-family: "Trefoil Sans Web";
+      font-size: 12px;
+      letter-spacing: 0.1px;
+      line-height: 17px;
+    }
+  }
+
+  input.textfield {
+    height: 30px;
+    width: 270px;
+    border: 1px solid rgba(102, 102, 102, 0.4);
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    font-family: "Trefoil Sans Web";
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    line-height: 14px;
+    display:inline-block;
+    &:focus {
+      color: #000000;
+      border: 1px solid #00AB57;
+    }
+
+    &::placeholder {
+      height: 14px;
+      width: 239px;
+      color: rgba(102, 102, 102, 0.75);
+    }
+
+  }
+
+  .toggle-password-icon {
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: -3px;
+    margin-left: -30px;
+  }
+
+  .remember-me {
+    height: 17px;
+    width: 112px;
+    margin: 30px 24px 30px 345px;
+    float: left;
+
+    label {
+      height: 17px;
+      width: 90px;
+      color: #000000;
+      font-family: "Trefoil Sans Web";
+      font-size: 14px;
+      letter-spacing: 0;
+      line-height: 17px;
+    }
+
+    input {
+      margin: 0px;
+      height: 15px;
+      width: 15px;
+    }
+  }
+
+  .forgot-password {
+    height: 20px;
+    width: 158px;
+    text-align: center;
+    float: right;
+    margin: 30px 321px 30px 0px;
+    a {
+      color: #00AB57;
+      font-family: "Trefoil Sans Web";
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0;
+      line-height: 17px;
+    }
+    #forgotPasswordModal {
+      text-align: left;
+      .modal-title{
+        height: 37px;
+        width: 959px;
+        color: #000000;
+        font-family: "Trefoil Sans Web";
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 37px;
+        text-align: center;
+      }
+      label {
+        color: #000000;
+        font-family: "Trefoil Sans Web";
+        font-size: 12px;
+        letter-spacing: 0.1px;
+        line-height: 17px;
+      }
+      button.send-link {
+        font-family: "Trefoil Sans Web";
+        color: #FFFFFF;
+        font-size: 14px;
+        font-weight: bold;
+        letter-spacing: 0.11px;
+        line-height: 17px;
+        text-align: center;
+        border-radius: 4px;
+        background-color: #00AB57;
+        height: 35px;
+        width: 102px;
+        border-radius: 4px;
+        background-color: #00AB57;
+        margin:0 auto;
+        .disabled {
+          color: #666666;
+          opacity: 0.2;
+          background-color: #666666;
+        }
+      }
+    }
+  }
+
+  .log-in {
+    height: 35px;
+    width: 102px;
+    margin: 0px auto 130px auto;
+    button {
+      font-family: "Trefoil Sans Web";
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 0.11px;
+      line-height: 17px;
+      text-align: center;
+      border-radius: 4px;
+      background-color: #00AB57;
+      height: 35px;
+      width: 102px;
+      border-radius: 4px;
+      background-color: #00AB57;
+      .disabled {
+        color: #666666;
+        opacity: 0.2;
+        background-color: #666666;
+      }
+    }
+  }
+  #error{
+    font-family: "Trefoil Sans Web";
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.11px;
+    line-height: 17px;
+    text-align: center;
+    color:#e76468;
+    height: 56px;
+    width: 275px;
+    margin: 0 auto;
+  }
+  .form-control.is-invalid, .was-validated .form-control:invalid{
+    background-image:none;
+  }
+}
+
+.footer {
+  height: 45px;
+  width: 960px;
+  background-color: #00A850;
+  text-align: center;
+  margin: 0px auto;
+
+  span, a {
+    color: #FFFFFF;
+    font-family: "Trefoil Sans Web";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 17px;
+  }
+}

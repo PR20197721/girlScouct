@@ -15,7 +15,18 @@ if (!String.prototype.endsWith){
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
 }
+function openRegistrationClearCart(registrationUrlsStr){
+    if(registrationUrlsStr && registrationUrlsStr.length()>0){
+        var registrationUrls = registrationUrlsStr.split(',');
+        if(registrationUrls.length > 0){
+            for(i=0; i<registrationUrls.length; i++){
+                window.open(registrationUrls[i]);
+            }
+        }
+    }
 
+    clearCart();
+}
 function clearCart(){
     $.removeCookie("event-cart", { path : '/' } );
 }
@@ -33,16 +44,21 @@ function retrieveEvents(){
     }
     if($eventsCookie.events != undefined && $eventsCookie.events.length > 0){
         var eventIds = "";
+        var eventRegistrationLinks = "";
         var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Activities</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
-        for(var i=0; i < $eventsCookie.events.length; i++){
-            var nameEscaped = $eventsCookie.events[i][1].replace(new RegExp("'", 'g'), "\\'").replace(new RegExp("\"",'g'),"&quot");
-            if(i>0){
+        for(var i=0; i < $eventsCookie.events.length; i++) {
+            var nameEscaped = $eventsCookie.events[i][1].replace(new RegExp("'", 'g'), "\\'").replace(new RegExp("\"", 'g'), "&quot");
+            if (i > 0) {
                 eventIds = eventIds + ",";
+                eventRegistrationLinks += ",";
+            }
+            if ($eventsCookie.events[i].length > 3) {
+                eventRegistrationLinks += $eventsCookie.events[i][3];
             }
             eventIds=eventIds + $eventsCookie.events[i][0];
             navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "', '" + $eventsCookie.events[i][3] + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
         }
-        navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventIds + "\">REGISTER</a></dd></dl></div>";
+        navList = navList + "</ul><a class=\"button register-all\" onclick=\"openRegistrationClearCart('"+eventRegistrationLinks+"')\" href=\"javascript:void(0);\">REGISTER</a></dd></dl></div>";
         $("#appended-event-cart").html(navList);
         console.log("Cart loaded");
     }
@@ -78,7 +94,7 @@ function addToCart(name, eventID, href, register){
         $eventsCookie = JSON.parse($.cookie("event-cart"));
     }else{
         $eventsCookie = { events : [[eventID + "", nameTrimmed, hrefParsed, register]] };
-        console.log("Event added to new cart");
+        console.log("Event added to new cart"+[[eventID + "", nameTrimmed, hrefParsed, register]]);
         $.cookie("event-cart", JSON.stringify($eventsCookie), {expires: 7, path : "/"});
         var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Activities</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
         for(var i=0; i < $eventsCookie.events.length; i++){
@@ -123,8 +139,9 @@ function addToCart(name, eventID, href, register){
 function deleteEvent(eventID, name, register){
     var nameTrimmed = name.trim();
     var $eventsCookie;
+    var eventRegistrationLinks = "";
+    var eventIds = "";
     if($.cookie("event-cart") != undefined){
-        var eventIds = "";
         $eventsCookie = JSON.parse($.cookie("event-cart"));
     }else{
         console.log("Cookie error - delete");
@@ -140,11 +157,15 @@ function deleteEvent(eventID, name, register){
                     var nameEscaped = $eventsCookie.events[i][1].replace(new RegExp("'", 'g'), "\\'").replace(new RegExp("\"",'g'),"&quot");
                     if(i>0){
                         eventIds = eventIds + ",";
+                        eventRegistrationLinks += ",";
+                    }
+                    if ($eventsCookie.events[i].length > 3) {
+                        eventRegistrationLinks += $eventsCookie.events[i][3];
                     }
                     eventIds=eventIds + $eventsCookie.events[i][0];
                     navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "', '" + register + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
                 }
-                navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventIds + "\">REGISTER</a></dd></dl></div>";
+                navList = navList + "</ul><a class=\"button register-all\" onclick=\"openRegistrationClearCart('"+eventRegistrationLinks+"')\" href=\"javascript:void(0);\">REGISTER</a></dd></dl></div>";
                 $("#appended-event-cart").html(navList);
                 vtk_accordion();
                 console.log("Cart loaded");

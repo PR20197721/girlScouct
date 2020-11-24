@@ -11,16 +11,13 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.Troop;
-import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.osgi.component.util.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.jcr.Node;
 import javax.jcr.Session;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -49,7 +46,7 @@ public class ResetYearPlanServlet extends SlingAllMethodsServlet implements Opti
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
         try {
-            Troop selectedTroop = (Troop) session.getAttribute("VTK_troop");
+            Troop selectedTroop = VtkUtil.getTroop(request.getSession());
             log.debug("YEAR PLAN TO DELETE: "+selectedTroop.getPath()+"/yearPlan");
             Map<String,Object> paramMap = new HashMap<String,Object>();
             paramMap.put(ResourceResolverFactory.SUBSERVICE, "vtkService");
