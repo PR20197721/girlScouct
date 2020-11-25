@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.girlscouts.aem</groupId>
         <artifactId>web</artifactId>
-        <version>4.0.42</version>
+        <version>4.0.43-SNAPSHOT</version>
     </parent>
     <!-- ====================================================================== -->
     <!-- P R O J E C T D E S C R I P T I O N -->
