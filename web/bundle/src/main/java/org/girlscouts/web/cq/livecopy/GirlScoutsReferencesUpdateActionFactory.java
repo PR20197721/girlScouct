@@ -8,7 +8,6 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.io.JSONWriter;
-import org.girlscouts.web.cq.workflow.service.RolloutTemplatePageService;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +26,6 @@ import java.util.regex.Pattern;
 public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactory<LiveAction> {
 
 	private static Logger log = LoggerFactory.getLogger(GirlScoutsReferencesUpdateActionFactory.class);
-    
-	@Reference
-	static RolloutTemplatePageService rolloutTemplatePageService;
 	
 	@Activate
 	private void activate(ComponentContext context) {
@@ -63,14 +59,14 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                 LiveRelationship relation, boolean autosave, boolean isResetRollout)
 				throws WCMException {
             //log.debug("Processing source:"+source.getPath()+", target:"+target.getPath());
-        	String checkBlockReferenceUpdate= rolloutTemplatePageService.blockReferenceUpdateAction.get();//GSWP-2235 checks if update reference action was initiated from rollout workflow
+        	/*String checkBlockReferenceUpdate= rolloutTemplatePageService.blockReferenceUpdateAction.get();//GSWP-2235 checks if update reference action was initiated from rollout workflow
         	log.info("checking if update reference action is initiated from rollout workflow, checkBlockReferenceUpdate="+checkBlockReferenceUpdate);
         	if(checkBlockReferenceUpdate != null) {
         		if (checkBlockReferenceUpdate.equalsIgnoreCase("blockInitiatedFromWorkflow")) {
         		 log.info("Reference update action is initiated from rollout workflow, hence Quit");
         		 return;
         		}
-        	}
+        	}*/
         	
             if (source == null) {
                 log.info("Source is null. Quit");
