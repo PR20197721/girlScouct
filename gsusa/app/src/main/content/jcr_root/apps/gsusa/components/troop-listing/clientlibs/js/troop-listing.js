@@ -12,6 +12,8 @@ var anotherTroopHoverButtonColor = $("#troop-listing-config").data("another-troo
 var anotherTroopTextColor = $("#troop-listing-config").data("another-troop-text-color");
 var anotherTroopText = $("#troop-listing-config").data("another-troop-text");
 
+var oneLinkCount = $("#troop-listing-config").data("one-link-count");
+
 //Creating a Global Object to pass on config values.
 var troopListingConfigObj = {};
 troopListingConfigObj["cookieButtonColor"] = cookieButtonColor;
@@ -84,19 +86,6 @@ TroopListing.prototype.getResult = function() {
     f: 'Website' // call is made from website
   };
 
-  var gaparam = getParameterByName('utm_campaign');
-  if (gaparam) {
-    data.GSCampaign = gaparam;
-  }
-  gaparam = getParameterByName('utm_medium');
-  if (gaparam) {
-    data.GSMedium = gaparam;
-  }
-  gaparam = getParameterByName('utm_source');
-  if (gaparam) {
-    data.GSSource = gaparam;
-  }
-
   $.ajax({
     url: this.url,
     dataType: "json",
@@ -149,6 +138,7 @@ TroopListing.prototype.processResult = function(result) {
 
       // Bind click on more, this code is kept here, cause page counter 1 will only come once and this will not get register multiple times.
       $('.troop-listing #more').on('click', function() {
+       $(".troop-listing .row.details").last().css({ 'border-bottom' : 'solid 1px #e1e1e1'});
        troopListing.getResult();
       });
 
@@ -159,9 +149,11 @@ TroopListing.prototype.processResult = function(result) {
     }
 
     applyTroopListingConfigChanges(result);
-
+	applySupportAnotherTroopConfig();
   }
-    formDataReset();
+  //CALL TO HIDE THE BOTTOM BORDER OF THE LAST BUTTON
+  fixLastResultBottomBorder();
+
 }
 
 function getParameterByName(name) {
@@ -171,54 +163,16 @@ function getParameterByName(name) {
   return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-
-//function getUpdatedFilterResult, this gets called when someone change any filter value. initially it was on url, but since there are 2 filters on same page now this was needed to be done.
-function getUpdatedTroopListingFilterResult(event) {
-  var troopListingFilterObj = {};
-  var troopListingZip = $('input[name="troopListingZip"]').val();
-
-  if (event.target.name == "troopListingRadius") {
-    troopListingFilterObj["troopListingRadius"] = event.target.value;
-    troopListingFilterObj["troopListingSortBy"] = $('select[name="troopListingSortBy"]').val();
-    troopListingFilterObj["troopListingSortBy"] = $('select[name="troopListingSortBy"]').val();
-  } else if (event.target.name == "troopListingDate") {
-    troopListingFilterObj["troopListingDate"] = event.target.value;
-    troopListingFilterObj["troopListingRadius"] = $('select[name="troopListingRadius"]').val();
-    troopListingFilterObj["troopListingSortBy"] = $('select[name="troopListingSortBy"]').val();
-  } else if (event.target.name == "troopListingSortBy") {
-    troopListingFilterObj["troopListingSortBy"] = event.target.value;
-    troopListingFilterObj["troopListingRadius"] = $('select[name="troopListingRadius"]').val();
-    troopListingFilterObj["troopListingDate"] = $('select[name="troopListingDate"]').val();
-  }
-  troopListingFilterObj["troopListingZip"] = troopListingZip;
-  sessionStorage.setItem('troopListingFilterObj', JSON.stringify(troopListingFilterObj));
-  window.location.reload();
-}
-
-function formDataReset() {
-  // Reset form values
-  //accessing troopListingFilterObj from session and getting the set filters
-  var troopListingFilterObj = JSON.parse(sessionStorage.troopListingFilterObj);
-  var troopListingRadius = troopListingFilterObj['troopListingRadius'];
-  var troopListingDate = troopListingFilterObj['troopListingDate']
-  var troopListingSortBy = troopListingFilterObj['troopListingSortBy'];
-  if (!troopListingRadius) troopListingRadius = 5000;
-  if (!troopListingDate) troopListingDate = 60;
-  if (!troopListingSortBy) troopListingSortBy = 'distance'
-  $('select[name="troopListingRadius"]').val(troopListingRadius);
-  $('select[name="troopListingDate"]').val(troopListingDate);
-  $('select[name="troopListingSortBy"]').val(troopListingSortBy);
-
-}
-
 function applyTroopListingConfigChanges() {
   //if showOneLink is true then return only the first result set.
   if (troopListingConfigObj["showOneLink"]) {
     // Hide "extra " items from the list
     var troopListingItems = $(".troop-listing .details");
-    for (var i = 1; i < troopListingItems.length; i++) {
+    for (var i = oneLinkCount; i < troopListingItems.length; i++) {
       $(troopListingItems[i]).hide();
     }
+    //remove the bottom border of the last visible stuff on screen.
+    $(troopListingItems[oneLinkCount-1]).css({ 'border-bottom' : '0px'});
   }
 
   // updating text,text color,hover color,color  for troop listing item button, if author has authored it
@@ -244,13 +198,12 @@ function applyTroopListingConfigChanges() {
       $(troopListingItemButton[i]).css("color", troopListingConfigObj["cookieButtonTextColor"]);
     }
   }
-  applySupportAnotherTroopConfig();
 
 }
 
 function applySupportAnotherTroopConfig() {
   //hide of supportAntherTroop section if supportAnotherTroop is not checked
-  if (troopListingConfigObj["supportAnotherTroop"]) {
+  if (troopListingConfigObj["supportAnotherTroop"] && troopListingConfigObj["showOneLink"]) {
     $(".supportAnotherTroopSection").removeClass("hide");
   }
   // updating text,text color,hover color,color  for support another troop button, if author has authored it
@@ -276,12 +229,19 @@ function applySupportAnotherTroopConfig() {
   // Bind click on supportAnotherTroopButton, if clicked we need to hide this button and show the rest of the result, along with load more.
   $('.troop-listing #supportAnotherTroopButton').on('click', function() {
     $(".supportAnotherTroopSection").addClass("hide");
+    $(".troop-listing .row.details")[oneLinkCount-1]
     troopListingConfigObj["showOneLink"] = false;
     troopListingConfigObj["supportAnotherTroop"] = false;
     var troopListingItems = $(".troop-listing .details");
+    $(troopListingItems[oneLinkCount-1]).css({ 'border-bottom' : 'solid 1px #e1e1e1'});
     for (var i = 1; i < troopListingItems.length; i++) {
       $(troopListingItems[i]).show();
     }
+    fixLastResultBottomBorder();
     $(".troop-listing .show-more").removeClass("hide");
   });
+}
+
+function fixLastResultBottomBorder(){
+	$(".troop-listing .row.details").last().css({ 'border-bottom' : '0px'});
 }

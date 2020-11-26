@@ -24,9 +24,6 @@ if(onTimeTimestamp<=currentDateTimestamp  && currentDateTimestamp<=offTimeTimest
 %>
 
 <div id="troop-listing-result" class="troop-listing cq-placeholder" data-empty-text="Troop Finder" style="min-height: 100px">
-	<% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
-	<span>Troop Listing</span>
-	<% } %>
 </div>
 
 <span id="troop-listing-config" data-troop-listing="yes" data-show-one-link="<%= properties.get("showOneLink")%>"
@@ -34,7 +31,7 @@ data-support-another-troop="<%= properties.get("supportAnotherTroop")%>" data-ge
 data-hover-button-color="<%= properties.get("hoverButtonColor")%>" data-text-color="<%= properties.get("textColor")%>"
 data-text="<%= properties.get("text")%>" data-another-troop-button-color="<%= properties.get("anotherTroopButtonColor")%>"
 data-another-troop-hover-button-color="<%= properties.get("anotherTroopHoverButtonColor")%>" data-another-troop-text-color="<%= properties.get("anotherTroopTextColor")%>"
-data-another-troop-text="<%= properties.get("anotherTroopText")%>"> </span>
+data-another-troop-text="<%= properties.get("anotherTroopText")%>" data-one-link-count="<%= properties.get("oneLinkCount")%>"> </span>
 
 <div id="troop-listing-details" data-num-per-page="<%= properties.get("numPerPage", 25)%>" data-res-path="<%= resource.getPath() %>"></div>
 

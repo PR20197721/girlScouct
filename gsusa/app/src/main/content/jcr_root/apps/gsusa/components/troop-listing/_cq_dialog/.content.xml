@@ -219,10 +219,10 @@
                             <num-per-page
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                defaultValue="{Long}10"
+                                defaultValue="{Long}25"
                                 fieldDescription="Listing Page Size"
                                 fieldLabel="Listing Page Size"
-                                max="{Long}25"
+                                max="{Long}50"
                                 min="{Long}1"
                                 name="./numPerPage"/>
                             <showOneLink
@@ -232,15 +232,15 @@
                                 text="Show One Link ?"
                                 uncheckedValue="{Boolean}false"
                                 value="{Boolean}true"/>
-                            <showOneLinkCount
+                            <oneLinkCount
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
-                                defaultValue="{Long}10"
+                                defaultValue="{Long}1"
                                 fieldDescription="How many troop we want to list if &quot;Show One Link&quot; is checked."
-                                fieldLabel="Show One Link Count"
+                                fieldLabel="Show One Link (No of troops to show)"
                                 max="{Long}25"
                                 min="{Long}1"
-                                name="./showOneLinkCount"/>
+                                name="./oneLinkCount"/>
                         </items>
                     </columns>
                 </items>
