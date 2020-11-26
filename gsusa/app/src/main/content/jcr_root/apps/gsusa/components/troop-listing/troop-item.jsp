@@ -10,10 +10,7 @@
             <p>{{City}}, {{State}} {{ZipCode}}</p>
         </section>
         <section>
-            <p>{{DateEnd}}</p>
-        </section>
-        <section>
-            <p>{{Distance}} Miles</p>
+            <p>{{Distance}} Miles </p>
         </section>
     </div>
     <div class="clearfix right">

@@ -2,6 +2,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%
-String notFoundText = properties.get("notFoundText", "");
+String notFoundMessage = properties.get("notFoundMessage", "");
 %>
-<%= notFoundText %>
+<%= notFoundMessage %>

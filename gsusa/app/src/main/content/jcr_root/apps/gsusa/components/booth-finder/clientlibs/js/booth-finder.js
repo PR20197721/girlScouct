@@ -259,11 +259,14 @@ BoothFinder.prototype.processResult = function(result) {
 
         if (this.page == 1) {
             // Reset form values
+            var boothFinderFilterObj,radius,date,sortBy;
             //accessing boothFinderFilterObj from session and getting the set filters
-            var boothFinderFilterObj = JSON.parse(sessionStorage.boothFinderFilterObj);
-            var radius = boothFinderFilterObj['radius'];
-            var date = boothFinderFilterObj['date']
-            var sortBy = boothFinderFilterObj['sortBy'];
+            if(sessionStorage.boothFinderFilterObj){
+                boothFinderFilterObj = JSON.parse(sessionStorage.boothFinderFilterObj);
+                radius = boothFinderFilterObj['radius'];
+                date = boothFinderFilterObj['date']
+                sortBy = boothFinderFilterObj['sortBy'];
+            }
             if (!radius) radius = 500;
             if (!date) date = 60;
             if (!sortBy) sortBy = 'distance'
