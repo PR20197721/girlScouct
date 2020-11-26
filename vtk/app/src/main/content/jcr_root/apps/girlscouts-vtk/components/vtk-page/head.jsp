@@ -180,7 +180,7 @@
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'UA-2646810-36'{'optimize_id':'<%=googleOptimizeId%>'});
+gtag('config', 'UA-2646810-36',{'optimize_id':'<%=googleOptimizeId%>'});
 
 </script>
 <!-- End Global site tag (gtag.js) - Google Analytics -->
