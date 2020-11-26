@@ -105,6 +105,17 @@ TroopListing.prototype.processResult = function(result) {
     $('#troop-listing-result').append(html);
     this.page++;
   } else if (troops && troops.length != 0) {
+
+    //logic for Randomizing the 0 mile records so as to give a fair chance to every troop.
+    //checking end index of zero Mile troops, as start will always be 0
+    var zeroMileEndIndex = 0;
+    for (var troopIndex = 0; troopIndex < troops.length; troopIndex++) {
+        if(troops[troopIndex].Distance == 0 ){
+            zeroMileEndIndex++;
+        }
+    }
+	troops = shuffleZeroMilesTroop(troops,zeroMileEndIndex);
+
     /*
     //Sorting the result to get the nearest first.
     troops = troops.sort(function(a, b) {
@@ -244,4 +255,22 @@ function applySupportAnotherTroopConfig() {
 
 function fixLastResultBottomBorder(){
 	$(".troop-listing .row.details").last().css({ 'border-bottom' : '0px'});
+}
+
+function shuffleZeroMilesTroop(troops, zeroMileLastIndex) {
+  var temp, index;
+  var troopLength = troops.length;
+  // While there are elements in the object
+  while (troopLength > 0) {
+    // Pick a random index in between 0 and zeroMileLastIndex
+    index = Math.floor(Math.random() * (zeroMileLastIndex));
+    console.log("Index Value" + index);
+    // Decrease zeroMileLastIndex by 1
+    troopLength--;
+    // And swap the last element with it
+    temp = troops[0];
+    troops[0] = troops[index];
+    troops[index] = temp;
+  }
+  return troops;
 }
