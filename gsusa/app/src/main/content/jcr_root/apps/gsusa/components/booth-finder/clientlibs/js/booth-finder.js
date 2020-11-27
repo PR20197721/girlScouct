@@ -1,3 +1,4 @@
+var troopListing = $("#troop-listing-config").data("troop-listing");
 $(document).ready(function() {
     var map;
     var geocoder;
@@ -20,12 +21,22 @@ $(document).ready(function() {
     if (zip == undefined) {
         // TODO: error: zip not found.
     } else {
-        var radius = getParameterByName('radius');
-        var date = getParameterByName('date');
-        var sortBy = getParameterByName('sortBy');
-        if (!radius) radius = 500;
-        if (!date) date = 60;
-        if (!sortBy) sortBy = 'distance';
+        //GSAWDO-2 , if troop listing component is active in DOM (based on campaign ON/OFF time authored in component), then we have to set default values of troop listing and booth finder both to
+        //radius = 5000, date =  2 months (60), sortBy = distance
+        var radius, date, sortBy;
+        radius = getParameterByName('radius');
+        date = getParameterByName('date');
+        sortBy = getParameterByName('sortBy');
+
+        if(troopListing && !( radius && date && sortBy )){
+			radius = 5000;
+	        date = 60;
+	        sortBy = 'distance';
+        }else{
+			if (!radius) radius = 25;
+	        if (!date) date = 60;
+	        if (!sortBy) sortBy = 'distance';
+        }
 
         boothFinder = new BoothFinder("/content/dam/gsusa/api/booth_list_merged.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
@@ -121,16 +132,25 @@ BoothFinder.prototype.processResult = function(result) {
         templateId = result.council.PreferredPath.toLowerCase(); // e.g. path1
         if (templateId == 'path1' || templateId == 'path2') {
             setTimeout(function() {
-                var radiusEmpty = getParameterByName('radius');
-                var dateEmpty = getParameterByName('date');
-                var sortByEmpty = getParameterByName('sortBy');
-                if (!radiusEmpty) radiusEmpty = 500;
-                if (!dateEmpty) dateEmpty = 60;
-                if (!sortByEmpty) sortByEmpty = 'distance'
-                $('select[name="radius"]').val(radiusEmpty);
-                $('select[name="date"]').val(dateEmpty);
-                $('select[name="sortBy"]').val(sortByEmpty);
-                $('#emptyForm').show();
+				//GSAWDO-2 , if troop listing component is active in DOM (based on campaign ON/OFF time authored in component), then we have to set default values of troop listing and booth finder both to
+		        //radius = 5000, date =  2 months (60), sortBy = distance
+		        var radiusEmpty, dateEmpty, sortByEmpty;
+		        radiusEmpty = getParameterByName('radius');
+		        dateEmpty = getParameterByName('date');
+		        sortByEmpty = getParameterByName('sortBy');
+		        if(troopListing && !( radiusEmpty && dateEmpty && sortByEmpty )){
+					radiusEmpty = 5000;
+			        dateEmpty = 60;
+			        sortByEmpty = 'distance';
+		        }else{
+					if (!radiusEmpty) radiusEmpty = 25;
+	                if (!dateEmpty) dateEmpty = 60;
+	                if (!sortByEmpty) sortByEmpty = 'distance'
+					$('select[name="radius"]').val(radiusEmpty);
+	                $('select[name="date"]').val(dateEmpty);
+	                $('select[name="sortBy"]').val(sortByEmpty);
+	                $('#emptyForm').show();
+                 }
             }, 1000);
         }
     }
@@ -250,15 +270,25 @@ BoothFinder.prototype.processResult = function(result) {
         if (this.page == 1) {
             // Reset form values
 
-            var radius = getParameterByName('radius');
-            var date = getParameterByName('date');
-            var sortBy = getParameterByName('sortBy');
-            if (!radius) radius = 500;
-            if (!date) date = 60;
-            if (!sortBy) sortBy = 'distance'
-            $('select[name="radius"]').val(radius);
-            $('select[name="date"]').val(date);
-            $('select[name="sortBy"]').val(sortBy);
+			//GSAWDO-2 , if troop listing component is active in DOM (based on campaign ON/OFF time authored in component), then we have to set default values of troop listing and booth finder both to
+	        //radius = 5000, date =  2 months (60), sortBy = distance
+	        var radius, date, sortBy;
+	        radius = getParameterByName('radius');
+	        date = getParameterByName('date');
+	        sortBy = getParameterByName('sortBy');
+
+	        if(troopListing && !( radius && date && sortBy )){
+				radius = 5000;
+		        date = 60;
+		        sortBy = 'distance';
+	        }else{
+				if (!radius) radius = 25;
+		        if (!date) date = 60;
+		        if (!sortBy) sortBy = 'distance';
+				$('select[name="radius"]').val(radius);
+	            $('select[name="date"]').val(date);
+	            $('select[name="sortBy"]').val(sortBy);
+	        }
 
             // Bind click more
             $('.booth-finder #more').on('click', function() {

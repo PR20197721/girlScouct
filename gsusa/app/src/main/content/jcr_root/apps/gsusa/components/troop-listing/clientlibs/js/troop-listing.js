@@ -164,7 +164,7 @@ TroopListing.prototype.processResult = function(result) {
   }
   //CALL TO HIDE THE BOTTOM BORDER OF THE LAST BUTTON
   fixLastResultBottomBorder();
-
+  registerClickOfRegisterButton();
 }
 
 function getParameterByName(name) {
@@ -274,3 +274,12 @@ function shuffleZeroMilesTroop(troops, zeroMileLastIndex) {
   }
   return troops;
 }
+
+function registerClickOfRegisterButton(){
+ //Registering an click event on click of button.
+  $('.troop-listing .troopRegisterButton, .troop-listing .troopRegisterLink').on('click', function() {
+	 console.log("Ajax call suppose to happen here.");
+	 //Do an ajax call from here , once we get the necessary information fom Philip
+  });
+}
+

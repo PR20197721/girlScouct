@@ -26,7 +26,7 @@ if(onTimeTimestamp<=currentDateTimestamp  && currentDateTimestamp<=offTimeTimest
 <div id="troop-listing-result" class="troop-listing cq-placeholder" data-empty-text="Troop Finder" style="min-height: 100px">
 </div>
 
-<span id="troop-listing-config" data-troop-listing="yes" data-show-one-link="<%= properties.get("showOneLink")%>"
+<span id="troop-listing-config" data-troop-listing="true" data-show-one-link="<%= properties.get("showOneLink")%>"
 data-support-another-troop="<%= properties.get("supportAnotherTroop")%>" data-get-cookie-button-color="<%= properties.get("getCookieButtonColor")%>"
 data-hover-button-color="<%= properties.get("hoverButtonColor")%>" data-text-color="<%= properties.get("textColor")%>"
 data-text="<%= properties.get("text")%>" data-another-troop-button-color="<%= properties.get("anotherTroopButtonColor")%>"
@@ -38,7 +38,7 @@ data-another-troop-text="<%= properties.get("anotherTroopText")%>" data-one-link
     <cq:includeClientLib categories="apps.gsusa.components.troopListing" />
     <%-- Template for troop listing filter start here --%>
     <script id="template-troop-listing" type="text/x-handlebars-template">
-        <cq:include script="troop-listing-filter.jsp" />
+        <cq:include script="troop-listing-content.jsp" />
     </script>
     <%-- Template for troop listing filter end here--%>
 

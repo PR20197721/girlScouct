@@ -4,9 +4,7 @@
 <div class="row details">
     <div class="detail clearfix">
         <section>
-            <p>{{{Location}}}</p>
-            <p>{{Address1}}</p>
-            <p>{{Address2}}</p>
+            <p class="troopRegisterLink">{{{Location}}}</p>
             <p>{{City}}, {{State}} {{ZipCode}}</p>
         </section>
         <section>
@@ -14,6 +12,6 @@
         </section>
     </div>
     <div class="clearfix right">
-        <a class="viewmap button" data='{{{json .}}}'>{{{detailsText}}}</a>
+        <a class="viewmap button troopRegisterButton" data='{{{json .}}}'>{{{detailsText}}}</a>
     </div>
 </div>
