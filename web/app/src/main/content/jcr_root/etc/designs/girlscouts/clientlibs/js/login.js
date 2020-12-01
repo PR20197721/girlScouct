@@ -13,13 +13,10 @@ girlscouts.components.login = {
 	    var script = document.createElement('script');
 	    script.type = 'text/javascript';
 		script.src = target + '?rand=' + randNum;
-		if(script && script.length){
-			document.getElementsByTagName('head')[0].appendChild(script);
-		}else {
-			 girlscouts.components.login.sayHello('signedout', 'undefined');
-		}
-        		
-
+		document.getElementsByTagName('head')[0].appendChild(script);
+        if(!($('.login').children().length > 0)){
+            girlscouts.components.login.sayHello('signedout', 'undefined');
+        }
     },
     
     signOut: function() {
