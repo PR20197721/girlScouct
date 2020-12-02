@@ -7,7 +7,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
-        <sly data-sly-call="${clientlib.all @ categories='apps.girlscouts-vtk.components.sso.logout'}"/>
+        <sly data-sly-call="${clientlib.all @ categories='apps.girlscouts-vtk.components.sso.proxy, apps.girlscouts-vtk.components.sso.logout'}"/>
     </sly>
     ${ssoUtil.apiScript @context = 'unsafe'}
     <title>Volunteer Toolkit Logout Page</title>
@@ -20,7 +20,7 @@
 </div>
 <div class="content">
     <sly data-sly-test="${ssoUtil.invalidateSession}">
-        <div class="page-title">You have been logged out of VTK</div>
+        <div data-sly-include = "/apps/girlscouts-vtk/components/vtk/include/loader.jsp"></div>
     </sly>
 </div>
 <div class="footer">
