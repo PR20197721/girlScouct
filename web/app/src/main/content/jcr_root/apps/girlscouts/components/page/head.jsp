@@ -204,4 +204,7 @@
     })(window, document, 'script', 'dataLayer', 'GTM-TGGWNNL');</script>
     <!-- End Google Tag Manager -->
     <%-- </GSWP-2256> --%>
+    <!-- Google Optimize code -->
+        <script src="https://www.googleoptimize.com/optimize.js?id=<%=googleOptimizeId%>"</script>
+    <!-- Google Optimize code -->
 </head>
