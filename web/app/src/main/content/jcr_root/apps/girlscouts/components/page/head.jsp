@@ -187,6 +187,13 @@
     })(window, document, 'script', 'dataLayer', '<%= id %>');</script>
     <!-- End Google Tag Manager -->
     <% } %>
+    <%-- <GSAWDO-37> --%>
+    <% if (googleOptimize) { %>
+        <!-- Google Optimize code -->
+            <script src="https://www.googleoptimize.com/optimize.js?id=<%=googleOptimizeId%>"</script>
+        <!-- Google Optimize code -->
+    <% } %>
+    <%-- <GSAWDO-37> --%>
     <%-- <GSWP-2256> --%>
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
@@ -204,9 +211,4 @@
     })(window, document, 'script', 'dataLayer', 'GTM-TGGWNNL');</script>
     <!-- End Google Tag Manager -->
     <%-- </GSWP-2256> --%>
-    <% if (!googleOptimizeId.isEmpty()) { %>
-        <!-- Google Optimize code -->
-        	<script src="https://www.googleoptimize.com/optimize.js?id=<%=googleOptimizeId%>"</script>
-    	<!-- Google Optimize code -->
-    <% } %>
 </head>
