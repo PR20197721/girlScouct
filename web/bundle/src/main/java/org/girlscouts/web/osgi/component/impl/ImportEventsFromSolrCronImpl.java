@@ -366,6 +366,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                 if (aemTags != null && aemTags.size() > 0) {
                     String[] aemTagsArr = aemTags.toArray(new String[aemTags.size()]);
                     setStringArrProperty(dataNode, "cq:tags", aemTagsArr);
+                    setStringArrProperty(jcrNode, "cq:tags", aemTagsArr);
                 }
             }
             log.info("Saving Activity:[path=" + activityPage.getPath() + "; eid=" + payload.getId() + "].");
