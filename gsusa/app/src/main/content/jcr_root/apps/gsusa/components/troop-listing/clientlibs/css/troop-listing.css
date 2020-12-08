@@ -1,0 +1,7 @@
+.troop-listing .detail section:nth-of-type(2) {
+    padding-left: 2rem;
+    padding-right: 0rem;
+    width: 29.16667%;
+    float: right;
+}
+
