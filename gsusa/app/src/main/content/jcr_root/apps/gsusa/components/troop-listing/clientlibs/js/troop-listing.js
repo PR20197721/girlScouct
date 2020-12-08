@@ -314,8 +314,8 @@ function registerClickOfBoothFinderButton(){
     var data = {
       l = value.Location,
       d = value.DateStart,
-      z = ZipCode,
-      s = “Website”
+      z = value.ZipCode,
+      s = "Website"
     }
 
       $.ajax({
