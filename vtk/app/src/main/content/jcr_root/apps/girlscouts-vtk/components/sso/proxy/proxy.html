@@ -21,6 +21,7 @@
 <div class="content">
     <sly data-sly-test="${ssoUtil.invalidateSession}">
         <div class="page-title">Logging out of Volunteer Toolkit</div>
+        <div data-sly-include = "/apps/girlscouts-vtk/components/vtk/include/loader.jsp"></div>
     </sly>
     <sly data-sly-test="${!ssoUtil.invalidateSession}">
         <div class="page-title">Going to the Volunteer Toolkit</div>
