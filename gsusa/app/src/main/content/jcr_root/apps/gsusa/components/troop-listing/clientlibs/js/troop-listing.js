@@ -54,12 +54,12 @@ $(document).ready(function() {
         troopListingSortBy = troopListingFilterObj['troopListingSortBy'];
       }
     }
-    if (!troopListingRadius) troopListingRadius = 5000;
+    if (!troopListingRadius) troopListingRadius = 500;
     if (!troopListingDate) troopListingDate = 60;
     if (!troopListingSortBy) troopListingSortBy = 'distance';
     //Code for Troop Listing, creating new parameter as
 
-    troopListing = new TroopListing("https://www.girlscouts.org/includes/cookie/trooplink_list_merged.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
+    troopListing = new TroopListing("https://dev.girlscouts.org/includes/cookie/trooplink_list_merged.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
     troopListing.getResult();
   }
 
@@ -98,7 +98,7 @@ TroopListing.prototype.getResult = function() {
 }
 
 TroopListing.prototype.processResult = function(result) {
-  var troops = result.Troops;
+  var troops = result.booths;
   if (troops == null && this.page == 1) {
     var templatePathID = 'template-troop-listing';
     var html = Handlebars.compile($('#' + templatePathID).html())(result);
@@ -281,11 +281,13 @@ function shuffleZeroMilesTroop(troops, zeroMileLastIndex) {
 
 function registerClickOfRegisterButton(){
   $('.troop-listing .troopRegisterButton, .troop-listing .troopRegisterLink').on('click', function() {
-	  var value = JSON.parse(this.getAttribute('data'));  
+	  var value = JSON.parse(this.getAttribute('data')); 
+      var visitURL = value.visitBoothUrl;
     var data = {
       t : value.TroopName,
       u : value.StoreURL,
       d : value.DateEnd,
+      z : value.ZipCode,
       s : "Website",
       cn : getParameterByName('utm_campaign'),
       cm : getParameterByName('utm_medium'),
@@ -293,12 +295,13 @@ function registerClickOfRegisterButton(){
     }
 
       $.ajax({
-        url: "https://www.girlscouts.org/includes/cookie/trooplink_detail_lookup.asp",
+        url: "https://dev.girlscouts.org/includes/cookie/trooplink_detail_lookup.asp",
         dataType: "json",
         data: data,
         success: function(data) {
           if (data) {
             console.log('Redirecting from trooplisting');
+			window.location = visitURL;
           } else {
             console.log('Error occured in redirecting');
           }
@@ -312,14 +315,14 @@ function registerClickOfBoothFinderButton(){
   $('.booth-finder .viewmap').on('click', function() {
 	  var value = JSON.parse(this.getAttribute('data'));  
     var data = {
-      l = value.Location,
-      d = value.DateStart,
-      z = value.ZipCode,
-      s = "Website"
+        l : value.Location,
+        d : value.DateStart,
+        z : value.ZipCode,
+        s : "Website"
     }
 
       $.ajax({
-        url: "https://www.girlscouts.org/includes/cookie/booth_detail_lookup.asp",
+        url: "https://dev.girlscouts.org/includes/cookie/booth_detail_lookup.asp",
         dataType: "json",
         data: data,
         success: function(data) {
