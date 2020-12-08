@@ -669,6 +669,13 @@
     out.println(_dates.size());
 } else if (request.getParameter("printTroopReloginids") != null) {
     vtklog.debug("printTroopReloginids");
+            // Generator the new troopDataToken so the client can fetch data from the dispatcher.
+                    Troop newTroop = (Troop) session.getAttribute("VTK_troop");
+                    String troopId = newTroop.getTroopId();
+                    TroopHashGenerator troopHashGenerator = sling.getService(TroopHashGenerator.class);
+                    Cookie cookie = new Cookie("troopDataToken", troopHashGenerator.getCachePath(newTroop.getPath()));
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
 %><select id="reloginid" onchange="relogin()"><%
     for (Troop userTroop : userTroops) {
         String troopGradeLevel = " : "+ userTroop.getGradeLevel();
