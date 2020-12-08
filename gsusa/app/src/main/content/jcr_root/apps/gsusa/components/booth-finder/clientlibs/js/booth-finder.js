@@ -38,7 +38,7 @@ $(document).ready(function() {
 	        if (!sortBy) sortBy = 'distance';
         }
 
-        boothFinder = new BoothFinder("/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
+        boothFinder = new BoothFinder("http://wwwr.girlscouts.org/includes/cookie/booth_list.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
 });

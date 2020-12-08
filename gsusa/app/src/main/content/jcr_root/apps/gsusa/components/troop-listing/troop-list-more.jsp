@@ -1,6 +1,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 
-{{#each Troops}}
+{{#each booths}}
 	<cq:include script="troop-item.jsp" />
-{{/each}}
+{{/each}} 
