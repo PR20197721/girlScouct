@@ -190,7 +190,7 @@
     <%-- <GSAWDO-37> --%>
     <% if (googleOptimize) { %>
         <!-- Google Optimize code -->
-            <script src="https://www.googleoptimize.com/optimize.js?id=<%=googleOptimizeId%>"</script>
+            <script src="https://www.googleoptimize.com/optimize.js?id=<%=googleOptimizeId%>"></script>
         <!-- Google Optimize code -->
     <% } %>
     <%-- <GSAWDO-37> --%>
