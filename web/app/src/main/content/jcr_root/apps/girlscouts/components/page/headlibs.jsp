@@ -44,7 +44,7 @@ if (newCurrentDesign != null) {
 	} catch (Exception e) {} // Not in a normal council
 	String signInUrl =loginUrl;
 	if (refererCouncil != null) {
-	    signInUrl = signInUrl + "?refererCouncil=" + refererCouncil;
+	    signInUrl = "https://mygs.girlscouts.org/my-account";
 	}
 	String signOutUrl = logoutUrl;
 	String siteRoot = currentPage.getAbsoluteParent(2).getPath();
