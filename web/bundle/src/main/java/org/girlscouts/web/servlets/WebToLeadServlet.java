@@ -16,6 +16,7 @@ import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.girlscouts.common.osgi.component.WebToLead;
+import org.girlscouts.web.service.recaptcha.RecaptchaService;
 import org.girlscouts.web.util.WebToLeadUtils;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Activate;
@@ -46,9 +47,14 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 
     private String oid;
     private String apiURL;
+    
+    protected static final String RESPONSE_VAL = "g-recaptcha-response";
 
     @Reference
     private WebToLead webToLead;
+    
+    @Reference
+    private RecaptchaService recaptchaService;
 
     @Activate
     private void activate() {
@@ -70,6 +76,21 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         logger.debug("Processing Post");
+        
+        String responseVal = request.getParameter(RESPONSE_VAL);
+        if (null != responseVal) {
+	        boolean success = recaptchaService.captchaSuccess(responseVal);
+	        if (!success) {
+	        	logger.debug("Recaptcha validation failed");
+	        	response.setStatus(500);
+	        	return;
+	        }
+        } else {
+        	logger.debug("Recaptcha response invalid");
+            response.setStatus(500);
+            return;
+        }
+        
         List<String> errors = WebToLeadUtils.validateForm(request);
         if(errors!= null && errors.size() > 0){
             WebToLeadResponse respObj = new WebToLeadResponse("error", errors);
