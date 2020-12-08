@@ -89,7 +89,7 @@ public class RecaptchaServiceImpl implements  RecaptchaService {
 	@ObjectClassDefinition(name = "Recaptcha configurations")
     public @interface Config {
         @AttributeDefinition(name = "Secret Key", description = "Secret key for Recaptcha") 
-        String secretKey() default "6Lc2HfkZAAAAAEd88oso-ysWVmi3WLg9cYnyfJfu";
+        String secretKey() default "6Lddq5gUAAAAAAl_cYrCis6i0ONWhC_5ClYkPFRA";
     }
 	
 

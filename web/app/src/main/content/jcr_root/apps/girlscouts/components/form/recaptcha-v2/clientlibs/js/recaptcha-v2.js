@@ -14,4 +14,14 @@ $(document).ready(function () {
     }).always(function (){
         setInterval(timestamp, 500);
     });
+
+    $("input[type='submit']").bind("click",function(e){
+      var response = grecaptcha.getResponse();
+      if(response.length == 0) { 
+        $("#recaptcha-error").show(); 
+        e.preventDefault();
+        return false;
+      }
+    });
 });
+

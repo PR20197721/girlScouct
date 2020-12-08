@@ -25,7 +25,8 @@
     } else {
 		%>
             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-            <div id=":g-recaptcha-response" name=":g-recaptcha-response" class="g-recaptcha" data-sitekey="6Lc2HfkZAAAAAMYhcX3Y_JRLdRw4YMxe9dZHIaBR"></div>
+            <div id=":g-recaptcha-response" name=":g-recaptcha-response" class="g-recaptcha" data-sitekey="<%=site_key%>"></div>
+         	<div id="recaptcha-error" style="color:red;font-weight:bold;display:none">Please validate the recaptcha</div>
 		<%
     }
     LayoutHelper.printDescription(FormsHelper.getDescription(resource, ""), out);
