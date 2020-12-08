@@ -59,9 +59,12 @@ $(document).ready(function() {
     if (!troopListingSortBy) troopListingSortBy = 'distance';
     //Code for Troop Listing, creating new parameter as
 
-    troopListing = new TroopListing("/content/dam/gsusa/api/trooplisting.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
+    troopListing = new TroopListing("https://www.girlscouts.org/includes/cookie/trooplink_list_merged.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
     troopListing.getResult();
   }
+
+  registerClickOfRegisterButton();
+  registerClickOfBoothFinderButton();
 });
 
 
@@ -165,6 +168,7 @@ TroopListing.prototype.processResult = function(result) {
   //CALL TO HIDE THE BOTTOM BORDER OF THE LAST BUTTON
   fixLastResultBottomBorder();
   registerClickOfRegisterButton();
+  registerClickOfBoothFinderButton();
 }
 
 function getParameterByName(name) {
@@ -276,10 +280,55 @@ function shuffleZeroMilesTroop(troops, zeroMileLastIndex) {
 }
 
 function registerClickOfRegisterButton(){
- //Registering an click event on click of button.
   $('.troop-listing .troopRegisterButton, .troop-listing .troopRegisterLink').on('click', function() {
-	 console.log("Ajax call suppose to happen here.");
-	 //Do an ajax call from here , once we get the necessary information fom Philip
+	  var value = JSON.parse(this.getAttribute('data'));  
+    var data = {
+      t : value.TroopName,
+      u : value.StoreURL,
+      d : value.DateEnd,
+      s : "Website",
+      cn : getParameterByName('utm_campaign'),
+      cm : getParameterByName('utm_medium'),
+      cs : getParameterByName('utm_source')
+    }
+
+      $.ajax({
+        url: "https://www.girlscouts.org/includes/cookie/trooplink_detail_lookup.asp",
+        dataType: "json",
+        data: data,
+        success: function(data) {
+          if (data) {
+            console.log('Redirecting from trooplisting');
+          } else {
+            console.log('Error occured in redirecting');
+          }
+        }
+      });
+
   });
 }
 
+function registerClickOfBoothFinderButton(){
+  $('.booth-finder .viewmap').on('click', function() {
+	  var value = JSON.parse(this.getAttribute('data'));  
+    var data = {
+      l = value.Location,
+      d = value.DateStart,
+      z = ZipCode,
+      s = “Website”
+    }
+
+      $.ajax({
+        url: "https://www.girlscouts.org/includes/cookie/booth_detail_lookup.asp",
+        dataType: "json",
+        data: data,
+        success: function(data) {
+          if (data) {
+            console.log('Redirecting from BoothFinder');
+          } else {
+            console.log('Error occured in redirecting');
+          }
+        }
+      });
+  });
+}
