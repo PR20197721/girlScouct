@@ -24,7 +24,7 @@ if (!id.isEmpty()) {
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', '<%=id%>');
+    gtag('config', '<%=id%>',{'optimize_id':'<%=googleOptimizeId%>'});
     </script>
 
 <!-- END GA Tracking -->
