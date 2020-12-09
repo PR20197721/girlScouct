@@ -28,7 +28,7 @@
                     <target
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
-                        fieldDescription="Choose the target redirect page."
+                        fieldDescription="Choose the target redirect page. For PDF, please use absolute path."
                         fieldLabel="Target"
                         name="./jcr:content/cq:redirectTarget"
                         xtype="pathfield"/>
