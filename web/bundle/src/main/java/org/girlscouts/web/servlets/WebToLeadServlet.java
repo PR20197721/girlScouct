@@ -49,6 +49,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
     private String apiURL;
     
     protected static final String RESPONSE_VAL = "g-recaptcha-response";
+    protected static final String CAPTCHA_RESPONSE = ":cq:captcha";
 
     @Reference
     private WebToLead webToLead;
@@ -78,17 +79,20 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
         logger.debug("Processing Post");
         
         String responseVal = request.getParameter(RESPONSE_VAL);
-        if (null != responseVal) {
-	        boolean success = recaptchaService.captchaSuccess(responseVal);
-	        if (!success) {
-	        	logger.debug("Recaptcha validation failed");
-	        	response.setStatus(500);
-	        	return;
+        String captcha = request.getParameter(CAPTCHA_RESPONSE);
+        if (null == captcha){
+	        if (null != responseVal) {
+		        boolean success = recaptchaService.captchaSuccess(responseVal);
+		        if (!success) {
+		        	logger.debug("Recaptcha validation failed");
+		        	response.setStatus(500);
+		        	return;
+		        }
+	        } else {
+	        	logger.debug("Recaptcha response invalid");
+	            response.setStatus(500);
+	            return;
 	        }
-        } else {
-        	logger.debug("Recaptcha response invalid");
-            response.setStatus(500);
-            return;
         }
         
         List<String> errors = WebToLeadUtils.validateForm(request);
