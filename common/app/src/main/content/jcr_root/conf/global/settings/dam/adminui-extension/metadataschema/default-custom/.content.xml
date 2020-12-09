@@ -595,6 +595,22 @@
                                         typeHint="Date"
                                         visibilityCascading="default"/>
                                 </offime>
+                                <hideInSearch
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="dam/gui/components/admin/schemafield"
+                                    fieldLabel="Hide in search"
+                                    name="./jcr:content/hideInSearch"
+                                    resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                    text="Hide in search"
+                                    uncheckedValue="{Boolean}false"
+                                    value="{Boolean}true">
+                                    <granite:data
+                                        jcr:primaryType="nt:unstructured"
+                                        cq-msm-lockable="./hideInSearch"
+                                        metaType="text"
+                                        requiredCascading="default"
+                                        visibilityCascading="default"/>
+                                </hideInSearch>
                             </items>
                         </col2>
                         <col3
