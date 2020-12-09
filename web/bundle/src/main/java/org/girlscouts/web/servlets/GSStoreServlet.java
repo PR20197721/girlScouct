@@ -65,6 +65,7 @@ public class GSStoreServlet
 
     protected static final String EXTENSION = "html";
     protected static final String RESPONSE_VAL = "g-recaptcha-response";
+    protected static final String CAPTCHA_RESPONSE = ":cq:captcha";
 
 
     protected static final String CONFIRM_MAILTO_PROPERTY = "confirmationmailto";
@@ -180,17 +181,20 @@ public class GSStoreServlet
         }
         
         String responseVal = request.getParameter(RESPONSE_VAL);
-        if (null != responseVal) {
-	        boolean success = recaptchaService.captchaSuccess(responseVal);
-	        if (!success) {
-	        	logger.debug("Recaptcha validation failed");
-	        	response.setStatus(500);
-	        	return;
+        String captcha = request.getParameter(CAPTCHA_RESPONSE);
+        if (null == captcha){
+	        if (null != responseVal) {
+		        boolean success = recaptchaService.captchaSuccess(responseVal);
+		        if (!success) {
+		        	logger.debug("Recaptcha validation failed");
+		        	response.setStatus(500);
+		        	return;
+		        }
+	        } else {
+	        	logger.debug("Recaptcha response invalid");
+	            response.setStatus(500);
+	            return;
 	        }
-        } else {
-        	logger.debug("Recaptcha response invalid");
-            response.setStatus(500);
-            return;
         }
 
         final ResourceBundle resBundle = request.getResourceBundle(null);
