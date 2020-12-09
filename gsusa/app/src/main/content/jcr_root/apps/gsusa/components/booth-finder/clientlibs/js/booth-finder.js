@@ -30,7 +30,7 @@ $(document).ready(function() {
 
         if(troopListing && !( radius && date && sortBy )){
 			radius = 500;
-	        date = 60;
+	        date = 60; 
 	        sortBy = 'distance';
         }else{
 			if (!radius) radius = 25;
