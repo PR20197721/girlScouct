@@ -301,7 +301,6 @@ function registerClickOfRegisterButton(){
         success: function(data) {
           if (data) {
             console.log('Redirecting from trooplisting');
-			window.location = visitURL;
           } else {
             console.log('Error occured in redirecting');
           }
