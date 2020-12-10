@@ -5,3 +5,15 @@
     float: right;
 }
 
+.row.show-more.button {
+    text-align: center;
+    display: block;
+    background-color: #00AE58;
+    width: fit-content;
+    margin: auto;
+}
+.show-more a#showMore {
+	color: #FFFFFF
+}
+
+

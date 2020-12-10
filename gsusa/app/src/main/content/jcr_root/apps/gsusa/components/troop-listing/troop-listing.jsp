@@ -25,7 +25,7 @@ if(null!= onTime && null!=offTime){
 	if(onTimeTimestamp<=currentDateTimestamp  && currentDateTimestamp<=offTimeTimestamp){
 	%>
 
-	<div id="troop-listing-result" class="troop-listing cq-placeholder" data-empty-text="Troop Finder" style="min-height: 100px">
+	<div id="troop-listing-result" class="troop-listing cq-placeholder" data-empty-text="Troop Finder">
 	</div>
 
 	<span id="troop-listing-config" data-troop-listing="true" data-show-one-link="<%= properties.get("showOneLink")%>"
