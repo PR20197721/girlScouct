@@ -151,7 +151,7 @@ TroopListing.prototype.processResult = function(result) {
       this.page++;
 
       // Bind click on more, this code is kept here, cause page counter 1 will only come once and this will not get register multiple times.
-      $('.troop-listing #more').on('click', function() {
+      $('.troop-listing #showMore').on('click', function() {
        $(".troop-listing .row.details").last().css({ 'border-bottom' : 'solid 1px #e1e1e1'});
        troopListing.getResult();
       });
