@@ -128,9 +128,12 @@ TroopListing.prototype.processResult = function(result) {
     result = result || {};
     result.env = result.env || {};
     result.env.zip = this.zip;
+
+    this.shouldHideMoreButton = troops.length <= this.numPerPage;
     // there are troops available for given filter search
     var min = Math.min(troops.length, this.numPerPage); // length - 1 to omit the "more" one
     for (var troopIndex = 0; troopIndex < min; troopIndex++) {
+      
       var troop = troops[troopIndex];
       if (troop.StoreURL != null && (troop.StoreURL.includes("http://") || troop.StoreURL.includes("https://"))) {
         troop.Location = "<a href=\"" + troop.StoreURL + "\" target=\"_blank\">" + troop.TroopName + "</a>";
@@ -142,16 +145,20 @@ TroopListing.prototype.processResult = function(result) {
         troop.DateEnd = troop.DateEnd;
         troop.visitBoothUrl = troop.StoreURL;
       }
-      console.log(troop)
     }
+
+    // Remove "more" items
+      troops.splice(min, troops.length - min);
     if (this.page == 1) {
       var templatePathID = 'template-troop-listing';
       var html = Handlebars.compile($('#' + templatePathID).html())(result);
       $('#troop-listing-result').html(html);
       this.page++;
 
+
+
       // Bind click on more, this code is kept here, cause page counter 1 will only come once and this will not get register multiple times.
-      $('.troop-listing #showMore').on('click', function() {
+      $('.troop-listing #more').on('click', function() {
        $(".troop-listing .row.details").last().css({ 'border-bottom' : 'solid 1px #e1e1e1'});
        troopListing.getResult();
       });
@@ -160,6 +167,10 @@ TroopListing.prototype.processResult = function(result) {
       var templateDOMId = 'template-more-troop-listing';
       var html = Handlebars.compile($('#' + templateDOMId).html())(result);
       $('.troop-listing .show-more').before(html);
+    }
+    // Hide "more" link if there is no more result
+    if (this.shouldHideMoreButton) {
+        $('.troop-listing #more').hide();
     }
 
     applyTroopListingConfigChanges(result);
@@ -255,6 +266,8 @@ function applySupportAnotherTroopConfig() {
     fixLastResultBottomBorder();
     $(".troop-listing .show-more").removeClass("hide");
   });
+
+
 }
 
 function fixLastResultBottomBorder(){
@@ -268,7 +281,6 @@ function shuffleZeroMilesTroop(troops, zeroMileLastIndex) {
   while (troopLength > 0) {
     // Pick a random index in between 0 and zeroMileLastIndex
     index = Math.floor(Math.random() * (zeroMileLastIndex));
-    console.log("Index Value" + index);
     // Decrease zeroMileLastIndex by 1
     troopLength--;
     // And swap the last element with it
@@ -281,18 +293,24 @@ function shuffleZeroMilesTroop(troops, zeroMileLastIndex) {
 
 function registerClickOfRegisterButton(){
   $('.troop-listing .troopRegisterButton, .troop-listing .troopRegisterLink').on('click', function() {
-	  var value = JSON.parse(this.getAttribute('data')); 
+      var item;
+      if ($(this).attr("class") === "troopRegisterLink") {
+		item = $(this).parents(".row.details").find(".troopRegisterButton");;
+      } else {
+		item = $(this);
+      }
+	  var value = JSON.parse(item.attr("data")); 
       var visitURL = value.visitBoothUrl;
-    var data = {
-      t : value.TroopName,
-      u : value.StoreURL,
-      d : value.DateEnd,
-      z : value.ZipCode,
-      s : "Website",
-      cn : getParameterByName('utm_campaign'),
-      cm : getParameterByName('utm_medium'),
-      cs : getParameterByName('utm_source')
-    }
+        var data = {
+          t : value.TroopName,
+          u : value.StoreURL,
+          d : value.DateEnd,
+          z : value.ZipCode,
+          s : "Website",
+          cn : getParameterByName('utm_campaign'),
+          cm : getParameterByName('utm_medium'),
+          cs : getParameterByName('utm_source')
+        }
 
       $.ajax({
         url: "https://www.girlscouts.org/includes/cookie/trooplink_detail_lookup.asp",
