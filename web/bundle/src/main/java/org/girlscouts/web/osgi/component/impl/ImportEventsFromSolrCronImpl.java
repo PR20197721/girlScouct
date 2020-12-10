@@ -434,18 +434,21 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
     public Calendar getDateInAEMFormat(String dateStr, String activityTimeZone, String councilSiteTimezone) throws GirlScoutsException {
         try {
             DateFormat ACTIVITY_DATE_FORMAT = new SimpleDateFormat(MuleSoftActivitiesConstants.ACTIVITY_DATE_FORMAT);
-            String councilTimeZone = "America/New_York";//default
+            String councilTimeZone = "EST";//default
             if (!StringUtils.isBlank(activityTimeZone)) {
-                councilTimeZone = activityTimeZone.substring(activityTimeZone.lastIndexOf("(") + 1, activityTimeZone.length() - 1);
+                councilTimeZone = activityTimeZone;
             } else {
                 if (!StringUtils.isBlank(councilSiteTimezone)) {
                     councilTimeZone = councilSiteTimezone;
                 }
             }
             TimeZone timeZone = TimeZone.getTimeZone(councilTimeZone);
+            ACTIVITY_DATE_FORMAT.setTimeZone(timeZone);
+            // Confirm the time We received from Hybris after we set timezone
             Calendar date = Calendar.getInstance();
             date.setTime(ACTIVITY_DATE_FORMAT.parse(dateStr));
             date.setTimeZone(timeZone);
+            //confirm Hybris time with AEM JCR node time they must be Equal
             return date;
         } catch (Exception e) {
             log.error("Error occurred:", e);
