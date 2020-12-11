@@ -54,7 +54,7 @@ $(document).ready(function() {
         troopListingSortBy = troopListingFilterObj['troopListingSortBy'];
       }
     }
-    if (!troopListingRadius) troopListingRadius = 500;
+    if (!troopListingRadius) troopListingRadius = 5000;
     if (!troopListingDate) troopListingDate = 60;
     if (!troopListingSortBy) troopListingSortBy = 'distance';
     //Code for Troop Listing, creating new parameter as
