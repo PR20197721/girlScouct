@@ -27,21 +27,12 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 
 @Component(service = {RecaptchaService.class}, immediate = true, name = "Girl Scouts GS Recaptcha Service")
-@Designate(ocd = RecaptchaServiceImpl.Config.class)
 public class RecaptchaServiceImpl implements  RecaptchaService {
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	private String secret = "";
-	
-	@Activate
-    private void activate(Config config) {
-		secret = config.secretKey();
-	}
-	
-	
 	@Override
-	public boolean captchaSuccess(String response) {
+	public boolean captchaSuccess(String secret, String response) {
 		JsonObject responseObj = validateCaptcha(secret, response);
 		if (null != responseObj && null != responseObj.get("success")) {
 			return responseObj.get("success").getAsBoolean();
@@ -86,11 +77,4 @@ public class RecaptchaServiceImpl implements  RecaptchaService {
 	    return jsonObject;
 	}
 	
-	@ObjectClassDefinition(name = "Recaptcha configurations")
-    public @interface Config {
-        @AttributeDefinition(name = "Secret Key", description = "Secret key for Recaptcha") 
-        String secretKey() default "6Lddq5gUAAAAAAl_cYrCis6i0ONWhC_5ClYkPFRA";
-    }
-	
-
 }
