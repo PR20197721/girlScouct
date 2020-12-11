@@ -330,7 +330,7 @@ function registerClickOfRegisterButton(){
 
 function registerClickOfBoothFinderButton(){
   $('.booth-finder .viewmap').on('click', function() {
-	  var value = JSON.parse(this.getAttribute('data'));  
+	  var value = JSON.parse($(this).attr("data"));  
     var data = {
         l : value.Location,
         d : value.DateStart,
