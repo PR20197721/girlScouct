@@ -290,9 +290,6 @@ if(null!=srchInfo) {
 							<% if(!region.isEmpty()){ %>
 								<p class="bold" itemprop="region" itemscope itemptype="http://schema.org/Place">Region: <span itempropr="name"><%= region %></span></p>
 							<% } %>				
-							<%if(!locationLabel.isEmpty()){ %>
-								<p class="bold" itemprop="location" itemscope itemtype="http://schema.org/Place">Location:  <span itemprop="name"><%=locationLabel %></span></p>
-							<% } %>
 							<% if(propNode.hasProperty("srchdisp")){ %>
 								<p itemprop="description"><%=propNode.getProperty("srchdisp").getString()%></p>
 							<% } %>
