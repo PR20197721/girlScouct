@@ -48,6 +48,7 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
     private String oid;
     private String apiURL;
     
+    protected static final String SECRET = "secret";
     protected static final String RESPONSE_VAL = "g-recaptcha-response";
     protected static final String CAPTCHA_RESPONSE = ":cq:captcha";
 
@@ -78,20 +79,22 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         logger.debug("Processing Post");
         
+        //Recaptcha Server Validations
         String responseVal = request.getParameter(RESPONSE_VAL);
         String captcha = request.getParameter(CAPTCHA_RESPONSE);
+        String secret = request.getParameter(SECRET);
         if (null == captcha){
 	        if (null != responseVal) {
-		        boolean success = recaptchaService.captchaSuccess(responseVal);
+		        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
 		        if (!success) {
 		        	logger.debug("Recaptcha validation failed");
-		        	response.setStatus(500);
+		        	response.sendError(500, "Recaptcha validation failed");
 		        	return;
 		        }
 	        } else {
 	        	logger.debug("Recaptcha response invalid");
-	            response.setStatus(500);
-	            return;
+	        	response.sendError(500, "Recaptcha response invalid");
+	        	return;
 	        }
         }
         
