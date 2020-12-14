@@ -54,12 +54,12 @@ $(document).ready(function() {
         troopListingSortBy = troopListingFilterObj['troopListingSortBy'];
       }
     }
-    if (!troopListingRadius) troopListingRadius = 500;
+    if (!troopListingRadius) troopListingRadius = 5000;
     if (!troopListingDate) troopListingDate = 60;
     if (!troopListingSortBy) troopListingSortBy = 'distance';
     //Code for Troop Listing, creating new parameter as
 
-    troopListing = new TroopListing("https://www.girlscouts.org/includes/cookie/trooplink_list_merged.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
+    troopListing = new TroopListing("/cookiesapi/trooplink_list_merged.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
     troopListing.getResult();
   }
 
@@ -313,7 +313,7 @@ function registerClickOfRegisterButton(){
         }
 
       $.ajax({
-        url: "https://www.girlscouts.org/includes/cookie/trooplink_detail_lookup.asp",
+        url: "/cookiesapi/trooplink_detail_lookup.asp",
         dataType: "json",
         data: data,
         success: function(data) {
@@ -330,7 +330,7 @@ function registerClickOfRegisterButton(){
 
 function registerClickOfBoothFinderButton(){
   $('.booth-finder .viewmap').on('click', function() {
-	  var value = JSON.parse(this.getAttribute('data'));  
+	  var value = JSON.parse($(this).attr("data"));  
     var data = {
         l : value.Location,
         d : value.DateStart,
@@ -339,7 +339,7 @@ function registerClickOfBoothFinderButton(){
     }
 
       $.ajax({
-        url: "https://www.girlscouts.org/includes/cookie/booth_detail_lookup.asp",
+        url: "/cookiesapi/booth_detail_lookup.asp",
         dataType: "json",
         data: data,
         success: function(data) {
