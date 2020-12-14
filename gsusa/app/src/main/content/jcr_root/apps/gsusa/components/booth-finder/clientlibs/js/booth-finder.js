@@ -29,7 +29,7 @@ $(document).ready(function() {
         sortBy = getParameterByName('sortBy');
 
         if(troopListing && !( radius && date && sortBy )){
-			radius = 5000;
+			radius = 500;
 	        date = 60; 
 	        sortBy = 'distance';
         }else{
@@ -38,7 +38,7 @@ $(document).ready(function() {
 	        if (!sortBy) sortBy = 'distance';
         }
 
-        boothFinder = new BoothFinder("https://www.girlscouts.org/includes/cookie/booth_list.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
+        boothFinder = new BoothFinder("/cookiesapi/booth_list.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
 });

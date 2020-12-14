@@ -59,7 +59,7 @@ $(document).ready(function() {
     if (!troopListingSortBy) troopListingSortBy = 'distance';
     //Code for Troop Listing, creating new parameter as
 
-    troopListing = new TroopListing("https://www.girlscouts.org/includes/cookie/trooplink_list_merged.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
+    troopListing = new TroopListing("/cookiesapi/trooplink_list_merged.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
     troopListing.getResult();
   }
 
@@ -313,7 +313,7 @@ function registerClickOfRegisterButton(){
         }
 
       $.ajax({
-        url: "https://www.girlscouts.org/includes/cookie/trooplink_detail_lookup.asp",
+        url: "/cookiesapi/trooplink_detail_lookup.asp",
         dataType: "json",
         data: data,
         success: function(data) {
@@ -339,7 +339,7 @@ function registerClickOfBoothFinderButton(){
     }
 
       $.ajax({
-        url: "https://www.girlscouts.org/includes/cookie/booth_detail_lookup.asp",
+        url: "/cookiesapi/booth_detail_lookup.asp",
         dataType: "json",
         data: data,
         success: function(data) {

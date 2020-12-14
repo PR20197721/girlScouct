@@ -12,6 +12,6 @@
         </section>
     </div>
     <div class="clearfix right">
-        <a class="viewmap button troopRegisterButton" data='{{{json .}}}'>{{{detailsText}}}</a>
+        <a class="viewmap button troopRegisterButton" href="{{StoreURL}}" target=_blank data='{{{json .}}}'>{{{detailsText}}}</a>
     </div>
 </div>
