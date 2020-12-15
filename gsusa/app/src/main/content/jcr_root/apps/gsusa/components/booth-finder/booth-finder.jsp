@@ -6,7 +6,7 @@
 <cq:includeClientLib categories="apps.gsusa.components.boothFinder" />
 
 <%-- Placeholder for the actual render --%>
-<div id="booth-finder-result" class="booth-finder cq-placeholder" data-empty-text="Booth Finder" style="min-height: 100px">
+<div id="booth-finder-result" class="booth-finder cq-placeholder" data-empty-text="Booth Finder">
 	<% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
 	<span>Booth Finder</span>
 	<% } %>

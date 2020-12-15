@@ -16,6 +16,11 @@
                 <option value="100">100 miles</option>
                 <option value="250">250 miles</option>
                 <option value="500" selected>500 miles</option>
+                <option value="1000" selected>1000 miles</option>
+                <option value="2000" selected>2000 miles</option>
+                <option value="3000" selected>3000 miles</option>
+                <option value="4000" selected>4000 miles</option>
+                <option value="5000" selected>5000 miles</option>
             </select>
         </section>
         <section>

@@ -98,7 +98,15 @@ public final class GSSearchResultManager implements GSSearchResultConstants {
 						this.searchResults.remove(key);
 					}
 				}
+				else if (primaryType.equals(NODE_TYPE_DAM_ASSET) && resultNode.hasNode(NODE_JCR_CONTENT)) {
+					Node jcrContentNode = resultNode.getNode(NODE_JCR_CONTENT);
+					if (jcrContentNode.hasProperty("hideInSearch")
+							&& jcrContentNode.getProperty("hideInSearch").getBoolean()) {
+						this.searchResults.remove(key);
+					}
+				}
 			} catch (Exception e) {
+				log.error("Exception: " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
