@@ -16,6 +16,7 @@ import org.apache.sling.api.servlets.HttpConstants;
 import org.apache.sling.api.servlets.OptingServlet;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.girlscouts.common.osgi.component.WebToLead;
+import org.girlscouts.web.service.recaptcha.RecaptchaService;
 import org.girlscouts.web.util.WebToLeadUtils;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Activate;
@@ -46,9 +47,16 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 
     private String oid;
     private String apiURL;
+    
+    protected static final String SECRET = "secret";
+    protected static final String RESPONSE_VAL = "g-recaptcha-response";
+    protected static final String CAPTCHA_RESPONSE = ":cq:captcha";
 
     @Reference
     private WebToLead webToLead;
+    
+    @Reference
+    private RecaptchaService recaptchaService;
 
     @Activate
     private void activate() {
@@ -70,6 +78,26 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
         logger.debug("Processing Post");
+        
+        //Recaptcha Server Validations
+        String responseVal = request.getParameter(RESPONSE_VAL);
+        String captcha = request.getParameter(CAPTCHA_RESPONSE);
+        String secret = request.getParameter(SECRET);
+        if (null == captcha){
+	        if (null != responseVal) {
+		        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
+		        if (!success) {
+		        	logger.debug("Recaptcha validation failed");
+		        	response.sendError(500, "Recaptcha validation failed");
+		        	return;
+		        }
+	        } else {
+	        	logger.debug("Recaptcha response invalid");
+	        	response.sendError(500, "Recaptcha response invalid");
+	        	return;
+	        }
+        }
+        
         List<String> errors = WebToLeadUtils.validateForm(request);
         if(errors!= null && errors.size() > 0){
             WebToLeadResponse respObj = new WebToLeadResponse("error", errors);
