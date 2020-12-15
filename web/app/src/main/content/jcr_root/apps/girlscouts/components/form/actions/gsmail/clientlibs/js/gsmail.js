@@ -2,7 +2,6 @@ $(document).ready(function () {
     var form = $('form#gsmail');
     
     form.find("input[type='submit']").click(form, function (e) {
-        debugger;
         e.stopPropagation();
         submitForm(form);
         document.body.scrollTop = 0; // For Safari
@@ -37,15 +36,9 @@ $(document).ready(function () {
             .success(function (response, status, xhr) {
                 var ct = xhr.getResponseHeader("content-type") || "";
                 if (ct.indexOf('html') > -1) {
-                    var responseForm = $(response).find("#" + formId);
-                    if (responseForm != null && responseForm.length > 0) {
-                        form.html($(responseForm[0]).html());
-                    }
-                }
-                if (ct.indexOf('json') > -1) {
-                    if (response.status == "success") {
+                    if (status == "success") {
                         console.log("form submitted successfully");
-                        var redirect = form.find("input[name=':redirect']");
+                        var redirect = form.find("input[name=':gsredirect']");
                         if (redirect != null && redirect.length > 0) {
                             console.log("redirect to " + $(redirect).val());
                             window.location.href=$(redirect).val();
