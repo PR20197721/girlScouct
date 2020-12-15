@@ -1,0 +1,20 @@
+.troop-listing .detail section:nth-of-type(2) {
+    padding-left: 2rem;
+    padding-right: 0rem;
+    width: 29.16667%;
+    float: right;
+}
+@media only screen and (max-width: 768px) {
+    .row .detail {
+		display: flex;
+	}
+    .troop-listing .detail section:nth-of-type(1) {
+         margin-bottom: 0;
+         max-width: 55%;
+    }
+    .troop-listing .detail section:nth-of-type(2) {
+         margin-left: 5%;
+         padding-left: 5%;
+         width: fit-content;
+    }
+}

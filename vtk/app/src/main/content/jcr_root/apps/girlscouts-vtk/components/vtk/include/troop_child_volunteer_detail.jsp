@@ -51,15 +51,15 @@
                         if (selectedTroop.getRole().equals("PA")) {
                             %>
                             <%if (!isIRM && isRenewMembership(contact.getMembershipYear())) {%>
-                            <a href="<%=configManager.getConfig("renewUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
+                            <a href="<%=configManager.getConfig("renewUrl")%>" class="button">RENEW NOW</a>
                             <%}%>
-                            <a href="<%=configManager.getConfig("renewUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
+                            <a href="<%=configManager.getConfig("renewUrl")%>" class="button">UPDATE CONTACT INFO</a>
                             <%
                         } else {
                             if (!isIRM && isRenewMembership(contact.getMembershipYear())) {%>
-                                <a href="<%=configManager.getConfig("renewUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
+                                <a href="<%=configManager.getConfig("renewUrl")%>" class="button">RENEW NOW</a>
                             <%}%>
-                            <a href="<%=configManager.getConfig("renewUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
+                            <a href="<%=configManager.getConfig("renewUrl")%>" class="button">UPDATE CONTACT INFO</a>
                             <%
                         }
                     %>

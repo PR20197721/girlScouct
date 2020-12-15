@@ -12,8 +12,11 @@ girlscouts.components.login = {
 	    var randNum = new Date().getTime().toString() + Math.floor((Math.random() * 1000) + 1).toString();
 	    var script = document.createElement('script');
 	    script.type = 'text/javascript';
-	    script.src = target + '?rand=' + randNum;
-	    document.getElementsByTagName('head')[0].appendChild(script);
+		script.src = target + '?rand=' + randNum;
+		document.getElementsByTagName('head')[0].appendChild(script);
+        if(!($('.login').children().length > 0)){
+            girlscouts.components.login.sayHello('signedout', 'undefined');
+        }
     },
     
     signOut: function() {
@@ -27,7 +30,7 @@ girlscouts.components.login = {
 	    if (state === 'signedin') {
 		    html = '<span>' + 'Hello ' + name.replace(" ","&nbsp;") + '.' + '</span>'+
 		    '<a href="javascript:void(0)" onclick="girlscouts.components.login.signOut();" class="signout link-login">SIGN OUT</a>';
-	    } else if (state === 'signedout') {
+	    } else if (state === 'signedout' || state === 'undefined' || state === 'null') {
 		    html = '<a href="' + this.signInUrl + '" class="signin link-login">SIGN IN</a>';
     	}
 	    $('.login').html(html);
