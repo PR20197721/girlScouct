@@ -16,7 +16,7 @@
     String emailTo = ",";
     try {
         for (int i = 0; i < contacts.size(); i++) {
-            if (null != contacts.get(i).getPrimaryGuardian().getEmail() && !emailTo.contains(contacts.get(i).getPrimaryGuardian().getEmail().trim() + ",")) {
+            if (null != contacts.get(i).getPrimaryGuardian() && null != contacts.get(i).getPrimaryGuardian().getEmail() && !emailTo.contains(contacts.get(i).getPrimaryGuardian().getEmail().trim() + ",")) {
                 emailTo += java.net.URLEncoder.encode("<" + contacts.get(i).getPrimaryGuardian().getEmail() + ">") + ","; 
             }
         }
