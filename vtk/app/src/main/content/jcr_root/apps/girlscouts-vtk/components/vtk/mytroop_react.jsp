@@ -16,8 +16,14 @@
     String emailTo = ",";
     try {
         for (int i = 0; i < contacts.size(); i++) {
-            if (null != contacts.get(i).getPrimaryGuardian() && null != contacts.get(i).getPrimaryGuardian().getEmail() && !emailTo.contains(contacts.get(i).getPrimaryGuardian().getEmail().trim() + ",")) {
-                emailTo += java.net.URLEncoder.encode("<" + contacts.get(i).getPrimaryGuardian().getEmail() + ">") + ","; 
+            if ("Girl".equals(contacts.get(i).getRole())) {
+                if (null != contacts.get(i).getPrimaryGuardian() && null != contacts.get(i).getPrimaryGuardian().getEmail() && !emailTo.contains(contacts.get(i).getPrimaryGuardian().getEmail().trim() + ",")) {
+                    emailTo += contacts.get(i).getPrimaryGuardian().getEmail() + ","; 
+                }
+            } else if ("Adult".equals(contacts.get(i).getRole())) {
+				if (null != contacts.get(i).getEmail() && !emailTo.contains(contacts.get(i).getEmail().trim() + ",")) {
+                    emailTo += contacts.get(i).getEmail() + ","; 
+                }
             }
         }
         emailTo = emailTo.trim();
