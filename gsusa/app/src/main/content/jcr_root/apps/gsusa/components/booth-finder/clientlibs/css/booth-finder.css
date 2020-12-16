@@ -1,3 +1,6 @@
+.booth-finder .detail{
+     display : flex;
+  }
 .booth-finder .share-modal{
      margin-top:1rem;
 }
