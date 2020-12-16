@@ -57,14 +57,14 @@
                 String dob = "";
                 if (gsContact.getDob() != null) {
                     try {
-                        dob = VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, VtkUtil.parseDate(VtkUtil.FORMAT_yyyyMMdd, gsContact.getDob()));
+                        dob = gsContact.getDob();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                csv.append(fmtValue((gsContact.getFirstName() + " " + gsContact.getRole())) + ",");
+                csv.append(fmtValue((gsContact.getFirstName() + " " + gsContact.getLastName())) + ",");
                 csv.append(fmtValue((caregiver == null ? "" : (caregiver.getFirstName() == null ? "" : caregiver.getFirstName())) + " " + ((caregiver.getLastName() == null ? "" : caregiver.getLastName()))) + ",");
-                csv.append(fmtValue(gsContact.getEmail()) + "," + (gsContact.getPhone() == null ? "" : fmtValue(gsContact.getPhone())) + "," + fmtValue(dob) + "," + fmtValue(age) + ",");
+                csv.append(fmtValue(caregiver.getEmail()) + "," + (gsContact.getPhone() == null ? "" : fmtValue(gsContact.getPhone())) + "," + fmtValue(dob) + "," + fmtValue(age) + ",");
                 //address
                 String address = (gsContact.getAddress() == null ? "" : gsContact.getAddress()) + " " + (gsContact.getCity() == null ? "" : gsContact.getCity()) + " " + (gsContact.getState() == null ? "" : (", " + gsContact.getState())) + " " + (gsContact.getZip() == null ? "" : gsContact.getZip());
                 csv.append(fmtValue(address) + ",");
