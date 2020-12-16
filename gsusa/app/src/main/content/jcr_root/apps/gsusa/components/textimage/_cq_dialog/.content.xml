@@ -110,6 +110,13 @@
                                 fieldDescription="Drop files or pages from the Content Finder"
                                 fieldLabel="Link to"
                                 name="./image/linkURL"/>
+                            <newWindow
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                    name="./newWindow"
+                                    text="Open Link in New Window"
+                                    value="{Boolean}true"
+                                    uncheckedValue="{Boolean}false"/>
                             <description
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textarea"
