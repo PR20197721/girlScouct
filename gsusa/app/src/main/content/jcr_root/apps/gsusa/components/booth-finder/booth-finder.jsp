@@ -3,6 +3,9 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 
+<% String filterDistancePerMiles = properties.get("./filterDistancePerMiles", "500"); %>
+<span id="filter-distance-per-miles" data="<%= filterDistancePerMiles %>"></span>
+
 <cq:includeClientLib categories="apps.gsusa.components.boothFinder" />
 
 <%-- Placeholder for the actual render --%>

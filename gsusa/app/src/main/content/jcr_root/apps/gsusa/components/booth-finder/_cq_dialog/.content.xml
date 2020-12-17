@@ -29,6 +29,70 @@
                                 fieldDescription="Number of booths shown on each page"
                                 fieldLabel="Number of Booths Per Page"
                                 name="./numPerPage"/>
+                            <filterDistancePerMiles
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                fieldLabel="Default Radius Value For Booth Finder"
+                                name="./filterDistancePerMiles">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <_x0031_miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="1 miles"
+                                        value="1"/>
+                                    <_x0035_miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="5 miles"
+                                        value="5"/>
+                                    <_x0031_0miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="10 miles"
+                                        value="10"/>
+                                    <_x0031_5miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="15 miles"
+                                        value="15"/>
+                                    <_x0032_5miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="25 miles"
+                                        value="25"/>
+                                    <_x0035_0miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="50 miles"
+                                        value="50"/>
+                                    <_x0031_00miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="100 miles"
+                                        value="100"/>
+                                    <_x0032_50miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="250 miles"
+                                        value="250"/>
+                                    <_x0035_00miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="500 miles"
+                                        value="500"/>
+                                    <_x0031_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="1000 miles"
+                                        value="1000"/>
+                                    <_x0032_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="2000 miles"
+                                        value="2000"/>
+                                    <_x0033_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="3000 miles"
+                                        value="3000"/>
+                                    <_x0034_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="4000 miles"
+                                        value="4000"/>
+                                    <_x0035_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="5000 miles"
+                                        value="5000"/>
+                                </items>
+                            </filterDistancePerMiles>
                         </items>
                     </columns>
                 </items>

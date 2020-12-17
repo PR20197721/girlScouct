@@ -1,4 +1,5 @@
 var troopListing = $("#troop-listing-config").data("troop-listing");
+var filterDistancePerMiles = $("#filter-distance-per-miles").attr("data") || "500";
 $(document).ready(function() {
     var map;
     var geocoder;
@@ -29,11 +30,11 @@ $(document).ready(function() {
         sortBy = getParameterByName('sortBy');
 
         if(troopListing && !( radius && date && sortBy )){
-			radius = 500;
+			radius = filterDistancePerMiles;
 	        date = 60; 
 	        sortBy = 'distance';
         }else{
-			if (!radius) radius = 25;
+			if (!radius) radius = filterDistancePerMiles;
 	        if (!date) date = 60;
 	        if (!sortBy) sortBy = 'distance';
         }
@@ -139,11 +140,11 @@ BoothFinder.prototype.processResult = function(result) {
 		        dateEmpty = getParameterByName('date');
 		        sortByEmpty = getParameterByName('sortBy');
 		        if(troopListing && !( radiusEmpty && dateEmpty && sortByEmpty )){
-					radiusEmpty = 5000;
+					radiusEmpty = filterDistancePerMiles;
 			        dateEmpty = 60;
 			        sortByEmpty = 'distance';
 		        }else{
-					if (!radiusEmpty) radiusEmpty = 25;
+					if (!radiusEmpty) radiusEmpty = filterDistancePerMiles;
 	                if (!dateEmpty) dateEmpty = 60;
 	                if (!sortByEmpty) sortByEmpty = 'distance'
 					$('select[name="radius"]').val(radiusEmpty);
