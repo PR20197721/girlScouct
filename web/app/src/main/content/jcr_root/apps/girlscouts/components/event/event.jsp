@@ -382,6 +382,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 			</b>
 			</div>
 		</div>
+		<!-- GSAWDO-85-remove-location-field-from-all-council-websites -->
 		<!-- <div class="row">
 			<div class="small-8 medium-8 large-8 columns">
 				<b>Location:</b>
