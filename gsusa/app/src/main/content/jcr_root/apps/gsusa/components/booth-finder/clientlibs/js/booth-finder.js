@@ -1,5 +1,7 @@
 var troopListing = $("#troop-listing-config").data("troop-listing");
 var filterDistancePerMiles = $("#filter-distance-per-miles").attr("data") || "500";
+var boothListingApiURL = $("#booth-listing-api-url").attr("data") || "/cookiesapi/booth_list_merged.asp";
+var boothListingLookupApiURL = $("#booth-listing-lookup-api-url").attr("data") || "/includes/cookie/booth_detail_lookup.asp";
 $(document).ready(function() {
     var map;
     var geocoder;
@@ -39,9 +41,10 @@ $(document).ready(function() {
 	        if (!sortBy) sortBy = 'distance';
         }
 
-        boothFinder = new BoothFinder("/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
+        boothFinder = new BoothFinder(boothListingApiURL, zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
+    registerClickOfBoothFinderButton();
 });
 
 
@@ -470,3 +473,28 @@ function initFB() {
     });
 }
 //booth-detail-script - End
+
+function registerClickOfBoothFinderButton(){
+  $('.booth-finder .viewmap').on('click', function() {
+	  var value = JSON.parse($(this).attr("data"));
+    var data = {
+        l : value.Location,
+        d : value.DateStart,
+        z : value.ZipCode,
+        s : "Website"
+    }
+
+      $.ajax({
+        url: boothListingLookupApiURL,
+        dataType: "json",
+        data: data,
+        success: function(data) {
+          if (data) {
+            console.log('Redirecting from BoothFinder');
+          } else {
+            console.log('Error occured in redirecting');
+          }
+        }
+      });
+  });
+}

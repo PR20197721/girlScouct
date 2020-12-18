@@ -4,7 +4,9 @@
 <%@page session="false" %>
 
 <% String filterDistancePerMiles = properties.get("./filterDistancePerMiles", "500"); %>
-<span id="filter-distance-per-miles" data="<%= filterDistancePerMiles %>"></span>
+<span id="filter-distance-per-miles" data="<%= filterDistancePerMiles %>" ></span>
+<span id="booth-listing-api-url" data="<%= properties.get("boothListingApiURL")%>" ></span>
+<span id="booth-listing-lookup-api-url" data="<%= properties.get("boothListingLookupApiURL")%>" ></span>
 
 <cq:includeClientLib categories="apps.gsusa.components.boothFinder" />
 

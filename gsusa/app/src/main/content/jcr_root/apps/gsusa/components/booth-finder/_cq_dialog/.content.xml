@@ -93,6 +93,18 @@
                                         value="5000"/>
                                 </items>
                             </filterDistancePerMiles>
+                            <boothListingApiURL
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Booth Listing Api URL (please enter relative api URL)"
+                                fieldLabel="Booth Listing Api URL (please enter relative api URL)"
+                                name="./boothListingApiURL"/>
+                            <boothListingLookupApiURL
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Booth Listing Lookup Api URL (please enter relative api URL)"
+                                fieldLabel="Booth Listing Lookup Api URL (please enter relative api URL)"
+                                name="./boothListingLookupApiURL"/>
                         </items>
                     </columns>
                 </items>
