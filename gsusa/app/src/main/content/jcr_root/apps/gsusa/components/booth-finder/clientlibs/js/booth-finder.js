@@ -286,7 +286,7 @@ BoothFinder.prototype.processResult = function(result) {
 		        date = 60;
 		        sortBy = 'distance';
 	        }else{
-				if (!radius) radius = 25;
+				if (!radius) radius = filterDistancePerMiles;
 		        if (!date) date = 60;
 		        if (!sortBy) sortBy = 'distance';
 				$('select[name="radius"]').val(radius);

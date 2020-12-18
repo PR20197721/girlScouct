@@ -327,28 +327,3 @@ function registerClickOfRegisterButton(){
 
   });
 }
-
-function registerClickOfBoothFinderButton(){
-  $('.booth-finder .viewmap').on('click', function() {
-	  var value = JSON.parse($(this).attr("data"));  
-    var data = {
-        l : value.Location,
-        d : value.DateStart,
-        z : value.ZipCode,
-        s : "Website"
-    }
-
-      $.ajax({
-        url: "/cookiesapi/booth_detail_lookup.asp",
-        dataType: "json",
-        data: data,
-        success: function(data) {
-          if (data) {
-            console.log('Redirecting from BoothFinder');
-          } else {
-            console.log('Error occured in redirecting');
-          }
-        }
-      });
-  });
-}
