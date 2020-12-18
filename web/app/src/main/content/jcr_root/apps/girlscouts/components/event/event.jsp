@@ -541,10 +541,11 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
      <%if(register!=null && !register.isEmpty()){%>
         <div class="eventDetailsRegisterLink">
     	 	<a class="button" href="<%=genLink(resourceResolver, register)%>">REGISTER NOW</a>
-    	 	<% if(includeCart && !eventID.equals("-1")){ %>
+    	 	<!-- GSAWDO-72-Remove-Add-to-MyActivities -->
+    	 	<!-- <% if(includeCart && !eventID.equals("-1")){ %>
     	 	<a class="button" onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= currentPage.getPath() %>', '<%=register %>'); return false;">Add to MyActivities</a>
     		<%}
-    		%>
+    		%> -->
 
     	</div>
      <%} %>
