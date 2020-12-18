@@ -13,6 +13,8 @@ var anotherTroopTextColor = $("#troop-listing-config").data("another-troop-text-
 var anotherTroopText = $("#troop-listing-config").data("another-troop-text");
 
 var oneLinkCount = $("#troop-listing-config").data("one-link-count");
+var troopListingApiURL = $("#troop-listing-config").data("troop-listing-api-url") || "/includes/cookie/trooplink_list_merged.asp";
+var troopListingLookupApiURL = $("#troop-listing-config").data("troop-listing-lookup-api-url") || "/includes/cookie/trooplink_detail_lookup.asp";
 
 //Creating a Global Object to pass on config values.
 var troopListingConfigObj = {};
@@ -59,7 +61,7 @@ $(document).ready(function() {
     if (!troopListingSortBy) troopListingSortBy = 'distance';
     //Code for Troop Listing, creating new parameter as
 
-    troopListing = new TroopListing("/cookiesapi/trooplink_list_merged.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
+    troopListing = new TroopListing(troopListingApiURL, troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
     troopListing.getResult();
   }
 
@@ -106,7 +108,6 @@ TroopListing.prototype.processResult = function(result) {
     var templatePathID = 'template-notfound';
     html = Handlebars.compile($('#' + templatePathID).html())(result);
     $('#troop-listing-result').append(html);
-    this.page++;
   } else if (troops && troops.length != 0) {
 
     //logic for Randomizing the 0 mile records so as to give a fair chance to every troop.
@@ -153,9 +154,6 @@ TroopListing.prototype.processResult = function(result) {
       var templatePathID = 'template-troop-listing';
       var html = Handlebars.compile($('#' + templatePathID).html())(result);
       $('#troop-listing-result').html(html);
-      this.page++;
-
-
 
       // Bind click on more, this code is kept here, cause page counter 1 will only come once and this will not get register multiple times.
       $('.troop-listing #more').on('click', function() {
@@ -176,6 +174,7 @@ TroopListing.prototype.processResult = function(result) {
     applyTroopListingConfigChanges(result);
 	applySupportAnotherTroopConfig();
   }
+  this.page++;
   //CALL TO HIDE THE BOTTOM BORDER OF THE LAST BUTTON
   fixLastResultBottomBorder();
   registerClickOfRegisterButton();
@@ -230,7 +229,10 @@ function applyTroopListingConfigChanges() {
 function applySupportAnotherTroopConfig() {
   //hide of supportAntherTroop section if supportAnotherTroop is not checked
   if (troopListingConfigObj["supportAnotherTroop"] && troopListingConfigObj["showOneLink"]) {
+    $(".troop-listing .show-more").addClass("hide");
     $(".supportAnotherTroopSection").removeClass("hide");
+  }else if(troopListingConfigObj["showOneLink"]){
+    $(".troop-listing .show-more").addClass("hide");
   }
   // updating text,text color,hover color,color  for support another troop button, if author has authored it
   if (troopListingConfigObj["anotherTroopText"] != null) {
@@ -313,7 +315,7 @@ function registerClickOfRegisterButton(){
         }
 
       $.ajax({
-        url: "/cookiesapi/trooplink_detail_lookup.asp",
+        url: troopListingLookupApiURL,
         dataType: "json",
         data: data,
         success: function(data) {
