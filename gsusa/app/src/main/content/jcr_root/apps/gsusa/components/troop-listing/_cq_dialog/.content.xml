@@ -241,6 +241,18 @@
                                 max="{Long}25"
                                 min="{Long}1"
                                 name="./oneLinkCount"/>
+                            <troopListingApiURL
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Troop Listing Api URL (please enter relative api URL)"
+                                fieldLabel="Troop Listing Api URL (please enter relative api URL)"
+                                name="./troopListingApiURL"/>
+                            <troopListingLookupApiURL
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Troop Listing Lookup Api URL (please enter relative api URL)"
+                                fieldLabel="Troop Listing Lookup Api URL (please enter relative api URL)"
+                                name="./troopListingLookupApiURL"/>
                         </items>
                     </columns>
                 </items>

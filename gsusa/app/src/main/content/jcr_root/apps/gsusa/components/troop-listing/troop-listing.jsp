@@ -33,7 +33,9 @@ if(null!= onTime && null!=offTime){
 	data-hover-button-color="<%= properties.get("hoverButtonColor")%>" data-text-color="<%= properties.get("textColor")%>"
 	data-text="<%= properties.get("text")%>" data-another-troop-button-color="<%= properties.get("anotherTroopButtonColor")%>"
 	data-another-troop-hover-button-color="<%= properties.get("anotherTroopHoverButtonColor")%>" data-another-troop-text-color="<%= properties.get("anotherTroopTextColor")%>"
-	data-another-troop-text="<%= properties.get("anotherTroopText")%>" data-one-link-count="<%= properties.get("oneLinkCount")%>"> </span>
+	data-another-troop-text="<%= properties.get("anotherTroopText")%>" data-one-link-count="<%= properties.get("oneLinkCount")%>"
+	data-troop-listing-api-url="<%= properties.get("troopListingApiURL")%>" data-troop-listing-lookup-api-url="<%= properties.get("troopListingLookupApiURL")%>"
+	> </span>
 
 	<div id="troop-listing-details" data-num-per-page="<%= properties.get("numPerPage", 25)%>" data-res-path="<%= resource.getPath() %>"></div>
 
