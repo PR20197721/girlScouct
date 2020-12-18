@@ -50,6 +50,7 @@
 
 <%-- Template for not found --%>
 <script id="template-notfound" type="text/x-handlebars-template">
+	<cq:include script="booth-list-filter.jsp" />
 	<cq:include script="not-found.jsp" />
 </script>
 
