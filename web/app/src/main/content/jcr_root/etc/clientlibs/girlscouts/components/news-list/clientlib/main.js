@@ -50,6 +50,7 @@ function NewsLoader(jsonPath, containerObj, renderedFeatureNews) {
 
     function loadMore(){
         if(isMore && !isProcessing){
+            var tempScrollTop = $(window).scrollTop();
             isProcessing = true;
             loader.show();
             $.getJSON(path+newssOffset+".html", function (data) {
@@ -65,6 +66,7 @@ function NewsLoader(jsonPath, containerObj, renderedFeatureNews) {
                             newsCount++;
                         }catch(e){};
                     });
+                    $(window).scrollTop(tempScrollTop);
                 }catch(err){}
                 loader.hide();
                 isProcessing = false;

@@ -137,14 +137,32 @@ TroopListing.prototype.processResult = function(result) {
       
       var troop = troops[troopIndex];
       if (troop.StoreURL != null && (troop.StoreURL.includes("http://") || troop.StoreURL.includes("https://"))) {
-        troop.Location = "<a href=\"" + troop.StoreURL + "\" target=\"_blank\">" + troop.TroopName + "</a>";
         troop.detailsText = "Get Cookies";
         troop.City = troop.City;
         troop.Distance = troop.Distance;
         troop.State = troop.State;
         troop.ZipCode = troop.ZipCode;
         troop.DateEnd = troop.DateEnd;
-        troop.visitBoothUrl = troop.StoreURL;
+
+        //GSAWDO-84 Detect "utm_campaign", "utm_medium", "utm_source" from query parameters, and if present, append it to the Troop Link StoreURL
+	    var utmCampaign = getParameterByName('utm_campaign');
+	    var utmMedium = getParameterByName('utm_medium');
+	    var utmSource = getParameterByName('utm_source');
+	    //updating the StroreLink to append utm parameters
+	    var troopStoreUrl = troop.StoreURL;
+	    if(troopStoreUrl){
+	        if(troopStoreUrl.indexOf('?') == -1){
+	            if(utmCampaign && utmMedium && utmSource){
+	                troopStoreUrl = troopStoreUrl+"?utm_campaign="+utmCampaign+"&utm_medium="+utmMedium+"&utm_source="+utmSource;
+	            }
+	        }else{
+                if(utmCampaign && utmMedium && utmSource){
+	                troopStoreUrl = troopStoreUrl+"&utm_campaign="+utmCampaign+"&utm_medium="+utmMedium+"&utm_source="+utmSource;
+	            }
+	        }
+	    }
+        troop.Location = "<a href=\"" + troopStoreUrl + "\" target=\"_blank\">" + troop.TroopName + "</a>";
+        troop.visitBoothUrl = troopStoreUrl;
       }
     }
 
