@@ -3,6 +3,11 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 
+<% String filterDistancePerMiles = properties.get("./filterDistancePerMiles", "500"); %>
+<span id="filter-distance-per-miles" data="<%= filterDistancePerMiles %>" ></span>
+<span id="booth-listing-api-url" data="<%= properties.get("boothListingApiURL")%>" ></span>
+<span id="booth-listing-lookup-api-url" data="<%= properties.get("boothListingLookupApiURL")%>" ></span>
+
 <cq:includeClientLib categories="apps.gsusa.components.boothFinder" />
 
 <%-- Placeholder for the actual render --%>
@@ -45,6 +50,7 @@
 
 <%-- Template for not found --%>
 <script id="template-notfound" type="text/x-handlebars-template">
+	<cq:include script="booth-list-filter.jsp" />
 	<cq:include script="not-found.jsp" />
 </script>
 
