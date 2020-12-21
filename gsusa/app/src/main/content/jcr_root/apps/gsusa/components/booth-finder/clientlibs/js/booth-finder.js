@@ -298,8 +298,9 @@ BoothFinder.prototype.processResult = function(result) {
     }
 
     // Share dialog
+    const shareModelEle = $("#booth-finder-result").find(".share-modal");
     var showShareDialog = $('#share-showShareDialog').attr('data') == 'true';
-    if (showShareDialog) {
+    if (showShareDialog && shareModelEle && shareModelEle.length ===0) {
         var shareModalHtml = Handlebars.compile($('#template-sharemodal').html())({
             buttonCaption: "SHARE WITH YOUR FRIENDS",
             header: $('#share-shareDialogHeader').attr('data'),
