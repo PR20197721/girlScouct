@@ -44,7 +44,6 @@ $(document).ready(function() {
         boothFinder = new BoothFinder(boothListingApiURL, zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
-    registerClickOfBoothFinderButton();
 });
 
 
@@ -200,7 +199,7 @@ BoothFinder.prototype.processResult = function(result) {
 
     if (templateId == 'booths') {
         // Bind "View Details" buttons
-        $('.viewmap.button').on('click', function() {
+        $('.booth-finder .viewmap.button').on('click', function() {
             var booth = JSON.parse($(this).attr('data'));
             if(booth.detailsText == "Get Cookies"){
                 window.open(booth.visitBoothUrl);
@@ -269,6 +268,27 @@ BoothFinder.prototype.processResult = function(result) {
             }
             //GSDO-1024 :multiple-gmaps-api-call :End
 
+            //Lookup Call
+            var value = JSON.parse($(this).attr("data"));
+            var data = {
+                l : value.Location,
+                d : value.DateStart,
+                z : value.ZipCode,
+                s : "Website"
+            }
+
+            $.ajax({
+                url: boothListingLookupApiURL,
+                dataType: "json",
+                data: data,
+                success: function(data) {
+                if (data) {
+                    console.log('Redirecting from BoothFinder');
+                } else {
+                    console.log('Error occured in redirecting');
+                }
+                }
+            });
         });
 
         if (this.page == 1) {
@@ -474,28 +494,3 @@ function initFB() {
     });
 }
 //booth-detail-script - End
-
-function registerClickOfBoothFinderButton(){
-  $('.booth-finder .viewmap').on('click', function() {
-	  var value = JSON.parse($(this).attr("data"));
-    var data = {
-        l : value.Location,
-        d : value.DateStart,
-        z : value.ZipCode,
-        s : "Website"
-    }
-
-      $.ajax({
-        url: boothListingLookupApiURL,
-        dataType: "json",
-        data: data,
-        success: function(data) {
-          if (data) {
-            console.log('Redirecting from BoothFinder');
-          } else {
-            console.log('Error occured in redirecting');
-          }
-        }
-      });
-  });
-}
