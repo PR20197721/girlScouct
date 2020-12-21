@@ -66,7 +66,6 @@ $(document).ready(function() {
   }
 
   registerClickOfRegisterButton();
-  registerClickOfBoothFinderButton();
 });
 
 
@@ -195,8 +194,6 @@ TroopListing.prototype.processResult = function(result) {
   this.page++;
   //CALL TO HIDE THE BOTTOM BORDER OF THE LAST BUTTON
   fixLastResultBottomBorder();
-  registerClickOfRegisterButton();
-  registerClickOfBoothFinderButton();
 }
 
 function getParameterByName(name) {
