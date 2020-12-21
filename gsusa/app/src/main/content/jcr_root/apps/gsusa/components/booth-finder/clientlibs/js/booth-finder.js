@@ -141,19 +141,14 @@ BoothFinder.prototype.processResult = function(result) {
 		        radiusEmpty = getParameterByName('radius');
 		        dateEmpty = getParameterByName('date');
 		        sortByEmpty = getParameterByName('sortBy');
-		        if(troopListing && !( radiusEmpty && dateEmpty && sortByEmpty )){
-					radiusEmpty = filterDistancePerMiles;
-			        dateEmpty = 60;
-			        sortByEmpty = 'distance';
-		        }else{
-					if (!radiusEmpty) radiusEmpty = filterDistancePerMiles;
-	                if (!dateEmpty) dateEmpty = 60;
-	                if (!sortByEmpty) sortByEmpty = 'distance'
-					$('select[name="radius"]').val(radiusEmpty);
-	                $('select[name="date"]').val(dateEmpty);
-	                $('select[name="sortBy"]').val(sortByEmpty);
-	                $('#emptyForm').show();
-                 }
+                if (!radiusEmpty) radiusEmpty = filterDistancePerMiles;
+                if (!dateEmpty) dateEmpty = 60;
+                if (!sortByEmpty) sortByEmpty = 'distance'
+                $('select[name="radius"]').val(radiusEmpty);
+                $('select[name="date"]').val(dateEmpty);
+                $('select[name="sortBy"]').val(sortByEmpty);
+                $('#emptyForm').show();
+                 
             }, 1000);
         }
     }
@@ -300,19 +295,14 @@ BoothFinder.prototype.processResult = function(result) {
 	        radius = getParameterByName('radius');
 	        date = getParameterByName('date');
 	        sortBy = getParameterByName('sortBy');
-
-	        if(troopListing && !( radius && date && sortBy )){
-				radius = 5000;
-		        date = 60;
-		        sortBy = 'distance';
-	        }else{
-				if (!radius) radius = filterDistancePerMiles;
-		        if (!date) date = 60;
-		        if (!sortBy) sortBy = 'distance';
-				$('select[name="radius"]').val(radius);
-	            $('select[name="date"]').val(date);
-	            $('select[name="sortBy"]').val(sortBy);
-	        }
+	        
+            if (!radius) radius = filterDistancePerMiles;
+            if (!date) date = 60;
+            if (!sortBy) sortBy = 'distance';
+            $('select[name="radius"]').val(radius);
+            $('select[name="date"]').val(date);
+            $('select[name="sortBy"]').val(sortBy);
+	        
 
             // Bind click more
             $('.booth-finder #more').on('click', function() {
