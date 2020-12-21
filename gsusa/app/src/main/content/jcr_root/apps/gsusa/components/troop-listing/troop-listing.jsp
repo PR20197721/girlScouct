@@ -60,7 +60,34 @@ if(null!= onTime && null!=offTime){
 	}
 }
 %>
+<style>
+.troopListingCustomButton{
+	<%
+		String textColor = properties.get("textColor","#FFFFFF");
+		String getCookieButtonColor = properties.get("getCookieButtonColor","#00AE58");
+		String hoverButtonColor = properties.get("hoverButtonColor","#008b46");
+	%>
+		color: <%= textColor%> !important;
+		background-color: <%= getCookieButtonColor%> !important;
+}
+.troopListingCustomButton:hover{
+    	background-color: <%= hoverButtonColor%> !important;
+}
 
+.anotherTroopListingCustomButton{
+	<%
+		String anotherTroopTextColor = properties.get("anotherTroopTextColor","#FFFFFF");
+		String anotherTroopButtonColor = properties.get("anotherTroopButtonColor","#00AE58");
+		String anotherTroopHoverButtonColor = properties.get("anotherTroopHoverButtonColor","#008b46");
+	%>
+		color: <%= anotherTroopTextColor%> !important;
+		background-color: <%= anotherTroopButtonColor%> !important;
+}
+.anotherTroopListingCustomButton:hover{
+    	background-color: <%= anotherTroopHoverButtonColor%> !important;
+}
+
+</style>
 
 
 
