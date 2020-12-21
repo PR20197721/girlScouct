@@ -66,7 +66,6 @@ $(document).ready(function() {
   }
 
   registerClickOfRegisterButton();
-  registerClickOfBoothFinderButton();
 });
 
 
@@ -195,8 +194,6 @@ TroopListing.prototype.processResult = function(result) {
   this.page++;
   //CALL TO HIDE THE BOTTOM BORDER OF THE LAST BUTTON
   fixLastResultBottomBorder();
-  registerClickOfRegisterButton();
-  registerClickOfBoothFinderButton();
 }
 
 function getParameterByName(name) {
@@ -345,30 +342,5 @@ function registerClickOfRegisterButton(){
         }
       });
 
-  });
-}
-
-function registerClickOfBoothFinderButton(){
-  $('.booth-finder .viewmap').on('click', function() {
-	  var value = JSON.parse($(this).attr("data"));  
-    var data = {
-        l : value.Location,
-        d : value.DateStart,
-        z : value.ZipCode,
-        s : "Website"
-    }
-
-      $.ajax({
-        url: "/cookiesapi/booth_detail_lookup.asp",
-        dataType: "json",
-        data: data,
-        success: function(data) {
-          if (data) {
-            console.log('Redirecting from BoothFinder');
-          } else {
-            console.log('Error occured in redirecting');
-          }
-        }
-      });
   });
 }
