@@ -37,14 +37,15 @@
             PrimaryGuardian caregiver = gsContact.getPrimaryGuardian();
             if (caregiver != null) {
                 if ("Girl".equals(gsContact.getRole())) {
-                    pdfDataDetails.append("<tr><td style=\"width:20%;max-width:20%;\">" + (gsContact.getFirstName() + " " + gsContact.getRole()) + "</td>");
+                    pdfDataDetails.append("<tr><td style=\"width:20%;max-width:20%;\">" + (gsContact.getFirstName() + " " + gsContact.getLastName()) + "</td>");
                     pdfDataDetails.append("<td style=\"width:20%;max-width:20%;\">" + (caregiver == null ? "" : (caregiver.getFirstName() == null ? "" : caregiver.getFirstName())) + " " + ((caregiver.getLastName() == null ? "" : caregiver.getLastName())) + "</td>");
-                    pdfDataDetails.append("<td style=\"width:40%;max-width:40%;\">" + gsContact.getEmail() + "</td>");
+                    pdfDataDetails.append("<td style=\"width:30%;max-width:30%;\">" + caregiver.getEmail() + "</td>");
+                    pdfDataDetails.append("<td style=\"width:10%;max-width:10%;\">" + gsContact.getDob() + "</td>");
                     pdfDataDetails.append("<td style=\"width:20%;max-width:20%;\">" + (gsContact.getPhone() == null ? "" : gsContact.getPhone()) + "</td>");
                     pdfDataDetails.append("</tr>");
                     girlCounter++;
                 } else if ("Adult".equals(gsContact.getRole())) {
-                    pdfDataDetails_adults.append("<tr><td style=\"width:20%;max-width:20%;\">" + (gsContact.getFirstName() + " " + gsContact.getRole()) + "</td>");
+                    pdfDataDetails_adults.append("<tr><td style=\"width:20%;max-width:20%;\">" + (gsContact.getFirstName() + " " + gsContact.getLastName()) + "</td>");
                     pdfDataDetails_adults.append("<td style=\"width:40%;max-width:40%;\">" + gsContact.getEmail() + "</td>");
                     pdfDataDetails_adults.append("<td style=\"width:20%;max-width:20%;\">" + (gsContact.getPhone() == null ? "" : gsContact.getPhone()) + "</td>");
                     pdfDataDetails_adults.append("</tr>");
@@ -61,6 +62,7 @@
     pdfData.append("<tr><th>GIRL SCOUT</th>");
     pdfData.append("<th>PARENT GUARDIAN</th>");
     pdfData.append("<th>PARENT EMAIL</th>");
+	pdfData.append("<th>GIRL DOB</th>");
     pdfData.append("<th>PARENT PHONE</th>");
     pdfData.append("</tr>");
     pdfData.append(pdfDataDetails);
