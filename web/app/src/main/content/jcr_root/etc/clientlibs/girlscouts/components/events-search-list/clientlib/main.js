@@ -203,8 +203,9 @@ function EventLoader(jsonPath, containerObj) {
   				title = title.replace(/"\""/g, "&quot");
   				title = title.replace(/"\'"/g, "\\\\'");
   				var addToCartFunc = "addToCart('"+title+"','"+eid+"','"+event.path+".html', '" + event.registerLink + "'); return false;";
-  				var $addToCartLink =  $("<a>", {"onclick":addToCartFunc}).append("Add to MyActivities");
-  				$div.append($addToCartLink);
+  				//GSAWDO-72-Remove-Add-to-MyActivities
+  				//var $addToCartLink =  $("<a>", {"onclick":addToCartFunc}).append("Add to MyActivities");
+  				//$div.append($addToCartLink);
   				return $div;
   			}
   		}catch(err){}

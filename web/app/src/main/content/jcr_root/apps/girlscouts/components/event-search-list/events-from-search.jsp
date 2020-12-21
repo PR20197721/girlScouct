@@ -300,7 +300,8 @@ if(null!=srchInfo) {
 							<%if(includeCart && register!=null && !register.isEmpty() && !eventID.equals("-1")){%>
 						        <div class="eventDetailsRegisterLink">
 						    	 	<a href="<%=genLink(resourceResolver, register)%>">Register Now</a>
-						    	 	<a onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= href %>', '<%=register %>'); return false;">Add to MyActivities</a>
+						    	 	<!-- GSAWDO-72-Remove-Add-to-MyActivities -->
+						    	 	<!-- <a onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= href %>', '<%=register %>'); return false;">Add to MyActivities</a> -->
 						    	</div>
     						<%} %>
 						</div>
