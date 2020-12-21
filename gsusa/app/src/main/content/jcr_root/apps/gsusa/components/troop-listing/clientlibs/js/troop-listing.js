@@ -194,6 +194,7 @@ TroopListing.prototype.processResult = function(result) {
   this.page++;
   //CALL TO HIDE THE BOTTOM BORDER OF THE LAST BUTTON
   fixLastResultBottomBorder();
+  registerClickOfRegisterButton();
 }
 
 function getParameterByName(name) {
