@@ -382,7 +382,8 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 			</b>
 			</div>
 		</div>
-		<div class="row">
+		<!-- GSAWDO-85-remove-location-field-from-all-council-websites -->
+		<!-- <div class="row">
 			<div class="small-8 medium-8 large-8 columns">
 				<b>Location:</b>
 			</div>
@@ -395,7 +396,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 						<a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a>
 					<%} %>
 			</div>
-		</div>
+		</div> -->
 		
 <%String priceRange = properties.get("priceRange","");
 	if (!"".equals(priceRange)) {%>                

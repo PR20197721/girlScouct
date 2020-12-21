@@ -99,7 +99,7 @@ function EventLoader(jsonPath, containerObj) {
   		$rightColDiv.append(getEventMembershipRequired(event));
   		$rightColDiv.append(getEventDate(event));
   		$rightColDiv.append(getEventRegion(event));
-  		$rightColDiv.append(getEventLocation(event));
+  		//$rightColDiv.append(getEventLocation(event)); // GSAWDO-85-remove-location-field-from-all-council-websites
   		$rightColDiv.append(getEventDescription(event));
   		$rightColDiv.append(getEventRegistration(event));
   		$eventDiv.append($rightColDiv);
