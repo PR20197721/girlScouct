@@ -222,23 +222,7 @@ function applyTroopListingConfigChanges() {
     if (troopListingConfigObj["cookieButtonText"] != null) {
       $(troopListingItemButton[i]).text(troopListingConfigObj["cookieButtonText"]);
     }
-    if (troopListingConfigObj["cookieButtonColor"] != null) {
-      $(troopListingItemButton[i]).css("background-color", troopListingConfigObj["cookieButtonColor"]);
-    }
-    //not sure how it works
-    if (troopListingConfigObj["cookieButtonHoverColor"] != null) {
-      $(troopListingItemButton[i]).mouseenter(function() {
-        $(this).css("background-color", troopListingConfigObj["cookieButtonHoverColor"]);
-      })
-      $(troopListingItemButton[i]).mouseleave(function() {
-        $(this).css("background-color", troopListingConfigObj["cookieButtonColor"]);
-      })
-    }
-    if (troopListingConfigObj["cookieButtonTextColor"] != null) {
-      $(troopListingItemButton[i]).css("color", troopListingConfigObj["cookieButtonTextColor"]);
-    }
   }
-
 }
 
 function applySupportAnotherTroopConfig() {
@@ -252,21 +236,6 @@ function applySupportAnotherTroopConfig() {
   // updating text,text color,hover color,color  for support another troop button, if author has authored it
   if (troopListingConfigObj["anotherTroopText"] != null) {
     $(".troop-listing #supportAnotherTroopButton").text(troopListingConfigObj["anotherTroopText"]);
-  }
-  if (troopListingConfigObj["anotherTroopTextColor"] != null) {
-    $(".troop-listing #supportAnotherTroopButton").css("color", troopListingConfigObj["anotherTroopTextColor"]);
-  }
-  //not sure how it works
-  if (troopListingConfigObj["anotherTroopHoverButtonColor"] != null) {
-    $(".troop-listing #supportAnotherTroopButton").mouseenter(function() {
-      $(this).css("background-color", troopListingConfigObj["anotherTroopHoverButtonColor"]);
-    })
-    $(".troop-listing #supportAnotherTroopButton").mouseleave(function() {
-      $(this).css("background-color", troopListingConfigObj["anotherTroopButtonColor"]);
-    })
-  }
-  if (troopListingConfigObj["anotherTroopButtonColor"] != null) {
-    $(".troop-listing #supportAnotherTroopButton").css("background-color", troopListingConfigObj["anotherTroopButtonColor"]);
   }
 
   // Bind click on supportAnotherTroopButton, if clicked we need to hide this button and show the rest of the result, along with load more.
