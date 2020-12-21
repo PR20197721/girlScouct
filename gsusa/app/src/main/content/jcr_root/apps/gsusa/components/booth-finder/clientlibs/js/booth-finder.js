@@ -44,7 +44,6 @@ $(document).ready(function() {
         boothFinder = new BoothFinder(boothListingApiURL, zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
-    registerClickOfBoothFinderButton();
 });
 
 
@@ -494,9 +493,3 @@ function initFB() {
     });
 }
 //booth-detail-script - End
-
-function registerClickOfBoothFinderButton(){
-  $('.booth-finder .viewmap').on('click', function() {
-    
-  });
-}
