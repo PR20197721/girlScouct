@@ -714,10 +714,10 @@ public class MulesoftServiceImpl implements MulesoftService {
                 role = "PA";
             }
             if (roles.contains("FA")) {
-                role = "FA";
+            	role = "FA";
             }
             if (roles.contains("DP")) {
-                role = "DP";
+            	role = "DP";
             }
             if(roles.contains("CA")) {
                 role = "CA";
