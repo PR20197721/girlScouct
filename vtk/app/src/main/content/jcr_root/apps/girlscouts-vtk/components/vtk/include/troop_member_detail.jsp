@@ -24,7 +24,7 @@
                         <div class="row">
                             <dl class="accordion-inner clearfix" data-accordion>
                                 <dt data-target="panel<%=i+1%>b" class="clearfix">
-                                    <span class="name column large-6"><%=contact.getFirstName() %> </span>
+                                    <span class="name column large-6"><%=contact.getFirstName() %> <%=contact.getLastName() %></span>
                                     <span class="name column large-4"
                                           style="word-wrap:break-word;"><%= caregiver == null ? "" : ((caregiver.getFirstName() == null ? "" : caregiver.getFirstName()) + " " + (caregiver.getLastName() == null ? "" : caregiver.getLastName()))%></span>
                                     <%if (contact.getEmail() != null && VtkUtil.hasPermission(selectedTroop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)) { %>
