@@ -109,15 +109,19 @@ TroopListing.prototype.processResult = function(result) {
     $('#troop-listing-result').append(html);
   } else if (troops && troops.length != 0) {
 
-    //logic for Randomizing the 0 mile records so as to give a fair chance to every troop.
+    //logic for Randomizing the first mile records (if first mile is found multiple times) so as to give a fair chance to every troop.
     //checking end index of zero Mile troops, as start will always be 0
-    var zeroMileEndIndex = 0;
-    for (var troopIndex = 0; troopIndex < troops.length; troopIndex++) {
-        if(troops[troopIndex].Distance == 0 ){
-            zeroMileEndIndex++;
-        }
+    var sameMileInitialIndex = 0;
+    var sameMileEndIndex =0;
+    for (var troopIndex = 1; troopIndex < troops.length; troopIndex++) {
+	    //console.log(troopIndex+" * "+sameMileInitialIndex+"**"+sameMileEndIndex);
+	    if (troops[troopIndex].Distance == troops[sameMileInitialIndex].Distance) {
+	       sameMileEndIndex++;
+	    }else{
+	       shuffleSameMilesTroop(troops,sameMileInitialIndex,sameMileEndIndex);
+	       break;
+	    }
     }
-	troops = shuffleZeroMilesTroop(troops,zeroMileEndIndex);
 
     /*
     //Sorting the result to get the nearest first.
@@ -261,21 +265,22 @@ function fixLastResultBottomBorder(){
 	$(".troop-listing .row.details").last().css({ 'border-bottom' : '0px'});
 }
 
-function shuffleZeroMilesTroop(troops, zeroMileLastIndex) {
+function shuffleSameMilesTroop(troops,startIndex, endIndex) {
   var temp, index;
+  var initialIndex=startIndex;
   var troopLength = troops.length;
   // While there are elements in the object
-  while (troopLength > 0) {
-    // Pick a random index in between 0 and zeroMileLastIndex
-    index = Math.floor(Math.random() * (zeroMileLastIndex));
-    // Decrease zeroMileLastIndex by 1
-    troopLength--;
-    // And swap the last element with it
-    temp = troops[0];
-    troops[0] = troops[index];
+  while (startIndex< endIndex) {
+    // Pick a random index in between startIndex and endIndex
+    index = Math.floor(Math.random() * (endIndex - startIndex + 1) + startIndex);
+    console.log("Index "+index);
+    // Increase startIndex by 1
+    startIndex++;
+    // And swap the initialIndex element with it
+    temp = troops[initialIndex];
+    troops[initialIndex] = troops[index];
     troops[index] = temp;
   }
-  return troops;
 }
 
 function registerClickOfRegisterButton(){
