@@ -43,7 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.day.cq.commons.jcr.JcrConstants.NT_UNSTRUCTURED;
-import static org.apache.sling.jcr.resource.api.JcrResourceConstants.NT_SLING_ORDERED_FOLDER;
+import static com.day.cq.commons.jcr.JcrConstants.JCR_PRIMARYTYPE;
 
 @Component(immediate = true, service = Runnable.class)
 @Designate(ocd = ImportEventsFromSolrCronImpl.Config.class)
@@ -59,6 +59,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
     }
 
     private static Logger log = LoggerFactory.getLogger(ImportEventsFromSolrCronImpl.class);
+    
     @Reference
     private ResourceResolverFactory resolverFactory;
     @Reference
@@ -240,7 +241,7 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                 Resource activityYearFolder;
                 try {
                     log.debug("Getting activities year path: " + parentPath);
-                    activityYearFolder = ResourceUtil.getOrCreateResource(rr, parentPath, NT_SLING_ORDERED_FOLDER, null, true);
+                    activityYearFolder = ResourceUtil.getOrCreateResource(rr, parentPath, Collections.singletonMap(JCR_PRIMARYTYPE, (Object) com.day.cq.wcm.api.NameConstants.NT_PAGE), null, true);
                 } catch (Exception e) {
                     log.error("Error occurred:", e);
                     throw new GirlScoutsException(e, "Fail to get/create parent path: " + parentPath);
@@ -442,7 +443,11 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
                     councilTimeZone = councilSiteTimezone;
                 }
             }
-            TimeZone timeZone = TimeZone.getTimeZone(councilTimeZone);
+            String mappedTimezone = "";
+            if (councilTimeZone.length() <= 4) {
+            	mappedTimezone = getMappedTimezone(councilTimeZone);
+            }
+            TimeZone timeZone = TimeZone.getTimeZone(mappedTimezone);
             ACTIVITY_DATE_FORMAT.setTimeZone(timeZone);
             // Confirm the time We received from Hybris after we set timezone
             Calendar date = Calendar.getInstance();
@@ -456,7 +461,53 @@ public class ImportEventsFromSolrCronImpl implements Runnable, MuleSoftActivitie
         }
     }
 
-    private String deleteActivity(PayloadEntity payload, ResourceResolver rr) throws GirlScoutsException {
+    private String getMappedTimezone(String councilTimeZone) {
+    	HashMap<String, String> timezoneMap = new HashMap<>();
+    	    timezoneMap.put("ADT", "GMT-03:00");
+            timezoneMap.put("AST", "GMT-04:00");
+      	    timezoneMap.put("EDT", "GMT-04:00");
+      	    timezoneMap.put("CDT", "GMT-05:00");
+      	    timezoneMap.put("EST", "GMT-05:00");
+      	    timezoneMap.put("CST", "GMT-06:00");
+      	    timezoneMap.put("MDT", "GMT-06:00");
+      	    timezoneMap.put("MST", "GMT-07:00");
+      	    timezoneMap.put("PDT", "GMT-07:00");
+      	    timezoneMap.put("AKDT", "GMT-08:00");
+      	    timezoneMap.put("PST", "GMT-08:00");
+      	    timezoneMap.put("AKST", "GMT-09:00");
+      	    timezoneMap.put("HADT", "GMT-09:00");
+      	    timezoneMap.put("HAST", "GMT-10:00");
+      	    timezoneMap.put("SDT", "GMT-10:00");
+      	    timezoneMap.put("SST", "GMT-11:00");
+      	    timezoneMap.put("GMT", "GMT+00:00");
+      	    timezoneMap.put("UTC", "GMT+00:00");
+      	    timezoneMap.put("WET", "GMT+00:00");
+      	    timezoneMap.put("BST", "GMT+01:00");
+      	    timezoneMap.put("CET", "GMT+01:00");
+      	    timezoneMap.put("WEST", "GMT+01:00");
+      	    timezoneMap.put("CEST", "GMT+02:00");
+      	    timezoneMap.put("EET", "GMT+02:00");
+      	    timezoneMap.put("EEST", "GMT+03:00");
+      	    timezoneMap.put("GST", "GMT+04:00");
+      	    timezoneMap.put("IST", "GMT+05:30");
+      	    timezoneMap.put("ICT", "GMT+07:00");
+      	    timezoneMap.put("AWST", "GMT+08:00");
+      	    timezoneMap.put("HKT", "GMT+08:00");
+      	    timezoneMap.put("PHT", "GMT+08:00");
+      	    timezoneMap.put("AWDT", "GMT+09:00");
+      	    timezoneMap.put("JST", "GMT+09:00");
+      	    timezoneMap.put("KST", "GMT+09:00");
+      	    timezoneMap.put("AEST", "GMT+10:00");
+      	    timezoneMap.put("CHsT", "GMT+10:00");
+      	    timezoneMap.put("AEDT", "GMT+11:00");
+      	    timezoneMap.put("FJT", "GMT+12:00");
+      	    timezoneMap.put("NZST", "GMT+12:00");
+      	    timezoneMap.put("NZDT", "GMT+13:00");
+    	String aemTimezone = (String)timezoneMap.get(councilTimeZone);
+		return aemTimezone;
+	}
+
+	private String deleteActivity(PayloadEntity payload, ResourceResolver rr) throws GirlScoutsException {
         String deletedPath = payload.getTitle();
         try {
             String councilName = councilMapper.getCouncilPath(payload.getCouncilCode());

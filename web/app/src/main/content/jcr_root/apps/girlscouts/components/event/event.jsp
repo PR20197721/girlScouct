@@ -382,7 +382,8 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 			</b>
 			</div>
 		</div>
-		<div class="row">
+		<!-- GSAWDO-85-remove-location-field-from-all-council-websites -->
+		<!-- <div class="row">
 			<div class="small-8 medium-8 large-8 columns">
 				<b>Location:</b>
 			</div>
@@ -395,7 +396,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 						<a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a>
 					<%} %>
 			</div>
-		</div>
+		</div> -->
 		
 <%String priceRange = properties.get("priceRange","");
 	if (!"".equals(priceRange)) {%>                
@@ -541,10 +542,11 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
      <%if(register!=null && !register.isEmpty()){%>
         <div class="eventDetailsRegisterLink">
     	 	<a class="button" href="<%=genLink(resourceResolver, register)%>">REGISTER NOW</a>
-    	 	<% if(includeCart && !eventID.equals("-1")){ %>
+    	 	<!-- GSAWDO-72-Remove-Add-to-MyActivities -->
+    	 	<!-- <% if(includeCart && !eventID.equals("-1")){ %>
     	 	<a class="button" onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= currentPage.getPath() %>', '<%=register %>'); return false;">Add to MyActivities</a>
     		<%}
-    		%>
+    		%> -->
 
     	</div>
      <%} %>

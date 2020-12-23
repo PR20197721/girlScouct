@@ -1,4 +1,7 @@
 var troopListing = $("#troop-listing-config").data("troop-listing");
+var filterDistancePerMiles = $("#filter-distance-per-miles").attr("data") || "500";
+var boothListingApiURL = $("#booth-listing-api-url").attr("data") || "/cookiesapi/booth_list_merged.asp";
+var boothListingLookupApiURL = $("#booth-listing-lookup-api-url").attr("data") || "/includes/cookie/booth_detail_lookup.asp";
 $(document).ready(function() {
     var map;
     var geocoder;
@@ -29,16 +32,16 @@ $(document).ready(function() {
         sortBy = getParameterByName('sortBy');
 
         if(troopListing && !( radius && date && sortBy )){
-			radius = 500;
+			radius = filterDistancePerMiles;
 	        date = 60; 
 	        sortBy = 'distance';
         }else{
-			if (!radius) radius = 25;
+			if (!radius) radius = filterDistancePerMiles;
 	        if (!date) date = 60;
 	        if (!sortBy) sortBy = 'distance';
         }
 
-        boothFinder = new BoothFinder("/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
+        boothFinder = new BoothFinder(boothListingApiURL, zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
 });
@@ -138,19 +141,14 @@ BoothFinder.prototype.processResult = function(result) {
 		        radiusEmpty = getParameterByName('radius');
 		        dateEmpty = getParameterByName('date');
 		        sortByEmpty = getParameterByName('sortBy');
-		        if(troopListing && !( radiusEmpty && dateEmpty && sortByEmpty )){
-					radiusEmpty = 5000;
-			        dateEmpty = 60;
-			        sortByEmpty = 'distance';
-		        }else{
-					if (!radiusEmpty) radiusEmpty = 25;
-	                if (!dateEmpty) dateEmpty = 60;
-	                if (!sortByEmpty) sortByEmpty = 'distance'
-					$('select[name="radius"]').val(radiusEmpty);
-	                $('select[name="date"]').val(dateEmpty);
-	                $('select[name="sortBy"]').val(sortByEmpty);
-	                $('#emptyForm').show();
-                 }
+                if (!radiusEmpty) radiusEmpty = filterDistancePerMiles;
+                if (!dateEmpty) dateEmpty = 60;
+                if (!sortByEmpty) sortByEmpty = 'distance'
+                $('select[name="radius"]').val(radiusEmpty);
+                $('select[name="date"]').val(dateEmpty);
+                $('select[name="sortBy"]').val(sortByEmpty);
+                $('#emptyForm').show();
+                 
             }, 1000);
         }
     }
@@ -196,7 +194,7 @@ BoothFinder.prototype.processResult = function(result) {
 
     if (templateId == 'booths') {
         // Bind "View Details" buttons
-        $('.viewmap.button').on('click', function() {
+        $('.booth-finder .viewmap.button').on('click', function() {
             var booth = JSON.parse($(this).attr('data'));
             if(booth.detailsText == "Get Cookies"){
                 window.open(booth.visitBoothUrl);
@@ -265,6 +263,27 @@ BoothFinder.prototype.processResult = function(result) {
             }
             //GSDO-1024 :multiple-gmaps-api-call :End
 
+            //Lookup Call
+            var value = JSON.parse($(this).attr("data"));
+            var data = {
+                l : value.Location,
+                d : value.DateStart,
+                z : value.ZipCode,
+                s : "Website"
+            }
+
+            $.ajax({
+                url: boothListingLookupApiURL,
+                dataType: "json",
+                data: data,
+                success: function(data) {
+                if (data) {
+                    console.log('Redirecting from BoothFinder');
+                } else {
+                    console.log('Error occured in redirecting');
+                }
+                }
+            });
         });
 
         if (this.page == 1) {
@@ -276,19 +295,14 @@ BoothFinder.prototype.processResult = function(result) {
 	        radius = getParameterByName('radius');
 	        date = getParameterByName('date');
 	        sortBy = getParameterByName('sortBy');
-
-	        if(troopListing && !( radius && date && sortBy )){
-				radius = 5000;
-		        date = 60;
-		        sortBy = 'distance';
-	        }else{
-				if (!radius) radius = 25;
-		        if (!date) date = 60;
-		        if (!sortBy) sortBy = 'distance';
-				$('select[name="radius"]').val(radius);
-	            $('select[name="date"]').val(date);
-	            $('select[name="sortBy"]').val(sortBy);
-	        }
+	        
+            if (!radius) radius = filterDistancePerMiles;
+            if (!date) date = 60;
+            if (!sortBy) sortBy = 'distance';
+            $('select[name="radius"]').val(radius);
+            $('select[name="date"]').val(date);
+            $('select[name="sortBy"]').val(sortBy);
+	        
 
             // Bind click more
             $('.booth-finder #more').on('click', function() {
@@ -298,8 +312,9 @@ BoothFinder.prototype.processResult = function(result) {
     }
 
     // Share dialog
+    const shareModelEle = $("#booth-finder-result").find(".share-modal");
     var showShareDialog = $('#share-showShareDialog').attr('data') == 'true';
-    if (showShareDialog) {
+    if (showShareDialog && shareModelEle && shareModelEle.length ===0) {
         var shareModalHtml = Handlebars.compile($('#template-sharemodal').html())({
             buttonCaption: "SHARE WITH YOUR FRIENDS",
             header: $('#share-shareDialogHeader').attr('data'),

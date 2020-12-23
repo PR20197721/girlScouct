@@ -11,8 +11,6 @@
         </section>
         <section>
             <p>{{DateStart}}</p>
-        </section>
-        <section>
             <p>{{Distance}} Miles</p>
         </section>
     </div>
