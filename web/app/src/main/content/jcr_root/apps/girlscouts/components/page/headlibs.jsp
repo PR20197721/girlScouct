@@ -68,11 +68,10 @@ if (newCurrentDesign != null) {
 			}
 			if($.cookie) {
 				var name = $.cookie('girl-scout-name');
-				var html;
 				if (name) {
 					girlscouts.components.login.sayHello('signedin', name);	
 				} else if ($(".login").children().length < 4){
-		    		html = '<a href="' + '<%= signInUrl%>' + '" class="signin link-login">SIGN IN</a>';
+					var html = '<a href="' + '<%= signInUrl%>' + '" class="signin link-login">SIGN IN</a>';
                     $('.login').html(html);
 				} else {
 					girlscouts.components.login.genCode('<%= helloUrl %>');
