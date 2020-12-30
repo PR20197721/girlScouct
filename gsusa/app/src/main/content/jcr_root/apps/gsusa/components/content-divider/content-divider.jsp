@@ -15,11 +15,14 @@
             border:<%= properties.get("borderLineDashed","1")%>px dashed <%= properties.get("borderLineColorDashed","#DDDDDD")%>;
             width:<%= properties.get("borderLineWidthDashed","100")%>%;
         }
-        .content-divider--image{
-            border:1px solid transparent;
-            border-image: url(<%= properties.get("borderImage","/etc/designs/gsusa/clientlibs/images/blockquote_bg.png")%>) 30 / 19px round;
-
+        .content-divider--image:before , .content-divider--image:after{
+		    content: "";
+		    background-image: url(<%= properties.get("borderImage","/etc/designs/gsusa/clientlibs/images/blockquote_bg.png")%>);
+		    height: 0.5625rem;
+		    width: 100%;
+		    display: table;
         }
+
         .content-divider--padding{
 			padding-top: <%= properties.get("paddingTop","20")%>px; <%-- 20 is default value--%>
 			padding-bottom: <%= properties.get("paddingBottom","20")%>px; <%-- 20 is default value--%>
@@ -41,5 +44,5 @@ if(horizontalBorder){
 }
 %>
 <div class ='content-divider-config content-divider--padding content-divider--<%= borderLineStyle %> <%= disableBorderClass %>'>
-     <span class="bg-image">Border Text</span>
+     <span></span>
 </div>
