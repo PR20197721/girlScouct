@@ -26,12 +26,20 @@
 			padding-left: <%= properties.get("paddingLeft","0")%>px; <%-- 0 is default value--%>
 			padding-right: <%= properties.get("paddingRight","0")%>px; <%-- 0 is default value--%>
         }
+        .disable-border{
+            border-top :0 !important;
+            border-bottom:0 !important;
+        }
 
 </style>
 <%
 String  borderLineStyle  = properties.get("borderLineStyle","solid");
+Boolean  horizontalBorder  = properties.get("horizontalBorder",false);
+String disableBorderClass="";
+if(horizontalBorder){
+	disableBorderClass="disable-border";
+}
 %>
-<div data-enableHorizontalBorder="<%= properties.get("horizontalBorder","false")%>"
-	 class ='content-divider-config content-divider--padding content-divider--<%= borderLineStyle %>'>
+<div class ='content-divider-config content-divider--padding content-divider--<%= borderLineStyle %> <%= disableBorderClass %>'>
      <span class="bg-image">Border Text</span>
 </div>
