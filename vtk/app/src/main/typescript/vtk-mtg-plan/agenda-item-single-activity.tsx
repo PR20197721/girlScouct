@@ -36,9 +36,10 @@ function AgendaItemSingle(props: AgendaItemSingleProps) {
                 <div className="__description">
                     <div className="__title">
                         <div className="__text">
-                            <a onClick={() => props.openAgendaDetail(props.value.multiactivities[0] != null ? props.value.multiactivities[0].activityDescription:"", value.name, value.duration, props.value.multiactivities[0] != null ? props.value.multiactivities[0].outdoor:"", props.value.multiactivities[0] != null ? props.value.multiactivities[0].global:"",props.value.multiactivities[0] != null ? props.value.multiactivities[0].virtual:"", props.value.name)}>
+                            <a onClick={() => props.openAgendaDetail(props.value.multiactivities[0] != null ? props.value.multiactivities[0].activityDescription:"", value.name, value.subtitle, value.duration, props.value.multiactivities[0] != null ? props.value.multiactivities[0].outdoor:"", props.value.multiactivities[0] != null ? props.value.multiactivities[0].global:"",props.value.multiactivities[0] != null ? props.value.multiactivities[0].virtual:"", props.value.name)}>
                                 {value.name}
                             </a>
+                            <p>{value.subtitle ? value.subtitle : null}</p>
                         </div>
                     </div>
                 </div>
