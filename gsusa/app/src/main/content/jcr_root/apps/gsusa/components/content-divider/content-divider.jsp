@@ -4,29 +4,19 @@
 
 <style>
 		.content-divider--solid{
-            margin:0;
-            border:1px solid #DDDDDD;
-            <%= properties.get("borderLineSolid","20")%>
-            <%= properties.get("borderLineColorSolid","20")%>
-            <%= properties.get("borderLineWidthSolid","20")%>
+            border:<%= properties.get("borderLineSolid","1")%>px solid <%= properties.get("borderLineColorSolid","#DDDDDD")%>;
+			width:<%= properties.get("borderLineWidthSolid","100")%>%;
         }
         .content-divider--dotted{
-            margin:0;
-            border:1px dotted #DDDDDD;
-
-            <%= properties.get("borderLineDotted","20")%>
-            <%= properties.get("borderLineColorDotted","20")%>
-            <%= properties.get("borderLineWidthDotted","20")%>
+			border:<%= properties.get("borderLineDotted","1")%>px dotted <%= properties.get("borderLineColorDotted","#DDDDDD")%>;
+            width:<%= properties.get("borderLineWidthDotted","100")%>%;
         }
         .content-divider--dashed{
-            margin:0;
-            border:1px dashed #DDDDDD;
-			<%= properties.get("borderLineDashed","20")%>
-            <%= properties.get("borderLineColorDashed","20")%>
-            <%= properties.get("borderLineWidthDashed","20")%>
+            border:<%= properties.get("borderLineDashed","1")%>px dashed <%= properties.get("borderLineColorDashed","#DDDDDD")%>;
+            width:<%= properties.get("borderLineWidthDashed","100")%>%;
         }
         .content-divider--image{
-            border: 15px solid transparent;
+            border:1px solid transparent;
             border-image: url(<%= properties.get("borderImage","/etc/designs/gsusa/clientlibs/images/blockquote_bg.png")%>) 30 / 19px round;
 
         }
@@ -38,10 +28,10 @@
         }
 
 </style>
-
-<div id="content-divider-config"
-	 data-enableHorizontalBorder="<%= properties.get("horizontalBorder","false")%>"
-	 data-borderLineStyle="<%= properties.get("borderLineStyle","solid")%>"
-	 class ='content-divider--padding'>
-     <span>Border Text</span>
+<%
+String  borderLineStyle  = properties.get("borderLineStyle","solid");
+%>
+<div data-enableHorizontalBorder="<%= properties.get("horizontalBorder","false")%>"
+	 class ='content-divider-config content-divider--padding content-divider--<%= borderLineStyle %>'>
+     <span class="bg-image">Border Text</span>
 </div>
