@@ -47,7 +47,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./horizontalBorder"
-                                text="Enable/Disable Horizontal Border"
+                                text="Disable Horizontal Border"
                                 uncheckedValue="{Boolean}false"
                                 value="{Boolean}true"/>
                             <borderLineStyle
