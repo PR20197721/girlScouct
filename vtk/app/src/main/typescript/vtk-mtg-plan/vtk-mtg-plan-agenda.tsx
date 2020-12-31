@@ -139,7 +139,7 @@ export function VtkMtgPlanAgenda(props: VtkMtgPlanAgendaProps) {
 
                     if (_find.length) {
                         _recommendedTime = _find[0].duration;
-                        meetingSubtitle = _find[0].subtitle;
+                        meetingSubtitle = _find[0].subtitle ? _find[0].subtitle : '';
                     } else {
                         try {
                             for (var mainActivityItem in arrayOfMultiactivities) {
