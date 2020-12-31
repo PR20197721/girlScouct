@@ -213,6 +213,8 @@
             Activity</a></dd>
         <dd id="pickActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('pick')">Council
             Activity</a></dd>
+            <dd id="manage-activities" class="manageCalendarTab"><a href="#" onclick="toggleSection('manageActivity')">Manage Activities
+            </a></dd>
     </dl>
     <div class="modalBody tabs-content">
         <div class="row">
@@ -366,6 +368,9 @@
                             <div id="searchResults"></div>
                     </form>
                 </div><!--/pickActivitySection-->
+                <div id="manageActivitySection">
+                        This is Manange Activity Section
+                </div>
             </div><!--/small-24-->
             </row>
         </div><!--/modalBody-->
@@ -376,14 +381,20 @@
         function toggleSection(section) {
             $("#createActivityTab").removeClass("active");
             $("#pickActivityTab").removeClass("active");
+            $("#manage-activities").removeClass("active");
             $("#createActivitySection").hide();
             $("#pickActivitySection").hide();
+            $("#manageActivitySection").hide();
             if (section == "pick") {
                 $("#pickActivityTab").addClass("active");
                 $("#pickActivitySection").show();
             } else if (section == "create") {
                 $("#createActivityTab").addClass("active");
                 $("#createActivitySection").show();
+            }
+            else if (section == "manageActivity") {
+                $("#manage-activities").addClass("active");
+                $("#manageActivitySection").show();
             }
         }
 
