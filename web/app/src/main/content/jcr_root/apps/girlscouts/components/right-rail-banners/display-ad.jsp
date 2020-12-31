@@ -9,6 +9,7 @@ if (currentAd != null) {
 	String path = currentAd.getPath();
 	String adLink = currentAd.getProperties().get("link", "");
 	String newWindow = currentAd.getProperties().get("newWindow", "false");
+	String buttonSelectionForExclusion = currentAd.getProperties().get("text/radioButtonSelection", "show");
 	Boolean linkTarget = false;
 	if(newWindow.equals("true")){
 		linkTarget=true;
@@ -102,9 +103,10 @@ if (currentAd != null) {
 			displayThisAd = true;
 		}
 	}
-
 	// display the ad only if customURL is NOT set or there is a match
-	if(customURLSet == false || displayThisAd) {
+	if((buttonSelectionForExclusion.equals("show") && displayThisAd)
+		||(buttonSelectionForExclusion.equals("hide") && !displayThisAd)
+		|| (!customURLSet)) {
         request.setAttribute("adWasRendered", true);
 %>
 	<a href="<%=adLink%>" <%= linkTarget ? "target=\"_blank\"" : "" %>><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="girlscouts/components/image" /></a>
