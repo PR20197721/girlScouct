@@ -91,7 +91,7 @@
                                         sling:resourceType="girlscouts/components/form/pathfield"
                                         fieldLabel="Specify border Image"
                                         name="./borderImage"
-                                        rootPath="/content/dam/gsusa"/>
+                                        rootPath="/content/dam"/>
                                 </items>
                             </setImage>
                             <setDotted
