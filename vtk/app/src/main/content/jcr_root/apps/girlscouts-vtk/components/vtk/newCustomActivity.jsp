@@ -160,6 +160,10 @@
         }
     });
 
+    // adding click event to manag activity tab to
+
+    
+
     function timeDiff() {
         var date = document.getElementById("newCustActivity_date").value;
         var startTime = document.getElementById("newCustActivity_startTime").value;
@@ -366,6 +370,7 @@
                                    onclick='searchActivities()' class="button btn right inactive-button"/>
                             <div style="clear:both"></div>
                             <div id="searchResults"></div>
+                        </div>
                     </form>
                 </div><!--/pickActivitySection-->
                 <div id="manageActivitySection">
@@ -395,6 +400,7 @@
             else if (section == "manageActivity") {
                 $("#manage-activities").addClass("active");
                 $("#manageActivitySection").show();
+                getActivitiesList();
             }
         }
 

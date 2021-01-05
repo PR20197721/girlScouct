@@ -556,6 +556,33 @@ function rmCustActivity(x) {
     vtkTrackerPushAction('RemoveActivity');
 }
 
+    const getActivitiesList = ()=> {
+        console.log('manage activity Tab');
+        const manageActivityList= [{
+            desc : 'test',
+            data : 'mon-12-2020'
+        },{
+            desc : 'test1',
+            data : 'mon-12-1990'
+        }]
+
+        if(manageActivityList && manageActivityList.length > 0){
+            const getActivitiesListContainer = document.getElementById('manageActivitySection');
+            const ul= document.createElement('ul');
+            getActivitiesListContainer.appendChild(ul);
+            for (let i=0; i<manageActivityList.length; i++){
+
+                var li=document.createElement('li');
+                li.innerHTML=`<span>${manageActivityList[i].desc}</span>  <span>${manageActivityList[i].data}</span> <span>Remove</span>` ;
+                ul.appendChild(li);
+            }
+
+        }
+        else {
+            console.log('show no data')
+        }
+    }
+
 function createNewCustActivity() {
 
 
