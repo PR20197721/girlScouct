@@ -374,7 +374,7 @@
                     </form>
                 </div><!--/pickActivitySection-->
                 <div id="manageActivitySection">
-                        This is Manange Activity Section
+                        
                 </div>
             </div><!--/small-24-->
             </row>

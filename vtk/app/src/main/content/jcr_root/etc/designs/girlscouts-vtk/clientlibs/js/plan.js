@@ -557,7 +557,6 @@ function rmCustActivity(x) {
 }
 
     const getActivitiesList = ()=> {
-        console.log('manage activity Tab');
         const manageActivityList= [{
             desc : 'test',
             data : 'mon-12-2020'
@@ -569,10 +568,12 @@ function rmCustActivity(x) {
         if(manageActivityList && manageActivityList.length > 0){
             const getActivitiesListContainer = document.getElementById('manageActivitySection');
             const ul= document.createElement('ul');
+            ul.setAttribute('class', 'manage-avtivity-list');
             getActivitiesListContainer.appendChild(ul);
             for (let i=0; i<manageActivityList.length; i++){
 
-                var li=document.createElement('li');
+                const li=document.createElement('li');
+                li.setAttribute('class', 'manage-avtivity-list-item')
                 li.innerHTML=`<span>${manageActivityList[i].desc}</span>  <span>${manageActivityList[i].data}</span> <span>Remove</span>` ;
                 ul.appendChild(li);
             }
