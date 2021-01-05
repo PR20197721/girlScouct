@@ -23,6 +23,7 @@ import java.util.List;
         @Property(name = "vtkHolidays", cardinality = Integer.MAX_VALUE, label = "vtkHolidays", description = "vtkHolidays"),
         @Property(name = "startShowingArchiveCmd", label = "startShowingArchiveCmd", description = "startShowingArchiveCmd"),
         @Property(name = "gsFinanceYearCutoffDate", label = "gsFinanceYearCutoffDate", description = "gsFinanceYearCutoffDate"),
+        @Property(name = "gsFinanceTabDisabledCouncils", cardinality = Integer.MAX_VALUE, unbounded = PropertyUnbounded.ARRAY, value = {"664","590", "548", "564"}, label = "gsFinanceTabDisabledCouncils", description = "gsFinanceTabDisabledCouncils"),
 
 })
 public class ConfigManagerImpl implements ConfigManager {
