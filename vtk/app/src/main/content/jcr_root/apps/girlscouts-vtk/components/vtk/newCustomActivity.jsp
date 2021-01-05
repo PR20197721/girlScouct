@@ -199,7 +199,7 @@
 <div class="header clearfix">
   <%
   boolean isWarning = false;
-  String instruction = "Add an Activity";
+  String instruction = "Manage Activities";
   if (isWarning) {
   %>
     <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></span>
