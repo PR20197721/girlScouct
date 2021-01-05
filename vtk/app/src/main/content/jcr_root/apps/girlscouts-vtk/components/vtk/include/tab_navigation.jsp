@@ -487,7 +487,7 @@
                                 href="/content/girlscouts-vtk/controllers/vtk.include.troopRosterCsvRpt.html"
                                 target="_blank"><i class="icon-download"></i></a></li>
                         <%}
-                        	if(isParent && "myTroop".equals(activeTab)){ %>
+                        	if(user.isParent() && !selectedTroop.getIsIRM() && "myTroop".equals(activeTab)){ %>
                         		 <li style="margin-right:15px"><a
                                 	title="Girl Scout Achievement Report"
                                 	href="/content/girlscouts-vtk/controllers/vtk.include.gsachievementRptCsv.html"
