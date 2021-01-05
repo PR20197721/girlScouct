@@ -2136,7 +2136,7 @@ var initNotes = (function(global, ModalVtk, $) {
         });
     }
 
-    function editNote(nid, msg) {
+    function editNote(mid, nid, msg) {
 
         return ajaxConnection({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
