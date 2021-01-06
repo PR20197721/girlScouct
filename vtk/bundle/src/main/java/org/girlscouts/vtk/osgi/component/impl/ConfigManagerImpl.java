@@ -25,7 +25,7 @@ import java.util.List;
         @Property(name = "gsFinanceYearCutoffDate", label = "gsFinanceYearCutoffDate", description = "gsFinanceYearCutoffDate"),
         @Property(name = "gsFinanceTabDisabledCouncils", cardinality = Integer.MAX_VALUE, unbounded = PropertyUnbounded.ARRAY, value = {"664","590", "548", "564"}, label = "gsFinanceTabDisabledCouncils", description = "gsFinanceTabDisabledCouncils"),
 
-})
+}) 
 public class ConfigManagerImpl implements ConfigManager {
     private List<ConfigListener> listeners;
     private ComponentContext context;
