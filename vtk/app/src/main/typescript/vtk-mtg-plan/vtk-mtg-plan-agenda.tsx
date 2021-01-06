@@ -175,7 +175,7 @@ export function VtkMtgPlanAgenda(props: VtkMtgPlanAgendaProps) {
                 let template =
                     `<p><b>${_recommendedTime} min</b> Recommended time</p>
           <h3 style="text-transform:uppercase">${meetingName} ${(outdoor) ? '- Outside ' : ''} ${(virtual) ? '- Virtual ' : ''} ${(global) ? '- Global ' : ''}</h3>
-          <p>${meetingSubtitle}</p>
+          <p>${meetingSubtitle === null  ? '' : meetingSubtitle}</p>
           <br />
           <div>${materials}</div>`;
 
