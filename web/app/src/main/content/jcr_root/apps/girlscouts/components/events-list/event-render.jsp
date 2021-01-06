@@ -117,7 +117,7 @@ try{
        <% if (propNode.hasProperty("end")) { %>
        <p>End: <%= dateEnd %></p>
        <% } %>
-       <p>Location: <%= locationLabel %></p>
+       <!--<p>Location: <%= locationLabel %></p> --> <!-- This is a fix for GSAWDO-103 -->
     </div>
   </div>
 </li> 
