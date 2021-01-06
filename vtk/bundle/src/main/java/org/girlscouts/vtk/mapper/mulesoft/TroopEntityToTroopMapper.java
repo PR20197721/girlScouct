@@ -62,11 +62,11 @@ public class TroopEntityToTroopMapper {
                         troop.setStartDate(start);
                         troop.setEndDate(end);
                         if (start.isBeforeNow() && end.isAfterNow()){
-                            if("Troop/Program Leader".equals(jobEntity.getJobCode())){
-                                troop.setRole("DP");
-                            }
-                            if("Finance/Administration".equals(jobEntity.getJobCode())){
+                            if("Finance/Administration".equals(jobEntity.getJobCode()) && !"DP".equals(troop.getRole())){
                                 troop.setRole("FA");
+                            }
+                            if("Troop/Program Leader".equals(jobEntity.getJobCode())){
+                            	troop.setRole("DP");
                             }
                         }
                     } catch (Exception e) {
