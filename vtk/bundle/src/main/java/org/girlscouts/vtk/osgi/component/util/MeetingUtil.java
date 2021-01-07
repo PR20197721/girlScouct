@@ -1127,14 +1127,19 @@ public class MeetingUtil {
 
     }
 
-    public boolean editNote(User user, Troop troop, String noteId, String msg) throws java.lang.IllegalAccessException, VtkException {
-        boolean isEdit = false;
+    public List<Note> editNote(User user, Troop troop, String noteId, String mid, String msg) throws java.lang.IllegalAccessException, VtkException {
+    	if (mid == null || msg == null || msg.trim().equals("")) {
+            return null;
+        }
+        MeetingE meeting = VtkUtil.findMeetingById(troop.getYearPlan().getMeetingEvents(), mid);
+    	List<Note> notes = meeting.getNotes();
         Note note = getNote(user, troop, noteId);
         if (note != null && msg != null && !msg.equals("")) {
             note.setMessage(msg);
-            isEdit = updateNote(user, troop, note);
+            updateNote(user, troop, note);
+            notes.set(notes.size() - 1, note);
         }//edn if
-        return isEdit;
+        return notes;
     }
 
     public Set<String> getOutdoorMeetings(User user, Troop troop) throws IllegalAccessException {

@@ -1603,7 +1603,7 @@ var initNotes = (function(global, ModalVtk, $) {
             // var notes  =  $('li[data-uid]');
 
             if (character.length < 501) {
-                editNote(nid, message)
+                editNote(globalMid, nid, message)
                     .fail(function(err) {
                         console.log(err);
                     })
@@ -2136,7 +2136,7 @@ var initNotes = (function(global, ModalVtk, $) {
         });
     }
 
-    function editNote(nid, msg) {
+    function editNote(mid, nid, msg) {
 
         return ajaxConnection({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
@@ -2145,6 +2145,7 @@ var initNotes = (function(global, ModalVtk, $) {
             data: {
                 editNote: "true",
                 nid: nid,
+                mid: mid,
                 msg: msg,
                 a: Date.now()
             }
