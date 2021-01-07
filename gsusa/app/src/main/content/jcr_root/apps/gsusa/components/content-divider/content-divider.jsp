@@ -19,12 +19,11 @@ int randomNo = rand.nextInt(900000) + 100000;
             border:<%= properties.get("borderLineDashed","1")%>px dashed <%= properties.get("borderLineColorDashed","#DDDDDD")%>;
             width:<%= properties.get("borderLineWidthDashed","100")%>%;
         }
-        .content-divider--image_<%=randomNo%>:before , .content-divider--image_<%=randomNo%>:after{
-		    content: "";
+        .content-divider--image_<%=randomNo%>{
 		    background-image: url(<%= properties.get("borderImage","/etc/designs/gsusa/clientlibs/images/blockquote_bg.png")%>);
 		    height: 0.5625rem;
 		    width: 100%;
-		    display: table;
+            background-repeat: repeat-x;
         }
 
         .content-divider--padding_<%=randomNo%>{
