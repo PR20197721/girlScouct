@@ -25,36 +25,44 @@
                         <items jcr:primaryType="nt:unstructured">
                             <paddingTop
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                defaultValue="{Long}20"
                                 fieldLabel="Padding Top (default: 20px)"
+                                min="0"
                                 name="./paddingTop"/>
                             <paddingBottom
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                defaultValue="{Long}20"
                                 fieldLabel="Padding bottom (default: 20px)"
+                                min="0"
                                 name="./paddingBottom"/>
                             <paddingLeft
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                defaultValue="{Long}0"
                                 fieldLabel="Padding left (default: 0px)"
+                                min="0"
                                 name="./paddingLeft"/>
                             <paddingRight
                                 jcr:primaryType="nt:unstructured"
-                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                defaultValue="{Long}0"
                                 fieldLabel="Padding right (default: 0px)"
+                                min="0"
                                 name="./paddingRight"/>
                             <horizontal-border
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./horizontalBorder"
-                                text="Disable Horizontal Border"
+                                text="Disable horizontal divider"
                                 uncheckedValue="{Boolean}false"
                                 value="{Boolean}true"/>
                             <borderLineStyle
                                 granite:class="cq-dialog-dropdown-showhide"
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/coral/foundation/form/select"
-                                fieldLabel="Specify style of the Border Line"
+                                fieldLabel="Specify style of the divider Line"
                                 name="./borderLineStyle">
                                 <granite:data
                                     jcr:primaryType="nt:unstructured"
@@ -89,7 +97,7 @@
                                     <borderImage
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="girlscouts/components/form/pathfield"
-                                        fieldLabel="Specify border Image"
+                                        fieldLabel="Specify divider image"
                                         name="./borderImage"
                                         rootPath="/content/dam"/>
                                 </items>
@@ -104,18 +112,23 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <borderLineDotted
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        fieldLabel="Specify size of the Dotted Border Line (default: 1px)"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        defaultValue="{Long}1"
+                                        fieldLabel="Specify size of the Dotted divider (default: 1px)"
+                                        min="0"
                                         name="./borderLineDotted"/>
                                     <borderLineColorDotted
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        fieldLabel="Specify color of Dotted Border Line (default: #DDDDDD)"
+                                        fieldLabel="Specify color of Dotted divider (default: #DDDDDD)"
                                         name="./borderLineColorDotted"/>
                                     <borderLineWidthDotted
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        fieldLabel="Specify width of Dotted Border Line (default: 100%)"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        defaultValue="{Long}100"
+                                        fieldLabel="Specify width of Dotted divider (default: 100%)"
+                                        max="100"
+                                        min="0"
                                         name="./borderLineWidthDotted"/>
                                 </items>
                             </setDotted>
@@ -129,18 +142,23 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <borderLineDashed
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        fieldLabel="Specify size of the Dashed Border Line (default: 1px)"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        defaultValue="{Long}1"
+                                        fieldLabel="Specify size of the Dashed divider (default: 1px)"
+                                        min="0"
                                         name="./borderLineDashed"/>
                                     <borderLineColorDashed
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        fieldLabel="Specify color of the Dashed Border Line (default: #DDDDDD)"
+                                        fieldLabel="Specify color of the Dashed divider (default: #DDDDDD)"
                                         name="./borderLineColorDashed"/>
                                     <borderLineWidthDashed
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        fieldLabel="Specify width of the Dashed Border Line (default: 100%)"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        defaultValue="{Long}100"
+                                        fieldLabel="Specify width of the Dashed divider (default: 100%)"
+                                        max="100"
+                                        min="0"
                                         name="./borderLineWidthDashed"/>
                                 </items>
                             </setDashed>
@@ -154,18 +172,23 @@
                                 <items jcr:primaryType="nt:unstructured">
                                     <borderLineSolid
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        fieldLabel="Specify size of the Solid Border Line (default: 1px)"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        defaultValue="{Long}1"
+                                        fieldLabel="Specify size of the Solid divider (default: 1px)"
+                                        min="0"
                                         name="./borderLineSolid"/>
                                     <borderLineColorSolid
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        fieldLabel="Specify color of the Solid Border Line (default: #DDDDDD)"
+                                        fieldLabel="Specify color of the Solid divider (default: #DDDDDD)"
                                         name="./borderLineColorSolid"/>
                                     <borderLineWidthSolid
                                         jcr:primaryType="nt:unstructured"
-                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
-                                        fieldLabel="Specify width of the Solid Border Line (default: 100%)"
+                                        sling:resourceType="granite/ui/components/foundation/form/numberfield"
+                                        defaultValue="{Long}100"
+                                        fieldLabel="Specify width of the Solid divider (default: 100%)"
+                                        max="100"
+                                        min="0"
                                         name="./borderLineWidthSolid"/>
                                 </items>
                             </setSolid>
