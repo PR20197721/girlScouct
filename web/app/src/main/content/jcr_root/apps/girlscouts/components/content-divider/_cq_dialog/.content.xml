@@ -27,30 +27,30 @@
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
                                 defaultValue="{Long}20"
-                                fieldLabel="Padding Top (default: 20px)"
+                                fieldLabel="Margin Top (default: 20px)"
                                 min="0"
-                                name="./paddingTop"/>
+                                name="./marginTop"/>
                             <paddingBottom
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
                                 defaultValue="{Long}20"
-                                fieldLabel="Padding bottom (default: 20px)"
+                                fieldLabel="Margin bottom (default: 20px)"
                                 min="0"
-                                name="./paddingBottom"/>
+                                name="./marginBottom"/>
                             <paddingLeft
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
                                 defaultValue="{Long}0"
-                                fieldLabel="Padding left (default: 0px)"
+                                fieldLabel="Margin left (default: 0px)"
                                 min="0"
-                                name="./paddingLeft"/>
+                                name="./marginLeft"/>
                             <paddingRight
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/numberfield"
                                 defaultValue="{Long}0"
-                                fieldLabel="Padding right (default: 0px)"
+                                fieldLabel="Margin right (default: 0px)"
                                 min="0"
-                                name="./paddingRight"/>
+                                name="./marginRight"/>
                             <horizontal-border
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"

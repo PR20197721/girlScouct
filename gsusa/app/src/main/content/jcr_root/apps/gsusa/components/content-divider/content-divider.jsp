@@ -27,14 +27,14 @@ int randomNo = rand.nextInt(900000) + 100000;
         }
 
         .content-divider--padding_<%=randomNo%>{
-			margin-top: <%= properties.get("paddingTop","20")%>px; <%-- 20 is default value--%>
-			margin-bottom: <%= properties.get("paddingBottom","20")%>px; <%-- 20 is default value--%>
-			margin-left: <%= properties.get("paddingLeft","0")%>px; <%-- 0 is default value--%>
-			margin-right: <%= properties.get("paddingRight","0")%>px; <%-- 0 is default value--%>
+			margin-top: <%= properties.get("marginTop","20")%>px; <%-- 20 is default value--%>
+			margin-bottom: <%= properties.get("marginBottom","20")%>px; <%-- 20 is default value--%>
+			margin-left: <%= properties.get("marginLeft","0")%>px; <%-- 0 is default value--%>
+			margin-right: <%= properties.get("marginRight","0")%>px; <%-- 0 is default value--%>
         }
         .disable-border_<%=randomNo%>{
-            border-top :0 !important;
-            border-bottom:0 !important;
+            border :0 !important;
+            height: 0 !important;
         }
 
 </style>
