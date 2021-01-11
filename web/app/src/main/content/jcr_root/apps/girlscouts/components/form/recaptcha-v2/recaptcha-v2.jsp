@@ -11,7 +11,12 @@
     Map<String, String> recaptchaMap = webToCase.getRecaptchaMap();
     %>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <div id=":g-recaptcha-response" name=":g-recaptcha-response" class="g-recaptcha" data-sitekey="<%=site_key%>"></div>
+    <script>
+		var hideError = function() {
+            $("#recaptcha-error").hide(); 
+    	}
+	</script>
+    <div id=":g-recaptcha-response" name=":g-recaptcha-response" class="g-recaptcha" data-callback="hideError" data-sitekey="<%=site_key%>"></div>
     <%
         if (recaptchaMap.containsKey(site_key)) {
             String sfmcMapping = recaptchaMap.get(site_key);
