@@ -17,7 +17,7 @@
     <img id="printPageImg" style = "display: none;" src="<%= logoPath %>"/>
 </div>
 <div id="main" class="row content three-column">
-
+	<cq:include path="content/top/par" resourceType="foundation/components/parsys" />
 		<!--PAGE STRUCTURE: LEFT CONTENT START-->
 		<div class="large-5 hide-for-medium hide-for-small columns mainLeft">
 			<div id="leftContent">
