@@ -5,7 +5,8 @@ Random rand = new Random();
 int randomNo = rand.nextInt(900000) + 100000;
 %>
 <cq:includeClientLib categories="apps.gsusa.content-divider"/>
-
+<div data-emptytext="Content Divider Component" class="cq-placeholder">
+</div>
 <style>
 		.content-divider--solid_<%=randomNo%>{
             border:<%= properties.get("borderLineSolid","1")%>px solid <%= properties.get("borderLineColorSolid","#DDDDDD")%>;
