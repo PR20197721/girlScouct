@@ -15,11 +15,11 @@
     response.setContentType("application/csv");
     response.setHeader("Content-Disposition","attachment; filename=MeetingRpt.csv");
     Set<String> allowedReportUsers = new HashSet<String>();
-    allowedReportUsers.add("005g0000002apMT");
-    allowedReportUsers.add("005G0000006oEkZ");
-    allowedReportUsers.add("005G0000006oBVG");
-    allowedReportUsers.add("005g0000002G004");
-    allowedReportUsers.add("005G0000006oEjsIAE");
+    allowedReportUsers.add("113431330");
+    allowedReportUsers.add("113431355");
+    allowedReportUsers.add("113431373");
+    allowedReportUsers.add("113431381");
+    allowedReportUsers.add("113431418");
     String year =request.getParameter("year");
     if( year==null || "".equals(year))
         year= VtkUtil.getYearPlanBase(null, null);
