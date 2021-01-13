@@ -52,9 +52,10 @@ const Options = props => {
             <div style={{overflow: 'hidden'}}>
                 <div className={"__vtk_activity_name"} style={{}}>
                     <a
-                        onClick={() => props.openAgendaDetail(props.activity.activityDescription, props.activity.name, props.parent.duration, props.activity.outdoor, props.activity.global, props.activity.virtual, props.parent.name)}>
+                        onClick={() => props.openAgendaDetail(props.activity.activityDescription, props.activity.name, props.activity.subtitle, props.parent.duration, props.activity.outdoor, props.activity.global, props.activity.virtual, props.parent.name)}>
                         {props.activity.name}
                     </a>
+                    {props.activity.subtitle}
                 </div>
             </div>
         </div>
@@ -91,13 +92,14 @@ export function AgendaItemMultiple(props: AgendaItemMultipleProps) {
                         {selectedActivity.length ? (
                             <div className="__text">
                                 {props.value.name}
+                                {props.value.subtitle}
                                 {(props.value.name) ? <span>:&nbsp;&nbsp;</span> : null}
-                                <a onClick={() => props.openAgendaDetail(selectedActivity[0].activityDescription, selectedActivity[0].name, props.value.duration, selectedActivity[0].outdoor, selectedActivity[0].global, selectedActivity[0].virtual, props.value.name)}>
+                                <a onClick={() => props.openAgendaDetail(selectedActivity[0].activityDescription, selectedActivity[0].name, selectedActivity[0].subtitle, props.value.duration, selectedActivity[0].outdoor, selectedActivity[0].global, selectedActivity[0].virtual, props.value.name)}>
                                     {selectedActivity[0].name}
                                 </a>
                             </div>
                         ) : (
-                            <div className="__text">{props.value.name}{(props.value.name) ? ':  ' : null} Select an activity</div>
+                            <div className="__text test">{props.value.name}{props.value.subtitle}{(props.value.name) ? ':  ' : null} Select an activity</div>
                         )}
                     </div>
                     <div
