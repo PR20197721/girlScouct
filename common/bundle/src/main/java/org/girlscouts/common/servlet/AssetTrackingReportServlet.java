@@ -128,6 +128,10 @@ public class AssetTrackingReportServlet extends SlingAllMethodsServlet implement
 			map.put("path", str);
 			map.put("property", "councilPageUrl");
 			map.put("property.operation", "exists");
+			map.put("1_property","assetUsedDate");
+			map.put("orderby", "1_property");
+			map.put("orderby.sort","desc");
+			map.put("p.limit","-1");
 			Query query = queryBuilder.createQuery(PredicateGroup.create(map), session);
 			SearchResult result = query.getResult();
 			Iterator<Resource> it = result.getResources();
