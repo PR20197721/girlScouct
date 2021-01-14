@@ -373,13 +373,12 @@
                         </div>
                     </form>
                 </div><!--/pickActivitySection-->
-                <div id="manageActivitySection">
-                        
-                </div>
             </div><!--/small-24-->
+            <div id="manageActivitySection"></div>
             </row>
         </div><!--/modalBody-->
-    </div><!--/tabs-wrapper-->
+    </div>
+    <!--/tabs-wrapper-->
     <script>
         $("#newCustActivity_date").datepicker();
 

@@ -557,6 +557,7 @@ function rmCustActivity(x) {
 }
 
     const getActivitiesList = ()=> {
+        console.log()
         const manageActivityList= [{
             desc : 'test',
             data : 'mon-12-2020'
