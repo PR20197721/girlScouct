@@ -587,6 +587,55 @@ function rmCustActivity(x) {
         }
     }
 
+    const removeActivity =(id)=>{
+		$.ajax({
+                type: 'GET',
+                url: 'https://jsonplaceholder.typicode.com/todos/1',
+                dataType: "jsonp",
+                crossDomain: true,
+                success: function () {
+
+                    manageActivityRemoved(true, id)
+
+                },
+                error: function (request, status, error) {
+
+                    alert(error);
+                }
+            });
+    }
+
+
+    function manageActivityRemoved(flag, id) {
+        const magangeList = [{
+             id : 1, description : 'Activity with 1',
+             Date : '12-jan-2020'
+         }, {
+             id : 2, description : 'Activity with 2',
+             Date : '11-jan-2020'
+         }]
+         let magangeList1 = [];
+         if(flag){
+             magangeList1 = magangeList.filter(magangeListItem => magangeListItem.id  !== id);
+             
+         }
+         const UL = document.createElement('ul');
+         for (let i = 0;i < magangeList1.length; i++){
+             let li = document.createElement('li');
+             li.innerHTML = `<span>${magangeList1[i].description}</span> <span style = 'margin-left : 20px' onclick = 'removeActivity(${magangeList[i].id})'>Remove</span>`;
+             UL.appendChild(li);
+         }
+         const getActivitiesListContainer = document.getElementById('manageActivitySection');
+         getActivitiesListContainer.innerHTML = '';
+         if(magangeList1 && magangeList1.length >0){
+             getActivitiesListContainer.append(UL)
+             }
+             else {
+                getActivitiesListContainer.append('<div>There is no Records</div>')
+             }
+
+     }
+
 function createNewCustActivity() {
 
 
