@@ -559,9 +559,11 @@ function rmCustActivity(x) {
     const getActivitiesList = ()=> {
         console.log()
         const manageActivityList= [{
+            id : 1,
             desc : 'test',
             data : 'mon-12-2020'
         },{
+            id :2,
             desc : 'test1',
             data : 'mon-12-1990'
         }]
@@ -575,7 +577,7 @@ function rmCustActivity(x) {
 
                 const li=document.createElement('li');
                 li.setAttribute('class', 'manage-avtivity-list-item')
-                li.innerHTML=`<span>${manageActivityList[i].desc}</span>  <span>${manageActivityList[i].data}</span> <span>Remove</span>` ;
+                li.innerHTML=`<span>${manageActivityList[i].desc}</span>  <span>${manageActivityList[i].data}</span> <span onclick ="removeActivity(${manageActivityList[i].id})">Remove</span>`;
                 ul.appendChild(li);
             }
 
