@@ -583,7 +583,9 @@ function rmCustActivity(x) {
 
         }
         else {
-            console.log('show no data')
+            const getActivitiesListContainer = document.getElementById('manageActivitySection');
+            getActivitiesListContainer.innerHTML = `<div>There is no Activity Record</div>`;
+
         }
     }
 
