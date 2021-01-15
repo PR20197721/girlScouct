@@ -1,6 +1,15 @@
 @import 'vtk-colors';
 @import 'vtk-icons';
-
+// sccs related to manage activity vtk-6
+.manage-avtivity-list{
+  padding : 10px;
+  
+  .manage-avtivity-list-item{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+}
 .row .row {
   margin-left: -5px;
   margin-right: -5px;

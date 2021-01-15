@@ -588,30 +588,36 @@ function rmCustActivity(x) {
     }
 
     const removeActivity =(id)=>{
-		$.ajax({
-                type: 'GET',
-                url: 'https://jsonplaceholder.typicode.com/todos/1',
-                dataType: "jsonp",
-                crossDomain: true,
-                success: function () {
+        gsDialog({
+		content: '<p>Do you want to delete the activity</p>',
+        headerText: 'Remove Activity',
+		buttons : [	{
+					text: "OK",
+					click: function () {
+						manageActivityRemoved(true,id)
+                        $(this).dialog("close");
+                    }},
+            		{
+					text: "Cancel",
+					click: function () {
+						$(this).dialog("close");
+                    }}
+	
+			],
+		width:400,
+        height : 200
+	})
 
-                    manageActivityRemoved(true, id)
-
-                },
-                error: function (request, status, error) {
-
-                    alert(error);
-                }
-            });
     }
 
 
     function manageActivityRemoved(flag, id) {
+        console.log(id)
         const magangeList = [{
-             id : 1, description : 'Activity with 1',
+             id : '1', description : 'Activity with 1',
              Date : '12-jan-2020'
          }, {
-             id : 2, description : 'Activity with 2',
+             id : '2', description : 'Activity with 2',
              Date : '11-jan-2020'
          }]
          let magangeList1 = [];
@@ -619,6 +625,7 @@ function rmCustActivity(x) {
              magangeList1 = magangeList.filter(magangeListItem => magangeListItem.id  !== id);
              
          }
+         console.log(magangeList1)
          const UL = document.createElement('ul');
          for (let i = 0;i < magangeList1.length; i++){
              let li = document.createElement('li');
