@@ -556,38 +556,53 @@ function rmCustActivity(x) {
     vtkTrackerPushAction('RemoveActivity');
 }
 
-    const getActivitiesList = ()=> {
-        $('#gsModal').css({'opacity': 1, 'z-inedex' : 1});
-        const manageActivityList= [{
-            id : 1,
-            desc : 'test',
-            data : 'mon-12-2020'
-        },{
-            id :2,
-            desc : 'test1',
-            data : 'mon-12-1990'
-        }]
+const getActivitiesList = ()=> {
+    $('#gsModal').css({'opacity': 1, 'z-inedex' : 1});
+    const manageActivityList= [{
+       id : '1',
+       desc : 'test',
+       data : 'mon-12-2020'
+   },{
+       id : '2',
+       desc : 'test1',
+       data : 'mon-12-1990'
+   }]
 
-        if(manageActivityList && manageActivityList.length > 0){
-            const getActivitiesListContainer = document.getElementById('manageActivitySection');
-            const ul= document.createElement('ul');
-            ul.setAttribute('class', 'manage-avtivity-list');
-            getActivitiesListContainer.appendChild(ul);
-            for (let i=0; i<manageActivityList.length; i++){
+   $.ajax({
+         url: "https://jsonplaceholder.typicode.com/todos/1",
+         cache: false,
+         success: function(){
+               getActivitiesSucces(manageActivityList)
+         },
+       erorr : function(){
+               console.log('There is some error in getting the Activities record')
+           }
+       });
+}
 
-                const li=document.createElement('li');
-                li.setAttribute('class', 'manage-avtivity-list-item')
-                li.innerHTML=`<span>${manageActivityList[i].desc}</span>  <span>${manageActivityList[i].data}</span> <span onclick ="removeActivity(${manageActivityList[i].id})">Remove</span>`;
-                ul.appendChild(li);
-            }
 
-        }
-        else {
-            const getActivitiesListContainer = document.getElementById('manageActivitySection');
-            getActivitiesListContainer.innerHTML = `<div>There is no Activity Record</div>`;
+const getActivitiesSucces =(manageActivityList)=> {
 
-        }
-    }
+   if(manageActivityList && manageActivityList.length > 0){
+       const getActivitiesListContainer = document.getElementById('manageActivitySection');
+       const ul= document.createElement('ul');
+       ul.setAttribute('class', 'manage-avtivity-list');
+       getActivitiesListContainer.appendChild(ul);
+       for (let i=0; i<manageActivityList.length; i++){
+
+           const li=document.createElement('li');
+           li.setAttribute('class', 'manage-avtivity-list-item')
+           li.innerHTML=`<span>${manageActivityList[i].desc}</span>  <span>${manageActivityList[i].data}</span> <span style = 'margin-left : 20px'; color : '#00ae57'  onclick ="removeActivity(${manageActivityList[i].id})">Remove</span>`;
+           ul.appendChild(li);
+       }
+
+   }
+   else {
+       const getActivitiesListContainer = document.getElementById('manageActivitySection');
+       getActivitiesListContainer.innerHTML = `<div>There is no Activity Record</div>`;
+   }
+
+}
 
     const removeActivity =(id)=>{
         $('#gsModal').css({'opacity': .5, 'z-inedex' : -1});
