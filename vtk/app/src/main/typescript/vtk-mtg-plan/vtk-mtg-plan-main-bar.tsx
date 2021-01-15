@@ -85,7 +85,7 @@ class VtkMtgPlanMainBar extends React.Component <VtkMtgPlanMainBarProps,
                         {(meetingInfo.reqTitle)
                             ? <div className="row">
                                 <div className="columns small-24 medium-4" style={{fontSize: '14px'}}>
-                                    REQUIREMENTS:
+                                    STEPS:
                                 </div>
                                 <div className="columns small-24 medium-20">
                                     <div className={(this.state.isOpen) ? "__mid_show" : "__mid_show __hidden"}
