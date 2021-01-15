@@ -24,6 +24,8 @@
             builder.append("</p>");
             if (__activity.getSubtitle() != null) {
             	builder.append("<p  style=\"font-size:16px;\">" + __activity.getSubtitle() + "</p>");
+            } else if (selectedActivity.getSubtitle() != null) {
+                builder.append("<p  style=\"font-size:16px;\">" + selectedActivity.getSubtitle() + "</p>");
             }
             builder.append("<p  style=\"font-size:18px; font-weight:bold;\">" + selectedActivity.getActivityDescription() + "</p>");
 
