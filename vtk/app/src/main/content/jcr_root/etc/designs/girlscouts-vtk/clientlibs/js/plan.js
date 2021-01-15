@@ -557,7 +557,7 @@ function rmCustActivity(x) {
 }
 
     const getActivitiesList = ()=> {
-        console.log()
+        $('#gsModal').css({'opacity': 1, 'z-inedex' : 1});
         const manageActivityList= [{
             id : 1,
             desc : 'test',
@@ -588,9 +588,10 @@ function rmCustActivity(x) {
     }
 
     const removeActivity =(id)=>{
+        $('#gsModal').css({'opacity': .5, 'z-inedex' : -1});
         gsDialog({
 		content: '<p>Do you want to delete the activity</p>',
-        headerText: 'Remove Activity',
+		headerText: 'Remove Activity',
 		buttons : [	{
 					text: "OK",
 					click: function () {
@@ -600,6 +601,7 @@ function rmCustActivity(x) {
             		{
 					text: "Cancel",
 					click: function () {
+                        $('#gsModal').css({'opacity': 1, 'z-inedex' : 1});
 						$(this).dialog("close");
                     }}
 	
