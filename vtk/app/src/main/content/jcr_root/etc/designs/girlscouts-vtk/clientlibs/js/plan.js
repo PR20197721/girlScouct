@@ -604,30 +604,52 @@ const getActivitiesSucces =(manageActivityList)=> {
 
 }
 
-    const removeActivity =(id)=>{
-        $('#gsModal').css({'opacity': .5, 'z-inedex' : -1});
-        gsDialog({
-		content: '<p>Do you want to delete the activity</p>',
-		headerText: 'Remove Activity',
-		buttons : [	{
-					text: "OK",
-					click: function () {
-						manageActivityRemoved(true,id)
-                        $(this).dialog("close");
-                    }},
-            		{
-					text: "Cancel",
-					click: function () {
-                        $('#gsModal').css({'opacity': 1, 'z-inedex' : 1});
-						$(this).dialog("close");
-                    }}
-	
-			],
-		width:400,
-        height : 200
-	})
+function manageActivityRemoved(flag, id) {
 
+    $.ajax({
+      url: "https://jsonplaceholder.typicode.com/todos/1",
+      cache: false,
+      success: function(){
+            removeActivitySucessfully(true, id)
+      },
+    erorr : function(){
+            console.log('There is some error in getting the Activities record')
+        }
+    });
     }
+
+
+const removeActivitySucessfully =(flag, id)=>{
+$('#gsModal').css('opacity', 1);
+       const magangeList = [{
+            id : '1', description : 'Activity with 1',
+            Date : '12-jan-2020'
+        }, {
+            id : '2', description : 'Activity with 2',
+            Date : '11-jan-2020'
+        }]
+        let magangeList1 = [];
+        if(flag){
+            magangeList1 = magangeList.filter(magangeListItem => magangeListItem.id  != id);
+            
+        }
+        const UL = document.createElement('ul');
+        for (let i = 0;i < magangeList1.length; i++){
+            let li = document.createElement('li');
+            li.setAttribute('class', 'manage-avtivity-list-item')
+            li.innerHTML = `<span>${magangeList1[i].description}</span> <span style = 'margin-left : 20px'; color : '#00ae57' onclick = 'removeActivity(${magangeList[i].id})' >Remove</span>`;
+            UL.appendChild(li);
+        }
+        const getActivitiesListContainer = document.getElementById('manageActivitySection');
+        getActivitiesListContainer.innerHTML = '';
+        if(magangeList1 && magangeList1.length >0){
+            getActivitiesListContainer.append(UL)
+            }
+            else {
+               getActivitiesListContainer.append('<div>There is no Records</div>')
+            }
+
+}
 
 
     function manageActivityRemoved(flag, id) {
