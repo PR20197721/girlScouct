@@ -66,9 +66,10 @@
                         "<ul id=\"coral-2\" class=\"coral-SelectList\" role=\"listbox\" aria-hidden=\"true\" tabindex=\"-1\"></ul></span></div><p>"
                 }
                 var footer = "<button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\" coral-close=\"\"><coral-button-label>Ok</coral-button-label></button>";
-                if(action == "restore"){
-                    footer = "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Ok</coral-button-label></button>";
+                if(true){ //action == "restore"
+                    footer = "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>ABCD</coral-button-label></button>";
                 }
+
                 var errorDialog = new Coral.Dialog().set({
                     id: "errorDialog",
                     header: {
@@ -87,6 +88,34 @@
                     if(action == "restore"){
                         restorePath = $('#restore-path').val();
                         handleTrashcanEvent();
+                    }else{
+                        var forceDeleteRef = $("#forceDeleteRef").is(":checked");
+                        var forceRepublishUpdatedPages = $("#forceRepublishUpdatedPages").is(":checked");
+                        //Doing an Ajax call to perform all the actions.
+						$.ajax({
+                            dataType: "json",
+                            url: "delete-references",
+                            type: 'POST',
+                            data: JSON.stringify(forceDeleteRef),
+                        }).success(function (data) {
+                            /*if (data.success) {
+                                dialog.remove();
+                                if (data.action == "trash") {
+                                    $(window).adaptTo("foundation-ui").notify("Moving to trash: ", "Moving to <strong>" + data.destination_path + "</strong>", "success");
+                                } else {
+                                    $(window).adaptTo("foundation-ui").notify("Restoring from trash: ", "Restoring to <strong>" + data.destination_path + "</strong>", "success");
+                                }
+                                dialog.remove();
+                                setTimeout(function () {
+                                    location.reload(true);
+                                }, 3000);
+                            } else {
+                                dialog.remove();
+                                showErrorDialog(data.errorCause, data.action);
+                            }*/
+                        }).error(function () {
+                            $(window).adaptTo("foundation-ui").notify("Error", "Unexpected error occurred while moving item " + itemPath + " to trashcan.", "error");
+                        });
                     }
                     errorDialog.remove();
                 });
@@ -172,7 +201,7 @@
                             innerHTML: message
                         },
                         footer: {
-                            innerHTML: "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Ok</coral-button-label></button>"
+                            innerHTML: "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>TRAHSCAN OK</coral-button-label></button>"
                         },
                         variant: "warning"
                     });

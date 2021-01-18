@@ -117,6 +117,12 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                             sb.append("<li>"+error+"</li>");
                         }
                         sb.append("</ol>");
+                        sb.append("<form>");
+                        sb.append("<div><input type=\"checkbox\" id=\"forceDeleteRef\" name=\"forceDeleteRef\" value=\"forceDeleteRef\"></div>");
+                        sb.append("<label for=\"vehicle1\">Force delete references</label><br>");
+                        sb.append("<div><input type=\"checkbox\" id=\"forceRepublishUpdatedPages\" name=\"forceRepublishUpdatedPages\" value=\"forceRepublishUpdatedPages\"></div>");
+                        sb.append("<label for=\"vehicle1\">Force republish updated pages</label><br>");
+                        sb.append("</form>");
                         throw new GirlScoutsException(new Exception(), sb.toString());
                     }
                     for (TrashcanItem item : trashcanRequest.getItems()) {
