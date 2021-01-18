@@ -269,7 +269,10 @@ BoothFinder.prototype.processResult = function(result) {
                 l : value.Location,
                 d : value.DateStart,
                 z : value.ZipCode,
-                s : "Website"
+                s : "Website",
+                cn : getParameterByName('utm_campaign'),
+                cm : getParameterByName('utm_medium'),
+                cs : getParameterByName('utm_source')
             }
 
             $.ajax({
