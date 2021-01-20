@@ -32,6 +32,11 @@ div.textimage.image_right div.image {
     width:-ms-fit-content;
     max-width: 50%;
 }
+
+.txtimage-no-margin{
+	margin:0;
+}
+
 /*End-GSWP-2149-Image Center alignment and shrink the width if the image is bigger in center alignment*/
 
 /*GSDO-1077- Image and caption width*/
@@ -39,4 +44,3 @@ div.textimage.image_right div.image {
    .txtimage-left, .txtimage-right, .txtimage-center, .txtimage-left img, .txtimage-right img, .txtimage-center img {
 		max-width: 100%;
 	}
-

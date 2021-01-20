@@ -29,6 +29,7 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
 import org.apache.sling.commons.osgi.OsgiUtil;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.web.service.recaptcha.RecaptchaService;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +61,9 @@ public class GSMailServlet
         implements OptingServlet {
 
     protected static final String EXTENSION = "html";
+    protected static final String RESPONSE_VAL = "g-recaptcha-response";
+    protected static final String SECRET = "secret";
+    protected static final String CAPTCHA_RESPONSE = ":cq:captcha";
 
     protected static final String MAILTO_PROPERTY = "mailto";
     protected static final String CC_PROPERTY = "cc";
@@ -84,6 +88,9 @@ public class GSMailServlet
     
     @Reference(policy=ReferencePolicy.STATIC)
     private SlingSettingsService slingSettings;
+    
+    @Reference
+    private RecaptchaService recaptchaService;
 
     @Property(value = {
             "/content",
@@ -177,12 +184,32 @@ public class GSMailServlet
             response.setStatus(500);
             return;
         }
+        
+        //Recaptcha Server Validations
+        String responseVal = request.getParameter(RESPONSE_VAL);
+        String captcha = request.getParameter(CAPTCHA_RESPONSE);
+        String secret = request.getParameter(SECRET);
+        if (null == captcha){
+	        if (null != responseVal) {
+		        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
+		        if (!success) {
+		        	logger.debug("Recaptcha validation failed");
+		        	response.setStatus(500);
+		        	response.getWriter().println("Recaptcha validation failed");
+		        	return;
+		        }
+	        } else {
+	        	logger.debug("Recaptcha response invalid");
+	        	response.sendError(500, "Recaptcha response invalid");
+	        	return;
+	        }
+        }
 
         final ResourceBundle resBundle = request.getResourceBundle(null);
+        int status = 200;
 
         final ValueMap values = ResourceUtil.getValueMap(request.getResource());
         final String[] mailTo = values.get(MAILTO_PROPERTY, String[].class);
-        int status = 200;
         if (mailTo == null || mailTo.length == 0 || mailTo[0].length() == 0) {
             // this is a sanity check
             logger.error("The mailto configuration is missing in the form begin at " + request.getResource().getPath());

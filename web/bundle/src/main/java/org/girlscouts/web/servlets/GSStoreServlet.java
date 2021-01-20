@@ -31,6 +31,7 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
 import org.apache.sling.commons.osgi.OsgiUtil;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.web.service.recaptcha.RecaptchaService;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,10 @@ public class GSStoreServlet
         implements OptingServlet {
 
     protected static final String EXTENSION = "html";
+    protected static final String SECRET = "secret";
+    protected static final String RESPONSE_VAL = "g-recaptcha-response";
+    protected static final String CAPTCHA_RESPONSE = ":cq:captcha";
+
 
     protected static final String CONFIRM_MAILTO_PROPERTY = "confirmationmailto";
     protected static final String DISABLE_CONFIRMATION_PROPERTY = "disableConfirmation";
@@ -79,6 +84,9 @@ public class GSStoreServlet
     
     @Reference(policy=ReferencePolicy.STATIC)
     private SlingSettingsService slingSettings;
+    
+    @Reference
+    private RecaptchaService recaptchaService;
     
     @Property(value = {
             "/content",
@@ -171,6 +179,25 @@ public class GSStoreServlet
             logger.debug("Received fake request!");
             response.setStatus(500);
             return;
+        }
+        
+        //Recaptcha Server Validations
+        String responseVal = request.getParameter(RESPONSE_VAL);
+        String captcha = request.getParameter(CAPTCHA_RESPONSE);
+        String secret = request.getParameter(SECRET);
+        if (null == captcha){
+	        if (null != responseVal) {
+		        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
+		        if (!success) {
+		        	logger.debug("Recaptcha validation failed");
+		        	response.sendError(500, "Recaptcha validation failed");
+		        	return;
+		        }
+	        } else {
+	        	logger.debug("Recaptcha response invalid");
+	        	response.sendError(500, "Recaptcha response invalid");
+	        	return;
+	        }
         }
 
         final ResourceBundle resBundle = request.getResourceBundle(null);

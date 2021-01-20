@@ -71,15 +71,15 @@ BoothFinder.prototype.getResult = function() {
 
     var gaparam = getParameterByName('utm_campaign');
     if (gaparam) {
-        data.GSCampaign = gaparam;
+        data.GACampaign = gaparam;
     }
     gaparam = getParameterByName('utm_medium');
     if (gaparam) {
-        data.GSMedium = gaparam;
+        data.GAMedium = gaparam;
     }
     gaparam = getParameterByName('utm_source');
     if (gaparam) {
-        data.GSSource = gaparam;
+        data.GASource = gaparam;
     }
 
     $.ajax({
@@ -272,7 +272,9 @@ BoothFinder.prototype.processResult = function(result) {
                 s : "Website",
                 cn : getParameterByName('utm_campaign'),
                 cm : getParameterByName('utm_medium'),
-                cs : getParameterByName('utm_source')
+                cs : getParameterByName('utm_source'),
+                a1 : value.Address1,
+                a2 : value.Address2
             }
 
             $.ajax({
@@ -315,8 +317,8 @@ BoothFinder.prototype.processResult = function(result) {
     }
 
     // Share dialog
-    const shareModelEle = $("#booth-finder-result").find(".share-modal");
     var showShareDialog = $('#share-showShareDialog').attr('data') == 'true';
+    const shareModelEle = $("#booth-finder-result").find(".share-modal");
     if (showShareDialog && shareModelEle && shareModelEle.length ===0) {
         var shareModalHtml = Handlebars.compile($('#template-sharemodal').html())({
             buttonCaption: "SHARE WITH YOUR FRIENDS",
