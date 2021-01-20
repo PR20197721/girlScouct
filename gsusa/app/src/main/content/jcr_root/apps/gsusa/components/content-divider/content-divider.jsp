@@ -22,8 +22,8 @@ int randomNo = rand.nextInt(900000) + 100000;
         }
         .content-divider--image_<%=randomNo%>{
 		    background-image: url(<%= properties.get("borderImage","/etc/designs/gsusa/clientlibs/images/blockquote_bg.png")%>);
-		    height: <%= properties.get("borderImageHeight","8")%>px;
-		    width: <%= properties.get("borderImageWidth","100")%>%;
+		    height: 0.5625rem;
+		    width: 100%;
             background-repeat: repeat-x;
         }
 
