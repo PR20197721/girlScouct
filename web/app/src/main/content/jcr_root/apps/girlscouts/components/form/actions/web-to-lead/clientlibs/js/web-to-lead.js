@@ -155,6 +155,7 @@ $(document).ready(function () {
             }
             errorMessage += "</ul>";
             $("#validation-errors").html(errorMessage);
+            $("#recaptcha-error").hide();
         }
     }
 
