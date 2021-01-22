@@ -12,8 +12,9 @@
         private volatile boolean stop;
         private boolean dryRun = true;
         private boolean updateJoin = true;
-        private boolean updateVolunteer = true;
-        private boolean updateRenew = true;
+        private boolean updateVolunteer = false;
+        private boolean updateRenew = false;
+        private boolean addTargetValueToHref = true;
         private SlingRepository repository;
         private JoinVolunteerMigration joinVolunteerMigration;
 
@@ -62,7 +63,7 @@
                                     try {
                                         Row row = rowIter.nextRow();
                                         Node node = row.getNode();
-                                        joinVolunteerMigration.migrateJoinLink(node.getPath(), dryRun);
+                                        joinVolunteerMigration.migrateJoinLink(node.getPath(), dryRun, addTargetValueToHref);
                                     } catch (Exception e) {
                                         log.error("Error Occurred: ", e);
                                     }
@@ -83,7 +84,7 @@
                                     try {
                                         Row row = rowIter.nextRow();
                                         Node node = row.getNode();
-                                        joinVolunteerMigration.migrateVolunteerLink(node.getPath(), dryRun);
+                                        joinVolunteerMigration.migrateVolunteerLink(node.getPath(), dryRun, addTargetValueToHref);
                                     }catch(Exception e){
                                         log.error("Error Occurred: ", e);
                                     }
@@ -104,7 +105,7 @@
                                     try {
                                         Row row = rowIter.nextRow();
                                         Node node = row.getNode();
-                                        joinVolunteerMigration.migrateRenewLink(node.getPath(), dryRun);
+                                        joinVolunteerMigration.migrateRenewLink(node.getPath(), dryRun, addTargetValueToHref);
                                     }catch(Exception e){
                                         log.error("Error Occurred: ", e);
                                     }
