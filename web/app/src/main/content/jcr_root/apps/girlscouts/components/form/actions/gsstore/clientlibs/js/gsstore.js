@@ -26,6 +26,7 @@ $(document).ready(function () {
             errorMessage += "<div class=\"form_row form_error\">" + errors[i] + "</div>";
         }
         $(formErrorContainer[0]).html(errorMessage);
+        $("#recaptcha-error").hide();
     }
     
     function submitForm(form) {
