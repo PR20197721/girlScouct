@@ -109,6 +109,7 @@ $(document).ready(function () {
         }
 
         $(formErrorContainer[0]).html(errorMessage);
+        $("#recaptcha-error").hide();
     }
     function checkFormConfiguration(form) {
         var leadTypeVal = getFormFieldValue(form, "LeadType");
@@ -155,7 +156,6 @@ $(document).ready(function () {
             }
             errorMessage += "</ul>";
             $("#validation-errors").html(errorMessage);
-            $("#recaptcha-error").hide();
         }
     }
 
