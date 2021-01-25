@@ -1,9 +1,9 @@
 package org.girlscouts.web.osgi.service;
 
 public interface JoinVolunteerMigration {
-    public void migrateJoinLink(String path, boolean dryRun, Boolean addTargetValueToHref);
-    public void migrateVolunteerLink(String path, boolean dryRun, Boolean addTargetValueToHref);
-    public void migrateRenewLink(String path, boolean dryRun, Boolean addTargetValueToHref);
+    public void migrateJoinLink(String path, boolean dryRun, Boolean addTargetValueToHref,Boolean onlyToAddHref);
+    public void migrateVolunteerLink(String path, boolean dryRun, Boolean addTargetValueToHref,Boolean onlyToAddHref);
+    public void migrateRenewLink(String path, boolean dryRun, Boolean addTargetValueToHref,Boolean onlyToAddHref);
 
     public String getOldJoin();
 

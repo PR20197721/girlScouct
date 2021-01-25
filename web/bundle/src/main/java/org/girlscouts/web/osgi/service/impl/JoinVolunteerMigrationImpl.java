@@ -54,13 +54,13 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
     }
 
     @Override
-    public void migrateJoinLink(String path, boolean dryRun, Boolean addTargetValueToHref) {
+    public void migrateJoinLink(String path, boolean dryRun, Boolean addTargetValueToHref, Boolean onlyToAddHref) {
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             log.debug("Path: "+path);
             Resource resource = rr.resolve(path);
-            migrateNode(dryRun, resource, this.oldJoin, this.newJoin, addTargetValueToHref);
+            migrateNode(dryRun, resource, this.oldJoin, this.newJoin, addTargetValueToHref, onlyToAddHref);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {
@@ -75,13 +75,13 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
     }
 
     @Override
-    public void migrateVolunteerLink(String path, boolean dryRun, Boolean addTargetValueToHref) {
+    public void migrateVolunteerLink(String path, boolean dryRun, Boolean addTargetValueToHref, Boolean onlyToAddHref) {
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             log.debug("Path: "+path);
             Resource resource = rr.resolve(path);
-            migrateNode(dryRun, resource, this.oldVolunteer, this.newVolunteer,addTargetValueToHref);
+            migrateNode(dryRun, resource, this.oldVolunteer, this.newVolunteer,addTargetValueToHref,onlyToAddHref);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {
@@ -96,13 +96,13 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
     }
 
     @Override
-    public void migrateRenewLink(String path, boolean dryRun, Boolean addTargetValueToHref) {
+    public void migrateRenewLink(String path, boolean dryRun, Boolean addTargetValueToHref, Boolean onlyToAddHref) {
         ResourceResolver rr = null;
         try {
             rr = resolverFactory.getServiceResourceResolver(resolverParams);
             log.debug("Path: "+path);
             Resource resource = rr.resolve(path);
-            migrateNode(dryRun, resource, this.oldRenew, this.newRenew,addTargetValueToHref);
+            migrateNode(dryRun, resource, this.oldRenew, this.newRenew,addTargetValueToHref,onlyToAddHref);
         } catch (Exception e) {
             log.error("Error Occurred: ", e);
         } finally {
@@ -116,7 +116,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
         }
     }
 
-    private void migrateNode(boolean dryRun, Resource resource, String oldValue, String newValue, Boolean addTargetValueToHref) throws RepositoryException {
+    private void migrateNode(boolean dryRun, Resource resource, String oldValue, String newValue, Boolean addTargetValueToHref, Boolean onlyToAddHref) throws RepositoryException {
         Node node = resource.adaptTo(Node.class);
         final ValueFactory valueFactory = node.getSession().getValueFactory();
         PropertyIterator iterator = node.getProperties();
@@ -128,7 +128,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                     String value = property.getString();
                     if (value.contains(oldValue)) {
                         log.debug("before update: " + property.getName() + "=\n" + value);
-                        value = updateValue(value, oldValue, newValue,addTargetValueToHref);
+                        value = updateValue(value, oldValue, newValue,addTargetValueToHref,onlyToAddHref);
                         node.setProperty(property.getName(), value);
                         saveNeeded = true;
                         log.debug("after update: " + property.getName() + "=\n" + value);
@@ -141,7 +141,7 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
                             String value = valueArray[i].getString();
                             if (value.contains(oldValue)) {
                                 log.debug("before update: " + property.getName() + "=\n" + value);
-                                value = updateValue(value, oldValue, newValue,addTargetValueToHref);
+                                value = updateValue(value, oldValue, newValue,addTargetValueToHref,onlyToAddHref);
                                 valueArray[i] = valueFactory.createValue(value);
                                 saveNeeded = true;
                                 log.debug("after update: " + property.getName() + "=\n" + value);
@@ -164,33 +164,35 @@ public class JoinVolunteerMigrationImpl implements JoinVolunteerMigration {
         }
     }
 
-    private String updateValue(String value, String oldURL, String newUrl, Boolean addTargetValueToHref){
+    private String updateValue(String value, String oldURL, String newUrl, Boolean addTargetValueToHref, Boolean onlyToAddHref){
         //exact match, possible plain text field
-        if(value.trim().equals(oldURL)) {
-            log.debug("Found exact match for old url: {}",oldURL);
-            value = newUrl.trim();
-        }else{
-            //is html
-            Pattern htmlPattern = Pattern.compile("</?[^>]+>");
-            Matcher htmlMatcher = htmlPattern.matcher(value);
-            if(htmlMatcher.find()) {
-                log.debug("processing html");
-                //value = value.replaceAll(oldURL, newUrl);
-                log.debug("checking for pattern \"" + oldURL.replaceAll("/","\\/") + ".*?\"");
-                Pattern pattern = Pattern.compile("\"" + oldURL.replaceAll("/","\\/") + ".*?\"");
-                Matcher matcher = pattern.matcher(value);
-                StringBuffer bufStr = new StringBuffer();
-                while (matcher.find()) {
-                    String matchedText = matcher.group();
-                    log.debug("Replacing {} with {}", matchedText, "\"" + newUrl + "\"");
-                    matcher.appendReplacement(bufStr, "\"" + newUrl + "\"");
+        if(!onlyToAddHref) {
+            if (value.trim().equals(oldURL)) {
+                log.debug("Found exact match for old url: {}", oldURL);
+                value = newUrl.trim();
+            } else {
+                //is html
+                Pattern htmlPattern = Pattern.compile("</?[^>]+>");
+                Matcher htmlMatcher = htmlPattern.matcher(value);
+                if (htmlMatcher.find()) {
+                                log.debug("processing html");
+                        //value = value.replaceAll(oldURL, newUrl);
+                        log.debug("checking for pattern \"" + oldURL.replaceAll("/", "\\/") + ".*?\"");
+                        Pattern pattern = Pattern.compile("\"" + oldURL.replaceAll("/", "\\/") + ".*?\"");
+                        Matcher matcher = pattern.matcher(value);
+                        StringBuffer bufStr = new StringBuffer();
+                        while (matcher.find()) {
+                            String matchedText = matcher.group();
+                            log.debug("Replacing {} with {}", matchedText, "\"" + newUrl + "\"");
+                            matcher.appendReplacement(bufStr, "\"" + newUrl + "\"");
+                    }
+                    matcher.appendTail(bufStr);
+                    value = bufStr.toString();
+                } else {
+                    log.debug("processing textfield");
+                    String replacePattern = oldURL + ".*";
+                    value = value.replaceAll(replacePattern, newUrl);
                 }
-                matcher.appendTail(bufStr);
-                value = bufStr.toString();
-            }else{
-                log.debug("processing textfield");
-                String replacePattern = oldURL + ".*";
-                value = value.replaceAll(replacePattern,newUrl);
             }
         }
         if(addTargetValueToHref){ // add target Value to the link
