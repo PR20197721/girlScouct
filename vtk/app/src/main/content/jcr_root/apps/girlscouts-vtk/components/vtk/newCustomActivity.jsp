@@ -374,7 +374,9 @@
                     </form>
                 </div><!--/pickActivitySection-->
             </div><!--/small-24-->
-            <div id="manageActivitySection"></div>
+            <div id="manageActivitySection">
+            	<%@include file="include/manageActivities.jsp" %>
+            </div>
             </row>
         </div><!--/modalBody-->
     </div>
