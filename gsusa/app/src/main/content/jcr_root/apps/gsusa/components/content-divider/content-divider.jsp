@@ -55,6 +55,7 @@ if(horizontalBorder){
 }
 %>
 <div class ='content-divider-container'>
+    
 <div class ='content-divider-config content-divider--padding_<%=randomNo%> content-divider--<%= borderLineStyle %>_<%=randomNo%> <%= disableBorderClass %>_<%=randomNo%>'>
      <span></span>
 </div>
