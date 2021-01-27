@@ -55,12 +55,6 @@
                     fieldLabel="Region"
                     name="./jcr:content/data/region"
                     xtype="textfield"/>
-                <locationLabel
-                    jcr:primaryType="cq:Widget"
-                    allowBlank="{Boolean}false"
-                    fieldLabel="Location Name"
-                    name="./jcr:content/data/locationLabel"
-                    xtype="textfield"/>
                 <details
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"
