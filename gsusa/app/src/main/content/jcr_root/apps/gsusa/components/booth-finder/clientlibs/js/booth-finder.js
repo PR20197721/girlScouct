@@ -44,6 +44,9 @@ $(document).ready(function() {
         boothFinder = new BoothFinder(boothListingApiURL, zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
+
+    function registerAddressAsLinkClick();
+
 });
 
 
@@ -195,7 +198,7 @@ BoothFinder.prototype.processResult = function(result) {
 
     if (templateId == 'booths') {
         // Bind "View Details" buttons
-        $('.booth-finder .viewmap.button , .booth-finder .location').on('click', function() {
+        $('.booth-finder .viewmap.button').on('click', function() {
             var booth = JSON.parse($(this).attr('data'));
             if(booth.detailsText == "Buy Cookies"){
                 window.open(booth.visitBoothUrl);
@@ -495,3 +498,40 @@ function initFB() {
     });
 }
 //booth-detail-script - End
+
+function registerAddressAsLinkClick(){
+	$('.booth-finder .location').on('click', function() {
+			//Lookup Call
+            var value = JSON.parse($(this).attr("data"));
+            //GSAWDO-123 - Booth Listing - Make detail lookup API fire for Address1 being Link
+            if(value.Location != null && (value.Location.includes("http://") || value.Location.includes("https://"))){
+                value.Location = value.LocationWithoutLink;
+                value.Address1 = value.visitBoothUrl;
+            }
+            var data = {
+                l : value.Location,
+                d : value.DateStart,
+                z : value.ZipCode,
+                s : "Website",
+                cn : getParameterByName('utm_campaign'),
+                cm : getParameterByName('utm_medium'),
+                cs : getParameterByName('utm_source'),
+                a1 : value.Address1,
+                a2 : value.Address2
+            }
+
+            $.ajax({
+                url: boothListingLookupApiURL,
+                dataType: "json",
+                data: data,
+                success: function(data) {
+                if (data) {
+                    console.log('Redirecting from BoothFinder');
+                } else {
+                    console.log('Error occured in redirecting');
+                }
+                }
+            });
+        });
+	}
+}
