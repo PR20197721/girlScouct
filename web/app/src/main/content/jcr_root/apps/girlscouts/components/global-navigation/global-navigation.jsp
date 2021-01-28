@@ -75,17 +75,21 @@ if(currentNode.hasNode("links")){
     NodeIterator iter = links.getNodes();
     while(iter.hasNext()){
 		Node linkNode = iter.nextNode();
-    	if(linkNode.hasProperty("large") && linkNode.hasProperty("url") 
-           && linkNode.hasProperty("medium")  && linkNode.hasProperty("small") ){
+    	if(linkNode.hasProperty("large") && linkNode.hasProperty("url")
+           && linkNode.hasProperty("medium")  && linkNode.hasProperty("small")){
 			String url = linkNode.getProperty("url").getString();
         	String large = linkNode.getProperty("large").getString();
             String medium = linkNode.getProperty("medium").getString();
             String small = linkNode.getProperty("small").getString();
+            String openInNewTab="_self";
+            if(linkNode.hasProperty("openInNewTab")){
+                openInNewTab = linkNode.getProperty("openInNewTab").getString();
+            }
 			String clazz = "";
             if(linkNode.hasProperty("class")){
                 clazz = linkNode.getProperty("class").getString();
             }
-        	linksList.add(large + "|||" + url + "|||" + clazz + "|||" + medium + "|||" + small);
+        	linksList.add(large + "|||" + url + "|||" + clazz + "|||" + medium + "|||" + small +"|||" + openInNewTab);
     	}
 
 	}
@@ -115,6 +119,7 @@ if ((links == null || links.length == 0)) {
             String clazz = values.length >= 3 ? " "+ values[2] : "";
             String mLabel = values.length >=4 ? " "+values[3] : "";
             String sLabel = values.length >=5 ? " "+values[4] : "";
+            String openInNewTab = values.length >=6 ? values[5] : "";
             Iterator <Page> slingResourceIter;
             String slingResourceType = "girlscouts/components/placeholder-page";
             contentResourceType="";
@@ -146,7 +151,7 @@ if ((links == null || links.length == 0)) {
                     <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
                         <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
                      <li><a href="<%= configManager.getRenewUrl()%>">Member Profile</a></li>
-                     <li><a href="<%= path %>">Volunteer Toolkit</a></li>
+                     <li><a href="<%= path %>" target="<%=openInNewTab %>">Volunteer Toolkit</a></li>
                     </ul>
                 </li>
             <%
@@ -169,8 +174,8 @@ if ((links == null || links.length == 0)) {
                 }
                 if (clazz.indexOf("hide-in-nav") < 0) { // If not hidden, create list element
                     %><li data-link="<%=path%>" class="<%=hasChildren%><%=activeStatus%>">
-        				<a class="show-for-large-up menu <%=clazz%>" href="<%=path%>"><%=label%></a>
-                        <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>"><%=mLabel%></a><%
+        				<a class="show-for-large-up menu <%=clazz%>" href="<%=path%>" target="<%=openInNewTab %>"><%=label%></a>
+                        <a class="show-for-medium-only menu <%=clazz%>" href="<%=path%>" target="<%=openInNewTab %>"><%=mLabel%></a><%
                         try {
                             if (flyPage != null) {
                                 String flyRight = (i <= links.length/2) ? " right" : "";
