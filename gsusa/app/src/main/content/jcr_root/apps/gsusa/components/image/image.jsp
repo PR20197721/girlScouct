@@ -13,7 +13,7 @@
 
   Image component
 
-  Draws an image. 
+  Draws an image.
 
 --%>
 
@@ -35,13 +35,13 @@
 	    String[] additionalCssValues = additionalCss.split("\\s+");
 	    imageAlignment = Arrays.asList(additionalCssValues).contains("left")? "left" : Arrays.asList(additionalCssValues).contains("center")? "center" : "right";
 	}
-	String additionalCssStyle = properties.get("./additionalCssStyle", "");	
+	String additionalCssStyle = properties.get("./additionalCssStyle", "");
 	if(additionalCssStyle.length() > 0) {
 		styleImage = additionalCssStyle + ";"; //style=\""+additionalCssStyle+"\"";
 	}
-	
+
 	String styleClass = DropTarget.CSS_CLASS_PREFIX + "image " + properties.get("./additionalCss", "");
-	
+
     // add design information if not default (i.e. for reference paras)
     String suffix = null;
     if (!currentDesign.equals(resourceDesign)) {
@@ -62,7 +62,7 @@
     }
 
 	String styleCaption = "";
-	
+
 	String pTop = properties.get("./ptop", "0");
 	String pBottom = properties.get("./pbottom", "0");
 	String pLeft = properties.get("./pleft", "0");
@@ -72,18 +72,18 @@
 	String caption = properties.get("./jcr:description", "");
 	String imageCaptionWidth = "";
 	String padding = pTop + pBottom + pLeft + pRight;
-	
+
 	if (!padding.equals("0000")) {	// paddings are set, override custom style
 		styleImage += "padding: " + pTop + "px " + pRight + "px " + pBottom + "px " + pLeft + "px;";
 		styleImage += "margin: auto;";
 	}
 	if (caption.length() > 0) { // if there's caption, apply padding to the caption
-		styleCaption = "padding: 0px 5px;"; 
+		styleCaption = "padding: 0px 5px;";
         if ("0".equals(imageWidth)) {
 				imageCaptionWidth += "width:" + originalWidth + "px";
         }
 	}
-	
+
 	if (!"0".equals(imageWidth)) {
 		// imageWidth + padding
 		int newWidth = Integer.parseInt(imageWidth) + Integer.parseInt(pLeft) + Integer.parseInt(pRight);
@@ -101,41 +101,49 @@
 		int newImageHeight = Integer.parseInt(imageHeight) + Integer.parseInt(pTop) + Integer.parseInt(pBottom);
 		styleImage += "height:" + newImageHeight + "px; max-height:" + originalHeight + "px;";
     }
+
+		//GSAWDO-120-Image and Text&Image component needs to expand to full width of the container without any gaps
+        String imageClass="";
+        if(caption != null && !caption.equals("")){
+           imageClass = imageAlignment;
+        }else{
+           imageClass = "no-margin";
+        }
 %>
 
-<div class="<%= "image-" + imageAlignment %>" id="<%= "cq-image-jsp-" + resource.getPath() %>" style="<%= imageCaptionWidth %>">
-<% 
+<div class="<%= "image-" + imageClass %>" id="<%= "cq-image-jsp-" + resource.getPath() %>" style="<%= imageCaptionWidth %>">
+<%
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 	  	try{
 		    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
-		
+
 		    //drop target css class = dd prefix + name of the drop target in the edit config
 		    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
 		    image.addCssClass(styleClass);
 		    image.setSuffix(suffix);
-		    //GSWP-2140-When applied both styleImage (width) and image dropdown  
+		    //GSWP-2140-When applied both styleImage (width) and image dropdown
 		    image.addAttribute("style", styleImage);
 		 	//GSWP-2140-End-When applied both styleImage (width) and image dropdown
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));
-	    	
+
 			Boolean newWindow = properties.get("./newWindow", false);
-		
+
 		    // add design information if not default (i.e. for reference paras)
 		    if (!currentDesign.equals(resourceDesign)) {
 		        image.setSuffix(currentDesign.getId());
 		    }
-		     
-		    if(!newWindow) { 
-		       image.draw(out); 
+
+		    if(!newWindow) {
+		       image.draw(out);
 		   	} else { %>
 				<%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
 				<%
 
 			}
 	  	}catch (Exception e){
-	  		
+
 	  	}
 	  	%>
 		<div class="image-caption" style="<%= styleCaption %>">
@@ -144,6 +152,13 @@
 				<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
 			<%}
 		%>
-		
+
 		</div>
-</div> 
+</div>
+
+<style>
+.image-no-margin{
+    margin:0;
+}
+
+</style>
