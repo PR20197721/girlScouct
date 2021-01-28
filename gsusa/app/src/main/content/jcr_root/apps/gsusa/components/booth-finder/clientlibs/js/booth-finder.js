@@ -118,10 +118,11 @@ BoothFinder.prototype.processResult = function(result) {
             }
             if(booth.Address1 != null && (booth.Address1.includes("http://") || booth.Address1.includes("https://"))){
                 var fixedUrl = booth.Address1;
+                booth.LocationWithoutLink = booth.Location;
                 booth.Location = "<a href=\""+fixedUrl+"\" target=\"_blank\">"+booth.Location+"</a>";
                 booth.Address1 = "";
                 booth.Address2 = "";
-                booth.detailsText = "Get Cookies";
+                booth.detailsText = "Buy Cookies";
                 booth.visitBoothUrl = fixedUrl;
             }
             console.log(booth)
@@ -194,9 +195,9 @@ BoothFinder.prototype.processResult = function(result) {
 
     if (templateId == 'booths') {
         // Bind "View Details" buttons
-        $('.booth-finder .viewmap.button').on('click', function() {
+        $('.booth-finder .viewmap.button , .booth-finder .location').on('click', function() {
             var booth = JSON.parse($(this).attr('data'));
-            if(booth.detailsText == "Get Cookies"){
+            if(booth.detailsText == "Buy Cookies"){
                 window.open(booth.visitBoothUrl);
             }else {
                 var data = $.param(booth) + '&' +
@@ -265,6 +266,11 @@ BoothFinder.prototype.processResult = function(result) {
 
             //Lookup Call
             var value = JSON.parse($(this).attr("data"));
+            //GSAWDO-123 - Booth Listing - Make detail lookup API fire for Address1 being Link
+            if(value.Location != null && (value.Location.includes("http://") || value.Location.includes("https://"))){
+                value.Location = value.LocationWithoutLink;
+                value.Address1 = value.visitBoothUrl;
+            }
             var data = {
                 l : value.Location,
                 d : value.DateStart,
