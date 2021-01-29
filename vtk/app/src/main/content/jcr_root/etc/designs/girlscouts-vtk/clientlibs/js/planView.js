@@ -477,7 +477,7 @@ function rmMeetingWithConf(mPath, mDate, ageGroup, meetingName) {
 						rmMeetingSingle(  mDate, mPath );
 					}
 			}],
-		width:600
+		width:480
 	})
 }
 
