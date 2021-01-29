@@ -374,10 +374,11 @@
                     </form>
                 </div><!--/pickActivitySection-->
             </div><!--/small-24-->
+            
+            </row>
             <div id="manageActivitySection">
             	<%@include file="include/manageActivities.jsp" %>
             </div>
-            </row>
         </div><!--/modalBody-->
     </div>
     <!--/tabs-wrapper-->
@@ -401,7 +402,7 @@
             else if (section == "manageActivity") {
                 $("#manage-activities").addClass("active");
                 $("#manageActivitySection").show();
-                getActivitiesList();
+               // getActivitiesList();
             }
         }
 
