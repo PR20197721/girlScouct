@@ -4,7 +4,7 @@
         <%
             for (int t = 0; t < selectedTroop.getYearPlan().getActivities().size(); t++) {
         %>
-        <tr>
+        <tr style ='display : flex; justify-content: space-between; padding : 0 20px;'>
             <td><strong><%=selectedTroop.getYearPlan().getActivities().get(t).getDate() %>
             </strong></td>
             <td><%=selectedTroop.getYearPlan().getActivities().get(t).getName() %>
