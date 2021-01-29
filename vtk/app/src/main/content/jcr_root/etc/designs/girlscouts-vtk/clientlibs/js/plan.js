@@ -546,7 +546,7 @@ function proposedSchedConfirm(numberOfMeetings) {
 
 function rmCustActivity(x) {
 
-    $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveCustomActivity&rmCustActivity=" + x, function(response, status, xhr) {
+    $("#remove-activities").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveCustomActivity&rmCustActivity=" + x, function(response, status, xhr) {
         if (status != "error") {
             location.reload();
         } else {

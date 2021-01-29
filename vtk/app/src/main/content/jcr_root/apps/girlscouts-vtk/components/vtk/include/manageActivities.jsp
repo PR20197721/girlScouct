@@ -12,6 +12,7 @@
             <td><a href="javascript:void(0)"
                    onclick="rmCustActivity('<%=selectedTroop.getYearPlan().getActivities().get(t).getPath()%>')"
                    title="remove">Remove</a></td>
+            <div id ="remove-activities"></div>
         </tr>
         <% } %>
     </table>
