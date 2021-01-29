@@ -44,9 +44,10 @@ $(document).ready(function() {
         boothFinder = new BoothFinder(boothListingApiURL, zip, radius, date, sortBy, numPerPage /*numPerPage*/ );
         boothFinder.getResult();
     }
+
+
+
 });
-
-
 function BoothFinder(url, zip, radius, date, sortBy, numPerPage) {
     this.url = url;
     this.zip = zip;
@@ -118,10 +119,11 @@ BoothFinder.prototype.processResult = function(result) {
             }
             if(booth.Address1 != null && (booth.Address1.includes("http://") || booth.Address1.includes("https://"))){
                 var fixedUrl = booth.Address1;
+                booth.LocationWithoutLink = booth.Location;
                 booth.Location = "<a href=\""+fixedUrl+"\" target=\"_blank\">"+booth.Location+"</a>";
                 booth.Address1 = "";
                 booth.Address2 = "";
-                booth.detailsText = "Get Cookies";
+                booth.detailsText = "Buy Cookies";
                 booth.visitBoothUrl = fixedUrl;
             }
             console.log(booth)
@@ -196,7 +198,7 @@ BoothFinder.prototype.processResult = function(result) {
         // Bind "View Details" buttons
         $('.booth-finder .viewmap.button').on('click', function() {
             var booth = JSON.parse($(this).attr('data'));
-            if(booth.detailsText == "Get Cookies"){
+            if(booth.detailsText == "Buy Cookies"){
                 window.open(booth.visitBoothUrl);
             }else {
                 var data = $.param(booth) + '&' +
@@ -265,30 +267,9 @@ BoothFinder.prototype.processResult = function(result) {
 
             //Lookup Call
             var value = JSON.parse($(this).attr("data"));
-            var data = {
-                l : value.Location,
-                d : value.DateStart,
-                z : value.ZipCode,
-                s : "Website",
-                cn : getParameterByName('utm_campaign'),
-                cm : getParameterByName('utm_medium'),
-                cs : getParameterByName('utm_source'),
-                a1 : value.Address1,
-                a2 : value.Address2
-            }
+            //GSAWDO-123 - Booth Listing - Make detail lookup API fire for Address1 being Link
+            boothListingLookupCall(value)
 
-            $.ajax({
-                url: boothListingLookupApiURL,
-                dataType: "json",
-                data: data,
-                success: function(data) {
-                if (data) {
-                    console.log('Redirecting from BoothFinder');
-                } else {
-                    console.log('Error occured in redirecting');
-                }
-                }
-            });
         });
 
         if (this.page == 1) {
@@ -371,6 +352,13 @@ BoothFinder.prototype.processResult = function(result) {
     });
     // Reset foundation again since new tags are added.
     $(document).foundation();
+    $('.booth-finder .location').on('click', function() {
+			var value = JSON.parse($(this).attr("data"));
+            console.log(value)
+            if(null != value.LocationWithoutLink){
+                boothListingLookupCall(value);
+            }
+    })
 }
 
 function getParameterByName(name) {
@@ -422,6 +410,39 @@ function doIt() {
             $('#map').css('visibility', 'visible');
         }, 500);
     }, 500);
+
+}
+
+function boothListingLookupCall(value){
+			if(value.Location != null && (value.Location.includes("http://") || value.Location.includes("https://"))){
+                value.Location = value.LocationWithoutLink;
+                value.Address1 = value.visitBoothUrl;
+            }
+            var data = {
+                l : value.Location,
+                d : value.DateStart,
+                z : value.ZipCode,
+                s : "Website",
+                cn : getParameterByName('utm_campaign'),
+                cm : getParameterByName('utm_medium'),
+                cs : getParameterByName('utm_source'),
+                a1 : value.Address1,
+                a2 : value.Address2
+            }
+
+            $.ajax({
+                url: boothListingLookupApiURL,
+                dataType: "json",
+                data: data,
+                success: function(data) {
+                if (data) {
+                    console.log('Redirecting from BoothFinder');
+                } else {
+                    console.log('Error occured in redirecting');
+                }
+                }
+            });
+
 
 }
 
@@ -488,4 +509,7 @@ function initFB() {
         cookie: true
     });
 }
+
+
+
 //booth-detail-script - End
