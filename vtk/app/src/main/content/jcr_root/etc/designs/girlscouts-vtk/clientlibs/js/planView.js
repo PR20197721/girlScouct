@@ -437,6 +437,26 @@ function gsDialog(config) {
 		})	
 }
 
+// modal for delete a activitie in manage activiies
+function rmActivities(mPath) {
+	gsDialog({
+		content: 'You want to delete the activity ?',
+		headerText: 'Remove Activities',
+		buttons : [	{
+					text: "CANCEL",
+					click: function () {
+						$(this).dialog("close");
+					}
+		},
+		{
+					text: "OK",
+					click: function () {
+						rmCustActivity(mPath );
+					}
+			}],
+		width:600
+	})
+}
 
 
 
