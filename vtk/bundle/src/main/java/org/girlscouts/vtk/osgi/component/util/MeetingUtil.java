@@ -1168,17 +1168,22 @@ public class MeetingUtil {
 
     public void setSelectedSubActivity(User user, Troop troop, String meetingPath, String activityPath, String subActivityPath) throws IllegalAccessException, IllegalStateException, VtkException {
         List<MeetingE> meetingEs = troop.getYearPlan().getMeetingEvents();
+        log.debug("subactivityPath : {}, Activity Path : {}", subActivityPath, activityPath);
         for (MeetingE meetingE:meetingEs) {
             if (meetingPath.equals(meetingE.getPath())) {
                 List<Activity> activities = meetingE.getMeetingInfo().getActivities();
+                log.debug("activities : {}", activities);
                 if (activities != null) {
                     for (int y = 0; y < activities.size(); y++) {
+                    	log.debug("activityPath check : {}", activityPath.equals(activities.get(y).getPath()));
                         if (activityPath.equals(activities.get(y).getPath())) {
                             List<Activity> subActivities = activities.get(y).getMultiactivities();
+                            log.debug("subActivities : {}", subActivities);
                             for (int z = 0; z < subActivities.size(); z++) {
                                 if (subActivityPath.equals(subActivities.get(z).getPath())) {
                                     subActivities.get(z).setIsSelected(true);
                                     activities.get(y).setDbUpdate(true);
+                                    log.debug("Subactivity selection done : {}", subActivities.get(z));
                                 } else {
                                     subActivities.get(z).setIsSelected(false);
                                 }//end else
