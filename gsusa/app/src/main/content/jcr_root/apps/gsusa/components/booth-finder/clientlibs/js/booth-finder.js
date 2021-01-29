@@ -45,9 +45,17 @@ $(document).ready(function() {
         boothFinder.getResult();
     }
 
-    function registerAddressAsLinkClick();
+
 
 });
+
+
+// click event for location 
+
+function locationClick(params){
+
+	console.log($(params).attr('data'))
+}
 
 
 function BoothFinder(url, zip, radius, date, sortBy, numPerPage) {
@@ -270,34 +278,8 @@ BoothFinder.prototype.processResult = function(result) {
             //Lookup Call
             var value = JSON.parse($(this).attr("data"));
             //GSAWDO-123 - Booth Listing - Make detail lookup API fire for Address1 being Link
-            if(value.Location != null && (value.Location.includes("http://") || value.Location.includes("https://"))){
-                value.Location = value.LocationWithoutLink;
-                value.Address1 = value.visitBoothUrl;
-            }
-            var data = {
-                l : value.Location,
-                d : value.DateStart,
-                z : value.ZipCode,
-                s : "Website",
-                cn : getParameterByName('utm_campaign'),
-                cm : getParameterByName('utm_medium'),
-                cs : getParameterByName('utm_source'),
-                a1 : value.Address1,
-                a2 : value.Address2
-            }
+            getData(value)
 
-            $.ajax({
-                url: boothListingLookupApiURL,
-                dataType: "json",
-                data: data,
-                success: function(data) {
-                if (data) {
-                    console.log('Redirecting from BoothFinder');
-                } else {
-                    console.log('Error occured in redirecting');
-                }
-                }
-            });
         });
 
         if (this.page == 1) {
@@ -380,6 +362,12 @@ BoothFinder.prototype.processResult = function(result) {
     });
     // Reset foundation again since new tags are added.
     $(document).foundation();
+    $('.booth-finder .location').on('click', function() {
+			var value = JSON.parse($(this).attr("data"));
+            console.log(value)
+            getData(value)
+
+    })
 }
 
 function getParameterByName(name) {
@@ -431,6 +419,39 @@ function doIt() {
             $('#map').css('visibility', 'visible');
         }, 500);
     }, 500);
+
+}
+
+const getData =(value)=>{
+	if(value.Location != null && (value.Location.includes("http://") || value.Location.includes("https://"))){
+                value.Location = value.LocationWithoutLink;
+                value.Address1 = value.visitBoothUrl;
+            }
+            var data = {
+                l : value.Location,
+                d : value.DateStart,
+                z : value.ZipCode,
+                s : "Website",
+                cn : getParameterByName('utm_campaign'),
+                cm : getParameterByName('utm_medium'),
+                cs : getParameterByName('utm_source'),
+                a1 : value.Address1,
+                a2 : value.Address2
+            }
+
+            $.ajax({
+                url: boothListingLookupApiURL,
+                dataType: "json",
+                data: data,
+                success: function(data) {
+                if (data) {
+                    console.log('Redirecting from BoothFinder');
+                } else {
+                    console.log('Error occured in redirecting');
+                }
+                }
+            });
+
 
 }
 
@@ -497,41 +518,7 @@ function initFB() {
         cookie: true
     });
 }
+
+
+
 //booth-detail-script - End
-
-function registerAddressAsLinkClick(){
-	$('.booth-finder .location').on('click', function() {
-			//Lookup Call
-            var value = JSON.parse($(this).attr("data"));
-            //GSAWDO-123 - Booth Listing - Make detail lookup API fire for Address1 being Link
-            if(value.Location != null && (value.Location.includes("http://") || value.Location.includes("https://"))){
-                value.Location = value.LocationWithoutLink;
-                value.Address1 = value.visitBoothUrl;
-            }
-            var data = {
-                l : value.Location,
-                d : value.DateStart,
-                z : value.ZipCode,
-                s : "Website",
-                cn : getParameterByName('utm_campaign'),
-                cm : getParameterByName('utm_medium'),
-                cs : getParameterByName('utm_source'),
-                a1 : value.Address1,
-                a2 : value.Address2
-            }
-
-            $.ajax({
-                url: boothListingLookupApiURL,
-                dataType: "json",
-                data: data,
-                success: function(data) {
-                if (data) {
-                    console.log('Redirecting from BoothFinder');
-                } else {
-                    console.log('Error occured in redirecting');
-                }
-                }
-            });
-        });
-	}
-}
