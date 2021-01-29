@@ -48,16 +48,6 @@ $(document).ready(function() {
 
 
 });
-
-
-// click event for location 
-
-function locationClick(params){
-
-	console.log($(params).attr('data'))
-}
-
-
 function BoothFinder(url, zip, radius, date, sortBy, numPerPage) {
     this.url = url;
     this.zip = zip;
@@ -278,7 +268,7 @@ BoothFinder.prototype.processResult = function(result) {
             //Lookup Call
             var value = JSON.parse($(this).attr("data"));
             //GSAWDO-123 - Booth Listing - Make detail lookup API fire for Address1 being Link
-            getData(value)
+            boothListingLookupCall(value)
 
         });
 
@@ -365,8 +355,9 @@ BoothFinder.prototype.processResult = function(result) {
     $('.booth-finder .location').on('click', function() {
 			var value = JSON.parse($(this).attr("data"));
             console.log(value)
-            getData(value)
-
+            if(null != value.LocationWithoutLink){
+                boothListingLookupCall(value);
+            }
     })
 }
 
@@ -422,8 +413,8 @@ function doIt() {
 
 }
 
-const getData =(value)=>{
-	if(value.Location != null && (value.Location.includes("http://") || value.Location.includes("https://"))){
+function boothListingLookupCall(value){
+			if(value.Location != null && (value.Location.includes("http://") || value.Location.includes("https://"))){
                 value.Location = value.LocationWithoutLink;
                 value.Address1 = value.visitBoothUrl;
             }
