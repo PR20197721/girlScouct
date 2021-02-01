@@ -550,118 +550,38 @@ function rmCustActivity(x) {
         if (status != "error") {
             location.reload();
         } else {
-            alert("Sorry.  Unable to remove activity: " + status);
+            //alert("Sorry.  Unable to remove activity: " + status);
+            gsDialog({
+                content: 'Something went wrong pls try again',
+                headerText: 'Notifivation Pop Up',
+                buttons : [	
+                {
+                            text: "OK",
+                            click: function () {
+                                reloadPageOnError( );
+                            }
+                    }],
+                width:600
+            })
         }
     });
     vtkTrackerPushAction('RemoveActivity');
 }
 
-// const getActivitiesList = ()=> {
-//     $('#gsModal').css({'opacity': 1, 'z-inedex' : 1});
-//     const manageActivityList= [{
-//        id : '1',
-//        desc : 'test',
-//        data : 'mon-12-2020'
-//    },{
-//        id : '2',
-//        desc : 'test1',
-//        data : 'mon-12-1990'
-//    }]
 
-//    $.ajax({
-//          url: "https://jsonplaceholder.typicode.com/todos/1",
-//          cache: false,
-//          success: function(){
-//                getActivitiesSucces(manageActivityList)
-//          },
-//        erorr : function(){
-//                console.log('There is some error in getting the Activities record')
-//            }
-//        });
-// }
-
-
-
-
-function manageActivityRemoved(flag, id) {
-
-    $.ajax({
-      url: "https://jsonplaceholder.typicode.com/todos/1",
-      cache: false,
-      success: function(){
-            removeActivitySucessfully(true, id)
-      },
-    erorr : function(){
-            console.log('There is some error in getting the Activities record')
-        }
-    });
-    }
-
-
-const removeActivitySucessfully =(flag, id)=>{
-$('#gsModal').css('opacity', 1);
-       const magangeList = [{
-            id : '1', description : 'Activity with 1',
-            Date : '12-jan-2020'
-        }, {
-            id : '2', description : 'Activity with 2',
-            Date : '11-jan-2020'
-        }]
-        let magangeList1 = [];
-        if(flag){
-            magangeList1 = magangeList.filter(magangeListItem => magangeListItem.id  != id);
-            
-        }
-        const UL = document.createElement('ul');
-        for (let i = 0;i < magangeList1.length; i++){
-            let li = document.createElement('li');
-            li.setAttribute('class', 'manage-avtivity-list-item')
-            li.innerHTML = `<span>${magangeList1[i].description}</span> <span style = 'margin-left : 20px'; color : '#00ae57' onclick = 'removeActivity(${magangeList[i].id})' >Remove</span>`;
-            UL.appendChild(li);
-        }
-        const getActivitiesListContainer = document.getElementById('manageActivitySection');
-        getActivitiesListContainer.innerHTML = '';
-        if(magangeList1 && magangeList1.length >0){
-            getActivitiesListContainer.append(UL)
-            }
-            else {
-               getActivitiesListContainer.append('<div>There is no Records</div>')
-            }
-
+function reloadPageOnError(){
+    location.reload();
 }
 
 
-    function manageActivityRemoved(flag, id) {
-        console.log(id)
-        const magangeList = [{
-             id : '1', description : 'Activity with 1',
-             Date : '12-jan-2020'
-         }, {
-             id : '2', description : 'Activity with 2',
-             Date : '11-jan-2020'
-         }]
-         let magangeList1 = [];
-         if(flag){
-             magangeList1 = magangeList.filter(magangeListItem => magangeListItem.id  !== id);
-             
-         }
-         console.log(magangeList1)
-         const UL = document.createElement('ul');
-         for (let i = 0;i < magangeList1.length; i++){
-             let li = document.createElement('li');
-             li.innerHTML = `<span>${magangeList1[i].description}</span> <span style = 'margin-left : 20px' onclick = 'removeActivity(${magangeList[i].id})'>Remove</span>`;
-             UL.appendChild(li);
-         }
-         const getActivitiesListContainer = document.getElementById('manageActivitySection');
-         getActivitiesListContainer.innerHTML = '';
-         if(magangeList1 && magangeList1.length >0){
-             getActivitiesListContainer.append(UL)
-             }
-             else {
-                getActivitiesListContainer.append('<div>There is no Records</div>')
-             }
 
-     }
+
+
+
+
+
+
+    
 
 function createNewCustActivity() {
 
