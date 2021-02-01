@@ -4,14 +4,19 @@
         <%
             for (int t = 0; t < selectedTroop.getYearPlan().getActivities().size(); t++) {
         %>
-        <tr>
+        <tr style ='display : flex; justify-content: space-between; padding : 0 20px;'>
             <td><strong><%=selectedTroop.getYearPlan().getActivities().get(t).getDate() %>
             </strong></td>
             <td><%=selectedTroop.getYearPlan().getActivities().get(t).getName() %>
             </td>
-            <td><a href="javascript:void(0)"
+            <!-- <td><a href="javascript:void(0)"
                    onclick="rmCustActivity('<%=selectedTroop.getYearPlan().getActivities().get(t).getPath()%>')"
-                   title="remove">Remove</a></td>
+                   title="remove">Remove</a></td> -->
+
+             <td><a href="javascript:void(0)"
+                    onclick="rmActivities('<%=selectedTroop.getYearPlan().getActivities().get(t).getPath()%>')"
+                    title="remove">Remove</a></td>
+            <div id ="remove-activities"></div>
         </tr>
         <% } %>
     </table>
