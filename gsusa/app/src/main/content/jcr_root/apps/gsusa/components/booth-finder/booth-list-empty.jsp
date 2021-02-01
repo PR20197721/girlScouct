@@ -1,6 +1,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
-
+<% String noResultText = properties.get("./noResultText",null); %>
 <div id="emptyForm" style="display:none;margin-top:20px">
     <b>Select distance, date, and sorting method to filter your results:</b>
     <form action="<%=slingRequest.getRequestURI() %>" class="sort-form clearfix" style="margin-top: 0.7rem;">
@@ -44,7 +44,10 @@
         </section>
         <input type="hidden" name="zip" value="{{env.zip}}"></input>
     </form>
+<% if(null!=noResultText) { %>
+			<%= noResultText %>
 
+<% }else { %>
     <p>
         <br>
         Sorry, we could not find any booth locations that match your search criteria.<br>
@@ -52,7 +55,7 @@
         <b>Please refine your search.</b>
         <br><Br>
     </p>
-
+<% }%>
 </div>
 
 

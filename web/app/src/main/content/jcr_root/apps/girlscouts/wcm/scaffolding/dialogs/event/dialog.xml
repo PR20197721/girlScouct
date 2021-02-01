@@ -32,40 +32,28 @@
                     timezone="dynamic"
                     xtype="timezonedatetime"/>
                 <regTimeDisplay
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Hide Registration Time?"
-                        name="./jcr:content/data/regDisplay"
-                        timezone="dynamic"
-                        xtype="selection"
-                        type="checkbox"/>
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Hide Registration Time?"
+                    name="./jcr:content/data/regDisplay"
+                    timezone="dynamic"
+                    type="checkbox"
+                    xtype="selection"/>
                 <regOpen
-                	jcr:primaryType="cq:Widget"
-                	fieldLabel="Registration Open Date"
-                	name="./jcr:content/data/regOpen"
-                	timezone="dynamic"
-                	xtype="timezonedatetime"/>
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Registration Open Date"
+                    name="./jcr:content/data/regOpen"
+                    timezone="dynamic"
+                    xtype="timezonedatetime"/>
                 <regClose
-                	jcr:primaryType="cq:Widget"
-                	fieldLabel="Registration Close Date"
-                	name="./jcr:content/data/regClose"
-                	timezone="dynamic"
-                	xtype="timezonedatetime"/>
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Registration Close Date"
+                    name="./jcr:content/data/regClose"
+                    timezone="dynamic"
+                    xtype="timezonedatetime"/>
                 <region
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Region"
                     name="./jcr:content/data/region"
-                    xtype="textfield"/>
-                <locationLabel
-                    jcr:primaryType="cq:Widget"
-                    allowBlank="{Boolean}false"
-                    fieldLabel="Location Name"
-                    name="./jcr:content/data/locationLabel"
-                    xtype="textfield"/>
-                <address
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Address"
-					fieldDescription="Enter a valid address with commas for Map link to show (e.g. 420 5th Avenue, New York, NY 10018)"
-                    name="./jcr:content/data/address"
                     xtype="textfield"/>
                 <details
                     jcr:primaryType="cq:Widget"
@@ -229,35 +217,35 @@
                     name="./jcr:content/data/register"
                     xtype="pathfield"/>
                 <progType
-                	jcr:primaryType="cq:Widget"
-                	fieldLabel="Program Type"
-                	name="./jcr:content/data/progType"
-                	xtype="textfield"/>
-               	<grades
-               		jcr:primaryType="cq:Widget"
-               		fieldLabel="Grades"
-               		name="./jcr:content/data/grades"
-               		xtype="textfield"/>
-               	<girlFee
-               		jcr:primaryType="cq:Widget"
-               		fieldLabel="Girl Fee"
-               		name="./jcr:content/data/girlFee"
-               		xtype="textfield"/>
-               	<adultFee
-               		jcr:primaryType="cq:Widget"
-               		fieldLabel="Adult Fee"
-               		name="./jcr:content/data/adultFee"
-               		xtype="textfield"/>
-               	<minAttend
-               		jcr:primaryType="cq:Widget"
-               		fieldLabel="Minimum Attendance"
-               		name="./jcr:content/data/minAttend"
-               		xtype="textfield"/>
-               	<maxAttend
-               		jcr:primaryType="cq:Widget"
-               		fieldLabel="Maximum Attendance"
-               		name="./jcr:content/data/maxAttend"
-               		xtype="textfield"/>
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Program Type"
+                    name="./jcr:content/data/progType"
+                    xtype="textfield"/>
+                <grades
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Grades"
+                    name="./jcr:content/data/grades"
+                    xtype="textfield"/>
+                <girlFee
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Girl Fee"
+                    name="./jcr:content/data/girlFee"
+                    xtype="textfield"/>
+                <adultFee
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Adult Fee"
+                    name="./jcr:content/data/adultFee"
+                    xtype="textfield"/>
+                <minAttend
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Minimum Attendance"
+                    name="./jcr:content/data/minAttend"
+                    xtype="textfield"/>
+                <maxAttend
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Maximum Attendance"
+                    name="./jcr:content/data/maxAttend"
+                    xtype="textfield"/>
             </items>
         </tab1>
         <tab4
@@ -303,12 +291,12 @@
             jcr:primaryType="cq:Panel"
             title="Image / Advanced">
             <items jcr:primaryType="cq:WidgetCollection">
-            	<plainImage
-            		jcr:primaryType="cq:Widget"
-            		fieldDescription="For use with bulk editing tools. Paths entered here will override the above image field"
-            		fieldLabel="Image Path"
-            		name="./jcr:content/data/imagePath"
-            		xtype="pathfield"/>
+                <plainImage
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="For use with bulk editing tools. Paths entered here will override the above image field"
+                    fieldLabel="Image Path"
+                    name="./jcr:content/data/imagePath"
+                    xtype="pathfield"/>
                 <alt
                     jcr:primaryType="cq:Widget"
                     fieldDescription="(leave empty to use the title defined above)"
