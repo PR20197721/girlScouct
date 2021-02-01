@@ -8,6 +8,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestParameter;
@@ -83,22 +84,22 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
         String responseVal = request.getParameter(RESPONSE_VAL);
         String captcha = request.getParameter(CAPTCHA_RESPONSE);
         String secret = request.getParameter(SECRET);
+        List<String> errors = WebToLeadUtils.validateForm(request);
         if (null == captcha){
-	        if (null != responseVal) {
+        	if (null != responseVal) {
 		        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
 		        if (!success) {
 		        	logger.debug("Recaptcha validation failed");
-		        	response.sendError(500, "Recaptcha validation failed");
+		        	errors.add("Validation failed for : g-recaptcha-response. Please try again.");
 		        	return;
 		        }
 	        } else {
 	        	logger.debug("Recaptcha response invalid");
-	        	response.sendError(500, "Recaptcha response invalid");
+	        	errors.add("Missing value for required field: g-recaptcha-response");
 	        	return;
 	        }
         }
         
-        List<String> errors = WebToLeadUtils.validateForm(request);
         if(errors!= null && errors.size() > 0){
             WebToLeadResponse respObj = new WebToLeadResponse("error", errors);
             respond(respObj, response);

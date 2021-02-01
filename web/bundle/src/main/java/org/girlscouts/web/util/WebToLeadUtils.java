@@ -13,6 +13,7 @@ public class WebToLeadUtils {
         String leadType = request.getParameter("LeadType");
         String email = request.getParameter("Email");
         String councilCode = request.getParameter("CouncilCode");
+        String g_recaptcha_response = request.getParameter("g-recaptcha-response");
         if (StringUtils.isBlank(leadType)){
             errors.add("Missing value for required field: LeadType");
         }else{
@@ -40,6 +41,9 @@ public class WebToLeadUtils {
         }
         if (StringUtils.isBlank(councilCode)){
             errors.add("Missing value for required field: CouncilCode");
+        }
+        if (StringUtils.isBlank(g_recaptcha_response)){
+            errors.add("Missing value for required field: g-recaptcha-response");
         }
         return errors;
     }
