@@ -25,7 +25,7 @@
 
             <td><a href="javascript:void(0)"
                    onclick="rmActivities('<%=selectedTroop.getYearPlan().getActivities().get(t).getPath()%>')"
-                   title="remove">Remove</a></td>
+                   title="remove"><i class ="icon-button-circle-cross"></i></a></td>
            <div id ="remove-activities"></div>
        </tr>
        <% } %>
@@ -92,4 +92,9 @@ padding-bottom: 20px;
 color: white;
 
        }
+.rm-activities-pop-up-close{
+    font-size:20px !important;
+    cursor: pointer;
+
+}
 </style>
