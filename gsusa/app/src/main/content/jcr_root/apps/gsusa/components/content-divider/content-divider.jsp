@@ -8,6 +8,10 @@ int randomNo = rand.nextInt(900000) + 100000;
 <div data-emptytext="Content Divider Component" class="cq-placeholder">
 </div>
 <style>
+    .content-divider-container{
+        display: flex;
+        justify-content: center;
+    }
 		.content-divider--solid_<%=randomNo%>{
             border:<%= properties.get("borderLineSolid","1")%>px solid <%= properties.get("borderLineColorSolid","#DDDDDD")%>;
 			width:<%= properties.get("borderLineWidthSolid","100")%>%;
@@ -25,13 +29,16 @@ int randomNo = rand.nextInt(900000) + 100000;
 		    height: <%= properties.get("borderImageHeight","8")%>px;
 		    width: <%= properties.get("borderImageWidth","100")%>%;
             background-repeat: repeat-x;
+
         }
 
         .content-divider--padding_<%=randomNo%>{
+
 			margin-top: <%= properties.get("marginTop","20")%>px; <%-- 20 is default value--%>
 			margin-bottom: <%= properties.get("marginBottom","20")%>px; <%-- 20 is default value--%>
 			margin-left: <%= properties.get("marginLeft","0")%>px; <%-- 0 is default value--%>
-			margin-right: <%= properties.get("marginRight","0")%>px; <%-- 0 is default value--%>
+            margin-right: <%= properties.get("marginRight","0")%>px; <%-- 0 is default value--%>
+
         }
         .disable-border_<%=randomNo%>{
             border :0 !important;
@@ -47,6 +54,9 @@ if(horizontalBorder){
 	disableBorderClass="disable-border";
 }
 %>
+<div class ='content-divider-container'>
+    
 <div class ='content-divider-config content-divider--padding_<%=randomNo%> content-divider--<%= borderLineStyle %>_<%=randomNo%> <%= disableBorderClass %>_<%=randomNo%>'>
      <span></span>
+</div>
 </div>
