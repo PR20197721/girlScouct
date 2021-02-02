@@ -23,9 +23,6 @@ public class WebToCaseUtils {
         if (StringUtils.isBlank(name)){
             errors.add("Missing value for required field: name");
         }
-        if (StringUtils.isBlank(phone)){
-            errors.add("Missing value for required field: phone");
-        }
         if (StringUtils.isBlank(type)){
             errors.add("Missing value for required field: type");
         }
