@@ -130,7 +130,7 @@
 
     //drop target css class = dd prefix + name of the drop target in the edit config
     String ddClassName = DropTarget.CSS_CLASS_PREFIX + "image";
-
+	String text = properties.get("text","");
     if (image.hasContent() || WCMMode.fromRequest(request) == WCMMode.EDIT) {
         image.loadStyleData(currentStyle);
         // add design information if not default (i.e. for reference paras)
@@ -147,7 +147,13 @@
         String divId = "cq-textimage-jsp-" + resource.getPath();
         Boolean newWindow = properties.get("./newWindow", false);
         // div around image for additional formatting
-        %><div class="txtimage-<%=imageAlignment%>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
+        String imageClass="";
+        if(text != null && !text.equals("")){
+           imageClass = "txtimage-"+imageAlignment;
+        }else{
+           imageClass = "txtimage-no-margin";
+        }
+        %><div class="<%=imageClass%>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
           if(!newWindow) {
               image.draw(out);
           } else { %>
@@ -168,7 +174,7 @@
        String placeholder = (isAuthoringUIModeTouch && !image.hasContent())
                ? Placeholder.getDefaultPlaceholder(slingRequest, component, "", ddClassName)
                : "";
-		String text = properties.get("text","");
+
 		if(text != null && !text.equals("")){%>
 			<cq:text property="text" tagClass="text" escapeXml="true" placeholder="<%= placeholder %>"/>
 			<div class="clear"></div>
@@ -179,3 +185,16 @@
 	<%-- fix CQ "new" bar misbehave --%>
 	<div style="clear:both"></div>
 </div>
+             <script>
+$(document).ready(function(){
+  const getTextContainer = $(".textimage");
+  console.log(getTextContainer);
+  for(let i = 0; i < getTextContainer.length; i++){
+    const getContainerWidth = $(getTextContainer[i]).width();
+    const getimageWidth = $(getTextContainer[i]).find('.cq-dd-image').width();
+    console.log(getContainerWidth, getimageWidth, 'container and image width');
+    getimageWidth > getContainerWidth ? $(getTextContainer[i]).children().children().removeClass().addClass('txtimage-no-margin') : null;
+
+  }
+});
+</script>
