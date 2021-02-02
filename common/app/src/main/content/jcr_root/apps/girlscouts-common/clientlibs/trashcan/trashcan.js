@@ -28,15 +28,15 @@
             var activator = $(this);
             var items = collection.find('.foundation-selections-item');
             var restorePath = "";
-            function showErrorDialog(cause, action) {
+            function showErrorDialog(data) {
                 var header = "";
-                if (action == "trash") {
+                if (data.action == "trash") {
                     header = "Error moving to trashcan";
                 }else{
                     header = "Error restoring from trashcan";
                 }
-                var errContent = cause;
-                if(action == "restore"){
+                var errContent = data.errorCause;
+                if(data.action == "restore"){
                     var pathBrowserRoot = "/content";
                     var pathBrowserCrumb = "/content";
                     if (items.length) {
@@ -66,10 +66,11 @@
                         "<ul id=\"coral-2\" class=\"coral-SelectList\" role=\"listbox\" aria-hidden=\"true\" tabindex=\"-1\"></ul></span></div><p>"
                 }
                 var footer = "<button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\" coral-close=\"\"><coral-button-label>Ok</coral-button-label></button>";
-                if(true){ //action == "restore"
-                    footer = "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>ABCD</coral-button-label></button>";
+                if(data.action == "restore"){
+                    footer = "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Ok</coral-button-label></button>";
+                }else if(data.hasReferenceErrorType){ // only of there are any references. related errors.
+                    footer = "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Proceed</coral-button-label></button>";
                 }
-
                 var errorDialog = new Coral.Dialog().set({
                     id: "errorDialog",
                     header: {
@@ -85,25 +86,30 @@
                 });
 
                 errorDialog.on('click', '#acceptButton', function () {
-                    if(action == "restore"){
+                    if(data.action == "restore"){
                         restorePath = $('#restore-path').val();
                         handleTrashcanEvent();
-                    }else{
+                    }else if(data.action == "trash" && data.hasReferenceErrorType){ // for GSAWDO-61-[ALL] Move to Trashcan - Force delete references
                         var forceDeleteRef = $("#forceDeleteRef").is(":checked");
                         var forceRepublishUpdatedPages = $("#forceRepublishUpdatedPages").is(":checked");
-                        //Doing an Ajax call to perform all the actions.
+                        if(!forceDeleteRef && !forceRepublishUpdatedPages){
+							errorDialog.remove();
+							return;
+                        }
+                        payloadJSON.refErrorLocation=data.hasReferenceAssertLocation;
+                        payloadJSON.forceDeleteRef=forceDeleteRef;
+                        payloadJSON.forceRepublishUpdatedPages=forceRepublishUpdatedPages;
+                        //Doing an Ajax call to trashcan servlet with some additional parameters..
 						$.ajax({
                             dataType: "json",
-                            url: "delete-references",
+                            url: url,
                             type: 'POST',
-                            data: JSON.stringify(forceDeleteRef),
+                            data: JSON.stringify(payloadJSON),
                         }).success(function (data) {
-                            /*if (data.success) {
+                            if (data.success) {
                                 dialog.remove();
                                 if (data.action == "trash") {
                                     $(window).adaptTo("foundation-ui").notify("Moving to trash: ", "Moving to <strong>" + data.destination_path + "</strong>", "success");
-                                } else {
-                                    $(window).adaptTo("foundation-ui").notify("Restoring from trash: ", "Restoring to <strong>" + data.destination_path + "</strong>", "success");
                                 }
                                 dialog.remove();
                                 setTimeout(function () {
@@ -111,11 +117,13 @@
                                 }, 3000);
                             } else {
                                 dialog.remove();
-                                showErrorDialog(data.errorCause, data.action);
-                            }*/
+                                showErrorDialog(data);
+                            }
                         }).error(function () {
                             $(window).adaptTo("foundation-ui").notify("Error", "Unexpected error occurred while moving item " + itemPath + " to trashcan.", "error");
                         });
+                    }else if(data.referenceErrorTypeProcessed){// This means the references are removed successfully, lets refresh the page if someone clicks on OK, so that they can see what all got removed.
+                        location.reload(true);
                     }
                     errorDialog.remove();
                 });
@@ -131,8 +139,6 @@
                     var message = "";
                     var inTrashMessage = "";
                     var header = "";
-                    var url = Granite.HTTP.externalize(activator.data("href"));
-                    var payloadJSON = {};
                     var itemsJSON = [];
                     var isSearch= $(".cq-searchadmin-admin-actions-trashcan-activator");
                     var isInTrash = false;
@@ -201,7 +207,7 @@
                             innerHTML: message
                         },
                         footer: {
-                            innerHTML: "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>TRAHSCAN OK</coral-button-label></button>"
+                            innerHTML: "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>OK</coral-button-label></button>"
                         },
                         variant: "warning"
                     });
@@ -225,7 +231,7 @@
                                 }, 3000);
                             } else {
                                 dialog.remove();
-                                showErrorDialog(data.errorCause, data.action);
+                                showErrorDialog(data);
                             }
                         }).error(function () {
                             $(window).adaptTo("foundation-ui").notify("Error", "Unexpected error occurred while moving item " + itemPath + " to trashcan.", "error");
@@ -236,6 +242,8 @@
                 }
                 return {payloadJSON, dialog};
             }
+            var payloadJSON = {};
+            var url = Granite.HTTP.externalize(activator.data("href"));
             var {payloadJSON, dialog} = handleTrashcanEvent();
         }
         $(trashcanActivator).unbind("click");

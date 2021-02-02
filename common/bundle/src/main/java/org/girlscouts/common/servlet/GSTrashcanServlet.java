@@ -6,6 +6,7 @@ import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.model.WorkflowModel;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -33,10 +34,7 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component(service = Servlet.class, property = {Constants.SERVICE_DESCRIPTION + "=Girl Scouts Trashcan Servlet", "sling.servlet.methods=" + HttpConstants.METHOD_POST, "sling.servlet.extensions=workflow", "sling.servlet.resourceTypes=girlscouts/servlets/trashcan"})
 public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingServlet, TrashcanConstants {
@@ -82,47 +80,80 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                 json.addProperty("action", trashcanRequest.getAction());
                 ResourceResolver workflowResourceResolver = null;
                 ResourceResolver userResourceResolver = null;
+                List<TrashCanError> errors = new ArrayList<>();
+                List<TrashCanError> forceDeleteRefSuccess = new ArrayList<>();
                 try {
                     userResourceResolver = request.getResourceResolver();
                     workflowResourceResolver = resolverFactory.getServiceResourceResolver(this.serviceParams);
-                    List<String> errors = new ArrayList<>();
+                    Resource payloadResource =null;
+                    /*Before doing anything lets remove references if it is asked and move the assert to Trashcan
+                      and at the same time lets remove it from TrashcanItem so that these items does not get processed multiple times. */
+
+                    //GSAWDO-61 - checking if this request is for force delete references., if yes, lets perform it and then move it to trashcan.
+                    if(trashcanRequest.getAction().equals("trash") && trashcanRequest.getForceDeleteRef()){
+                        List<String> location = trashcanRequest.getRefErrorLocation();
+                        for(int i =0 ; i <location.size() ;i++) {
+                            payloadResource = userResourceResolver.getResource(location.get(i));
+                            if(null!=payloadResource) {
+                                TrashcanUtil.forceDeleteReference(userResourceResolver, payloadResource);
+                                //Since force deletion of references is done lets invoke Trashcan Servlet for these items.
+                                if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+                                    boolean isAsset = payloadResource.isResourceType("dam:Asset");
+                                    path = invokeTrashcanWorkflow(isAsset, payloadResource, workflowResourceResolver);
+                                    /*Adding to the forceDeleteRefSuccess list.
+                                    This is to inform author that reference deletion is success ,in a case when there are other asserts
+                                    which are throwing errors while moving them to trashcan.*/
+                                    if(trashcanRequest.getForceRepublishUpdatedPages()) {
+                                        forceDeleteRefSuccess.add(new TrashCanError("All the reference to <b>" + location.get(i) +"</b> are successfully removed and the Assert is moved to Trashcan.The pages which are having this assert as reference are published."));
+                                    }else{
+                                        forceDeleteRefSuccess.add(new TrashCanError("All the reference to <b>" + location.get(i) +"</b> are successfully removed and the Assert is moved to Trashcan."));
+                                    }
+                                }
+                            }
+                        }
+                        //Lets remove the above items from  TrashcanItem so that these items dosen't get processed multiple times
+                        for (Iterator<TrashcanItem> trashcanItemItr = trashcanRequest.getItems().listIterator(); trashcanItemItr.hasNext(); ) {
+                            TrashcanItem trashcanItem = trashcanItemItr.next();
+                            for(int i =0 ; i <location.size() ;i++) {
+                                if (trashcanItem.getSource().equals(location.get(i))) {
+                                    trashcanItemItr.remove();
+                                }
+                            }
+                        }
+                    }
+
                     for (TrashcanItem item : trashcanRequest.getItems()) {
                         String sourcePath = item.getSource();
                         String targetPath = item.getTarget();
                         if (sourcePath != null && sourcePath.trim().length() > 0) {
-                            Resource payloadResource = userResourceResolver.resolve(sourcePath);
+                            payloadResource = userResourceResolver.resolve(sourcePath);
                             if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                                 if ("restore".equals(trashcanRequest.getAction())) {
                                     try {
                                         isValidToRestore(payloadResource, targetPath);
                                     } catch (GirlScoutsException e) {
-                                        errors.add(e.getReason());
+                                        errors.add(new TrashCanError(e.getReason(),e.getTypeOfException(),sourcePath));
                                     }
                                 } else {
                                     try {
                                         isValidToTrashcan(payloadResource);
                                     } catch (GirlScoutsException e) {
-                                        errors.add(e.getReason());
+                                        errors.add(new TrashCanError(e.getReason(),e.getTypeOfException(),sourcePath));
                                     }
                                 }
                             } else {
-                                errors.add("Item at path " + sourcePath + " doesn't exist");
+                                errors.add(new TrashCanError("Item at path " + sourcePath + " doesn't exist"));
                             }
                         }
                     }
                     if(errors.size()>0){
+                        errors.addAll(forceDeleteRefSuccess);
                         StringBuffer sb = new StringBuffer();
                         sb.append("<ol>");
-                        for(String error : errors){
-                            sb.append("<li>"+error+"</li>");
+                        for(TrashCanError error : errors){
+                            sb.append("<li>"+error.getErrorDetail()+"</li>");
                         }
                         sb.append("</ol>");
-                        sb.append("<form>");
-                        sb.append("<div><input type=\"checkbox\" id=\"forceDeleteRef\" name=\"forceDeleteRef\" value=\"forceDeleteRef\"></div>");
-                        sb.append("<label for=\"vehicle1\">Force delete references</label><br>");
-                        sb.append("<div><input type=\"checkbox\" id=\"forceRepublishUpdatedPages\" name=\"forceRepublishUpdatedPages\" value=\"forceRepublishUpdatedPages\"></div>");
-                        sb.append("<label for=\"vehicle1\">Force republish updated pages</label><br>");
-                        sb.append("</form>");
                         throw new GirlScoutsException(new Exception(), sb.toString());
                     }
                     for (TrashcanItem item : trashcanRequest.getItems()) {
@@ -130,7 +161,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                             String sourcePath = item.getSource();
                             String targetPath = item.getTarget();
                             if (sourcePath != null && sourcePath.trim().length() > 0) {
-                                Resource payloadResource = userResourceResolver.resolve(sourcePath);
+                                payloadResource = userResourceResolver.resolve(sourcePath);
                                 if (payloadResource != null && !payloadResource.isResourceType(Resource.RESOURCE_TYPE_NON_EXISTING)) {
                                     boolean isAsset = payloadResource.isResourceType("dam:Asset");
                                     if ("restore".equals(trashcanRequest.getAction())) {
@@ -160,8 +191,33 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                 } catch (GirlScoutsException e) {
                     log.error("Error occurred:", e);
                     try {
+                        //FOR GSAWDO-61 - showing dialog if there is reference to the assert selected for trashcan.
+                        Boolean hasReference = false;
+                        StringBuffer hasReferenceString  = new StringBuffer();
+                        JsonArray jsonArray = new JsonArray();
+                        for(TrashCanError error : errors){
+                            String typeOfException = error.getTypeOfException();
+                            if(null != typeOfException && typeOfException.equals("typeHasReference")){
+                                hasReference = true;
+                                jsonArray.add(error.getErrorLocation());
+                            }
+                        }
+
+                        if(hasReference){
+                            json.addProperty("hasReferenceErrorType",true);
+                            json.add("hasReferenceAssertLocation",jsonArray);
+                            hasReferenceString.append("<form>");
+                            hasReferenceString.append("<div><input type=\"checkbox\" id=\"forceDeleteRef\" name=\"forceDeleteRef\" value=\"forceDeleteRef\"></div>");
+                            hasReferenceString.append("<label for=\"vehicle1\">Force delete references (force deleting image references will be shown as broken images)</label><br>");
+                            hasReferenceString.append("<div><input type=\"checkbox\" id=\"forceRepublishUpdatedPages\" name=\"forceRepublishUpdatedPages\" value=\"forceRepublishUpdatedPages\"></div>");
+                            hasReferenceString.append("<label for=\"vehicle1\">Force republish updated pages</label><br>");
+                            hasReferenceString.append("</form>");
+                        }else if(forceDeleteRefSuccess.size()>0){ // This is so that can,we can refresh the page if any processing of references has happen.
+                            json.addProperty("referenceErrorTypeProcessed",true);
+                        }
+
                         json.addProperty("success", false);
-                        json.addProperty("errorCause", e.getReason());
+                        json.addProperty("errorCause", e.getReason()+hasReferenceString.toString());
                         response.setStatus(SlingHttpServletResponse.SC_OK);
                         response.setContentType("application/json");
                         response.getWriter().write(new Gson().toJson(json));
@@ -197,6 +253,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
 
     private TrashcanRequest getTrashcanRequest(SlingHttpServletRequest request) {
         TrashcanRequest trashcanRequest = null;
+
         try {
             List<RequestParameter> params = request.getRequestParameterList();
             Gson gson = new Gson();
@@ -307,4 +364,32 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
         return true;
     }
 
+}
+
+
+class TrashCanError{
+    private String errorDetail;
+    private String typeOfError;
+    private String errorLocation;
+    TrashCanError(String errorDetail, String typeOfError, String errorLocation){
+        this.errorDetail = errorDetail;
+        this.typeOfError = typeOfError;
+        this.errorLocation = errorLocation;
+    }
+
+    public TrashCanError(String errorDetail) {
+        this.errorDetail = errorDetail;
+    }
+
+    public String getTypeOfException() {
+        return typeOfError;
+    }
+
+    public String getErrorDetail() {
+        return errorDetail;
+    }
+
+    public String getErrorLocation() {
+        return errorLocation;
+    }
 }
