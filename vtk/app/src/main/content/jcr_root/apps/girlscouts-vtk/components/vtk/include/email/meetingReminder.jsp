@@ -221,7 +221,7 @@
         </dd>
     </dl>
     <div class="right clearfix">
-        <input type="button" value="Send email" class="button btn" onclick="this.disabled=true; "/>
+        <input type="button" value="Send email" class="button btn" onclick="this.disabled=true; sendEmail();"/>
     </div>
     <div id="added">
         <p>Added to email.</p>
