@@ -151,9 +151,11 @@
         if(text != null && !text.equals("")){
            imageClass = "txtimage-"+imageAlignment;
         }else{
+
            imageClass = "txtimage-"+imageAlignment;
         }
-        %><div class="<%=imageClass%> txt-img-container" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
+     
+        %><div class="<%=imageClass%>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
           if(!newWindow) {
               image.draw(out);
           } else { %>
