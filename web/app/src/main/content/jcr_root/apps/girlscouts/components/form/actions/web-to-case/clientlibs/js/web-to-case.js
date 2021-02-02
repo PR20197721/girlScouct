@@ -85,6 +85,7 @@ $(document).ready(function () {
         }
 
         $(formErrorContainer[0]).html(errorMessage);
+        $("#recaptcha-error").hide();
     }
     function checkFormConfiguration(form) {
         var emailField = form.find("input[name='email']");

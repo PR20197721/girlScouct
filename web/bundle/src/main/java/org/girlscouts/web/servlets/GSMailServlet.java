@@ -17,6 +17,9 @@ import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
+import com.google.gson.Gson;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.mail.*;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.*;
@@ -29,6 +32,8 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.auth.core.AuthUtil;
 import org.apache.sling.commons.osgi.OsgiUtil;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.web.service.recaptcha.RecaptchaService;
+import org.girlscouts.web.util.WebToCaseUtils;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +43,7 @@ import javax.jcr.RepositoryException;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,6 +66,9 @@ public class GSMailServlet
         implements OptingServlet {
 
     protected static final String EXTENSION = "html";
+    protected static final String RESPONSE_VAL = "g-recaptcha-response";
+    protected static final String SECRET = "secret";
+    protected static final String CAPTCHA_RESPONSE = ":cq:captcha";
 
     protected static final String MAILTO_PROPERTY = "mailto";
     protected static final String CC_PROPERTY = "cc";
@@ -84,6 +93,9 @@ public class GSMailServlet
     
     @Reference(policy=ReferencePolicy.STATIC)
     private SlingSettingsService slingSettings;
+    
+    @Reference
+    private RecaptchaService recaptchaService;
 
     @Property(value = {
             "/content",
@@ -163,26 +175,57 @@ public class GSMailServlet
             throws ServletException, IOException {
 
         final MailService localService = this.mailService;
+        List<String> errors = new ArrayList<>();
 
         //Double check that the request should be accepted since it is possible to
         //bypass the OptingServlet interface through a properly constructed resource type.
         //eg. sling:resourceType=foundation/components/form/start/mail.POST.servlet
         if (!accepts(request)) {
-            logger.debug("Resource not accepted.");
-            response.setStatus(500);
+            logger.error("Resource not accepted.");
+            errors.add("Resource not accepted.");
+            respond(new GSMailResponse("error", errors), response);
             return;
         }
         if (ResourceUtil.isNonExistingResource(request.getResource())) {
-            logger.debug("Received fake request!");
-            response.setStatus(500);
+            logger.error("Received invalid request!");
+            errors.add("Received invalid request!");
+            respond(new GSMailResponse("error", errors), response);
+            return;
+        }
+        
+        //Recaptcha Server Validations
+        String responseVal = request.getParameter(RESPONSE_VAL);
+        String captcha = request.getParameter(CAPTCHA_RESPONSE);
+        String secret = request.getParameter(SECRET);
+        if (null == captcha){
+	        if (null != responseVal) {
+	        	if (StringUtils.isBlank(responseVal)){
+	                errors.add("Missing value for required field: g-recaptcha-response");
+	                return;
+	            }
+		        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
+		        if (!success) {
+		        	logger.debug("Recaptcha validation failed");
+		        	errors.add("Validation failed for : g-recaptcha-response. Please try again.");
+		        	return;
+		        }
+	        } else {
+	        	logger.debug("Recaptcha response invalid");
+	        	errors.add("Missing value for required field: g-recaptcha-response");
+	        	return;
+	        }
+        }
+        if (errors != null && errors.size() > 0) {
+            GSMailResponse respObj = new GSMailResponse("error", errors);
+            respond(respObj, response);
             return;
         }
 
         final ResourceBundle resBundle = request.getResourceBundle(null);
+        int status = 200;
 
         final ValueMap values = ResourceUtil.getValueMap(request.getResource());
         final String[] mailTo = values.get(MAILTO_PROPERTY, String[].class);
-        int status = 200;
         if (mailTo == null || mailTo.length == 0 || mailTo[0].length() == 0) {
             // this is a sanity check
             logger.error("The mailto configuration is missing in the form begin at " + request.getResource().getPath());
@@ -487,7 +530,7 @@ public class GSMailServlet
         response.setStatus(status);
     }
 
-    public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String,List<String>> formFields, HtmlEmail confEmail, ResourceResolver rr, List<RequestParameter> attachments){
+	public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String,List<String>> formFields, HtmlEmail confEmail, ResourceResolver rr, List<RequestParameter> attachments){
     	try{
     		String templatePath = values.get(TEMPLATE_PATH_PROPERTY, "/content/girlscouts-template/en/email-templates/default_template");
     		if(templatePath.trim().isEmpty()) {
@@ -586,5 +629,44 @@ public class GSMailServlet
     		return imgPath + "/jcr:content/renditions/original";
     	}
     }
+    
+    private void respond(GSMailResponse respObj, SlingHttpServletResponse response) {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			out.print(new Gson().toJson(respObj));
+			out.flush();
+		} catch (Exception e) {
+			logger.error("Encountered error:", e);
+		}
+	}
+    
+    private class GSMailResponse {
+		private String status;
+		private List<String> errors;
+
+		GSMailResponse(String status, List<String> errors) {
+			this.status = status;
+			this.errors = errors;
+
+		}
+
+		public String getStatus() {
+			return status;
+		}
+
+		public void setStatus(String status) {
+			this.status = status;
+		}
+
+		public List<String> getErrors() {
+			return errors;
+		}
+
+		public void setErrors(List<String> errors) {
+			this.errors = errors;
+		}
+	}
 
 }

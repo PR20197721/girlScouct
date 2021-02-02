@@ -15,7 +15,6 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.jcr.RepositoryException;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -24,9 +23,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
 @Component(metatype = true, label = "Girl Scouts Image Dropdown Privilege checker", description = "The privileged user can see all of the items under page editor side-panel Image Dropdown")
 @Service(Servlet.class)
 @Properties({ @Property(name = "sling.servlet.paths", value = "/bin/getAssetFilter.html"),
+
         @Property(name = "sling.servlet.methods", value = "GET"),
         @Property(name = "service.description", value = "User privilege check for Image Servlet")
 })

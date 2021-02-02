@@ -49,6 +49,10 @@
                 // check for absolute path
                 final int protocolIndex = location.indexOf(":/");
                 final int queryIndex = location.indexOf('?');
+                final int pdfQueryIndex = location.indexOf(".pdf");
+                final int csvQueryIndex = location.indexOf(".csv");
+                final int xlsxQueryIndex = location.indexOf(".xlsx");
+                final int xlsQueryIndex = location.indexOf(".xls");
                 String wcmModeParam = request.getParameter("wcmmode");
                 final boolean isWCMModeDisabledParameter = wcmModeParam != null && "disabled".equals(wcmModeParam);
                 String redirectPath;
@@ -67,6 +71,8 @@
 
                 if (protocolIndex > -1 && (queryIndex == -1 || queryIndex > protocolIndex)) {
                     redirectPath = location + queryString;
+                } else if (pdfQueryIndex > -1 || csvQueryIndex > -1 || xlsxQueryIndex > -1 || xlsQueryIndex > -1) {
+                    redirectPath = request.getContextPath() + location + queryString;
                 } else {
                     redirectPath = request.getContextPath() + location + ".html" + queryString;
                 }

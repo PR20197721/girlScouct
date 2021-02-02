@@ -101,13 +101,20 @@
 		int newImageHeight = Integer.parseInt(imageHeight) + Integer.parseInt(pTop) + Integer.parseInt(pBottom);
 		styleImage += "height:" + newImageHeight + "px; max-height:" + originalHeight + "px;";
     }
-	
-	%><div class="img-wrapper img-print <%= "image-" + imageAlignment %>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
+
+	//GSAWDO-120-Image and Text&Image component needs to expand to full width of the container without any gaps
+        String imageClass="";
+        if(caption != null && !caption.equals("")){
+           imageClass = imageAlignment;
+        }else{
+           imageClass = "no-margin";
+        }
+	%><div class="img-wrapper img-print <%= "image-" + imageClass %>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
-	    
+
 	  	try{
 		    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
-		
+
 		    //drop target css class = dd prefix + name of the drop target in the edit config
 		    image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
 		  	//GSWP-2140-When applied both styleImage (width) and image dropdown
@@ -116,22 +123,22 @@
 		    image.loadStyleData(currentStyle);
 		    image.setSelector(".img"); // use image script
 		    image.setDoctype(Doctype.fromRequest(request));
-		    
+
 			Boolean newWindow = properties.get("./newWindow", false);
-		
+
 		    // add design information if not default (i.e. for reference paras)
 		    if (!currentDesign.equals(resourceDesign)) {
 		        image.setSuffix(currentDesign.getId());
 		    }
-		     
-		    if(!newWindow) { 
-		       image.draw(out); 
+
+		    if(!newWindow) {
+		       image.draw(out);
 		   	} else { %>
 				<%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
 				<%
 			}
 	  	}catch (Exception e){
-	  		
+
 	  	}
 		%>
 		<div class="image-caption" style="<%= styleCaption %>">
@@ -140,7 +147,7 @@
 				<cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
 			<%}
 		%>
-			
+
 		</div>
 	</div>
     <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>
@@ -161,5 +168,12 @@
     }
     }catch(Exception e){
         //logger.error("Error getting first page component: ",e);
-    } 
+    }
     %>
+
+<style>
+.image-no-margin{
+    margin:0;
+}
+
+</style>
