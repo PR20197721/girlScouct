@@ -151,9 +151,9 @@
         if(text != null && !text.equals("")){
            imageClass = "txtimage-"+imageAlignment;
         }else{
-           imageClass = "txtimage-no-margin";
+           imageClass = "txtimage-"+imageAlignment;
         }
-        %><div class="<%=imageClass%>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
+        %><div class="<%=imageClass%> txt-img-container" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
           if(!newWindow) {
               image.draw(out);
           } else { %>
@@ -186,15 +186,14 @@
 	<div style="clear:both"></div>
 </div>
              <script>
-$(document).ready(function(){
+$(window).on('load', function () {
   const getTextContainer = $(".textimage");
-  console.log(getTextContainer);
   for(let i = 0; i < getTextContainer.length; i++){
-    const getContainerWidth = $(getTextContainer[i]).width();
-    const getimageWidth = $(getTextContainer[i]).find('.cq-dd-image').width();
-    console.log(getContainerWidth, getimageWidth, 'container and image width');
-    getimageWidth > getContainerWidth ? $(getTextContainer[i]).children().children().removeClass().addClass('txtimage-no-margin') : null;
+		 const getContainerWidth = $(getTextContainer[i]).width()-15;
+    	const getimageWidth = $($(getTextContainer[i]).find('img')).width();
+      getimageWidth >= getContainerWidth ? $(getTextContainer[i]).children().children().addClass('txtimage-no-margin') : $(getTextContainer[i]).children().children().removeClass('txtimage-no-margin');
+	}
 
-  }
+
 });
 </script>
