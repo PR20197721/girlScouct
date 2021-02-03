@@ -100,13 +100,14 @@ TroopListing.prototype.getResult = function() {
 
 TroopListing.prototype.processResult = function(result) {
   var troops = result.booths;
-  if (troops == null && this.page == 1) {
+  if ((troops == null ||  troops.length == 0) && this.page == 1) {
     var templatePathID = 'template-troop-listing';
     var html = Handlebars.compile($('#' + templatePathID).html())(result);
     $('#troop-listing-result').html(html);
-    var templatePathID = 'template-notfound';
+    var templatePathID = 'template-notfound-troop-listing';
     html = Handlebars.compile($('#' + templatePathID).html())(result);
     $('#troop-listing-result').append(html);
+    $('.troop-listing #more').hide();
   } else if (troops && troops.length != 0) {
 
     //logic for Randomizing the first mile records (if first mile is found multiple times) so as to give a fair chance to every troop.

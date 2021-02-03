@@ -52,7 +52,7 @@ if(null!= onTime && null!=offTime){
 	    </script>
 
 	    <%-- Template for not found --%>
-	    <script id="template-notfound" type="text/x-handlebars-template">
+	    <script id="template-notfound-troop-listing" type="text/x-handlebars-template">
 	        <cq:include script="not-found.jsp" />
 	    </script>
 
