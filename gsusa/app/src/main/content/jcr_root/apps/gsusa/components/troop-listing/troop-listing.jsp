@@ -33,7 +33,9 @@ if(null!= onTime && null!=offTime){
 	data-hover-button-color="<%= properties.get("hoverButtonColor")%>" data-text-color="<%= properties.get("textColor")%>"
 	data-text="<%= properties.get("text")%>" data-another-troop-button-color="<%= properties.get("anotherTroopButtonColor")%>"
 	data-another-troop-hover-button-color="<%= properties.get("anotherTroopHoverButtonColor")%>" data-another-troop-text-color="<%= properties.get("anotherTroopTextColor")%>"
-	data-another-troop-text="<%= properties.get("anotherTroopText")%>" data-one-link-count="<%= properties.get("oneLinkCount")%>"> </span>
+	data-another-troop-text="<%= properties.get("anotherTroopText")%>" data-one-link-count="<%= properties.get("oneLinkCount")%>"
+	data-troop-listing-api-url="<%= properties.get("troopListingApiURL")%>" data-troop-listing-lookup-api-url="<%= properties.get("troopListingLookupApiURL")%>"
+	> </span>
 
 	<div id="troop-listing-details" data-num-per-page="<%= properties.get("numPerPage", 25)%>" data-res-path="<%= resource.getPath() %>"></div>
 
@@ -58,7 +60,34 @@ if(null!= onTime && null!=offTime){
 	}
 }
 %>
+<style>
+.troopListingCustomButton{
+	<%
+		String textColor = properties.get("textColor","#FFFFFF");
+		String getCookieButtonColor = properties.get("getCookieButtonColor","#00AE58");
+		String hoverButtonColor = properties.get("hoverButtonColor","#008b46");
+	%>
+		color: <%= textColor%> !important;
+		background-color: <%= getCookieButtonColor%> !important;
+}
+.troopListingCustomButton:hover{
+    	background-color: <%= hoverButtonColor%> !important;
+}
 
+.anotherTroopListingCustomButton{
+	<%
+		String anotherTroopTextColor = properties.get("anotherTroopTextColor","#FFFFFF");
+		String anotherTroopButtonColor = properties.get("anotherTroopButtonColor","#00AE58");
+		String anotherTroopHoverButtonColor = properties.get("anotherTroopHoverButtonColor","#008b46");
+	%>
+		color: <%= anotherTroopTextColor%> !important;
+		background-color: <%= anotherTroopButtonColor%> !important;
+}
+.anotherTroopListingCustomButton:hover{
+    	background-color: <%= anotherTroopHoverButtonColor%> !important;
+}
+
+</style>
 
 
 

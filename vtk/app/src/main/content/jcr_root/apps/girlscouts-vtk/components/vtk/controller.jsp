@@ -835,7 +835,9 @@
     }
 } else if (request.getParameter("editNote") != null) {
     response.setContentType("application/json");
-    out.println("{vtkresp:" + meetingUtil.editNote(user, selectedTroop, request.getParameter("nid"), request.getParameter("msg")) + "}");
+    java.util.List<Note> notes = meetingUtil.editNote(user, selectedTroop, request.getParameter("nid"), request.getParameter("mid"), request.getParameter("msg"));
+    String json = gson.toJson(CollectionModelToEntityMapper.mapNotes(notes));
+    out.println(json);
 } else if (request.getParameter("getNotes") != null) {
     response.setContentType("application/json");
     java.util.List<Note> notes = meetingUtil.getNotesByMid(user, selectedTroop, request.getParameter("mid"));

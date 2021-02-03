@@ -29,6 +29,82 @@
                                 fieldDescription="Number of booths shown on each page"
                                 fieldLabel="Number of Booths Per Page"
                                 name="./numPerPage"/>
+                            <filterDistancePerMiles
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                fieldLabel="Default Radius Value For Booth Finder"
+                                name="./filterDistancePerMiles">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <_x0031_miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="1 miles"
+                                        value="1"/>
+                                    <_x0035_miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="5 miles"
+                                        value="5"/>
+                                    <_x0031_0miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="10 miles"
+                                        value="10"/>
+                                    <_x0031_5miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="15 miles"
+                                        value="15"/>
+                                    <_x0032_5miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="25 miles"
+                                        value="25"/>
+                                    <_x0035_0miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="50 miles"
+                                        value="50"/>
+                                    <_x0031_00miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="100 miles"
+                                        value="100"/>
+                                    <_x0032_50miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="250 miles"
+                                        value="250"/>
+                                    <_x0035_00miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="500 miles"
+                                        value="500"/>
+                                    <_x0031_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="1000 miles"
+                                        value="1000"/>
+                                    <_x0032_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="2000 miles"
+                                        value="2000"/>
+                                    <_x0033_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="3000 miles"
+                                        value="3000"/>
+                                    <_x0034_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="4000 miles"
+                                        value="4000"/>
+                                    <_x0035_000miles
+                                        jcr:primaryType="nt:unstructured"
+                                        text="5000 miles"
+                                        value="5000"/>
+                                </items>
+                            </filterDistancePerMiles>
+                            <boothListingApiURL
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Booth Listing Api URL (please enter relative api URL)"
+                                fieldLabel="Booth Listing Api URL (please enter relative api URL)"
+                                name="./boothListingApiURL"/>
+                            <boothListingLookupApiURL
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Booth Listing Lookup Api URL (please enter relative api URL)"
+                                fieldLabel="Booth Listing Lookup Api URL (please enter relative api URL)"
+                                name="./boothListingLookupApiURL"/>
                         </items>
                     </columns>
                 </items>
@@ -45,67 +121,60 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                        
-	                        <text 
-	                        		jcr:primaryType="nt:unstructured"			
-							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
-							    useFixedInlineToolbar="true"
-							    customStart="false"
-							    height="{Long}300"
-							    fieldDescription="Enter {{name}} for the council name, {{url}} for the link to the council website. More options can be found in the &quot;special characters&quot; menu (The star button)."
-							    fieldLabel="Text"
-							    name="./path1Text">
-							    <rtePlugins 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
-							    <specialCharsConfig 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
-						    		<uiSettings
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldDescription="Enter {{name}} for the council name, {{url}} for the link to the council website. More options can be found in the &quot;special characters&quot; menu (The star button)."
+                                fieldLabel="Text"
+                                height="{Long}300"
+                                name="./path1Text"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
+                                <uiSettings
                                     jcr:primaryType="nt:unstructured"
                                     sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
-						    </text>
-						    
+                            </text>
                             <showShareDialog
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./path1ShowShareDialog"
                                 text="Show Share Dialog"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <showsharedialog-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./path1ShowShareDialog@Delete"
                                 value="{Boolean}true"/>
-                            
                             <shareDialogHeader
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Dialog Header"
                                 name="./path1ShareDialogHeader"/>
-                                
                             <shareDialogDescription
-                                	jcr:primaryType="nt:unstructured"
-                                	sling:resourceType="granite/ui/components/foundation/form/textfield"
-							    fieldDescription="Text in the &quot;share&quot; dialog. Also the text of the Facebook share."
-							    fieldLabel="Description"
-							    name="./path1ShareDialogDescription"/>
-							    
-						    <shareDialogTweet
-                                	jcr:primaryType="nt:unstructured"
-                                	sling:resourceType="granite/ui/components/foundation/form/textfield"
-							    fieldDescription="Text to include in the tweet."
-							    fieldLabel="Tweet"
-							    name="./path1ShareDialogTweet"/>
-							
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text in the &quot;share&quot; dialog. Also the text of the Facebook share."
+                                fieldLabel="Description"
+                                name="./path1ShareDialogDescription"/>
+                            <shareDialogTweet
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text to include in the tweet."
+                                fieldLabel="Tweet"
+                                name="./path1ShareDialogTweet"/>
                             <shareDialogImg
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
                                 fieldLabel="Image"
                                 name="./path1ShareDialogImagePath"
                                 rootPath="/content/dam"/>
-                                
                         </items>
                     </columns>
                 </items>
@@ -122,60 +191,54 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                        
-	                        <text 
-	                        		jcr:primaryType="nt:unstructured"				
-							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
-							    useFixedInlineToolbar="true"
-							    customStart="false"
-							    height="{Long}300"
-							    fieldDescription="Enter {{name}} for the council name, {{url}} for the link to the council website. More options can be found in the &quot;special characters&quot; menu (The star button)."
-							    fieldLabel="Text"
-							    name="./path2Text">
-							    <rtePlugins 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
-							    <specialCharsConfig 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
-						    		<uiSettings
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldDescription="Enter {{name}} for the council name, {{url}} for the link to the council website. More options can be found in the &quot;special characters&quot; menu (The star button)."
+                                fieldLabel="Text"
+                                height="{Long}300"
+                                name="./path2Text"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>				    
-						    </text>
-						    
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                            </text>
                             <showShareDialog
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./path2ShowShareDialog"
                                 text="Show Share Dialog"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <showsharedialog-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./path2ShowShareDialog@Delete"
                                 value="{Boolean}true"/>
-                            
                             <shareDialogHeader
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Dialog Header"
                                 name="./path2ShareDialogHeader"/>
-                                
                             <shareDialogDescription
-                                	jcr:primaryType="nt:unstructured"
-                                	sling:resourceType="granite/ui/components/foundation/form/textfield"
-							    fieldDescription="Text in the &quot;share&quot; dialog. Also the text of the Facebook share."
-							    fieldLabel="Description"
-							    name="./path2ShareDialogDescription"/>
-							    
-						    <shareDialogTweet
-                                	jcr:primaryType="nt:unstructured"
-                                	sling:resourceType="granite/ui/components/foundation/form/textfield"
-							    fieldDescription="Text to include in the tweet."
-							    fieldLabel="Tweet"
-							    name="./path2ShareDialogTweet"/>
-                        
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text in the &quot;share&quot; dialog. Also the text of the Facebook share."
+                                fieldLabel="Description"
+                                name="./path2ShareDialogDescription"/>
+                            <shareDialogTweet
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text to include in the tweet."
+                                fieldLabel="Tweet"
+                                name="./path2ShareDialogTweet"/>
                             <shareDialogImg
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
@@ -198,67 +261,60 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                        
-	                        <text 
-	                        		jcr:primaryType="nt:unstructured"		
-							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
-							    useFixedInlineToolbar="true"
-							    customStart="false"
-							    height="{Long}300"
-							    fieldDescription="Enter {{name}} for the council name, {{url}} for the link to the council website. More options can be found in the &quot;special characters&quot; menu (The star button)."
-							    fieldLabel="Text"
-							    name="./path4Text">
-							    <rtePlugins 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
-							    <specialCharsConfig 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
-						    		<uiSettings
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldDescription="Enter {{name}} for the council name, {{url}} for the link to the council website. More options can be found in the &quot;special characters&quot; menu (The star button)."
+                                fieldLabel="Text"
+                                height="{Long}300"
+                                name="./path4Text"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>				    
-						    </text>
-						    
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                            </text>
                             <showShareDialog
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./path4ShowShareDialog"
                                 text="Show Share Dialog"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <showsharedialog-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./path4ShowShareDialog@Delete"
                                 value="{Boolean}true"/>
-                            
                             <shareDialogHeader
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Dialog Header"
                                 name="./path4ShareDialogHeader"/>
-                                
                             <shareDialogDescription
-                                	jcr:primaryType="nt:unstructured"
-                                	sling:resourceType="granite/ui/components/foundation/form/textfield"
-							    fieldDescription="Text in the &quot;share&quot; dialog. Also the text of the Facebook share."
-							    fieldLabel="Description"
-							    name="./path4ShareDialogDescription"/>
-							    
-						    <shareDialogTweet
-                                	jcr:primaryType="nt:unstructured"
-                                	sling:resourceType="granite/ui/components/foundation/form/textfield"
-							    fieldDescription="Text to include in the tweet."
-							    fieldLabel="Tweet"
-							    name="./path4ShareDialogTweet"/>
-                        
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text in the &quot;share&quot; dialog. Also the text of the Facebook share."
+                                fieldLabel="Description"
+                                name="./path4ShareDialogDescription"/>
+                            <shareDialogTweet
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text to include in the tweet."
+                                fieldLabel="Tweet"
+                                name="./path4ShareDialogTweet"/>
                             <shareDialogImg
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
                                 fieldLabel="Image"
                                 name="./path4ShareDialogImagePath"
                                 rootPath="/content/dam"/>
-                                
                         </items>
                     </columns>
                 </items>
@@ -275,60 +331,54 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                        
-	                        <text 
-	                        		jcr:primaryType="nt:unstructured"			
-							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
-							    useFixedInlineToolbar="true"
-							    customStart="false"
-							    height="{Long}300"
-							    fieldDescription="Enter {{name}} for the council name, {{url}} for the link to the council website. More options can be found in the &quot;special characters&quot; menu (The star button)."
-							    fieldLabel="Text"
-							    name="./path5Text">
-							    <rtePlugins 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
-							    <specialCharsConfig 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
-						    		<uiSettings
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldDescription="Enter {{name}} for the council name, {{url}} for the link to the council website. More options can be found in the &quot;special characters&quot; menu (The star button)."
+                                fieldLabel="Text"
+                                height="{Long}300"
+                                name="./path5Text"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>	    
-						    </text>
-						    
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="gsusa/components/booth-finder-config/council-data-special-characters"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                            </text>
                             <showShareDialog
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/checkbox"
                                 name="./path5ShowShareDialog"
                                 text="Show Share Dialog"
-                                value="{Boolean}true"
-                                uncheckedValue="{Boolean}false"/>
+                                uncheckedValue="{Boolean}false"
+                                value="{Boolean}true"/>
                             <showsharedialog-delete
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/hidden"
                                 name="./path5ShowShareDialog@Delete"
                                 value="{Boolean}true"/>
-                            
                             <shareDialogHeader
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldLabel="Dialog Header"
                                 name="./path5ShareDialogHeader"/>
-                                
                             <shareDialogDescription
-                                	jcr:primaryType="nt:unstructured"
-                                	sling:resourceType="granite/ui/components/foundation/form/textfield"
-							    fieldDescription="Text in the &quot;share&quot; dialog. Also the text of the Facebook share."
-							    fieldLabel="Description"
-							    name="./path5ShareDialogDescription"/>
-							    
-						    <shareDialogTweet
-                                	jcr:primaryType="nt:unstructured"
-                                	sling:resourceType="granite/ui/components/foundation/form/textfield"
-							    fieldDescription="Text to include in the tweet."
-							    fieldLabel="Tweet"
-							    name="./path5ShareDialogTweet"/>
-                                                
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text in the &quot;share&quot; dialog. Also the text of the Facebook share."
+                                fieldLabel="Description"
+                                name="./path5ShareDialogDescription"/>
+                            <shareDialogTweet
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text to include in the tweet."
+                                fieldLabel="Tweet"
+                                name="./path5ShareDialogTweet"/>
                             <shareDialogModImg
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
@@ -336,7 +386,6 @@
                                 fieldLabel="Modal Image"
                                 name="./path5ShareDialogModImagePath"
                                 rootPath="/content/dam"/>
-                                
                             <shareDialogShareImg
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
@@ -344,7 +393,6 @@
                                 fieldLabel="Image to Share"
                                 name="./path5ShareDialogShareImagePath"
                                 rootPath="/content/dam"/>
-                                
                         </items>
                     </columns>
                 </items>
@@ -361,28 +409,24 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                            
                             <mapFBTitle
-								jcr:primaryType="nt:unstructured"
-								sling:resourceType="granite/ui/components/foundation/form/textfield"
-								fieldDescription="The title of the Facebook share"
-								fieldLabel="Facebook Title"
-								name="./mapFBTitle"/>
-								
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="The title of the Facebook share"
+                                fieldLabel="Facebook Title"
+                                name="./mapFBTitle"/>
                             <mapFBDesc
-								jcr:primaryType="nt:unstructured"
-								sling:resourceType="granite/ui/components/foundation/form/textfield"
-								fieldDescription="The text of the Facebook share."
-								fieldLabel="Facebook Description"
-								name="./mapFBDesc"/>
-								
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="The text of the Facebook share."
+                                fieldLabel="Facebook Description"
+                                name="./mapFBDesc"/>
                             <mapTweet
-								jcr:primaryType="nt:unstructured"
-								sling:resourceType="granite/ui/components/foundation/form/textfield"
-								fieldDescription="Text to include in the tweet."
-								fieldLabel="Tweet"
-								name="./mapTweet"/>
-
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Text to include in the tweet."
+                                fieldLabel="Tweet"
+                                name="./mapTweet"/>
                             <mapFBImg
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
@@ -390,21 +434,19 @@
                                 fieldLabel="Image to Share"
                                 name="./mapFBImgPath"
                                 rootPath="/content/dam"/>
-                                
                             <mapGoogleAPI
                                 jcr:primaryType="nt:unstructured"
                                 sling:resourceType="granite/ui/components/foundation/form/textfield"
                                 fieldDescription="Google Maps API key to show map"
                                 fieldLabel="Google Maps API"
                                 name="./mapAPI"/>
-                                
                         </items>
                     </columns>
                 </items>
             </mapModal>
             <not-found
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Not Found"
+                jcr:title="ZIP NOT FOUND"
                 sling:resourceType="granite/ui/components/foundation/container">
                 <layout
                     jcr:primaryType="nt:unstructured"
@@ -414,29 +456,62 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-                        
-	                        <text 
-	                        		jcr:primaryType="nt:unstructured"
-							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
-							    useFixedInlineToolbar="true"
-							    customStart="false"
-							    height="{Long}300"
-							    fieldLabel="Text"
-							    name="./notFoundText">
-							    <rtePlugins 
-							    		jcr:primaryType="nt:unstructured" 
-							    		sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
-							    <specialCharsConfig jcr:primaryType="nt:unstructured"
-										sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig" />
-								<uiSettings
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldLabel="Text"
+                                height="{Long}300"
+                                name="./notFoundText"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
                                     jcr:primaryType="nt:unstructured"
-                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>			    
-						    </text>
-						    
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                            </text>
                         </items>
                     </columns>
                 </items>
             </not-found>
+            <no-result
+                jcr:primaryType="nt:unstructured"
+                jcr:title="NO RESULTS"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <text
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                                customStart="false"
+                                fieldLabel="Text"
+                                height="{Long}300"
+                                name="./noResultText"
+                                useFixedInlineToolbar="true">
+                                <rtePlugins
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/rtePlugins"/>
+                                <specialCharsConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/specialCharsConfig"/>
+                                <uiSettings
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceSuperType="girlscouts-common/components/richtext-config/uiSettings"/>
+                            </text>
+                        </items>
+                    </columns>
+                </items>
+            </no-result>
         </items>
     </content>
 </jcr:root>

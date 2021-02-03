@@ -13,6 +13,8 @@ var anotherTroopTextColor = $("#troop-listing-config").data("another-troop-text-
 var anotherTroopText = $("#troop-listing-config").data("another-troop-text");
 
 var oneLinkCount = $("#troop-listing-config").data("one-link-count");
+var troopListingApiURL = $("#troop-listing-config").data("troop-listing-api-url") || "/includes/cookie/trooplink_list_merged.asp";
+var troopListingLookupApiURL = $("#troop-listing-config").data("troop-listing-lookup-api-url") || "/includes/cookie/trooplink_detail_lookup.asp";
 
 //Creating a Global Object to pass on config values.
 var troopListingConfigObj = {};
@@ -59,12 +61,11 @@ $(document).ready(function() {
     if (!troopListingSortBy) troopListingSortBy = 'distance';
     //Code for Troop Listing, creating new parameter as
 
-    troopListing = new TroopListing("/cookiesapi/trooplink_list_merged.asp", troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
+    troopListing = new TroopListing(troopListingApiURL, troopListingZip, troopListingRadius, troopListingDate, troopListingSortBy, numPerPage /*numPerPage*/ );
     troopListing.getResult();
   }
 
   registerClickOfRegisterButton();
-  registerClickOfBoothFinderButton();
 });
 
 
@@ -106,18 +107,21 @@ TroopListing.prototype.processResult = function(result) {
     var templatePathID = 'template-notfound';
     html = Handlebars.compile($('#' + templatePathID).html())(result);
     $('#troop-listing-result').append(html);
-    this.page++;
   } else if (troops && troops.length != 0) {
 
-    //logic for Randomizing the 0 mile records so as to give a fair chance to every troop.
+    //logic for Randomizing the first mile records (if first mile is found multiple times) so as to give a fair chance to every troop.
     //checking end index of zero Mile troops, as start will always be 0
-    var zeroMileEndIndex = 0;
-    for (var troopIndex = 0; troopIndex < troops.length; troopIndex++) {
-        if(troops[troopIndex].Distance == 0 ){
-            zeroMileEndIndex++;
-        }
+    var sameMileInitialIndex = 0;
+    var sameMileEndIndex =0;
+    for (var troopIndex = 1; troopIndex < troops.length; troopIndex++) {
+	    //console.log(troopIndex+" * "+sameMileInitialIndex+"**"+sameMileEndIndex);
+	    if (troops[troopIndex].Distance == troops[sameMileInitialIndex].Distance) {
+	       sameMileEndIndex++;
+	    }else{
+	       shuffleSameMilesTroop(troops,sameMileInitialIndex,sameMileEndIndex);
+	       break;
+	    }
     }
-	troops = shuffleZeroMilesTroop(troops,zeroMileEndIndex);
 
     /*
     //Sorting the result to get the nearest first.
@@ -136,14 +140,32 @@ TroopListing.prototype.processResult = function(result) {
       
       var troop = troops[troopIndex];
       if (troop.StoreURL != null && (troop.StoreURL.includes("http://") || troop.StoreURL.includes("https://"))) {
-        troop.Location = "<a href=\"" + troop.StoreURL + "\" target=\"_blank\">" + troop.TroopName + "</a>";
         troop.detailsText = "Get Cookies";
         troop.City = troop.City;
         troop.Distance = troop.Distance;
         troop.State = troop.State;
         troop.ZipCode = troop.ZipCode;
         troop.DateEnd = troop.DateEnd;
-        troop.visitBoothUrl = troop.StoreURL;
+
+        //GSAWDO-84 Detect "utm_campaign", "utm_medium", "utm_source" from query parameters, and if present, append it to the Troop Link StoreURL
+	    var utmCampaign = getParameterByName('utm_campaign');
+	    var utmMedium = getParameterByName('utm_medium');
+	    var utmSource = getParameterByName('utm_source');
+	    //updating the StroreLink to append utm parameters
+	    var troopStoreUrl = troop.StoreURL;
+	    if(troopStoreUrl){
+	        if(troopStoreUrl.indexOf('?') == -1){
+	            if(utmCampaign && utmMedium && utmSource){
+	                troopStoreUrl = troopStoreUrl+"?utm_campaign="+utmCampaign+"&utm_medium="+utmMedium+"&utm_source="+utmSource;
+	            }
+	        }else{
+                if(utmCampaign && utmMedium && utmSource){
+	                troopStoreUrl = troopStoreUrl+"&utm_campaign="+utmCampaign+"&utm_medium="+utmMedium+"&utm_source="+utmSource;
+	            }
+	        }
+	    }
+        troop.Location = "<a href=\"" + troopStoreUrl + "\" target=\"_blank\">" + troop.TroopName + "</a>";
+        troop.visitBoothUrl = troopStoreUrl;
       }
     }
 
@@ -153,9 +175,6 @@ TroopListing.prototype.processResult = function(result) {
       var templatePathID = 'template-troop-listing';
       var html = Handlebars.compile($('#' + templatePathID).html())(result);
       $('#troop-listing-result').html(html);
-      this.page++;
-
-
 
       // Bind click on more, this code is kept here, cause page counter 1 will only come once and this will not get register multiple times.
       $('.troop-listing #more').on('click', function() {
@@ -176,10 +195,10 @@ TroopListing.prototype.processResult = function(result) {
     applyTroopListingConfigChanges(result);
 	applySupportAnotherTroopConfig();
   }
+  this.page++;
   //CALL TO HIDE THE BOTTOM BORDER OF THE LAST BUTTON
   fixLastResultBottomBorder();
   registerClickOfRegisterButton();
-  registerClickOfBoothFinderButton();
 }
 
 function getParameterByName(name) {
@@ -208,48 +227,20 @@ function applyTroopListingConfigChanges() {
     if (troopListingConfigObj["cookieButtonText"] != null) {
       $(troopListingItemButton[i]).text(troopListingConfigObj["cookieButtonText"]);
     }
-    if (troopListingConfigObj["cookieButtonColor"] != null) {
-      $(troopListingItemButton[i]).css("background-color", troopListingConfigObj["cookieButtonColor"]);
-    }
-    //not sure how it works
-    if (troopListingConfigObj["cookieButtonHoverColor"] != null) {
-      $(troopListingItemButton[i]).mouseenter(function() {
-        $(this).css("background-color", troopListingConfigObj["cookieButtonHoverColor"]);
-      })
-      $(troopListingItemButton[i]).mouseleave(function() {
-        $(this).css("background-color", troopListingConfigObj["cookieButtonColor"]);
-      })
-    }
-    if (troopListingConfigObj["cookieButtonTextColor"] != null) {
-      $(troopListingItemButton[i]).css("color", troopListingConfigObj["cookieButtonTextColor"]);
-    }
   }
-
 }
 
 function applySupportAnotherTroopConfig() {
   //hide of supportAntherTroop section if supportAnotherTroop is not checked
   if (troopListingConfigObj["supportAnotherTroop"] && troopListingConfigObj["showOneLink"]) {
+    $(".troop-listing .show-more").addClass("hide");
     $(".supportAnotherTroopSection").removeClass("hide");
+  }else if(troopListingConfigObj["showOneLink"]){
+    $(".troop-listing .show-more").addClass("hide");
   }
   // updating text,text color,hover color,color  for support another troop button, if author has authored it
   if (troopListingConfigObj["anotherTroopText"] != null) {
     $(".troop-listing #supportAnotherTroopButton").text(troopListingConfigObj["anotherTroopText"]);
-  }
-  if (troopListingConfigObj["anotherTroopTextColor"] != null) {
-    $(".troop-listing #supportAnotherTroopButton").css("color", troopListingConfigObj["anotherTroopTextColor"]);
-  }
-  //not sure how it works
-  if (troopListingConfigObj["anotherTroopHoverButtonColor"] != null) {
-    $(".troop-listing #supportAnotherTroopButton").mouseenter(function() {
-      $(this).css("background-color", troopListingConfigObj["anotherTroopHoverButtonColor"]);
-    })
-    $(".troop-listing #supportAnotherTroopButton").mouseleave(function() {
-      $(this).css("background-color", troopListingConfigObj["anotherTroopButtonColor"]);
-    })
-  }
-  if (troopListingConfigObj["anotherTroopButtonColor"] != null) {
-    $(".troop-listing #supportAnotherTroopButton").css("background-color", troopListingConfigObj["anotherTroopButtonColor"]);
   }
 
   // Bind click on supportAnotherTroopButton, if clicked we need to hide this button and show the rest of the result, along with load more.
@@ -274,21 +265,22 @@ function fixLastResultBottomBorder(){
 	$(".troop-listing .row.details").last().css({ 'border-bottom' : '0px'});
 }
 
-function shuffleZeroMilesTroop(troops, zeroMileLastIndex) {
+function shuffleSameMilesTroop(troops,startIndex, endIndex) {
   var temp, index;
+  var initialIndex=startIndex;
   var troopLength = troops.length;
   // While there are elements in the object
-  while (troopLength > 0) {
-    // Pick a random index in between 0 and zeroMileLastIndex
-    index = Math.floor(Math.random() * (zeroMileLastIndex));
-    // Decrease zeroMileLastIndex by 1
-    troopLength--;
-    // And swap the last element with it
-    temp = troops[0];
-    troops[0] = troops[index];
+  while (startIndex< endIndex) {
+    // Pick a random index in between startIndex and endIndex
+    index = Math.floor(Math.random() * (endIndex - startIndex + 1) + startIndex);
+    console.log("Index "+index);
+    // Increase startIndex by 1
+    startIndex++;
+    // And swap the initialIndex element with it
+    temp = troops[initialIndex];
+    troops[initialIndex] = troops[index];
     troops[index] = temp;
   }
-  return troops;
 }
 
 function registerClickOfRegisterButton(){
@@ -313,7 +305,7 @@ function registerClickOfRegisterButton(){
         }
 
       $.ajax({
-        url: "/cookiesapi/trooplink_detail_lookup.asp",
+        url: troopListingLookupApiURL,
         dataType: "json",
         data: data,
         success: function(data) {
@@ -325,30 +317,5 @@ function registerClickOfRegisterButton(){
         }
       });
 
-  });
-}
-
-function registerClickOfBoothFinderButton(){
-  $('.booth-finder .viewmap').on('click', function() {
-	  var value = JSON.parse($(this).attr("data"));  
-    var data = {
-        l : value.Location,
-        d : value.DateStart,
-        z : value.ZipCode,
-        s : "Website"
-    }
-
-      $.ajax({
-        url: "/cookiesapi/booth_detail_lookup.asp",
-        dataType: "json",
-        data: data,
-        success: function(data) {
-          if (data) {
-            console.log('Redirecting from BoothFinder');
-          } else {
-            console.log('Error occured in redirecting');
-          }
-        }
-      });
   });
 }

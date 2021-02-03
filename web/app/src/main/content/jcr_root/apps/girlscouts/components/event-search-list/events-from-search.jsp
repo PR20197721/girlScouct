@@ -289,17 +289,19 @@ if(null!=srchInfo) {
 							</p>
 							<% if(!region.isEmpty()){ %>
 								<p class="bold" itemprop="region" itemscope itemptype="http://schema.org/Place">Region: <span itempropr="name"><%= region %></span></p>
-							<% } %>				
-							<%if(!locationLabel.isEmpty()){ %>
-								<p class="bold" itemprop="location" itemscope itemtype="http://schema.org/Place">Location:  <span itemprop="name"><%=locationLabel %></span></p>
 							<% } %>
+							<!-- GSAWDO-85-remove-location-field-from-all-council-websites -->
+							<!-- <%if(!locationLabel.isEmpty()){ %>
+								<p class="bold" itemprop="location" itemscope itemtype="http://schema.org/Place">Location:  <span itemprop="name"><%=locationLabel %></span></p>
+							<% } %> -->
 							<% if(propNode.hasProperty("srchdisp")){ %>
 								<p itemprop="description"><%=propNode.getProperty("srchdisp").getString()%></p>
 							<% } %>
 							<%if(includeCart && register!=null && !register.isEmpty() && !eventID.equals("-1")){%>
 						        <div class="eventDetailsRegisterLink">
 						    	 	<a href="<%=genLink(resourceResolver, register)%>">Register Now</a>
-						    	 	<a onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= href %>', '<%=register %>'); return false;">Add to MyActivities</a>
+						    	 	<!-- GSAWDO-72-Remove-Add-to-MyActivities -->
+						    	 	<!-- <a onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= href %>', '<%=register %>'); return false;">Add to MyActivities</a> -->
 						    	</div>
     						<%} %>
 						</div>

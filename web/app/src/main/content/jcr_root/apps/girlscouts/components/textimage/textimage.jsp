@@ -162,10 +162,16 @@
         image.setDoctype(Doctype.fromRequest(request));
 
         String divId = "cq-textimage-jsp-" + resource.getPath();
+        Boolean newWindow = properties.get("./newWindow", false);
 
         // div around image for additional formatting
         %><div class="txtimage-<%=imageAlignment%>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
-        %><% image.draw(out); %><%
+        if(!newWindow) {
+           image.draw(out);
+        } else { %>
+           <%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
+           <%
+        }
 
         if (caption.length() > 0) {
         	%><div class="textimage-caption" style="<%= styleCaption %>">

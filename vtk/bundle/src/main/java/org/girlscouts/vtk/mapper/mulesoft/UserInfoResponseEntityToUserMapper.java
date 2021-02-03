@@ -45,6 +45,11 @@ public class UserInfoResponseEntityToUserMapper {
                 } catch (Exception ex) {
                     log.error("Error occurred mapping Phone to User ", ex);
                 }
+                try {
+                    user.setParent(entity.isParent());; 
+                } catch (Exception ex) {
+                    log.error("Error occurred mapping isParent to User ", ex);
+                }
 
                 try {
                     String renewalDate = entity.getRenewalDate();
