@@ -113,15 +113,21 @@ TroopListing.prototype.processResult = function(result) {
     //checking end index of zero Mile troops, as start will always be 0
     var sameMileInitialIndex = 0;
     var sameMileEndIndex =0;
+    var allDistancesAreSame= true;
     for (var troopIndex = 1; troopIndex < troops.length; troopIndex++) {
 	    //console.log(troopIndex+" * "+sameMileInitialIndex+"**"+sameMileEndIndex);
 	    if (troops[troopIndex].Distance == troops[sameMileInitialIndex].Distance) {
 	       sameMileEndIndex++;
 	    }else{
+	       allDistancesAreSame =false;
 	       shuffleSameMilesTroop(troops,sameMileInitialIndex,sameMileEndIndex);
 	       break;
 	    }
     }
+	if(allDistancesAreSame){
+	   shuffleSameMilesTroop(troops,0,troops.length-1);
+	}
+
 
     /*
     //Sorting the result to get the nearest first.
