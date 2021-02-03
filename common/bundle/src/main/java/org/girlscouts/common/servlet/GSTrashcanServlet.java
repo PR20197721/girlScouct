@@ -91,7 +91,7 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
 
                     //GSAWDO-61 - checking if this request is for force delete references., if yes, lets perform it and then move it to trashcan.
                     if(trashcanRequest.getAction().equals("trash") && trashcanRequest.getForceDeleteRef()){
-                        List<String> location = trashcanRequest.getRefErrorLocation();
+                        List<String> location = trashcanRequest.getRefErrorAssertLocation();
                         for(int i =0 ; i <location.size() ;i++) {
                             payloadResource = userResourceResolver.getResource(location.get(i));
                             if(null!=payloadResource) {

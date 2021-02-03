@@ -7,7 +7,7 @@ public class TrashcanRequest {
     private String action;
     private List<TrashcanItem> items;
     //GSAWDO-61 -Force delete references
-    private List<String> refErrorLocation;
+    private List<String> refErrorAssertLocation;
     private Boolean forceDeleteRef = false;
     private Boolean forceRepublishUpdatedPages = false;;
 
@@ -35,8 +35,8 @@ public class TrashcanRequest {
         this.forceRepublishUpdatedPages = forceRepublishUpdatedPages;
     }
 
-    public void setRefErrorLocation(List<String> refErrorLocation) {
-        this.refErrorLocation = refErrorLocation;
+    public void setRefErrorAssertLocation(List<String> refErrorAssertLocation) {
+        this.refErrorAssertLocation = refErrorAssertLocation;
     }
 
     public Boolean getForceDeleteRef() {
@@ -47,8 +47,8 @@ public class TrashcanRequest {
         return forceRepublishUpdatedPages;
     }
 
-    public List<String> getRefErrorLocation() {
-        return refErrorLocation;
+    public List<String> getRefErrorAssertLocation() {
+        return refErrorAssertLocation;
     }
 }
 
