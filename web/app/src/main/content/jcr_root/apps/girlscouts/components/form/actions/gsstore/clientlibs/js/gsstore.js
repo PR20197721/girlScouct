@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var form = $('form#gsstore');
-    
+
     form.find("input[type='submit']").click(form, function (e) {
         e.stopPropagation();
         submitForm(form);
@@ -37,6 +37,12 @@ $(document).ready(function () {
             .success(function (response, status, xhr) {
                 var ct = xhr.getResponseHeader("content-type") || "";
                 if (ct.indexOf('html') > -1) {
+                    var responseForm = $(response).find("#" + formId);
+                    if (responseForm != null && responseForm.length > 0) {
+                        form.html($(responseForm[0]).html());
+                    }  
+                }
+                if (ct.indexOf('json') > -1) {
                     if (status == "success") {
                         console.log("form submitted successfully");
                         var redirect = form.find("input[name=':gsredirect']");
