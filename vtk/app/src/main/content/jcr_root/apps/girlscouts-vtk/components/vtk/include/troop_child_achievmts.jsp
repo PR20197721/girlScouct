@@ -11,10 +11,10 @@
                             src="/content/girlscouts-vtk/service/meeting/icon.<%= ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getId()%>.png"
                             alt="imagetitle"/>
                         <% String achievementName = ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName();
-                        achievementName = achievementName.substring(0, achievementName.lastIndexOf(" ")+1);
+                            achievementName = achievementName.replaceAll("\\d+$", "");
                         %>
-                        <p style="text-align: center;"><%= achievementName %></p>
-                        <p style="text-align: center;"><%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, (java.util.Date) sched_bm_inverse.get(infos.get(y).getYearPlanComponent()))%></p>
+                        <p><%= achievementName %></p>
+                        <p><%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, (java.util.Date) sched_bm_inverse.get(infos.get(y).getYearPlanComponent()))%></p>
                     </li>
                     <%
                             }
