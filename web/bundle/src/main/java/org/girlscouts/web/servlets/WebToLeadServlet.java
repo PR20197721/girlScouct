@@ -93,14 +93,10 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
 		        	errors.add("Validation failed for : g-recaptcha-response. Please try again.");
 		        	return;
 		        }
-	        } else {
-	        	logger.debug("Recaptcha response invalid");
-	        	errors.add("Missing value for required field: g-recaptcha-response");
-	        	return;
-	        }
+	        } 
         }
         
-        if(errors!= null && errors.size() > 0){
+        if(errors!= null && !errors.isEmpty()){
             WebToLeadResponse respObj = new WebToLeadResponse("error", errors);
             respond(respObj, response);
             return;
