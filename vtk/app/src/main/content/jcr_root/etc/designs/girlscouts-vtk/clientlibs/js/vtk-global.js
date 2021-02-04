@@ -300,6 +300,7 @@ function callExecuteBannerSlider(tabNavLoaded) {
 				url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
 				dataType: 'html',
 			}).done(function() {
+				
 				$(".slick-next").css('display', 'none');
 				$(".slick-prev").css('display', 'none');
                	$('.vtk-banner-container').slideUp();
