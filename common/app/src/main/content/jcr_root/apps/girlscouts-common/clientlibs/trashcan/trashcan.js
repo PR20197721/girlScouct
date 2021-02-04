@@ -96,7 +96,7 @@
 							errorDialog.remove();
 							return;
                         }
-                        payloadJSON.refErrorLocation=data.hasReferenceAssertLocation;
+                        payloadJSON.refErrorAssertLocation=data.hasReferenceAssertLocation;
                         payloadJSON.forceDeleteRef=forceDeleteRef;
                         payloadJSON.forceRepublishUpdatedPages=forceRepublishUpdatedPages;
                         //Doing an Ajax call to trashcan servlet with some additional parameters..

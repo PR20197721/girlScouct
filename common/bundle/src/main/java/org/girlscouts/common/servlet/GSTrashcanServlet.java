@@ -206,12 +206,12 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                         if(hasReference){
                             json.addProperty("hasReferenceErrorType",true);
                             json.add("hasReferenceAssertLocation",jsonArray);
-                            hasReferenceString.append("<form>");
+                            hasReferenceString.append("<ol><form>");
                             hasReferenceString.append("<div><input type=\"checkbox\" id=\"forceDeleteRef\" name=\"forceDeleteRef\" value=\"forceDeleteRef\"></div>");
-                            hasReferenceString.append("<label for=\"vehicle1\">Force delete references (force deleting image references will be shown as broken images)</label><br>");
+                            hasReferenceString.append("<label for=\"forceDeleteRef\">Force delete references (force deleting image references will be shown as broken images)</label><br>");
                             hasReferenceString.append("<div><input type=\"checkbox\" id=\"forceRepublishUpdatedPages\" name=\"forceRepublishUpdatedPages\" value=\"forceRepublishUpdatedPages\"></div>");
-                            hasReferenceString.append("<label for=\"vehicle1\">Force republish updated pages</label><br>");
-                            hasReferenceString.append("</form>");
+                            hasReferenceString.append("<label for=\"forceRepublishUpdatedPages\">Force republish updated pages</label><br>");
+                            hasReferenceString.append("</form></ol>");
                         }else if(forceDeleteRefSuccess.size()>0){ // This is so that can,we can refresh the page if any processing of references has happen.
                             json.addProperty("referenceErrorTypeProcessed",true);
                         }
