@@ -1,72 +1,14 @@
 $(document).ready(function () {
     var form = $('form#web-to-case');
-    var isAuthor = $("input[name='isAuthor']").val();
 
-    if (isAuthor == "true") {
-        //checkFormConfiguration(form);
-    }
     form.find("input[type='submit']").click(form, function (e) {
         e.stopPropagation();
-        //validateAndSubmit(form);
         submitForm(form);
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         return false;
     });
 
-    function validateAndSubmit(form) {
-        try {
-            var formValCollection = new Array();
-            var formValues = form.serialize();
-            if(formValues != null){
-                var formValuesArr = formValues.split("&");
-                for(var i=0; i<formValuesArr.length; i++){
-                    var field = formValuesArr[i].split("=");
-                    formValCollection.push({name:field[0], value:field[1]});
-                }
-            }
-            var dataValidationErrors = [];
-            //Always required
-            if (!isValidFieldValue(formValCollection, "email")) {
-                dataValidationErrors.push("Missing value for required field: email");
-            }
-            if (!isValidFieldValue(formValCollection, "name")) {
-                dataValidationErrors.push("Missing value for required field: name");
-            }
-            if (!isValidFieldValue(formValCollection, "phone")) {
-                dataValidationErrors.push("Missing value for required field: phone");
-            }
-            if (!isValidFieldValue(formValCollection, "type")) {
-                dataValidationErrors.push("Missing value for required field: type");
-            }
-            if (!isValidFieldValue(formValCollection, "subject")) {
-                dataValidationErrors.push("Missing value for required field: subject");
-            }
-            if (!isValidFieldValue(formValCollection, "description")) {
-                dataValidationErrors.push("Missing value for required field: description");
-            }
-            if (!isValidFieldValue(formValCollection, "g-recaptcha-response")) {
-                dataValidationErrors.push("Missing value for required field: Google reCAPTCHA");
-            }
-            if (dataValidationErrors.length == 0) {
-                submitForm(form);
-            } else {
-                displayErrors(dataValidationErrors, form);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    function isValidFieldValue(formValCollection, name){
-        if(formValCollection != null){
-            for(var i=0; i<formValCollection.length; i++){
-                if(formValCollection[i].name == name){
-                    return !isBlank(formValCollection[i].value);
-                }
-            }
-        }
-        return false;
-    }
     function displayErrors(errors, form){
         var errorMessage = "";
         form.find("div.form_row").find("div.form_error").each(function( index ) {
@@ -87,48 +29,6 @@ $(document).ready(function () {
         $(formErrorContainer[0]).html(errorMessage);
         $("#recaptcha-error").hide();
     }
-    function checkFormConfiguration(form) {
-        var emailField = form.find("input[name='email']");
-        var nameField = form.find("input[name='name']");
-        var phoneField = form.find("input[name='phone']");
-        var typeField = form.find("select[name='type']");
-        var subjectField = form.find("input[name='subject']");
-        var descriptionField = form.find("textarea[name='description']");
-        var g_recaptcha_response = form.find("div[name=':g-recaptcha-response']");
-
-        var formErrors = [];
-        if (emailField.length == 0) {
-            formErrors.push("email");
-        }
-        if (nameField.length == 0) {
-            formErrors.push("name");
-        }
-        if (phoneField.length == 0) {
-            formErrors.push("phone");
-        }
-        if (typeField.length == 0) {
-            formErrors.push("type");
-        }
-        if (subjectField.length == 0) {
-            formErrors.push("subject");
-        }
-        if (descriptionField.length == 0) {
-            formErrors.push("description");
-        }
-        if (g_recaptcha_response.length == 0) {
-            formErrors.push("Google reCAPTCHA");
-        }
-
-        if (formErrors.length > 0) {
-            var errorMessage = "<div>Missing requires fields with following names:</div>";
-            errorMessage += "<ul>";
-            for (var i = 0; i < formErrors.length; i++) {
-                errorMessage += "<li> " + formErrors[i] + "</li>";
-            }
-            errorMessage += "</ul>";
-            $("#validation-errors").html(errorMessage);
-        }
-    }
 
     function submitForm(form) {
         var action = form.attr("action");
@@ -141,9 +41,6 @@ $(document).ready(function () {
                     var responseForm = $(response).find("#" + formId);
                     if (responseForm != null && responseForm.length > 0) {
                         form.html($(responseForm[0]).html());
-                        if (isAuthor == "true") {
-                            checkFormConfiguration(form);
-                        }
                     }
                 }
                 if (ct.indexOf('json') > -1) {
@@ -166,24 +63,4 @@ $(document).ready(function () {
             });
     }
 
-    function isBlank(val) {
-        return val == null || val == "" || val.trim() == "";
-    }
-    function getUrlParam(name){
-        try {
-            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-            return results[1] || 0;
-        }catch(error){
-
-        }
-        return "";
-    }
-    function getFormFieldValue(form, name) {
-        var value = "";
-        var field = form.find("input[name='" + name + "']");
-        if (field != null && field.length > 0) {
-            value = $(field[0]).val();
-        }
-        return value;
-    }
 });

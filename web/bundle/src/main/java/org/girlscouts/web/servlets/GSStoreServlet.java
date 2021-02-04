@@ -213,8 +213,8 @@ public class GSStoreServlet
             for (final FieldDescription desc : descs) {
                 ValueMap childProperties = ResourceUtil.getValueMap(element);
                 	if(childProperties.get("required").equals("true")){
-                		String[] paramVal = request.getParameterValues(desc.getName());
-                		if (null == paramVal) {
+                		String paramVal = request.getParameter(desc.getName());
+                		if (null == paramVal || paramVal.equals("")) {
                 			errors.add(desc.getRequiredMessage());
                 		}
             		}

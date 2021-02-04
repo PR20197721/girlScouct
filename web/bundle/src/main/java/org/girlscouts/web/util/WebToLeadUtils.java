@@ -2,8 +2,16 @@ package org.girlscouts.web.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceUtil;
+import org.apache.sling.api.resource.ValueMap;
+
+import com.day.cq.wcm.foundation.forms.FieldDescription;
+import com.day.cq.wcm.foundation.forms.FieldHelper;
+import com.day.cq.wcm.foundation.forms.FormsHelper;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class WebToLeadUtils {
@@ -44,6 +52,20 @@ public class WebToLeadUtils {
         }
         if (StringUtils.isBlank(g_recaptcha_response)){
             errors.add("Missing value for required field: g-recaptcha-response");
+        }
+        Iterator<Resource> elements = FormsHelper.getFormElements(request.getResource());
+        while (elements.hasNext()) {
+            final Resource element = elements.next();
+            final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, element);
+            for (final FieldDescription desc : descs) {
+                ValueMap childProperties = ResourceUtil.getValueMap(element);
+                	if(childProperties.get("required").equals("true")){
+                		String paramVal = request.getParameter(desc.getName());
+                		if (null == paramVal || paramVal.equals("")) {
+                			errors.add(desc.getRequiredMessage());
+                		}
+            		}
+            }
         }
         return errors;
     }

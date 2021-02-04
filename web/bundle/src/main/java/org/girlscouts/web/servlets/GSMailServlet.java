@@ -209,13 +209,23 @@ public class GSMailServlet
 		        	errors.add("Validation failed for : g-recaptcha-response. Please try again.");
 		        	return;
 		        }
-	        } else {
-	        	logger.debug("Recaptcha response invalid");
-	        	errors.add("Missing value for required field: g-recaptcha-response");
-	        	return;
-	        }
+	        } 
         }
-        if (errors != null && errors.size() > 0) {
+        Iterator<Resource> elements = FormsHelper.getFormElements(request.getResource());
+        while (elements.hasNext()) {
+            final Resource element = elements.next();
+            final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, element);
+            for (final FieldDescription desc : descs) {
+                ValueMap childProperties = ResourceUtil.getValueMap(element);
+                	if(childProperties.get("required").equals("true")){
+                		String paramVal = request.getParameter(desc.getName());
+                		if (null == paramVal || paramVal.equals("")) {
+                			errors.add(desc.getRequiredMessage());
+                		}
+            		}
+            }
+        }
+        if (errors != null && !errors.isEmpty()) {
             GSMailResponse respObj = new GSMailResponse("error", errors);
             respond(respObj, response);
             return;
