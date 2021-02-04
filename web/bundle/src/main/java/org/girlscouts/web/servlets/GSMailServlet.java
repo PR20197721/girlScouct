@@ -11,6 +11,60 @@
  */
 package org.girlscouts.web.servlets;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.mail.ByteArrayDataSource;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.HtmlEmail;
+import org.apache.commons.mail.MultiPartEmail;
+import org.apache.commons.mail.SimpleEmail;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.ReferenceCardinality;
+import org.apache.felix.scr.annotations.ReferencePolicy;
+import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.request.RequestParameter;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.sling.api.resource.ResourceUtil;
+import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.servlets.OptingServlet;
+import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.apache.sling.commons.osgi.OsgiUtil;
+import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.web.service.recaptcha.RecaptchaService;
+import org.osgi.service.component.ComponentContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.day.cq.mailer.MailService;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.Replicator;
@@ -18,35 +72,6 @@ import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 import com.google.gson.Gson;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.mail.*;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.*;
-import org.apache.sling.api.SlingHttpServletRequest;
-import org.apache.sling.api.SlingHttpServletResponse;
-import org.apache.sling.api.request.RequestParameter;
-import org.apache.sling.api.resource.*;
-import org.apache.sling.api.servlets.OptingServlet;
-import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.apache.sling.auth.core.AuthUtil;
-import org.apache.sling.commons.osgi.OsgiUtil;
-import org.apache.sling.settings.SlingSettingsService;
-import org.girlscouts.web.service.recaptcha.RecaptchaService;
-import org.girlscouts.web.util.WebToCaseUtils;
-import org.osgi.service.component.ComponentContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * This mail servlet accepts POSTs to a form begin paragraph
@@ -217,7 +242,7 @@ public class GSMailServlet
             final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, element);
             for (final FieldDescription desc : descs) {
                 ValueMap childProperties = ResourceUtil.getValueMap(element);
-                	if(childProperties.get("required").equals("true")){
+                	if(childProperties.containsKey("required") && childProperties.get("required").equals("true")){
                 		String paramVal = request.getParameter(desc.getName());
                 		if (null == paramVal || paramVal.equals("")) {
                 			errors.add(desc.getRequiredMessage());
@@ -239,12 +264,14 @@ public class GSMailServlet
         if (mailTo == null || mailTo.length == 0 || mailTo[0].length() == 0) {
             // this is a sanity check
             logger.error("The mailto configuration is missing in the form begin at " + request.getResource().getPath());
-
-            status = 500;
+            errors.add("The mailto configuration is missing.");
+            respond(new GSMailResponse("error", errors), response);
+            return;
         } else if (localService == null) {
             logger.error("The mail service is currently not available! Unable to send form mail.");
-
-            status = 500;
+            errors.add("The mail service is currently not available! Unable to send form mail.");
+            respond(new GSMailResponse("error", errors), response);
+            return;
         } else {
             try {
                 final StringBuilder builder = new StringBuilder();
@@ -516,26 +543,16 @@ public class GSMailServlet
 
             } catch (Exception e) {
                 logger.error("Error sending email: " + e.getMessage(), e);
-                status = 500;
+                errors.add("Error sending email.");
+                respond(new GSMailResponse("error", errors), response);
+                return;
             }
         }
-        // check for redirect
-        String redirectTo = request.getParameter(":gsredirect");
-        if (redirectTo != null) {
-            if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
-                int pos = redirectTo.indexOf('?');
-                redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + status;
-                response.sendRedirect(redirectTo);
-            } else {
-                logger.error("Invalid redirect specified: {}", new Object[]{redirectTo});
-                response.sendError(403);
-            }
+        if(!errors.isEmpty()){
+            respond(new GSMailResponse("error", errors),response);
             return;
-        }
-        if (FormsHelper.isRedirectToReferrer(request)) {
-            FormsHelper.redirectToReferrer(request, response,
-                    Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
-            return;
+        } else {
+            respond(new GSMailResponse("success", null),response);
         }
         response.setStatus(status);
     }

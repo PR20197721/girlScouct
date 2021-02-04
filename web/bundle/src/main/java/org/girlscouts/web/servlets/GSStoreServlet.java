@@ -212,7 +212,7 @@ public class GSStoreServlet
             final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, element);
             for (final FieldDescription desc : descs) {
                 ValueMap childProperties = ResourceUtil.getValueMap(element);
-                	if(childProperties.get("required").equals("true")){
+                	if(childProperties.containsKey("required") && childProperties.get("required").equals("true")){
                 		String paramVal = request.getParameter(desc.getName());
                 		if (null == paramVal || paramVal.equals("")) {
                 			errors.add(desc.getRequiredMessage());
@@ -220,11 +220,12 @@ public class GSStoreServlet
             		}
             }
         }
+        
         if (errors != null && !errors.isEmpty()) {
         	GSStoreResponse respObj = new GSStoreResponse("error", errors);
             respond(respObj, response);
             return;
-        }
+        } 
 
         final ResourceBundle resBundle = request.getResourceBundle(null);
         final ValueMap values = ResourceUtil.getValueMap(request.getResource());
@@ -435,25 +436,15 @@ public class GSStoreServlet
 
         } catch (Exception e) {
             logger.error("Error sending email: " + e.getMessage(), e);
-            status = 500;
-        }
-        // check for redirect
-        String redirectTo = request.getParameter(":gsredirect");
-        if (redirectTo != null) {
-            if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
-                int pos = redirectTo.indexOf('?');
-                redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + status;
-                response.sendRedirect(redirectTo);
-            } else {
-                logger.error("Invalid redirect specified: {}", new Object[]{redirectTo});
-                response.sendError(403);
-            }
+            errors.add("Error sending email.");
+            respond(new GSStoreResponse("error", errors), response);
             return;
         }
-        if (FormsHelper.isRedirectToReferrer(request)) {
-            FormsHelper.redirectToReferrer(request, response,
-                    Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
+        if(!errors.isEmpty()){
+            respond(new GSStoreResponse("error", errors),response);
             return;
+        } else {
+            respond(new GSStoreResponse("success", null),response);
         }
         
         response.setStatus(status);

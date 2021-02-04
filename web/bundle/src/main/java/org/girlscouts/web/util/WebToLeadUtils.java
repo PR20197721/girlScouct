@@ -59,7 +59,7 @@ public class WebToLeadUtils {
             final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, element);
             for (final FieldDescription desc : descs) {
                 ValueMap childProperties = ResourceUtil.getValueMap(element);
-                	if(childProperties.get("required").equals("true")){
+                	if(childProperties.containsKey("required") && childProperties.get("required").equals("true")){
                 		String paramVal = request.getParameter(desc.getName());
                 		if (null == paramVal || paramVal.equals("")) {
                 			errors.add(desc.getRequiredMessage());
