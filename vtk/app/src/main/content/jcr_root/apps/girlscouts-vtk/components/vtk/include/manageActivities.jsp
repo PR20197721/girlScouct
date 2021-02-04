@@ -14,7 +14,7 @@
        <%
            for (int t = 0; t < selectedTroop.getYearPlan().getActivities().size(); t++) {
        %>
-        <tr style ='display : flex; justify-content: space-between; padding : 0 20px;'>
+        <tr>
            <td><strong><%=selectedTroop.getYearPlan().getActivities().get(t).getDate() %>
            </strong></td>
            <td><%=selectedTroop.getYearPlan().getActivities().get(t).getName() %>
@@ -101,7 +101,7 @@
 }
 
 .rm-activities-pop-up-close {
-	font-size: 20px !important;
+	font-size: 28px !important;
 	cursor: pointer;
 }
 
