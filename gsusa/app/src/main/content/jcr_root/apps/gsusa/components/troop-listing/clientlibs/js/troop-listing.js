@@ -113,8 +113,8 @@ TroopListing.prototype.processResult = function(result) {
     //logic for Randomizing the first mile records (if first mile is found multiple times) so as to give a fair chance to every troop.
     //checking end index of zero Mile troops, as start will always be 0
     var sameMileInitialIndex = 0;
-    var sameMileEndIndex =0;
-    var allDistancesAreSame= true;
+    var sameMileEndIndex =1;
+	var allDistancesAreSame= true;
     for (var troopIndex = 1; troopIndex < troops.length; troopIndex++) {
 	    //console.log(troopIndex+" * "+sameMileInitialIndex+"**"+sameMileEndIndex);
 	    if (troops[troopIndex].Distance == troops[sameMileInitialIndex].Distance) {
@@ -126,7 +126,7 @@ TroopListing.prototype.processResult = function(result) {
 	    }
     }
 	if(allDistancesAreSame){
-	   shuffleSameMilesTroop(troops,0,troops.length-1);
+	   shuffleSameMilesTroop(troops,0,troops.length);
 	}
 
 
@@ -273,22 +273,21 @@ function fixLastResultBottomBorder(){
 }
 
 function shuffleSameMilesTroop(troops,startIndex, endIndex) {
-  var temp, index;
-  var initialIndex=startIndex;
-  var troopLength = troops.length;
-  // While there are elements in the object
-  while (startIndex< endIndex) {
-    // Pick a random index in between startIndex and endIndex
-    index = Math.floor(Math.random() * (endIndex - startIndex + 1) + startIndex);
-    console.log("Index "+index);
-    // Increase startIndex by 1
-    startIndex++;
-    // And swap the initialIndex element with it
-    temp = troops[initialIndex];
-    troops[initialIndex] = troops[index];
-    troops[index] = temp;
-  }
-}
+   var temp, index;
+   // While there are elements in the object
+   while (0 !== endIndex) {
+     // Pick a random index in between startIndex and endIndex
+     index = Math.floor(Math.random() * endIndex);
+     //console.log("Index "+index);
+     endIndex--;
+     // And swap the endIndex element with it
+     temp = troops[endIndex];
+     troops[endIndex] = troops[index];
+     troops[index] = temp;
+   }
+ }
+
+
 
 function registerClickOfRegisterButton(){
   $('.troop-listing .troopRegisterButton, .troop-listing .troopRegisterLink').on('click', function() {
