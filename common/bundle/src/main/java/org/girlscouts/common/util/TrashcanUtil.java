@@ -3,6 +3,8 @@ package org.girlscouts.common.util;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.dam.api.DamConstants;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.commons.ReferenceSearch;
@@ -22,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.security.AccessControlManager;
@@ -29,6 +32,7 @@ import javax.jcr.security.AccessControlPolicy;
 import javax.jcr.security.AccessControlPolicyIterator;
 import javax.jcr.security.Privilege;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -305,7 +309,8 @@ public class TrashcanUtil implements TrashcanConstants {
     }
 
     //GSAWDO-61- function which perform removal of references
-    public static void forceDeleteReference(ResourceResolver userResourceResolver, Resource payloadResource) throws GirlScoutsException, RepositoryException {
+    public static Set<String> forceDeleteReference(ResourceResolver userResourceResolver, Resource payloadResource) throws GirlScoutsException, RepositoryException {
+        Set<String> referenceSearchResultSet =null;
         if (null != payloadResource) {
             log.debug("Force Deleting Reference of " + payloadResource.getPath());
             Node node = payloadResource.adaptTo(Node.class);
@@ -313,14 +318,15 @@ public class TrashcanUtil implements TrashcanConstants {
             referenceSearch.setExact(true);
             referenceSearch.setHollow(true);
             referenceSearch.setMaxReferencesPerPage(-1);
-            Set<String> referenceSearchResultSet = referenceSearch.search(payloadResource.getResourceResolver(), payloadResource.getPath()).keySet();
+            referenceSearchResultSet = referenceSearch.search(payloadResource.getResourceResolver(), payloadResource.getPath()).keySet();
             if (referenceSearchResultSet != null && referenceSearchResultSet.size() > 0) {
-                for (String referenceSearchKey : referenceSearchResultSet) {
-                    if (!referenceSearchKey.equals(payloadResource.getPath()) && !StringUtils.startsWith(referenceSearchKey, "/content/trashcan") && !StringUtils.startsWith(referenceSearchKey, "/etc/workflow/packages")) {
-                        referenceSearch.adjustReferences(userResourceResolver.getResource(referenceSearchKey).adaptTo(Node.class), payloadResource.getPath(), "");
+                for (String referenceResource : referenceSearchResultSet) {
+                    if (!referenceResource.equals(payloadResource.getPath()) && !StringUtils.startsWith(referenceResource, "/content/trashcan") && !StringUtils.startsWith(referenceResource, "/etc/workflow/packages")) {
+                        referenceSearch.adjustReferences(userResourceResolver.getResource(referenceResource).adaptTo(Node.class), payloadResource.getPath(), "");
                     }
                 }
             }
         }
+        return referenceSearchResultSet;
     }
 }
