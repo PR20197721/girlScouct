@@ -103,6 +103,8 @@
 .rm-activities-pop-up-close {
 	font-size: 28px !important;
 	cursor: pointer;
+	color: #000000;
+	opacity: 0.7;
 }
 
 .rm-activities-pop-up-btn-gp-btn.cancel-btn {
