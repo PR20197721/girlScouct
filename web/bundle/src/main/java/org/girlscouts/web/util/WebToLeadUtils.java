@@ -22,35 +22,35 @@ public class WebToLeadUtils {
         String email = request.getParameter("Email");
         String councilCode = request.getParameter("CouncilCode");
         String g_recaptcha_response = request.getParameter("g-recaptcha-response");
-        if (StringUtils.isBlank(leadType)){
+        if (null != leadType && StringUtils.isBlank(leadType)){
             errors.add("Missing value for required field: LeadType");
         }else{
             if(leadType.equals("DirectContact") || leadType.equals("General")){
                 String zipCode = request.getParameter("ZipCode");
-                if (StringUtils.isBlank(zipCode)){
+                if (null != zipCode && StringUtils.isBlank(zipCode)){
                     errors.add("Missing value for required field: ZipCode");
                 }
                 String firstName = request.getParameter("FirstName");
-                if (StringUtils.isBlank(firstName)){
+                if (null != firstName && StringUtils.isBlank(firstName)){
                     errors.add("Missing value for required field: FirstName");
                 }
                 String lastName = request.getParameter("LastName");
-                if (StringUtils.isBlank(lastName)){
+                if (null != lastName && StringUtils.isBlank(lastName)){
                     errors.add("Missing value for required field: LastName");
                 }
                 String campaignId = request.getParameter("CampaignID");
-                if (StringUtils.isBlank(campaignId)){
+                if (null != campaignId && StringUtils.isBlank(campaignId)){
                     errors.add("Missing value for required field: CampaignID");
                 }
             }
         }
-        if (StringUtils.isBlank(email)){
+        if (null != email && StringUtils.isBlank(email)){
             errors.add("Missing value for required field: Email");
         }
-        if (StringUtils.isBlank(councilCode)){
+        if (null != councilCode && StringUtils.isBlank(councilCode)){
             errors.add("Missing value for required field: CouncilCode");
         }
-        if (StringUtils.isBlank(g_recaptcha_response)){
+        if (null != g_recaptcha_response && StringUtils.isBlank(g_recaptcha_response)){
             errors.add("Missing value for required field: g-recaptcha-response");
         }
         Iterator<Resource> elements = FormsHelper.getFormElements(request.getResource());
@@ -62,7 +62,9 @@ public class WebToLeadUtils {
                 	if(childProperties.containsKey("required") && childProperties.get("required").equals("true")){
                 		String paramVal = request.getParameter(desc.getName());
                 		if (null == paramVal || paramVal.equals("")) {
-                			errors.add(desc.getRequiredMessage());
+                			if (null != desc.getRequiredMessage()) {
+                				errors.add(desc.getRequiredMessage());
+                			}
                 		}
             		}
             }
