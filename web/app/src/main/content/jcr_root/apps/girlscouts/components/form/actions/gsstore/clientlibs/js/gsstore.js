@@ -43,7 +43,7 @@ $(document).ready(function () {
                     }  
                 }
                 if (ct.indexOf('json') > -1) {
-                    if (status == "success") {
+                    if (response.status == "success") {
                         console.log("form submitted successfully");
                         var redirect = form.find("input[name=':gsredirect']");
                         if (redirect != null && redirect.length > 0) {

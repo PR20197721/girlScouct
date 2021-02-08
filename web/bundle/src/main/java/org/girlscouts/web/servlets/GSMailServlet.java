@@ -226,14 +226,13 @@ public class GSMailServlet
 	        if (null != responseVal) {
 	        	if (StringUtils.isBlank(responseVal)){
 	                errors.add("Missing value for required field: g-recaptcha-response");
-	                return;
+	            } else {
+			        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
+			        if (!success) {
+			        	logger.debug("Recaptcha validation failed");
+			        	errors.add("Validation failed for : g-recaptcha-response. Please try again.");
+			        }
 	            }
-		        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
-		        if (!success) {
-		        	logger.debug("Recaptcha validation failed");
-		        	errors.add("Validation failed for : g-recaptcha-response. Please try again.");
-		        	return;
-		        }
 	        } 
         }
         Iterator<Resource> elements = FormsHelper.getFormElements(request.getResource());
@@ -245,7 +244,9 @@ public class GSMailServlet
                 	if(childProperties.containsKey("required") && childProperties.get("required").equals("true")){
                 		String paramVal = request.getParameter(desc.getName());
                 		if (null == paramVal || paramVal.equals("")) {
-                			errors.add(desc.getRequiredMessage());
+                			if (null != desc.getRequiredMessage()) {
+                				errors.add(desc.getRequiredMessage());
+                			}
                 		}
             		}
             }
