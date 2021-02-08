@@ -86,12 +86,11 @@ public class WebToLeadServlet extends SlingAllMethodsServlet implements OptingSe
         String secret = request.getParameter(SECRET);
         List<String> errors = WebToLeadUtils.validateForm(request);
         if (null == captcha){
-        	if (null != responseVal) {
+        	if (null != responseVal && !StringUtils.isBlank(responseVal)) {
 		        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
 		        if (!success) {
 		        	logger.debug("Recaptcha validation failed");
 		        	errors.add("Validation failed for : g-recaptcha-response. Please try again.");
-		        	return;
 		        }
 	        } 
         }
