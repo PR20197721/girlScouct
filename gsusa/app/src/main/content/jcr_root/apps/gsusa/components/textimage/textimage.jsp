@@ -147,15 +147,7 @@
         String divId = "cq-textimage-jsp-" + resource.getPath();
         Boolean newWindow = properties.get("./newWindow", false);
         // div around image for additional formatting
-        String imageClass="";
-        if(text != null && !text.equals("")){
-           imageClass = "txtimage-"+imageAlignment;
-        }else{
-
-           imageClass = "txtimage-"+imageAlignment;
-        }
-     
-
+        String imageClass="txtimage-"+imageAlignment;
         %><div class="<%=imageClass%>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
           if(!newWindow) {
               image.draw(out);
