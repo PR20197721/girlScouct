@@ -20,6 +20,7 @@ public class User implements Serializable {
     private String lastName;
     private String timezone;
     private boolean isActive;
+    private boolean isParent;
     private boolean isAdmin;
     private boolean isServiceUnitManager;
     private String adminCouncilId;
@@ -145,6 +146,14 @@ public class User implements Serializable {
         isActive = active;
     }
 
+    public boolean isParent() {
+    	return isParent;
+    }
+    
+    public void setParent(boolean isParent) {
+    	this.isParent = isParent;
+    }
+    
     public boolean isAdmin() {
         return isAdmin;
     }
@@ -188,6 +197,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "sid='" + sid + '\'' + ", currentYear='" + currentYear + '\'' + ", currentFinanceYear=" + currentFinanceYear + ", gSFinanceCutOffDate=" + gSFinanceCutOffDate + ", name='" + name + '\'' + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", assistantPhone='" + assistantPhone + '\'' + ", homePhone='" + homePhone + '\'' + ", contactId='" + contactId + '\'' + ", sfUserId='" + sfUserId + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", timezone='" + timezone + '\'' + ", isActive=" + isActive + ", isAdmin=" + isAdmin + ", isServiceUnitManager=" + isServiceUnitManager +  ", adminCouncilId='" + adminCouncilId + '\'' + ", troops=" + troops + '}';
+        return "User{" + "sid='" + sid + '\'' + ", currentYear='" + currentYear + '\'' + ", currentFinanceYear=" + currentFinanceYear + ", gSFinanceCutOffDate=" + gSFinanceCutOffDate + ", name='" + name + '\'' + ", email='" + email + '\'' + ", phone='" + phone + '\'' + ", mobilePhone='" + mobilePhone + '\'' + ", assistantPhone='" + assistantPhone + '\'' + ", homePhone='" + homePhone + '\'' + ", contactId='" + contactId + '\'' + ", sfUserId='" + sfUserId + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", timezone='" + timezone + '\'' + ", isActive=" + isActive + ", isParent=" + isParent + ", isAdmin=" + isAdmin + ", isServiceUnitManager=" + isServiceUnitManager +  ", adminCouncilId='" + adminCouncilId + '\'' + ", troops=" + troops + '}';
     }
+
 }
