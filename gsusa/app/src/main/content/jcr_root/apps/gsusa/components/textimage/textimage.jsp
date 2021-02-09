@@ -148,8 +148,6 @@
         Boolean newWindow = properties.get("./newWindow", false);
         // div around image for additional formatting
         String imageClass="txtimage-"+imageAlignment;
-
-
         %><div class="<%=imageClass%>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
           if(!newWindow) {
               image.draw(out);

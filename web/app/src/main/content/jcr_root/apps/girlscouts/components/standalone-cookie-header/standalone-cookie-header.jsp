@@ -78,7 +78,6 @@ document.styleSheets[0].insertRule("@media only screen and (max-width: 49em) { #
 <% } %>
 //$('.find-cookies-share, .find-cookies-noshare').attr("action", "content/gsusa/en/booth-result.10036.html");
 $(document).ready(function(){
-	cookieFormSubmitted = false;
 	$('.find-cookies-share, .find-cookies-noshare').submit(function(event){
 		if(event.preventDefault){
 			event.preventDefault()
@@ -88,9 +87,7 @@ $(document).ready(function(){
 		event.returnValue = false;
 		event.stopPropagation();
 
-		if (cookieFormSubmitted) {
-			return;
-		}
+		
 
 	    var zip = $(this).find('input[name="zip-code"]').val(),
 	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>.html";
@@ -110,7 +107,7 @@ $(document).ready(function(){
 	    }
 	    redirectUrl = redirectUrl + '#' + zip;
 	    window.open(redirectUrl,'_blank');
-	    cookieFormSubmitted = true;
+	    
 	});
 });
 </script>

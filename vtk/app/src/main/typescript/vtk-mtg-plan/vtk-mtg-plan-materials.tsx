@@ -56,6 +56,11 @@ function VtkMtgPlanMaterials(props: VtkMtgPlanMaterialsProps) {
             title: "Virtual Bridging Resources",
             url: "https://www.girlscouts.org/en/about-girl-scouts/renew/bridge-now.html",
             show: true
+        },
+        {
+            title: "In-Person Safe Guidelines",
+            url: "https://www.girlscouts.org/en/girl-scouts-at-home/troop-leaders/safe-in-person-meetings.html",
+            show: true
         }
     ];
     let showDefaultVirtualLinks = true;
@@ -77,13 +82,13 @@ function VtkMtgPlanMaterials(props: VtkMtgPlanMaterialsProps) {
             </div>
             {showVirtualLinks && virtualLinkHtml &&
                 <div className="columns medium-12">
-                    <h6>VIRTUAL MEETING RESOURCES</h6>
+                    <h6>VIRTUAL &amp; IN-PERSON SAFE RESOURCES</h6>
                     <div dangerouslySetInnerHTML={{__html: virtualLinkHtml}}></div>
                 </div>
             }
             {showVirtualLinks && !virtualLinkHtml && showDefaultVirtualLinks &&
                 <div className="columns medium-12">
-                    <h6>VIRTUAL MEETING RESOURCES</h6>
+                    <h6>VIRTUAL &amp; IN-PERSON SAFE RESOURCES</h6>
                     <ul>
                         {defaultVirtualLinks.map((link) => {
                             return (link.show)

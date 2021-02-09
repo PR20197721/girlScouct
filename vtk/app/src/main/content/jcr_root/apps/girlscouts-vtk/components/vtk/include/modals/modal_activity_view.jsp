@@ -15,13 +15,18 @@
 
         } else {
             selectedActivity = selectedActivity == null ? subActivities.get(0) : selectedActivity;
-            builder.append("<p style=\"font-size:18px; font-weight:bold;\"><b>Activity " + __activity.getActivityNumber());
+            builder.append("<p style=\"font-size:18px; font-weight:bold;\">Activity " + __activity.getActivityNumber());
             if (subActivities.size() != 1) {
                 builder.append(" - Choice " + selectedActivity.getActivityNumber());
             }
             builder.append(": ");
             builder.append(subActivities.size() == 1 ? __activity.getName() : selectedActivity.getName());
-            builder.append("</b></p>");
+            builder.append("</p>");
+            if (__activity.getSubtitle() != null) {
+            	builder.append("<p  style=\"font-size:16px;\">" + __activity.getSubtitle() + "</p>");
+            } else if (selectedActivity.getSubtitle() != null) {
+                builder.append("<p  style=\"font-size:16px;\">" + selectedActivity.getSubtitle() + "</p>");
+            }
             builder.append("<p  style=\"font-size:18px; font-weight:bold;\">" + selectedActivity.getActivityDescription() + "</p>");
 
         }
