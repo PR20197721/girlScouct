@@ -20,20 +20,10 @@
 <%@ page session="false" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<cq:includeClientLib categories="apps.girlscouts.components.form.actions.gsmail" />
+<cq:includeClientLib categories="apps.girlscouts.components.form.actions.gsstore" />
 <div id="validation-errors" class="form_error"></div>
-<%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
-%><%
-int fileUploadMaxSize = -1;
+<%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %>
+<%
 String secret = currentSite.get("recaptcha_secret", "");
-try{
-    String fileUploadSizeLimit =  (String) properties.get("fileUploadSizeLimit", "");
-	if(null != fileUploadSizeLimit && fileUploadSizeLimit.trim().length() > 0){
-		fileUploadMaxSize = Integer.parseInt(fileUploadSizeLimit);
-	}
-}catch(Exception e){
-	
-}
 %>
 <input type="hidden" name="secret" value="<%=secret%>">
-<input type="hidden" name="file-upload-max-size" value="<%=fileUploadMaxSize%>">
