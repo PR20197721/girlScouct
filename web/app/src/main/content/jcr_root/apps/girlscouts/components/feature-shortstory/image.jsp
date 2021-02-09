@@ -9,8 +9,5 @@
     String alt = properties.get("./alt", "");
     String title = properties.get("./imgtitle", "");
 %>
-
-<img alt="image <%= alt%> <%= title%>" width="500" src="<%= fileReference%>">
-
-   <!-- <%= displayRendition(resourceResolver, fileReference, "cq5dam.web.400.400", null, 500,alt,title) %> --> <!-- GSAWDO-79-As discussed in web weekly call, removing rendition for this component only. -->
+   <%= displayRendition(resourceResolver, fileReference, "cq5dam.web.800.800", null, 500,alt,title) %>
   <% } %>
