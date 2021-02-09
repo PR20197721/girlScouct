@@ -372,9 +372,8 @@
                                                    title="Add Badge / Journey"><i
                                 class="icon-search-magnifying-glass"></i> Add Badge / Journey</a></li>
                         <% } %>
-                        <li class="second-type"><a href="#" onclick="newActivity()" title="Add Activity"> <i
-                                class="icon-flag"></i> Add
-                            Activity</a></li>
+                        <li class="second-type"><a href="#" onclick="newActivity()" title="Manage Activity"> <i
+                                class="icon-flag"></i>Manage Activity</a></li>
                         <% }
                         %>
                         <!-- if on Meeting Detail Page -->
