@@ -4371,7 +4371,7 @@ blockquote .social-icons {
   .booth-finder .row.headers section:nth-of-type(1),
   .booth-finder .detail section:nth-of-type(1) {
     padding-left: 0;
-    padding-right: 0;
+    padding-right: 5px; /*added 5px  GSAWDO-134 */
     width: 29.16667%;
     float: left;
   }
