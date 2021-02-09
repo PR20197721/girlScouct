@@ -103,13 +103,9 @@
     }
 
 	//GSAWDO-120-Image and Text&Image component needs to expand to full width of the container without any gaps
-        String imageClass="";
-        if(caption != null && !caption.equals("")){
-           imageClass = imageAlignment;
-        }else{
-           imageClass = "no-margin";
-        }
-	%><div class="img-wrapper img-print <%= "image-" + imageClass %>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
+        String imageClass=imageAlignment;
+
+	%><div class="img-wrapper img-print <%= "img-cmp image-" + imageClass %>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
 	    image.setSrc(gsImagePathProvider.getImagePathByLocation(image));
 
 	  	try{
@@ -177,3 +173,15 @@
 }
 
 </style>
+
+          <script>
+$(window).on('load', function () {
+  const getTextContainer = $(".img-cmp").parents();  for(let i = 0; i < getTextContainer.length; i++){
+		 const getContainerWidth = $(getTextContainer[i]).width() -15;
+    	const getimageWidth = $($(getTextContainer[i]).find('img')).width();	
+      getimageWidth >= getContainerWidth ? $(getTextContainer[i]).children().addClass('image-no-margin') : $(getTextContainer[i]).children().removeClass('image-no-margin');
+	}
+
+
+});
+</script>

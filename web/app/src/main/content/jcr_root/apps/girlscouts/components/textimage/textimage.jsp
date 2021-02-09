@@ -163,12 +163,7 @@
 
         String divId = "cq-textimage-jsp-" + resource.getPath();
         Boolean newWindow = properties.get("./newWindow", false);
-		String imageClass="";
-        if(text != null && !text.equals("")){
-            imageClass = "txtimage-"+imageAlignment;
-         }else{
-            imageClass = "txtimage-no-margin";
-         }
+		String imageClass="txtimage-"+imageAlignment;
         // div around image for additional formatting
         %><div class="<%=imageClass%>" id="<%= divId %>" style="<%= imageCaptionWidth %>"><%
         if(!newWindow) {
@@ -203,3 +198,15 @@
 	<%-- fix CQ "new" bar misbehave --%>
 	<div style="clear:both"></div>
 </div>
+<script>
+	$(window).on('load', function () {
+	 const getTextContainer = $(".textimage");
+	 for(let i = 0; i < getTextContainer.length; i++){
+   
+			const getContainerWidth = $(getTextContainer[i]).width()-15;
+		   const getimageWidth = $($(getTextContainer[i]).find('img')).width();
+			 getimageWidth >= getContainerWidth ? $(getTextContainer[i]).children().children().addClass('txtimage-no-margin') : $(getTextContainer[i]).children().children().removeClass('txtimage-no-margin');
+   
+	   }
+   });
+   </script>
