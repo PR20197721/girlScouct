@@ -55,7 +55,7 @@ $(document).ready(function () {
                         displayErrors(errors, form);
                     }
                 }
-
+                localStorage.removeItem("recaptchaError");
             })
             .fail(function (xhr, status, error) {
                 $("#validation-errors").html(xhr.responseText);
