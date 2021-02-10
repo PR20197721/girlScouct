@@ -27,7 +27,7 @@
             }
         }
 		%>
-            <div id="recaptcha-error" style="color:red;font-weight:bold;display:none">Please validate the recaptcha</div>
+            <div id="recaptcha-error" style="color:red;font-size:13px;font-weight:bold;display:none">Please validate the recaptcha</div>
 		<%
     
     LayoutHelper.printDescription(FormsHelper.getDescription(resource, ""), out);
