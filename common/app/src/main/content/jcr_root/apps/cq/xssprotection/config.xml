@@ -944,7 +944,9 @@ http://www.w3.org/TR/html401/struct/global.html
         <!-- List tags -->
 
         <tag name="ul" action="validate"/>
-        <tag name="ol" action="validate"/>
+        <tag name="ol" action="validate">
+            <attribute name="type"/>
+        </tag>
         <tag name="li" action="validate"/>
 
 
