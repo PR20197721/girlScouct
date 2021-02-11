@@ -18,6 +18,9 @@
          margin-bottom: 0;
          width: 57%;
     }
+    .booth-finder-section {
+     padding-right: 0 !important;
+}
     .booth-finder .detail section:nth-of-type(2) {
           width: 42%;
           margin-bottom: 1.5625rem;
