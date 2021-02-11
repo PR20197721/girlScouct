@@ -185,6 +185,35 @@
                     </sponsors>
                 </items>
             </tabs>
+            <external-link
+                jcr:primaryType="nt:unstructured"
+                jcr:title="External Link"
+                sling:resourceType="granite/ui/components/foundation/container">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <columns
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <openInNewWindow
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/checkbox"
+                                fieldDescription="Opens the banner link in a new tab if checked. If not checked the banner opens as a popup."
+                                name="./openInNewWindow"
+                                text="Open in new window"
+                                value="true"/>
+                            <external-link
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                fieldDescription="Provide the external link the banner should open to"
+                                fieldLabel="External Link"
+                                name="./externalLink"/>
+                        </items>
+                    </columns>
+                </items>
+            </external-link>
         </items>
     </content>
 </jcr:root>

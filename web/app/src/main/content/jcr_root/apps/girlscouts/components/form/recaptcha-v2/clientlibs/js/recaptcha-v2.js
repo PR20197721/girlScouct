@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    const recaptchaError = localStorage.getItem("recaptchaError");
+    if(recaptchaError) {
+		$("#recaptcha-error").show();
+        localStorage.removeItem("recaptchaError");
+    }
     function timestamp() {
         currentTimestamp += 500;
         var response = document.getElementById("g-recaptcha-response");
@@ -14,4 +19,14 @@ $(document).ready(function () {
     }).always(function (){
         setInterval(timestamp, 500);
     });
+
+    $("input[type='submit']").bind("click",function(e){
+      var response = grecaptcha.getResponse();
+      if(response.length == 0) {
+        localStorage.setItem("recaptchaError", true); 
+        e.preventDefault();
+        return false;
+      }
+    });
 });
+

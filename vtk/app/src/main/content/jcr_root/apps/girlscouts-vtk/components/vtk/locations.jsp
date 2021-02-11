@@ -42,9 +42,6 @@
             <dd id="manageLocationTab" class="manageCalendarTab">
                 <a href="#" onclick="toggleSection('location')">Location</a>
             </dd>
-            <dd id="manageActivityTab" class="manageCalendarTab">
-                <a href="#" onclick="toggleSection('activity')">Activities</a>
-            </dd>
         </dl>
         <div class="tabs-content">
             <%
@@ -79,9 +76,7 @@
             <div id="manageLocationSection">
                 <%@include file="include/location.jsp" %>
             </div>
-            <div id="manageActivitySection">
-                <%@include file="include/manageActivities.jsp" %>
-            </div>
+            
             <%
             } else {
             %>

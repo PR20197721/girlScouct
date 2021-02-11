@@ -9,5 +9,5 @@
     String alt = properties.get("./alt", "");
     String title = properties.get("./imgtitle", "");
 %>
-   <%= displayRendition(resourceResolver, fileReference, "cq5dam.web.400.400", null, 500,alt,title) %>
+   <%= displayRendition(resourceResolver, fileReference, "cq5dam.web.800.800", null, 500,alt,title) %>
   <% } %>
