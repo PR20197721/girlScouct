@@ -3,7 +3,7 @@
 
 <div class="row details">
     <div class="detail clearfix">
-        <section>
+        <section class ="booth-finder-section">
             <p>{{{Location}}}</p>
             <p>{{Address1}}</p>
             <p>{{Address2}}</p>
