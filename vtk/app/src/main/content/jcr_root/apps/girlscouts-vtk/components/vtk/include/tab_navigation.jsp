@@ -205,7 +205,7 @@
                                     onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, selectedTroop)%>)">Add
                                 Badge / Journey</a></li>
                             <%} %>
-                            <li><a title="Add Activity" onclick="newActivity()">Add Activity</a></li>
+                            <li><a title="Manage Activity" onclick="newActivity()">Manage Activity</a></li>
                             <%
                                 java.util.Map archivedPlans = troopDAO.getArchivedYearPlans(user, selectedTroop);
                                 if (!isParent && !isFinanceAdmin && new java.util.Date().after(new java.util.Date(configManager.getConfig("startShowingArchiveCmd"))) && archivedPlans != null && archivedPlans.size() > 0) {
@@ -372,9 +372,8 @@
                                                    title="Add Badge / Journey"><i
                                 class="icon-search-magnifying-glass"></i> Add Badge / Journey</a></li>
                         <% } %>
-                        <li class="second-type"><a href="#" onclick="newActivity()" title="Add Activity"> <i
-                                class="icon-flag"></i> Add
-                            Activity</a></li>
+                        <li class="second-type"><a href="#" onclick="newActivity()" title="Manage Activity"> <i
+                                class="icon-flag"></i>Manage Activity</a></li>
                         <% }
                         %>
                         <!-- if on Meeting Detail Page -->

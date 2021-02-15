@@ -112,7 +112,6 @@ public class MeetingAidUtil {
         }
         return meetingAids;
     }
-
     private boolean getBoolProp(Node node, String name) {
         boolean returnValue = false;
         try {
@@ -164,10 +163,10 @@ public class MeetingAidUtil {
                                     Asset asset = new Asset();
                                     Node props = metadata.adaptTo(Node.class);
                                     asset.setRefId(aidResource.getPath());
-                                    asset.setDocType("pdf");
                                     asset.setIsOutdoorRelated(getBoolProp(props, "dc:isOutdoorRelated"));
                                     asset.setIsGlobalRelated(getBoolProp(props, "dc:isGlobalRelated"));
                                     asset.setIsVirtualRelated(getBoolProp(props, "dc:isVirtualRelated"));
+                                    asset.setDocType("pdf");
                                     asset.setIsCachable(true);
                                     asset.setType("AID");
                                     asset.setDescription(getStringProp(props, "dc:description"));

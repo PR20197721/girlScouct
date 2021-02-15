@@ -124,18 +124,14 @@
                                 fieldLabel="Image Alignment"
                                 name="./imageAlignment">
                                 <items jcr:primaryType="nt:unstructured">
-                                    <select
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Select"
-                                        value="select"/>
+                                    <center
+                                            jcr:primaryType="nt:unstructured"
+                                            text="Center"
+                                            value="center"/>
                                     <left
                                         jcr:primaryType="nt:unstructured"
                                         text="Left"
                                         value="left"/>
-                                    <center
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Center"
-                                        value="center"/>
                                     <right
                                         jcr:primaryType="nt:unstructured"
                                         text="Right"

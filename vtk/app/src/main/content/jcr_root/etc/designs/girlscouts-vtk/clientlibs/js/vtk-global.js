@@ -300,9 +300,10 @@ function callExecuteBannerSlider(tabNavLoaded) {
 				url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
 				dataType: 'html',
 			}).done(function() {
-				$('.vtk-banner-image').slideUp();
 				$(".slick-next").css('display', 'none');
 				$(".slick-prev").css('display', 'none');
+               	$('.vtk-banner-container').slideUp();
+                $("#vtk_banner2234").css('margin-top', 0);
 			})
 		});
 

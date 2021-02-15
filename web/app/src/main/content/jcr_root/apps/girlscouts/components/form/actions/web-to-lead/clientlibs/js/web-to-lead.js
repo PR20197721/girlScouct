@@ -1,22 +1,14 @@
 $(document).ready(function () {
     var form = $('form#web-to-lead');
-    var isAuthor = $("input[name='isAuthor']").val();
 
-    if (isAuthor == "true") {
-       // checkFormConfiguration(form);
-    }
     form.find("input[type='submit']").click(form, function (e) {
         e.stopPropagation();
         submitForm(form);
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-        //validateAndSubmit(form);
         return false;
     });
     setUTMParamValues(form);
-
-
-
 
     function setUTMParamValues(form) {
         var utm_campaign = getUrlParam("utm_campaign");
@@ -42,55 +34,6 @@ $(document).ready(function () {
         }
     }
 
-
-    function validateAndSubmit(form) {
-        try {
-            var formValCollection = new Array();
-            var formValues = form.serialize();
-            if(formValues != null){
-                var formValuesArr = formValues.split("&");
-                for(var i=0; i<formValuesArr.length; i++){
-                    var field = formValuesArr[i].split("=");
-                    formValCollection.push({name:field[0], value:field[1]});
-                }
-            }
-            var dataValidationErrors = [];
-
-            //Always required
-            if (!isValidFieldValue(formValCollection, "LeadType")) {
-                dataValidationErrors.push("Missing value for required field: Lead Type");
-            }
-            if (!isValidFieldValue(formValCollection, "Email")) {
-                dataValidationErrors.push("Missing value for required field: Email");
-            }
-            if (!isValidFieldValue(formValCollection, "CouncilCode")) {
-                dataValidationErrors.push("Missing value for required field: Council Code");
-            }
-            //End Always required
-            var leadTypeVal = getFormFieldValue(form, "LeadType");
-            if (leadTypeVal == "DirectContact" || leadTypeVal == "General") {
-                if (!isValidFieldValue(formValCollection, "ZipCode")) {
-                    dataValidationErrors.push("Missing value for required field: Zip Code");
-                }
-                if (!isValidFieldValue(formValCollection, "FirstName")) {
-                    dataValidationErrors.push("Missing value for required field: First Name");
-                }
-                if (!isValidFieldValue(formValCollection, "LastName")) {
-                    dataValidationErrors.push("Missing value for required field: Last Name");
-                }
-                if (!isValidFieldValue(formValCollection, "CampaignID")) {
-                    dataValidationErrors.push("Missing value for required field: Campaign ID");
-                }
-            }
-            if (dataValidationErrors.length == 0) {
-                submitForm(form);
-            } else {
-                displayErrors(dataValidationErrors, form);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
     function displayErrors(errors, form){
         var errorMessage = "";
         form.find("div.form_row").find("div.form_error").each(function( index ) {
@@ -109,54 +52,9 @@ $(document).ready(function () {
         }
 
         $(formErrorContainer[0]).html(errorMessage);
+        $("#recaptcha-error").hide();
     }
-    function checkFormConfiguration(form) {
-        var leadTypeVal = getFormFieldValue(form, "LeadType");
-        var emailField = form.find("input[name='Email']");
-        var councilCode = getFormFieldValue(form, "CouncilCode");
-        var formErrors = [];
-        if (isBlank(leadTypeVal)) {
-            formErrors.push("LeadType");
-        }
-        if (emailField.length == 0) {
-            formErrors.push("Email");
-        }
-        if (isBlank(councilCode)) {
-            formErrors.push("CouncilCode");
-        }
-        if (leadTypeVal == "DirectContact" || leadTypeVal == "General") {
-            var zipCode = form.find("input[name='ZipCode']");
-            var firstName = form.find("input[name='FirstName']");
-            var lastName = form.find("input[name='LastName']");
-            var campaignId = form.find("input[name='CampaignID']");
-            if (zipCode.length == 0) {
-                formErrors.push("ZipCode");
-            }
-            if (firstName.length == 0) {
-                formErrors.push("FirstName");
-            }
-            if (lastName.length == 0) {
-                formErrors.push("LastName");
-            }
-            if (campaignId.length == 0) {
-                formErrors.push("CampaignID");
-            }
-        }
-        if (formErrors.length > 0) {
-            var errorMessage = "";
-            if (!isBlank(leadTypeVal)) {
-                errorMessage += "<div>Lead type " + leadTypeVal + " requires fields with following names:</div>";
-            } else {
-                errorMessage += "<div>Missing requires fields with following names:</div>";
-            }
-            errorMessage += "<ul>";
-            for (var i = 0; i < formErrors.length; i++) {
-                errorMessage += "<li> " + formErrors[i] + "</li>";
-            }
-            errorMessage += "</ul>";
-            $("#validation-errors").html(errorMessage);
-        }
-    }
+    
 
     function submitForm(form) {
         var action = form.attr("action");
@@ -169,9 +67,6 @@ $(document).ready(function () {
                     var responseForm = $(response).find("#" + formId);
                     if (responseForm != null && responseForm.length > 0) {
                         form.html($(responseForm[0]).html());
-                        if (isAuthor == "true") {
-                            checkFormConfiguration(form);
-                        }
                     }
                 }
                 if (ct.indexOf('json') > -1) {
@@ -187,22 +82,11 @@ $(document).ready(function () {
                         displayErrors(errors, form);
                     }
                 }
-
+                localStorage.removeItem("recaptchaError");
             })
             .fail(function (xhr, status, error) {
                 $("#validation-errors").html(xhr.responseText);
             });
-    }
-
-    function isValidFieldValue(formValCollection, name){
-        if(formValCollection != null){
-            for(var i=0; i<formValCollection.length; i++){
-                if(formValCollection[i].name == name){
-                    return !isBlank(formValCollection[i].value);
-                }
-            }
-        }
-        return false;
     }
 
     function isBlank(val) {
@@ -216,13 +100,5 @@ $(document).ready(function () {
 
         }
         return "";
-    }
-    function getFormFieldValue(form, name) {
-        var value = "";
-        var field = form.find("input[name='" + name + "']");
-        if (field != null && field.length > 0) {
-            value = $(field[0]).val();
-        }
-        return value;
     }
 });

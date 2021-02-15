@@ -173,6 +173,12 @@ http://www.w3.org/TR/html401/struct/global.html
                 <regexp name="paragraph"/>
             </regexp-list>
         </attribute>
+        <!-- GSAWDO-125 Allow "type" parameter in <ol> tag in RTE -->
+        <attribute name="type" description="The 'type' attribute can be added to ol tags whenever there is a list.">
+            <regexp-list>
+                <regexp name="anything"/>
+            </regexp-list>
+        </attribute>
 
 
         <!-- the "style" attribute will be validated by an inline stylesheet scanner, so no need to define anything here - i hate having to special case this but no other choice -->
@@ -944,7 +950,9 @@ http://www.w3.org/TR/html401/struct/global.html
         <!-- List tags -->
 
         <tag name="ul" action="validate"/>
-        <tag name="ol" action="validate"/>
+        <tag name="ol" action="validate">
+            <attribute name="type"/>
+        </tag>
         <tag name="li" action="validate"/>
 
 
