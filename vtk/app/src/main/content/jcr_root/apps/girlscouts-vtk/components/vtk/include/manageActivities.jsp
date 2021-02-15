@@ -116,4 +116,14 @@
 .rm-activities-pop-up-btn-gp-btn.cancel-btn:hover {
 	background: #eeeeee;
 }
+
+@media only screen and (max-width: 768px) {
+	.rm-activities-pop-up-content {
+	      width: 90%;
+	}
+	.manageCalendarTab>a{
+		font-size:13px !important;
+	}
+}
+
 </style>
