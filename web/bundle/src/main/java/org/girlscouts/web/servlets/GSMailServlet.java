@@ -416,6 +416,7 @@ public class GSMailServlet
                     this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
                             new Object[]{fromAddress, mailTo, subject, buffer});
                 }
+                //default mail
                 localService.sendEmail(email);
                 
                 	
@@ -516,6 +517,11 @@ public class GSMailServlet
 	                        for (final String rec : confMailTo) {
 	                            confEmail.addBcc(rec);
 	                        }
+	                    } 
+	                    // default to address if none are configured
+	                    logger.error("mail addresses : {}", confEmail.getToAddresses().toArray());
+	                    if (null == confEmail.getToAddresses() || confEmail.getToAddresses().isEmpty()){
+	                    	confEmail.addTo(mailTo);
 	                    }
 	
 	                    // subject and from address
@@ -536,6 +542,7 @@ public class GSMailServlet
 	                    			confEmail.attach(ea, rp.getFileName(), rp.getFileName());
 	                    		}
 	                    }
+	                    //confirmation mail
 	                    localService.sendEmail(confEmail);
                     }else{
                     	logger.debug("Email body null for " + request.getResource().getPath());
