@@ -1,3 +1,10 @@
+
+
+
+$(document).ready(function() {
+
+});
+
 (function (document, $) {
     "use strict";
     // download action
@@ -26,6 +33,7 @@
         }
         var trashcanEventHandler = function () {
             var activator = $(this);
+
             var items = collection.find('.foundation-selections-item');
             var restorePath = "";
             function showErrorDialog(data) {
@@ -65,12 +73,19 @@
                         "</span>" +
                         "<ul id=\"coral-2\" class=\"coral-SelectList\" role=\"listbox\" aria-hidden=\"true\" tabindex=\"-1\"></ul></span></div><p>"
                 }
+
+
                 var footer = "<button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\" coral-close=\"\"><coral-button-label>Ok</coral-button-label></button>";
                 if(data.action == "restore"){
                     footer = "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Ok</coral-button-label></button>";
-                }else if(data.hasReferenceErrorType){ // only of there are any references. related errors.
-                    footer = "<button id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Proceed</coral-button-label></button>";
                 }
+
+                else if(data.hasReferenceErrorType){ // only of there are any references. related errors.
+                    const checkbox = document.getElementById('forceDeleteRef')
+
+                    footer = "<button  id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button disabled id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Proceed</coral-button-label></button>";
+                }
+
                 var errorDialog = new Coral.Dialog().set({
                     id: "errorDialog",
                     header: {
@@ -88,6 +103,7 @@
                 errorDialog.on('click', '#acceptButton', function () {
                     if(data.action == "restore"){
                         restorePath = $('#restore-path').val();
+
                         handleTrashcanEvent();
                     }else if(data.action == "trash" && data.hasReferenceErrorType){ // for GSAWDO-61-[ALL] Move to Trashcan - Force delete references
                         var forceDeleteRef = $("#forceDeleteRef").is(":checked");
@@ -129,6 +145,28 @@
                 });
                 document.body.appendChild(errorDialog);
                 errorDialog.show();
+                 const forceDeleteRefCheckBox = document.getElementById('forceDeleteRef')
+                 if(forceDeleteRefCheckBox){
+						forceDeleteRefCheckBox.addEventListener('change', (event) => {
+                          if (event.currentTarget.checked) {
+                            $('#acceptButton').removeAttr('disabled') 
+                          } else {
+                            $('#acceptButton').attr('disabled', true);
+                          }
+                        })
+                 }
+
+            	  const forceRepublishUpdatedPagesCheckBox = document.getElementById('forceRepublishUpdatedPages')
+                 if(forceRepublishUpdatedPagesCheckBox){
+						forceRepublishUpdatedPagesCheckBox.addEventListener('change', (event) => {
+                          if (event.currentTarget.checked) {
+                            $('#acceptButton').removeAttr('disabled') 
+                          } else {
+                            $('#acceptButton').attr('disabled', true);
+                          }
+                        })
+                 }
+
                 if ($('#restore-path-selector').length) {
                     $('#restore-path-selector').trigger("foundation-contentloaded");
                 }
