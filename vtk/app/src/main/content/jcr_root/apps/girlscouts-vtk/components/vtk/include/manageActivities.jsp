@@ -121,6 +121,9 @@
 	.rm-activities-pop-up-content {
 	      width: 90%;
 	}
+	.manageCalendarTab>a{
+		font-size:13px !important;
+	}
 }
 
 </style>
