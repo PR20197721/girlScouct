@@ -116,4 +116,11 @@
 .rm-activities-pop-up-btn-gp-btn.cancel-btn:hover {
 	background: #eeeeee;
 }
+
+@media only screen and (max-width: 768px) {
+	.rm-activities-pop-up-content {
+	      width: 90%;
+	}
+}
+
 </style>
