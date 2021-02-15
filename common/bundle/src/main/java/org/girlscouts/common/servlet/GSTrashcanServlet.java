@@ -130,7 +130,10 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                                     if(trashcanRequest.getForceRepublishUpdatedPages()) {
                                         //Lets replicate the pages first and then do anything else
                                         for(String referenceResource : referenceSearchResultSet) {
-                                            replicate(userResourceResolver.getResource(referenceResource), session);
+                                            //if the path has "/en/pagecounter", lets not replicate it
+                                            if(!referenceResource.contains("/en/pagecounter")) {
+                                                replicate(userResourceResolver.getResource(referenceResource), session);
+                                            }
                                         }
 
                                         if(isAsset){
