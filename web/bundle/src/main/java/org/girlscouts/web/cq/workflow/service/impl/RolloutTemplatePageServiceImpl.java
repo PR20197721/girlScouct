@@ -344,6 +344,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                     log.error("Girlscouts Rollout Service encountered error: ", e);
                                 }
                                 deleteComponents(rr, rolloutLog, componentsToDelete);
+                                compareRolloutComponentsForContentChange(rr, sourceToTargetComponentRelations, componentsToRollout);
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
                                 updatePageTitle(sourcePageResource, relationPageResource);
                                 if (updateReferences) {
@@ -1021,6 +1022,79 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             rolloutLog.add("Error getting parent of rollout page parent: " + e.getMessage());
             return null;
         }
+
+    }
+
+
+    private void compareRolloutComponentsForContentChange(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations, Set<String> templateComponentsToRollout) {
+
+        //GSAWDO-60 - List of properties and resourceType we have to check against,which is provided by business.
+        Map<String,List<String>> knownResourceType = new HashMap<>();
+        List<String> imagePropertyArray= new ArrayList<>();
+        imagePropertyArray.add("fileReference");
+        knownResourceType.put("girlscouts/components/image",imagePropertyArray);
+        List<String> textPropertyArray= new ArrayList<>();
+        textPropertyArray.add("text");
+        knownResourceType.put("girlscouts/components/text",textPropertyArray);
+        List<String> titlePropertyArray= new ArrayList<>();
+        titlePropertyArray.add("title");
+        knownResourceType.put("girlscouts/component/title",titlePropertyArray);
+        List<String> textImagePropertyArray= new ArrayList<>();
+        textImagePropertyArray.add("text");
+        knownResourceType.put("girlscouts/components/textimage",textImagePropertyArray);
+        List<String> formTextPropertyArray= new ArrayList<>();
+        formTextPropertyArray.add("jcr:title");
+        formTextPropertyArray.add("name");
+        knownResourceType.put("girlscouts/components/form/text",formTextPropertyArray);
+        List<String> formCheckboxPropertyArray= new ArrayList<>();
+        formCheckboxPropertyArray.add("options");
+        formCheckboxPropertyArray.add("name");
+        knownResourceType.put("girlscouts/components/form/checkbox",formCheckboxPropertyArray);
+        List<String> formDropdownPropertyArray= new ArrayList<>(formCheckboxPropertyArray);
+        formDropdownPropertyArray.add("jcr:title");
+        knownResourceType.put("foundation/components/form/dropdown",formDropdownPropertyArray);
+        List<String> formRadioPropertyArray= new ArrayList<>(formDropdownPropertyArray);
+        knownResourceType.put("foundation/components/form/radio",formDropdownPropertyArray);
+        List<String> videoPropertyArray= new ArrayList<>();
+        videoPropertyArray.add("html");
+        knownResourceType.put("girlscouts/components/video",videoPropertyArray);
+        List<String> tablePropertyArray= new ArrayList<>();
+        tablePropertyArray.add("tableData");
+        knownResourceType.put("girlscouts/components/table",tablePropertyArray);
+        List<String> embeddedPropertyArray= new ArrayList<>();
+        embeddedPropertyArray.add("html");
+        knownResourceType.put("girlscouts/components/embedded",embeddedPropertyArray);
+        //NOTE: there are few more in this list which needs to pick up , will check on them at last once this is working fine.
+        for(String templateComponentToRollout :  templateComponentsToRollout){
+            if(sourceToTargetComponentRelations.containsKey(templateComponentToRollout)){
+                Resource templateComponentToRolloutResource = rr.resolve(templateComponentToRollout);
+                String templateComponentToRolloutResourceType = templateComponentToRolloutResource.getResourceType();
+                /* Checking the resourceType of the template component(which is getting rolled-out) against the known component resourceType.
+                If found lets compare the properties of that component for any differences.*/
+                if(knownResourceType.containsKey(templateComponentToRolloutResourceType)){
+                    String councilComponentToRolloutPath = sourceToTargetComponentRelations.get(templateComponentToRolloutResource.getPath());
+                    Resource councilComponentToRolloutResource = rr.getResource(councilComponentToRolloutPath);
+                    List<String> resourceTypePropertyArray = knownResourceType.get(templateComponentToRolloutResourceType);
+                    for(String resourceTypeProperty : resourceTypePropertyArray){
+                        ValueMap templateResourceValueMap = templateComponentToRolloutResource.adaptTo(ValueMap.class);
+                        if(templateResourceValueMap.containsKey(resourceTypeProperty)) {
+                            ValueMap councilResourceValueMap = councilComponentToRolloutResource.adaptTo(ValueMap.class);
+                            if(councilResourceValueMap.containsKey(resourceTypeProperty)){
+                                String[] councilComponentToRolloutPathArray =  councilComponentToRolloutPath.split("/");
+                                String pathTillCouncilHeadPage = "/"+councilComponentToRolloutPathArray[1]+"/"+councilComponentToRolloutPathArray[2]+"/";
+                                //Exact property is found in council and template component. Lets check if value for both are same or not.
+                                if(!councilResourceValueMap.get(resourceTypeProperty,String.class).replaceAll(pathTillCouncilHeadPage,"/content/girlscouts-template/").equals(templateResourceValueMap.get(resourceTypeProperty))){
+                                    //Hurray! this property was changed by someone is template before rolling out.
+                                    String changedValue = templateResourceValueMap.get(resourceTypeProperty,String.class);
+                                    System.out.println(changedValue);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
     }
 }
