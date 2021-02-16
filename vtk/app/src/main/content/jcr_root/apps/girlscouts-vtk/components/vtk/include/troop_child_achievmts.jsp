@@ -9,7 +9,13 @@
                     %>
                     <li><img
                             src="/content/girlscouts-vtk/service/meeting/icon.<%= ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getId()%>.png"
-                            alt="imagetitle"/></li>
+                            alt="imagetitle"/>
+                        <% String achievementName = ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName();
+                            achievementName = achievementName.replaceAll("\\d+$", "");
+                        %>
+                        <p><%= achievementName %></p>
+                        <p><%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, (java.util.Date) ((MeetingE) infos.get(y).getYearPlanComponent()).getAchievement().getCreatedDate().getTime())%></p>
+                    </li>
                     <%
                             }
                         }

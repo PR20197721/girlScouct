@@ -18,6 +18,10 @@ String leadType = props.get("leadType", "");
 CouncilCodeToPathMapper councilCodeToPathMapper = sling.getService(CouncilCodeToPathMapper.class);
 Page site = currentPage.getAbsoluteParent(1);
 String councilCode = councilCodeToPathMapper.getCouncilCode(site.getPath());
+String secret = currentSite.get("recaptcha_secret", "");
+%>
+<input type="hidden" name="secret" value="<%=secret%>">
+<%
 if (!StringUtils.isBlank(councilCode)) {
     %>
     <input class="form_field" name="CouncilCode" value="<%=xssAPI.encodeForHTMLAttr(councilCode)%>" type="hidden"/>

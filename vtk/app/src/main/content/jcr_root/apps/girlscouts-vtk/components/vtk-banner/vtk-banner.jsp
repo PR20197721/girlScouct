@@ -10,6 +10,8 @@
     String sponsorImageAlt = properties.get("sponsorImageAlt", "");
     Resource thumbnail = resource.getChild("thumbnail");
     boolean isDisabled = "on".equals(properties.get("isDisabled", ""));
+    boolean openInNewWindow = "true".equals(properties.get("openInNewWindow", ""));
+    String externalLink = properties.get("externalLink", "");
     String filePath = "";
     if (thumbnail != null) {
         filePath = ((ValueMap) thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
@@ -37,48 +39,64 @@
 <%
     }
 } else {
-%>
-<div class="vtk-banner-image">
-    <a href="#" onclick="callFoundationModal(event,'vtk-banner-modal-<%=resource.getName()%>')"
-       data-slider-id="vtk-banner-modal-<%=resource.getName()%>" data-effect="modal" data-options="animation:'none'">
-        <img src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>">
-    </a>
+    if (openInNewWindow) {
+        %>
+        <div class="vtk-banner-image">
+            <a href="<%= externalLink %>" target="_blank"
+               data-slider-id="vtk-banner-modal-<%=resource.getName()%>" data-effect="modal" data-options="animation:'none'">
+                <img src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>">
+            </a>
+        
+            <div class="vtk-banner-button">
+                <i class="icon-button-circle-cross"></i>
+            </div>
+        
+        </div>
+        <%
+    } else {
+        %>
+        <div class="vtk-banner-image">
+            <a href="#" onclick="callFoundationModal(event,'vtk-banner-modal-<%=resource.getName()%>')"
+            data-slider-id="vtk-banner-modal-<%=resource.getName()%>" data-effect="modal" data-options="animation:'none'">
+                <img src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>">
+            </a>
 
-    <div class="vtk-banner-button">
-        <i class="icon-button-circle-cross"></i>
-    </div>
+            <div class="vtk-banner-button">
+                <i class="icon-button-circle-cross"></i>
+            </div>
 
-</div>
-
-
-<div id="vtk-banner-modal-<%=resource.getName()%>" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-	<div class="header clearfix">
-		<h3 id="modalTitle"><%=modalTitle %></h3>
-	    <a class="close-reveal-modal" aria-label="Close"><span style="color: black;font-size: 23px; font-family: 'Trefoil Sans Web', 'Open Sans', Arial, sans-serif;font-weight: normal;padding-right: 5px;">X</span></a>
-	</div>
-	<div>
-			<img id="banner-image" class="banner-image" draggable="false" style="width:100%;height:auto;pointer-events: none" src="<%= modalImagePath %>"   alt="<%=imageAlt %>" title="<%=imageTitle %>" >
-	</div>
-
-    <div class="scroll-banner content">
-
-
-        <div class="reset"><%=text %>
         </div>
 
-        <% if (!"".equals(sponsorImagePath) || !"".equals(sponsorImageTitle)) { %>
-        <div class="sponsor">
-            <p style="text-align: center; font-size: 12px;">
-                <img src="<%=sponsorImagePath %>" style="margin-right: 5px;" align="middle" width="50px"
-                     alt="<%=sponsorImageAlt %>" title="<%= sponsorImageTitle%>">
-                <%=sponsorText %>
-            </p>
-        </div>
-        <%} %>
-    </div>
-</div>
 
-<%
+        <div id="vtk-banner-modal-<%=resource.getName()%>" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <div class="header clearfix">
+                <h3 id="modalTitle"><%=modalTitle %></h3>
+                <a class="close-reveal-modal" aria-label="Close"><span style="color: black;font-size: 23px; font-family: 'Trefoil Sans Web', 'Open Sans', Arial, sans-serif;font-weight: normal;padding-right: 5px;">X</span></a>
+            </div>
+            <div>
+                    <img id="banner-image" class="banner-image" draggable="false" style="width:100%;height:auto;pointer-events: none" src="<%= modalImagePath %>"   alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+            </div>
+
+            <div class="scroll-banner content">
+
+
+                <div class="reset"><%=text %>
+                </div>
+
+                <% if (!"".equals(sponsorImagePath) || !"".equals(sponsorImageTitle)) { %>
+                <div class="sponsor">
+                    <p style="text-align: center; font-size: 12px;">
+                        <img src="<%=sponsorImagePath %>" style="margin-right: 5px;" align="middle" width="50px"
+                            alt="<%=sponsorImageAlt %>" title="<%= sponsorImageTitle%>">
+                        <%=sponsorText %>
+                    </p>
+                </div>
+                <%} %>
+            </div>
+        </div>
+        <%
+    }
+
     } // if isDisabled
 %>
 
