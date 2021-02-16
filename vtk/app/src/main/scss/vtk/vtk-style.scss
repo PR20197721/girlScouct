@@ -2167,6 +2167,14 @@
         text-align: left; //  changes  for VTK-58 
       }
     }
+    .inline-list {
+      li {
+      width: 120px;
+        p {
+          text-align: center;
+        }
+      }
+    }
   }
 
   //Financial page
