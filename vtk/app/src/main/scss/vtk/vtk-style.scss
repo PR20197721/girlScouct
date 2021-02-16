@@ -2146,6 +2146,7 @@
     dd ul li {
       margin-bottom: 20px;
       background-color: #f7f7f6 !important;
+      width:auto !important; //  changes  for VTK-58 
 
       div.row {
         background-color: #f7f7f6 !important;
@@ -2153,6 +2154,7 @@
 
       p {
         margin-bottom: 0;
+        text-align: left !important; //  changes  for VTK-58  
       }
     }
   }
