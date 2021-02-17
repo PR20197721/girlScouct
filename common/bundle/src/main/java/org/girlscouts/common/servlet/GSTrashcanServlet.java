@@ -254,14 +254,14 @@ public class GSTrashcanServlet extends SlingAllMethodsServlet implements OptingS
                             json.addProperty("hasReferenceErrorType",true);
                             json.add("hasReferenceAssertLocation",jsonArray);
                             hasReferenceString.append("<ol><form>");
-                            hasReferenceString.append("<div><input type=\"checkbox\" id=\"forceDeleteRef\" name=\"forceDeleteRef\" value=\"forceDeleteRef\"></div>");
+                            hasReferenceString.append("<div class=\"trashcan-force-delete-ref-wrapper\"><div class=\"trashcan-force-delete-ref\"><input type=\"checkbox\" id=\"forceDeleteRef\" class=\"ref-checkbox\" name=\"forceDeleteRef\" value=\"forceDeleteRef\"></div>");
                             if(isAsset) {
-                                hasReferenceString.append("<label for=\"forceDeleteRef\">Force delete references? (force deleting image references will be shown as broken images)</label><br>");
+                                hasReferenceString.append("<label for=\"forceDeleteRef\">Force delete references? (force deleting image references will be shown as broken images)</label> </div>");
                             }else{
-                                hasReferenceString.append("<label for=\"forceDeleteRef\">Force delete references? <br>");
+                                hasReferenceString.append("<label for=\"forceDeleteRef\">Force delete references? </label> </div>");
                             }
-                            hasReferenceString.append("<div><input type=\"checkbox\" id=\"forceRepublishUpdatedPages\" name=\"forceRepublishUpdatedPages\" value=\"forceRepublishUpdatedPages\"></div>");
-                            hasReferenceString.append("<label for=\"forceRepublishUpdatedPages\">Force republish updated pages?</label><br>");
+                            hasReferenceString.append("<div class=\"trashcan-force-delete-ref-wrapper\"><div class=\"trashcan-force-delete-ref\"><input type=\"checkbox\" id=\"forceRepublishUpdatedPages\" class=\"ref-checkbox\" name=\"forceRepublishUpdatedPages\" value=\"forceRepublishUpdatedPages\"></div>");
+                            hasReferenceString.append("<label for=\"forceRepublishUpdatedPages\">Force republish updated pages?</label></div>");
                             hasReferenceString.append("</form></ol>");
                         }else if(forceDeleteRefSuccess.size()>0){ // This is so that can,we can refresh the page in frontend if any processing of references has happen.
                             json.addProperty("referenceErrorTypeProcessed",true);
