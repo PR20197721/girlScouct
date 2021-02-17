@@ -15,6 +15,7 @@ import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.common.util.PageReplicationUtil;
 import org.girlscouts.web.cq.workflow.service.RolloutTemplatePageService;
+import org.girlscouts.web.cq.workflow.service.pojo.RolloutContentDifference;
 import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.ComponentContext;
@@ -344,7 +345,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                     log.error("Girlscouts Rollout Service encountered error: ", e);
                                 }
                                 deleteComponents(rr, rolloutLog, componentsToDelete);
-                                compareRolloutComponentsForContentChange(rr, sourceToTargetComponentRelations, componentsToRollout);
+                                List<RolloutContentDifference> contentDifferences = compareRolloutComponentsForContentChange(rr, sourceToTargetComponentRelations, componentsToRollout);
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
                                 updatePageTitle(sourcePageResource, relationPageResource);
                                 if (updateReferences) {
@@ -1026,7 +1027,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     }
 
 
-    private void compareRolloutComponentsForContentChange(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations, Set<String> templateComponentsToRollout) {
+    private List<RolloutContentDifference> compareRolloutComponentsForContentChange(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations, Set<String> templateComponentsToRollout) {
 
         //GSAWDO-60 - List of properties and resourceType we have to check against,which is provided by business.
         Map<String,List<String>> knownResourceType = new HashMap<>();
@@ -1038,7 +1039,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         knownResourceType.put("girlscouts/components/text",textPropertyArray);
         List<String> titlePropertyArray= new ArrayList<>();
         titlePropertyArray.add("title");
-        knownResourceType.put("girlscouts/component/title",titlePropertyArray);
+        knownResourceType.put("girlscouts/components/title",titlePropertyArray);
         List<String> textImagePropertyArray= new ArrayList<>();
         textImagePropertyArray.add("text");
         knownResourceType.put("girlscouts/components/textimage",textImagePropertyArray);
@@ -1064,6 +1065,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         List<String> embeddedPropertyArray= new ArrayList<>();
         embeddedPropertyArray.add("html");
         knownResourceType.put("girlscouts/components/embedded",embeddedPropertyArray);
+
+        List<RolloutContentDifference> contentDifferences = new ArrayList<>();
+
         //NOTE: there are few more in this list which needs to pick up , will check on them at last once this is working fine.
         for(String templateComponentToRollout :  templateComponentsToRollout){
             if(sourceToTargetComponentRelations.containsKey(templateComponentToRollout)){
@@ -1082,11 +1086,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                             if(councilResourceValueMap.containsKey(resourceTypeProperty)){
                                 String[] councilComponentToRolloutPathArray =  councilComponentToRolloutPath.split("/");
                                 String pathTillCouncilHeadPage = "/"+councilComponentToRolloutPathArray[1]+"/"+councilComponentToRolloutPathArray[2]+"/";
+                                String newContent = templateResourceValueMap.get(resourceTypeProperty,String.class);
+                                String oldContent = councilResourceValueMap.get(resourceTypeProperty,String.class);
                                 //Exact property is found in council and template component. Lets check if value for both are same or not.
-                                if(!councilResourceValueMap.get(resourceTypeProperty,String.class).replaceAll(pathTillCouncilHeadPage,"/content/girlscouts-template/").equals(templateResourceValueMap.get(resourceTypeProperty))){
-                                    //Hurray! this property was changed by someone is template before rolling out.
-                                    String changedValue = templateResourceValueMap.get(resourceTypeProperty,String.class);
-                                    System.out.println(changedValue);
+                                if(!oldContent.replaceAll(pathTillCouncilHeadPage,"/content/girlscouts-template/").equals(newContent)){
+                                    //Hurray! this property was changed by someone in template before rolling out.
+                                    contentDifferences.add(new RolloutContentDifference(oldContent,newContent,templateComponentToRolloutResourceType,resourceTypeProperty));
                                 }
                             }
                         }
@@ -1094,7 +1099,6 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 }
             }
         }
-
-
+        return contentDifferences;
     }
 }
