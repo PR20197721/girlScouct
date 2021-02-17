@@ -97,7 +97,7 @@
                                         granite:class="form-identifier"
                                         jcr:primaryType="nt:unstructured"
                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                        disabled="true"
+                                        renderHidden="{Boolean}true"
                                         fieldLabel="Form Identifier"
                                         name="./formid"
                                         required="{Boolean}true"/>
