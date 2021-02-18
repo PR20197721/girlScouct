@@ -1,6 +1,15 @@
 @import 'vtk-colors';
 @import 'vtk-icons';
-
+// sccs related to manage activity vtk-6
+.manage-avtivity-list{
+  padding : 10px;
+  
+  .manage-avtivity-list-item{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+}
 .row .row {
   margin-left: -5px;
   margin-right: -5px;
@@ -1294,7 +1303,7 @@
 
       .tabs {
         dd {
-          min-width: 33.3333333%;
+          min-width: 50%;
           float: left;
           background: #00ae57;
 
@@ -1304,8 +1313,9 @@
         }
 
         #createActivityTab,
-        #pickActivityTab {
-          min-width: 50%;
+        #pickActivityTab,
+        #manage-activities {
+          min-width: 33.33%;
         }
       }
 

@@ -1,3 +1,4 @@
+var removeActivitymPath =''
 function rmCustActivity12(x){
 	
 	
@@ -438,8 +439,42 @@ function gsDialog(config) {
 }
 
 
+// modal for delete a activitie in manage activiies
+// modal for delete a activitie in manage activiies
+// function rmActivities(mPath) {
+// 	gsDialog({
+// 		content: 'You want to delete the activity ?',
+// 		headerText: 'Remove Activities',
+// 		buttons : [	{
+// 					text: "CANCEL",
+// 					click: function () {
+// 						$(this).dialog("close");
+// 					}
+// 		},
+// 		{
+// 					text: "OK",
+// 					click: function () {
+// 						rmCustActivity(mPath );
+// 					}
+// 			}],
+// 		width:600
+// 	})
+// }
 
+function rmActivities(mPath){
+    removeActivitymPath = mPath;
+	$('#rm-activities-pop-up').css('display', 'block');
 
+}
+
+function onRemoveManageActivityPopUp(){
+	$('#rm-activities-pop-up').css('display', 'none');
+	rmCustActivity(removeActivitymPath);
+}
+
+function onCancelManageActivityPopUp(){
+$('#rm-activities-pop-up').css('display', 'none');
+}
 
 function rmMeetingWithConf(mPath, mDate, ageGroup, meetingName) {
 	gsDialog({
