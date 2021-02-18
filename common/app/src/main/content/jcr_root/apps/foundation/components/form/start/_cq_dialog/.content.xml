@@ -270,6 +270,7 @@
                                                         required="{Boolean}true">
                                                         <field
                                                             jcr:primaryType="nt:unstructured"
+                                                            required="{Boolean}true"
                                                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                             name="./mailto"/>
                                                     </to-email>
