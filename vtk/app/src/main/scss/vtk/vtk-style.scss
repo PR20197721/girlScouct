@@ -19,6 +19,7 @@
   a,
   img {
     outline: none;
+    margin: auto;
   }
 
   p,
@@ -2155,6 +2156,14 @@
       p {
         margin-bottom: 0;
         text-align: center;
+      }
+    }
+    .inline-list {
+      li {
+      width: 120px;
+        p {
+          text-align: center;
+        }
       }
     }
   }

@@ -14,7 +14,7 @@
                             achievementName = achievementName.replaceAll("\\d+$", "");
                         %>
                         <p><%= achievementName %></p>
-                        <p><%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, (java.util.Date) sched_bm_inverse.get(infos.get(y).getYearPlanComponent()))%></p>
+                        <p><%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, (java.util.Date) ((MeetingE) infos.get(y).getYearPlanComponent()).getAchievement().getCreatedDate().getTime())%></p>
                     </li>
                     <%
                             }
