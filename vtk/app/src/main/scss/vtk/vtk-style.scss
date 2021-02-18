@@ -2157,14 +2157,15 @@
     dd ul li {
       margin-bottom: 20px;
       background-color: #f7f7f6 !important;
-      width:auto; //  changes  for VTK-58 css changes
+      width: auto;
+
       div.row {
         background-color: #f7f7f6 !important;
       }
 
       p {
         margin-bottom: 0;
-        text-align: left; //  changes  for VTK-58 
+        text-align: left;
       }
     }
     .inline-list {
