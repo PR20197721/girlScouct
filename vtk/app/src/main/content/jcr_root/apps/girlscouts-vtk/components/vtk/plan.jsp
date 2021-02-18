@@ -895,7 +895,7 @@
 
                 var _template = '<div class="modal_resource" style="height: 608px;overflow: hidden;">' +
                     '<div class="header clearfix">' +
-                    '<h3 class="columns large-22">REQUIREMENTS</h3>' +
+                    '<h3 class="columns large-22">'+ binder.reqTitle +'</h3>' +
                     '<a class="close-reveal-modal columns large-2" href="#">' +
                     '<span style="font-size: 24px; color: black; font-weight: normal;">X</span>' +
                     '</a>' +
