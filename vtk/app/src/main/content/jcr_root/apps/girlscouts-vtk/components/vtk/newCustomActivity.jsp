@@ -160,6 +160,10 @@
         }
     });
 
+    // adding click event to manag activity tab to
+
+    
+
     function timeDiff() {
         var date = document.getElementById("newCustActivity_date").value;
         var startTime = document.getElementById("newCustActivity_startTime").value;
@@ -199,7 +203,7 @@
 <div class="header clearfix">
   <%
   boolean isWarning = false;
-  String instruction = "Add an Activity";
+  String instruction = "Manage Activities";
   if (isWarning) {
   %>
     <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></span>
@@ -213,6 +217,8 @@
             Activity</a></dd>
         <dd id="pickActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('pick')">Council
             Activity</a></dd>
+            <dd id="manage-activities" class="manageCalendarTab"><a href="#" onclick="toggleSection('manageActivity')">Manage Activities
+            </a></dd>
     </dl>
     <div class="modalBody tabs-content">
         <div class="row">
@@ -364,26 +370,39 @@
                                    onclick='searchActivities()' class="button btn right inactive-button"/>
                             <div style="clear:both"></div>
                             <div id="searchResults"></div>
+                        </div>
                     </form>
                 </div><!--/pickActivitySection-->
             </div><!--/small-24-->
+            
             </row>
+            <div id="manageActivitySection">
+            	<%@include file="include/manageActivities.jsp" %>
+            </div>
         </div><!--/modalBody-->
-    </div><!--/tabs-wrapper-->
+    </div>
+    <!--/tabs-wrapper-->
     <script>
         $("#newCustActivity_date").datepicker();
 
         function toggleSection(section) {
             $("#createActivityTab").removeClass("active");
             $("#pickActivityTab").removeClass("active");
+            $("#manage-activities").removeClass("active");
             $("#createActivitySection").hide();
             $("#pickActivitySection").hide();
+            $("#manageActivitySection").hide();
             if (section == "pick") {
                 $("#pickActivityTab").addClass("active");
                 $("#pickActivitySection").show();
             } else if (section == "create") {
                 $("#createActivityTab").addClass("active");
                 $("#createActivitySection").show();
+            }
+            else if (section == "manageActivity") {
+                $("#manage-activities").addClass("active");
+                $("#manageActivitySection").show();
+               // getActivitiesList();
             }
         }
 

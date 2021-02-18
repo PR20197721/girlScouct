@@ -3,6 +3,8 @@ package org.girlscouts.common.util;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.dam.api.DamConstants;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.ReplicationStatus;
 import com.day.cq.wcm.api.NameConstants;
 import com.day.cq.wcm.commons.ReferenceSearch;
@@ -22,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.security.AccessControlManager;
@@ -29,6 +32,7 @@ import javax.jcr.security.AccessControlPolicy;
 import javax.jcr.security.AccessControlPolicyIterator;
 import javax.jcr.security.Privilege;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -60,7 +64,7 @@ public class TrashcanUtil implements TrashcanConstants {
             log.debug("status.isPublished()="+status.isPublished());
             log.debug("status.isDelivered()="+status.isDelivered());
             if (status != null && (status.isActivated() || status.isPending() || status.isPublished())) {
-                throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " is published");
+                throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " is published","typeIsPublished");
             }
         }
         return false;
@@ -82,7 +86,7 @@ public class TrashcanUtil implements TrashcanConstants {
                     }
                 }
                 if(sb.length()>0) {
-                    throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has references <ol>" + sb.toString()+ "</ol>");
+                    throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has references <ol>" + sb.toString()+ "</ol>","typeHasReference");
                 }
             }
         }
@@ -100,7 +104,7 @@ public class TrashcanUtil implements TrashcanConstants {
                         Resource child = children.next();
                         if (child.isResourceType(DamConstants.NT_DAM_ASSET) || child.isResourceType("cq:Page") || child.isResourceType(JcrConstants.NT_FOLDER) || child.isResourceType(JcrResourceConstants.NT_SLING_FOLDER) || child.isResourceType(JcrResourceConstants.NT_SLING_ORDERED_FOLDER) || child.isResourceType(NameConstants.NT_PAGE)) {
                             log.debug("Item "+payloadResource.getPath()+" has a child "+ child.getName());
-                            throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has children");
+                            throw new GirlScoutsException(new Exception(), "Item at path " + payloadResource.getPath() + " has children","typeHasChildren");
                         }
                     }
                 }
@@ -146,7 +150,7 @@ public class TrashcanUtil implements TrashcanConstants {
         }
         if (!breakInheritance) {
             log.info("Resource at {} is inherited ", targetResource.getPath());
-            throw new GirlScoutsException(new Exception(), "Item at path " + targetResource.getPath() + " has Live Relationship");
+            throw new GirlScoutsException(new Exception(), "Item at path " + targetResource.getPath() + " has Live Relationship","typeLiveCopy");
         }
         log.info("Resource at {} has broken inheritance ", targetResource.getPath());
         return breakInheritance;
@@ -278,7 +282,7 @@ public class TrashcanUtil implements TrashcanConstants {
         if (accessControlManager.hasPrivileges(payloadResource.getPath(), new Privilege[]{moveToTrashCanPrivilege})) {
             return true;
         } else {
-            throw new GirlScoutsException(new Exception(), "You do not have permission to move " + payloadResource.getPath() + " to trashcan.");
+            throw new GirlScoutsException(new Exception(), "You do not have permission to move " + payloadResource.getPath() + " to trashcan.","typePermission");
         }
     }
 
@@ -302,5 +306,27 @@ public class TrashcanUtil implements TrashcanConstants {
             }
         }
         return false;
+    }
+
+    //GSAWDO-61- function which perform removal of references
+    public static Set<String> forceDeleteReference(ResourceResolver userResourceResolver, Resource payloadResource) throws GirlScoutsException, RepositoryException {
+        Set<String> referenceSearchResultSet =null;
+        if (null != payloadResource) {
+            log.debug("Force Deleting Reference of " + payloadResource.getPath());
+            Node node = payloadResource.adaptTo(Node.class);
+            ReferenceSearch referenceSearch = new ReferenceSearch();
+            referenceSearch.setExact(true);
+            referenceSearch.setHollow(true);
+            referenceSearch.setMaxReferencesPerPage(-1);
+            referenceSearchResultSet = referenceSearch.search(payloadResource.getResourceResolver(), payloadResource.getPath()).keySet();
+            if (referenceSearchResultSet != null && referenceSearchResultSet.size() > 0) {
+                for (String referenceResource : referenceSearchResultSet) {
+                    if (!referenceResource.equals(payloadResource.getPath()) && !StringUtils.startsWith(referenceResource, "/content/trashcan") && !StringUtils.startsWith(referenceResource, "/etc/workflow/packages")) {
+                        referenceSearch.adjustReferences(userResourceResolver.getResource(referenceResource).adaptTo(Node.class), payloadResource.getPath(), "");
+                    }
+                }
+            }
+        }
+        return referenceSearchResultSet;
     }
 }
