@@ -222,7 +222,6 @@
                                 defaultValue="{Long}25"
                                 fieldDescription="Listing Page Size"
                                 fieldLabel="Listing Page Size"
-                                max="{Long}50"
                                 min="{Long}1"
                                 name="./numPerPage"/>
                             <showOneLink
