@@ -546,15 +546,42 @@ function proposedSchedConfirm(numberOfMeetings) {
 
 function rmCustActivity(x) {
 
-    $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveCustomActivity&rmCustActivity=" + x, function(response, status, xhr) {
+    $("#remove-activities").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveCustomActivity&rmCustActivity=" + x, function(response, status, xhr) {
         if (status != "error") {
             location.reload();
         } else {
-            alert("Sorry.  Unable to remove activity: " + status);
+            //alert("Sorry.  Unable to remove activity: " + status);
+            gsDialog({
+                content: 'Something went wrong pls try again',
+                headerText: 'Notifivation Pop Up',
+                buttons : [	
+                {
+                            text: "OK",
+                            click: function () {
+                                reloadPageOnError( );
+                            }
+                    }],
+                width:600
+            })
         }
     });
     vtkTrackerPushAction('RemoveActivity');
 }
+
+
+function reloadPageOnError(){
+    location.reload();
+}
+
+
+
+
+
+
+
+
+
+    
 
 function createNewCustActivity() {
 
