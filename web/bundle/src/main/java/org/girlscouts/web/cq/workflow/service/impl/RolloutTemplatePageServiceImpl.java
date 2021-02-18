@@ -1,5 +1,6 @@
 package org.girlscouts.web.cq.workflow.service.impl;
 
+import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
@@ -29,6 +30,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The type Rollout template page service.
+ */
 /*
  * Girl Scouts Page Activator - DL
  * This process activates a queue of pages, in batches, with a timed delay between batches
@@ -36,10 +40,19 @@ import java.util.regex.Pattern;
 @Component
 @Service
 public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageService, PageReplicationConstants, PageReplicationConstants.Email {
+    /**
+     * The constant DESCRIPTION.
+     */
     @Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages.")
     static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
+    /**
+     * The constant VENDOR.
+     */
     @Property(value = "Girl Scouts")
     static final String VENDOR = Constants.SERVICE_VENDOR;
+    /**
+     * The constant LABEL.
+     */
     @Property(value = "Girl Scouts Roll out Service")
     static final String LABEL = "process.label";
     private static Logger log = LoggerFactory.getLogger(RolloutTemplatePageServiceImpl.class);
@@ -49,6 +62,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     private RolloutManager rolloutManager;
     @Reference
     private SlingSettingsService settingsService;
+    /**
+     * The Gs email service.
+     */
     @Reference
     public GSEmailService gsEmailService;
     @Reference
@@ -1026,9 +1042,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 
     }
 
-
+    /*
+     * This function compares the content of council with template and check for any difference.
+     */
     private List<RolloutContentDifference> compareRolloutComponentsForContentChange(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations, Set<String> templateComponentsToRollout) {
-
+        List<String> noExistingComponentInCouncil = new ArrayList<>();
         //GSAWDO-60 - List of properties and resourceType we have to check against,which is provided by business.
         Map<String,List<String>> knownResourceType = new HashMap<>();
         List<String> imagePropertyArray= new ArrayList<>();
@@ -1043,19 +1061,6 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         List<String> textImagePropertyArray= new ArrayList<>();
         textImagePropertyArray.add("text");
         knownResourceType.put("girlscouts/components/textimage",textImagePropertyArray);
-        List<String> formTextPropertyArray= new ArrayList<>();
-        formTextPropertyArray.add("jcr:title");
-        formTextPropertyArray.add("name");
-        knownResourceType.put("girlscouts/components/form/text",formTextPropertyArray);
-        List<String> formCheckboxPropertyArray= new ArrayList<>();
-        formCheckboxPropertyArray.add("options");
-        formCheckboxPropertyArray.add("name");
-        knownResourceType.put("girlscouts/components/form/checkbox",formCheckboxPropertyArray);
-        List<String> formDropdownPropertyArray= new ArrayList<>(formCheckboxPropertyArray);
-        formDropdownPropertyArray.add("jcr:title");
-        knownResourceType.put("foundation/components/form/dropdown",formDropdownPropertyArray);
-        List<String> formRadioPropertyArray= new ArrayList<>(formDropdownPropertyArray);
-        knownResourceType.put("foundation/components/form/radio",formDropdownPropertyArray);
         List<String> videoPropertyArray= new ArrayList<>();
         videoPropertyArray.add("html");
         knownResourceType.put("girlscouts/components/video",videoPropertyArray);
@@ -1065,6 +1070,21 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         List<String> embeddedPropertyArray= new ArrayList<>();
         embeddedPropertyArray.add("html");
         knownResourceType.put("girlscouts/components/embedded",embeddedPropertyArray);
+
+        //Form based difference checking
+        List<String> formTextPropertyArray= new ArrayList<>();
+        formTextPropertyArray.add(JcrConstants.JCR_TITLE);
+        formTextPropertyArray.add("name");
+        knownResourceType.put("girlscouts/components/form/text",formTextPropertyArray);
+        List<String> formCheckboxPropertyArray= new ArrayList<>();
+        formCheckboxPropertyArray.add("options");
+        formCheckboxPropertyArray.add("name");
+        knownResourceType.put("foundation/components/form/checkbox",formCheckboxPropertyArray);
+        List<String> formDropdownPropertyArray= new ArrayList<>(formCheckboxPropertyArray);
+        formDropdownPropertyArray.add(JcrConstants.JCR_TITLE);
+        knownResourceType.put("foundation/components/form/dropdown",formDropdownPropertyArray);
+        List<String> formRadioPropertyArray= new ArrayList<>(formDropdownPropertyArray);
+        knownResourceType.put("foundation/components/form/radio",formDropdownPropertyArray);
 
         List<RolloutContentDifference> contentDifferences = new ArrayList<>();
 
@@ -1078,27 +1098,52 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 if(knownResourceType.containsKey(templateComponentToRolloutResourceType)){
                     String councilComponentToRolloutPath = sourceToTargetComponentRelations.get(templateComponentToRolloutResource.getPath());
                     Resource councilComponentToRolloutResource = rr.getResource(councilComponentToRolloutPath);
-                    List<String> resourceTypePropertyArray = knownResourceType.get(templateComponentToRolloutResourceType);
-                    for(String resourceTypeProperty : resourceTypePropertyArray){
-                        ValueMap templateResourceValueMap = templateComponentToRolloutResource.adaptTo(ValueMap.class);
-                        if(templateResourceValueMap.containsKey(resourceTypeProperty)) {
-                            ValueMap councilResourceValueMap = councilComponentToRolloutResource.adaptTo(ValueMap.class);
-                            if(councilResourceValueMap.containsKey(resourceTypeProperty)){
-                                String[] councilComponentToRolloutPathArray =  councilComponentToRolloutPath.split("/");
-                                String pathTillCouncilHeadPage = "/"+councilComponentToRolloutPathArray[1]+"/"+councilComponentToRolloutPathArray[2]+"/";
-                                String newContent = templateResourceValueMap.get(resourceTypeProperty,String.class);
-                                String oldContent = councilResourceValueMap.get(resourceTypeProperty,String.class);
-                                //Exact property is found in council and template component. Lets check if value for both are same or not.
-                                if(!oldContent.replaceAll(pathTillCouncilHeadPage,"/content/girlscouts-template/").equals(newContent)){
-                                    //Hurray! this property was changed by someone in template before rolling out.
-                                    contentDifferences.add(new RolloutContentDifference(oldContent,newContent,templateComponentToRolloutResourceType,resourceTypeProperty));
+                    if(null != councilComponentToRolloutResource) {
+                        List<String> resourceTypePropertyArray = knownResourceType.get(templateComponentToRolloutResourceType);
+                        for (String resourceTypeProperty : resourceTypePropertyArray) {
+                            ValueMap templateResourceValueMap = templateComponentToRolloutResource.adaptTo(ValueMap.class);
+                            if (templateResourceValueMap.containsKey(resourceTypeProperty)) {
+                                ValueMap councilResourceValueMap = councilComponentToRolloutResource.adaptTo(ValueMap.class);
+                                if (councilResourceValueMap.containsKey(resourceTypeProperty)) {
+                                    String[] councilComponentToRolloutPathArray = councilComponentToRolloutPath.split("/");
+                                    String pathTillCouncilHeadPage = "/" + councilComponentToRolloutPathArray[1] + "/" + councilComponentToRolloutPathArray[2] + "/";
+                                    String newContent =null,oldContent =null;
+                                    /*if resourceType is girlscouts/components/form/checkbox and property is options,
+                                    we have to handle it differently. As options is a multifield */
+                                    if(templateComponentToRolloutResourceType.equals("foundation/components/form/checkbox") && resourceTypeProperty.equals("options")){
+                                        String[] newContentArray = templateResourceValueMap.get(resourceTypeProperty, String[].class);
+                                        String[] oldContentArray = councilResourceValueMap.get(resourceTypeProperty, String[].class);
+                                        oldContent = convertStringArrayToString(oldContentArray, ",");
+                                        newContent = convertStringArrayToString(newContentArray, ",");
+                                    }else {
+                                        newContent = templateResourceValueMap.get(resourceTypeProperty, String.class);
+                                        oldContent = councilResourceValueMap.get(resourceTypeProperty, String.class);
+                                    }
+                                    //Exact property is found in council and template component. Lets check if value for both are same or not.
+                                    if (!oldContent.replaceAll(pathTillCouncilHeadPage, "/content/girlscouts-template/").equals(newContent)) {
+                                        //Hurray! this property was changed by someone in template before rolling out.
+                                        contentDifferences.add(new RolloutContentDifference(oldContent, newContent, templateComponentToRolloutResourceType, resourceTypeProperty));
+                                    }
                                 }
                             }
                         }
+                    }else{
+                        noExistingComponentInCouncil.add(templateComponentToRolloutResourceType);
                     }
                 }
             }
         }
         return contentDifferences;
+    }
+
+     /*
+     * This function convert String array to String
+     */
+    private String convertStringArrayToString(String[] strArr, String delimiter) {
+        StringBuilder sb = new StringBuilder();
+        for (String str : strArr) {
+            sb.append(str).append(delimiter);
+        }
+        return sb.substring(0, sb.length() - 1);
     }
 }
