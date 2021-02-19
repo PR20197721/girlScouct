@@ -18,8 +18,8 @@
         private boolean addTargetValueToHref = true;
         private SlingRepository repository;
         private JoinVolunteerMigration joinVolunteerMigration;
-        private boolean addHrefToGivenCouncilOnly=true;
-        private String[] councilURL = {"/content/gsctx","/content/gssjc"};
+        private boolean addHrefToGivenCouncilOnly=false;
+        private String[] councilURL = {"/content/gsgms"};
         int addHrefToGivenCouncilOnlyIndex=0;
 
 
@@ -52,15 +52,22 @@
                         }
 
                         Node site = contentChildren.nextNode();
+                        log.debug("addHrefToGivenCouncilOnly +  addHrefToGivenCouncilOnlyIndex ## "+ addHrefToGivenCouncilOnly+" >> "+addHrefToGivenCouncilOnlyIndex);
+
                         //if addHrefToGivenCouncilOnly is true and councilURL array is given && addHrefToGivenCouncilOnlyIndex < councilURL.length
                         if(addHrefToGivenCouncilOnly && councilURL.length > 0 && addHrefToGivenCouncilOnlyIndex < councilURL.length){
-                            Node content = s.getNode(councilURL[addHrefToGivenCouncilOnlyIndex++]);
+                           site = s.getNode(councilURL[addHrefToGivenCouncilOnlyIndex]);
+                           log.debug("content ## "+ site.getPath());
+
                         }
-						log.debug("addHrefToGivenCouncilOnly +  addHrefToGivenCouncilOnlyIndex"+ addHrefToGivenCouncilOnly+" >> "+addHrefToGivenCouncilOnlyIndex);
+
+
                         if(addHrefToGivenCouncilOnly && addHrefToGivenCouncilOnlyIndex >= councilURL.length){
                             break;
                         }
+                        log.debug("addHrefToGivenCouncilOnly2 +  addHrefToGivenCouncilOnlyIndex2 ## "+ addHrefToGivenCouncilOnly+" >> "+addHrefToGivenCouncilOnlyIndex);
 
+						addHrefToGivenCouncilOnlyIndex++;
                         if(site.hasProperty("jcr:primaryType") && site.getProperty("jcr:primaryType").getString().equals("cq:Page") ){
                             if(updateJoin) {
                                 log.debug("updating join links ");
