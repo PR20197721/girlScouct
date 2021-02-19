@@ -1,17 +1,18 @@
 
 
-
+var dialog = '';
+let forceDeleteRefCheckBxesDiv, forceDeleteRefCheckBxesDivLenth = '';
 $(document).on('change', '.ref-checkbox', function(event){
-   		const forceDeleteRefCheckBox =document.getElementById('forceDeleteRef')
-  		const forceRepublishUpdatedPagesCheckBox = document.getElementById('forceRepublishUpdatedPages');
-  console.log($('#forceDeleteRef').is( ":checked" ))
+            forceDeleteRefCheckBxesDiv =$('.ref-checkbox').toArray();
+           forceDeleteRefCheckBxesDivLenth = $('.ref-checkbox').toArray().length;
 
-  if($('#forceDeleteRef').is( ":checked" ) || $('#forceRepublishUpdatedPagesCheckBox').is( ":checked" )){
-    $('#acceptButton').removeAttribute("disabled")
+  if($(forceDeleteRefCheckBxesDiv[forceDeleteRefCheckBxesDivLenth-1]).is(":checked") || $(forceDeleteRefCheckBxesDiv[forceDeleteRefCheckBxesDivLenth-2]).is(":checked")){
+    $('.procced-button').removeAttr("disabled")
   }
     else{
-       $('#acceptButton').attr('disabled', true);
+        $('.procced-button').attr('disabled', true);
     }
+    
 });
 
 
@@ -94,7 +95,7 @@ var trashcanEventHandler = function () {
         else if(data.hasReferenceErrorType){ // only of there are any references. related errors.
             const checkbox = document.getElementById('forceDeleteRef')
 
-            footer = "<button  id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button disabled  id=\"acceptButton\" is=\"coral-button\" variant=\"primary\"><coral-button-label>Proceed</coral-button-label></button>";
+            footer = "<button  id=\"cancelButton\" is=\"coral-button\" variant=\"default\" coral-close=\"\"><coral-button-label>Cancel</coral-button-label></button><button disabled  id=\"acceptButton\" class=\"procced-button\"  is=\"coral-button\" variant=\"primary\"><coral-button-label>Proceed</coral-button-label></button>";
         }
 
         var errorDialog = new Coral.Dialog().set({
@@ -117,8 +118,8 @@ var trashcanEventHandler = function () {
 
                 handleTrashcanEvent();
             }else if(data.action == "trash" && data.hasReferenceErrorType){ // for GSAWDO-61-[ALL] Move to Trashcan - Force delete references
-                var forceDeleteRef = $("#forceDeleteRef").is(":checked");
-                var forceRepublishUpdatedPages = $("#forceRepublishUpdatedPages").is(":checked");
+                var forceDeleteRef = $(forceDeleteRefCheckBxesDiv[forceDeleteRefCheckBxesDivLenth-2]).is(":checked")
+                var forceRepublishUpdatedPages = $(forceDeleteRefCheckBxesDiv[forceDeleteRefCheckBxesDivLenth-1]).is(":checked");
                 if(!forceDeleteRef && !forceRepublishUpdatedPages){
                     errorDialog.remove();
                     return;
@@ -165,9 +166,7 @@ var trashcanEventHandler = function () {
     }
 
     function handleTrashcanEvent() {
-        if($('.coral3-Dialog-wrapper')){
-			$('body').remove('coral3-Dialog-wrapper');
-		}
+        dialog ? dialog.remove() : null
         if (items.length) {
             var message = "";
             var inTrashMessage = "";
@@ -231,7 +230,7 @@ var trashcanEventHandler = function () {
             }
 
             payloadJSON.items = itemsJSON;
-            var dialog = new Coral.Dialog().set({
+             dialog = new Coral.Dialog().set({
                 id: "trashcanDialog",
                 header: {
                     innerHTML: header
@@ -270,10 +269,20 @@ var trashcanEventHandler = function () {
                     $(window).adaptTo("foundation-ui").notify("Error", "Unexpected error occurred while moving item " + itemPath + " to trashcan.", "error");
                 });
             });
-
+             
             document.body.appendChild(dialog);
-            $('body').remove('coral3-Dialog-wrapper');
+           
+            // console.log(getPopups)
+           // $('.coral3-Dialog-wrapper').removeClass('last-pop-up')
+           // $('.coral3-Dialog-wrapper').last().addClass('last-pop-up');
             dialog.show();
+            const getPopups = $('.coral3-Dialog-wrapper');
+            if(getPopups && getPopups.length >0){
+                for(let i=0; i<=getPopups.length; i++){[1,2]
+                    $(getPopups[getPopups.length-1]).addClass('last-pop-up');
+                    
+                }
+            }
         }
         return {payloadJSON, dialog};
     }
