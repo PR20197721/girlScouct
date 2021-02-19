@@ -3,7 +3,7 @@
 
 <div class="row details">
     <div class="detail clearfix">
-        <section>
+        <section class ="booth-finder-section">
             <p class="location" data='{{{json .}}}'>{{{Location}}}</p>
             <p class="address1">{{Address1}}</p>
             <p class="address2">{{Address2}}</p>
