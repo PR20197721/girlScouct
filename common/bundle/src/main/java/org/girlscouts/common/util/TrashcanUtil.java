@@ -81,7 +81,9 @@ public class TrashcanUtil implements TrashcanConstants {
             if(resultSet != null && resultSet.size() > 0) {
                 StringBuffer sb = new StringBuffer();
                 for(String key:resultSet){
-                	if(!key.equals(payloadResource.getPath()) && !StringUtils.startsWith(key,"/content/trashcan") && !StringUtils.startsWith(key,"/etc/workflow/packages")) {
+                	if(!key.equals(payloadResource.getPath()) && !StringUtils.startsWith(key,"/content/trashcan")
+                            && !StringUtils.startsWith(key,"/etc/workflow/packages")
+                            && !StringUtils.contains(key,"/en/pagecounter")) {
                         sb.append("<li>" + key + "</li>");
                     }
                 }
