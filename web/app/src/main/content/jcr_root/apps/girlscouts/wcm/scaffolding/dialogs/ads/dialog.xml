@@ -64,161 +64,169 @@
                     xtype="selection"/>
             </items>
         </tab3>
-<!--
-	// pbae - instead of using multifield.js, listing fields individually
-	// since multifield.js won't be compatible with CoralUI.
-	// Once we have better CoralUI solution, we should update this code so that it is more dynamic
--->
-       	<tab4
-	       	jcr:primaryType="cq:Panel"
-	        title="Pages to Display">
-	        <items jcr:primaryType="cq:WidgetCollection">
-		       	<text
-        	  		jcr:primaryType="cq:Widget"
-                    text="Add pages that you wish this ad to display. No entry will force the ad to show on all pages."
-                    xtype="label"/>
-               	<displayPage1
+        <tab4
+            jcr:primaryType="cq:Panel"
+            title="Pages to Display">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <radioButton
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    fieldLabel="Display Choice"
+                    name="./jcr:content/text/radioButtonSelection"
+                    type="radio"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <button1
+                            jcr:primaryType="nt:unstructured"
+                            text="Show this ad on only below pages. No entry will force the ad to show on all pages."
+                            value="show"/>
+                        <button2
+                            jcr:primaryType="nt:unstructured"
+                            text="Hide this ad on below pages but show on all other pages. No entry will force the ad to show on all pages."
+                            value="hide"/>
+                    </options>
+                </radioButton>
+                <displayPage1
+                    jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage1"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage2
+                <displayPage2
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage2"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage3
+                <displayPage3
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage3"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage4
+                <displayPage4
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage4"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage5
+                <displayPage5
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage5"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage6
+                <displayPage6
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage6"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage7
+                <displayPage7
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage7"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage8
+                <displayPage8
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage8"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage9
+                <displayPage9
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage9"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage10
+                <displayPage10
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage10"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage11
+                <displayPage11
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage11"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage12
+                <displayPage12
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage12"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage13
+                <displayPage13
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage13"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage14
+                <displayPage14
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage14"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage15
+                <displayPage15
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage15"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage16
+                <displayPage16
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage16"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage17
+                <displayPage17
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage17"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage18
+                <displayPage18
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage18"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage19
+                <displayPage19
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage19"
+                    rootPath="/content"
                     xtype="pathfield"/>
-               	<displayPage20
+                <displayPage20
                     jcr:primaryType="cq:Widget"
-					allowBlank="{Boolean}true"
+                    allowBlank="{Boolean}true"
                     fieldLabel="Page"
-                    rootPath ="/content"
                     name="./jcr:content/text/displayPage20"
+                    rootPath="/content"
                     xtype="pathfield"/>
             </items>
-	   	</tab4>
+        </tab4>
         <tab5
             jcr:primaryType="cq:Panel"
             title="Mobile">
@@ -235,6 +243,5 @@
                     xtype="selection"/>
             </items>
         </tab5>
-        
     </items>
 </jcr:root>

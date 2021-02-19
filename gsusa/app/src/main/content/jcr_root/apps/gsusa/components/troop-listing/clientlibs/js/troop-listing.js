@@ -100,24 +100,35 @@ TroopListing.prototype.getResult = function() {
 
 TroopListing.prototype.processResult = function(result) {
   var troops = result.booths;
-  if (troops == null && this.page == 1) {
+  if ((troops == null ||  troops.length == 0) && this.page == 1) {
     var templatePathID = 'template-troop-listing';
     var html = Handlebars.compile($('#' + templatePathID).html())(result);
     $('#troop-listing-result').html(html);
-    var templatePathID = 'template-notfound';
+    var templatePathID = 'template-notfound-troop-listing';
     html = Handlebars.compile($('#' + templatePathID).html())(result);
     $('#troop-listing-result').append(html);
+    $('.troop-listing #more').hide();
   } else if (troops && troops.length != 0) {
 
-    //logic for Randomizing the 0 mile records so as to give a fair chance to every troop.
+    //logic for Randomizing the first mile records (if first mile is found multiple times) so as to give a fair chance to every troop.
     //checking end index of zero Mile troops, as start will always be 0
-    var zeroMileEndIndex = 0;
-    for (var troopIndex = 0; troopIndex < troops.length; troopIndex++) {
-        if(troops[troopIndex].Distance == 0 ){
-            zeroMileEndIndex++;
-        }
+    var sameMileInitialIndex = 0;
+    var sameMileEndIndex =1;
+	var allDistancesAreSame= true;
+    for (var troopIndex = 1; troopIndex < troops.length; troopIndex++) {
+	    //console.log(troopIndex+" * "+sameMileInitialIndex+"**"+sameMileEndIndex);
+	    if (troops[troopIndex].Distance == troops[sameMileInitialIndex].Distance) {
+	       sameMileEndIndex++;
+	    }else{
+	       allDistancesAreSame =false;
+	       shuffleSameMilesTroop(troops,sameMileInitialIndex,sameMileEndIndex);
+	       break;
+	    }
     }
-	troops = shuffleZeroMilesTroop(troops,zeroMileEndIndex);
+	if(allDistancesAreSame){
+	   shuffleSameMilesTroop(troops,0,troops.length);
+	}
+
 
     /*
     //Sorting the result to get the nearest first.
@@ -261,22 +272,22 @@ function fixLastResultBottomBorder(){
 	$(".troop-listing .row.details").last().css({ 'border-bottom' : '0px'});
 }
 
-function shuffleZeroMilesTroop(troops, zeroMileLastIndex) {
-  var temp, index;
-  var troopLength = troops.length;
-  // While there are elements in the object
-  while (troopLength > 0) {
-    // Pick a random index in between 0 and zeroMileLastIndex
-    index = Math.floor(Math.random() * (zeroMileLastIndex));
-    // Decrease zeroMileLastIndex by 1
-    troopLength--;
-    // And swap the last element with it
-    temp = troops[0];
-    troops[0] = troops[index];
-    troops[index] = temp;
-  }
-  return troops;
-}
+function shuffleSameMilesTroop(troops,startIndex, endIndex) {
+   var temp, index;
+   // While there are elements in the object
+   while (0 !== endIndex) {
+     // Pick a random index in between startIndex and endIndex
+     index = Math.floor(Math.random() * endIndex);
+     //console.log("Index "+index);
+     endIndex--;
+     // And swap the endIndex element with it
+     temp = troops[endIndex];
+     troops[endIndex] = troops[index];
+     troops[index] = temp;
+   }
+ }
+
+
 
 function registerClickOfRegisterButton(){
   $('.troop-listing .troopRegisterButton, .troop-listing .troopRegisterLink').on('click', function() {

@@ -21,7 +21,7 @@ public class HelloServlet extends SlingSafeMethodsServlet {
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         try {
-            response.setContentType("application/javascript");
+            response.setContentType("text/javascript");
             PrintWriter out = response.getWriter();
             HttpSession session = request.getSession(false);
             if (session == null) {

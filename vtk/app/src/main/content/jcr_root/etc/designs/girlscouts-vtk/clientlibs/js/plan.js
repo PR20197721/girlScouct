@@ -546,15 +546,42 @@ function proposedSchedConfirm(numberOfMeetings) {
 
 function rmCustActivity(x) {
 
-    $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveCustomActivity&rmCustActivity=" + x, function(response, status, xhr) {
+    $("#remove-activities").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveCustomActivity&rmCustActivity=" + x, function(response, status, xhr) {
         if (status != "error") {
             location.reload();
         } else {
-            alert("Sorry.  Unable to remove activity: " + status);
+            //alert("Sorry.  Unable to remove activity: " + status);
+            gsDialog({
+                content: 'Something went wrong pls try again',
+                headerText: 'Notifivation Pop Up',
+                buttons : [	
+                {
+                            text: "OK",
+                            click: function () {
+                                reloadPageOnError( );
+                            }
+                    }],
+                width:600
+            })
         }
     });
     vtkTrackerPushAction('RemoveActivity');
 }
+
+
+function reloadPageOnError(){
+    location.reload();
+}
+
+
+
+
+
+
+
+
+
+    
 
 function createNewCustActivity() {
 
@@ -1603,7 +1630,7 @@ var initNotes = (function(global, ModalVtk, $) {
             // var notes  =  $('li[data-uid]');
 
             if (character.length < 501) {
-                editNote(nid, message)
+                editNote(globalMid, nid, message)
                     .fail(function(err) {
                         console.log(err);
                     })
@@ -2136,7 +2163,7 @@ var initNotes = (function(global, ModalVtk, $) {
         });
     }
 
-    function editNote(nid, msg) {
+    function editNote(mid, nid, msg) {
 
         return ajaxConnection({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
@@ -2145,6 +2172,7 @@ var initNotes = (function(global, ModalVtk, $) {
             data: {
                 editNote: "true",
                 nid: nid,
+                mid: mid,
                 msg: msg,
                 a: Date.now()
             }
