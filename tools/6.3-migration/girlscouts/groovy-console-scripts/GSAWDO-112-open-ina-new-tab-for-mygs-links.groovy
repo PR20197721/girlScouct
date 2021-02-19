@@ -11,9 +11,9 @@ import javax.jcr.query.*
 
 String QUERY_LANGUAGE = "JCR-SQL2";
 List<String> PATH_ARRAY = new ArrayList<>();
-PATH_ARRAY.add("/content/gsctx");
 PATH_ARRAY.add("/content/gssjc");
-String[] RESOURCE_TYPE_ARRAY = ["gsusa/components/textimage","gsusa/components/image"];
+PATH_ARRAY.add("/content/gsctx");
+String[] RESOURCE_TYPE_ARRAY = ["gsusa/components/textimage","gsusa/components/image","girlscouts/components/textimage","girlscouts/components/image"];
 for(int i = 0 ; i < PATH_ARRAY.size();i++){
     String PATH = PATH_ARRAY.get(i);
     for(int j=0 ; j< RESOURCE_TYPE_ARRAY.length; j++){
@@ -23,7 +23,7 @@ for(int i = 0 ; i < PATH_ARRAY.size();i++){
                 "WHERE ISDESCENDANTNODE('"+PATH+"') AND "+
                 "s.[sling:resourceType]='"+RESOURCE_TYPE+"'";
         QueryResult result = search(EXPRESSION, QUERY_LANGUAGE)
-
+        //println(EXPRESSION);
         if (result != null) {
             Workspace workspace = session.getWorkspace()
             RowIterator rowIter = result.getRows()
@@ -37,7 +37,7 @@ for(int i = 0 ; i < PATH_ARRAY.size();i++){
 }
 
 def void processData(RESOURCE_TYPE,node){
-    if(RESOURCE_TYPE.equals("gsusa/components/textimage")){
+    if(RESOURCE_TYPE.equals("gsusa/components/textimage") || RESOURCE_TYPE.equals("girlscouts/components/textimage") ){
         if(node.hasNode("image")){
             Node imageNode = node.getNode("image");
             if(null != imageNode && imageNode.hasProperty("linkURL")){
@@ -50,7 +50,7 @@ def void processData(RESOURCE_TYPE,node){
                 }
             }
         }
-    }else if(RESOURCE_TYPE.equals("gsusa/components/image")){
+    }else if(RESOURCE_TYPE.equals("gsusa/components/image") || RESOURCE_TYPE.equals("girlscouts/components/image")){
         if(node.hasProperty("linkURL")){
             String linkURL =  node.getProperty("linkURL").getString();
             if(linkURL.startsWith("https://mygs.girlscouts.org")){
