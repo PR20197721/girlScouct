@@ -262,15 +262,15 @@
                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                         fieldLabel="From Email"
                                                         name="./from"
-                                                        required="{Boolean}true"/>
+                                                        validation="email-validate"/>
                                                     <to-email
                                                         jcr:primaryType="nt:unstructured"
                                                         sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
                                                         fieldLabel="Mail To Email"
-                                                        required="{Boolean}true">
+                                                        validation="email-validate">
                                                         <field
                                                             jcr:primaryType="nt:unstructured"
-                                                            required="{Boolean}true"
+                                                            validation="email-validate"
                                                             sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
                                                             name="./mailto"/>
                                                     </to-email>
