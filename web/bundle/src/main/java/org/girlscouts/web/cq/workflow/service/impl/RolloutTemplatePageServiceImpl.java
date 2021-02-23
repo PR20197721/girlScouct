@@ -1086,6 +1086,10 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         List<String> formRadioPropertyArray= new ArrayList<>(formDropdownPropertyArray);
         knownResourceType.put("foundation/components/form/radio",formDropdownPropertyArray);
 
+        //Accordion Handling, its a special case, for this resourceType we have custom way of handling it.
+        knownResourceType.put("girlscouts/components/accordion",null);
+
+
         List<RolloutContentDifference> contentDifferences = new ArrayList<>();
 
         //NOTE: there are few more in this list which needs to pick up , will check on them at last once this is working fine.
@@ -1098,6 +1102,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 if(knownResourceType.containsKey(templateComponentToRolloutResourceType)){
                     String councilComponentToRolloutPath = sourceToTargetComponentRelations.get(templateComponentToRolloutResource.getPath());
                     Resource councilComponentToRolloutResource = rr.getResource(councilComponentToRolloutPath);
+
+                    //If Accordion resourceType is found,lets handle it separately.
+                    if(templateComponentToRolloutResourceType.equals("girlscouts/components/accordion")){
+                        contentDifferences.addAll(handleAccordionResourceType(rr,sourceToTargetComponentRelations,templateComponentToRolloutResource));
+                        continue;
+                    }
+
                     if(null != councilComponentToRolloutResource) {
                         List<String> resourceTypePropertyArray = knownResourceType.get(templateComponentToRolloutResourceType);
                         for (String resourceTypeProperty : resourceTypePropertyArray) {
@@ -1110,7 +1121,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                     String newContent =null,oldContent =null;
                                     /*if resourceType is girlscouts/components/form/checkbox and property is options,
                                     we have to handle it differently. As options is a multifield */
-                                    if(templateComponentToRolloutResourceType.equals("foundation/components/form/checkbox") && resourceTypeProperty.equals("options")){
+                                    if((templateComponentToRolloutResourceType.equals("foundation/components/form/checkbox") || templateComponentToRolloutResourceType.equals("foundation/components/form/dropdown")) && resourceTypeProperty.equals("options")){
                                         String[] newContentArray = templateResourceValueMap.get(resourceTypeProperty, String[].class);
                                         String[] oldContentArray = councilResourceValueMap.get(resourceTypeProperty, String[].class);
                                         oldContent = convertStringArrayToString(oldContentArray, ",");
@@ -1136,7 +1147,32 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         return contentDifferences;
     }
 
-     /*
+    private List<RolloutContentDifference> handleAccordionResourceType(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations,Resource templateComponentToRolloutResource) {
+        List<RolloutContentDifference> contentDifferences = new ArrayList<>();
+        if(null != templateComponentToRolloutResource) {
+            for(Resource childNode : templateComponentToRolloutResource.getChildren()){
+                if(childNode.getName().equals("children")){
+                    for(Resource childrenChildResource :  childNode.getChildren()){
+                        ValueMap templateChildrenNodeChildValueMap = childrenChildResource.adaptTo(ValueMap.class);
+                        String newContent = templateChildrenNodeChildValueMap.get("nameField",String.class);
+                        String councilComponentToRolloutPath = sourceToTargetComponentRelations.get(childrenChildResource.getPath());
+                        Resource councilComponentToRolloutResource = rr.getResource(councilComponentToRolloutPath);
+                        ValueMap councilChildrenNodeChildValueMap = childrenChildResource.adaptTo(ValueMap.class);
+                        String oldContent = councilChildrenNodeChildValueMap.get("nameField",String.class);
+                        //Exact property is found in council and template component. Lets check if value for both are same or not.
+                        if (!newContent.equals(oldContent)) {
+                            //Hurray! this property was changed by someone in template before rolling out.
+                            contentDifferences.add(new RolloutContentDifference(oldContent, newContent, "Accordion-children", "nameField"));
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return contentDifferences;
+    }
+
+    /*
      * This function convert String array to String
      */
     private String convertStringArrayToString(String[] strArr, String delimiter) {
