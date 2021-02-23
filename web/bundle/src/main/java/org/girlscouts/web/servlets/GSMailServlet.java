@@ -519,9 +519,9 @@ public class GSMailServlet
 	                        }
 	                    } 
 	                    // default to address if none are configured
-	                    logger.error("mail addresses : {}", confEmail.getToAddresses().toArray());
+	                    logger.debug("mail addresses : {}", confEmail.getToAddresses().toArray());
 	                    if (null == confEmail.getToAddresses() || confEmail.getToAddresses().isEmpty()){
-	                    	confEmail.addTo(mailTo);
+	                    	logger.debug("No confirmation mail address present");
 	                    }
 	
 	                    // subject and from address
@@ -543,7 +543,9 @@ public class GSMailServlet
 	                    		}
 	                    }
 	                    //confirmation mail
-	                    localService.sendEmail(confEmail);
+	                    if (null != confEmail.getToAddresses() && !confEmail.getToAddresses().isEmpty()) {
+	                    	localService.sendEmail(confEmail);
+	                    }
                     }else{
                     	logger.debug("Email body null for " + request.getResource().getPath());
                     }
