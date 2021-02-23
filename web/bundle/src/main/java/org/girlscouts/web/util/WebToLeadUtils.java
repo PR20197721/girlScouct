@@ -22,7 +22,9 @@ public class WebToLeadUtils {
         String email = request.getParameter("Email");
         String councilCode = request.getParameter("CouncilCode");
         String g_recaptcha_response = request.getParameter("g-recaptcha-response");
-        if (null != leadType && StringUtils.isBlank(leadType)){
+        if (null == leadType){
+            errors.add("LeadType was not found");
+        } else if (null != leadType && StringUtils.isBlank(leadType)){
             errors.add("Missing value for required field: LeadType");
         }else{
             if(leadType.equals("DirectContact") || leadType.equals("General")){
