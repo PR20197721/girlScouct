@@ -26,6 +26,10 @@ module COMUNICATION {
     };
 
     export function FETCH(url) {
+        const urlObj = {
+            url
+        }
+        localStorage.setItem('URL', JSON.stringify(urlObj));
         return Promise.all([CALL({
             url: `${BASE_URL}/${_getTroopDataToken()}/${url}?_=${Date.now()}`,
             method: 'get',
