@@ -429,7 +429,9 @@ public class GSStoreServlet
                     			confEmail.attach(ea, rp.getFileName(), rp.getFileName());
                     		}
                     }
-                    localService.sendEmail(confEmail);
+                    if (null != confEmail.getToAddresses() && !confEmail.getToAddresses().isEmpty()) {
+                    	localService.sendEmail(confEmail);
+                    }
                 }else{
                 	logger.debug("Email body null for " + request.getResource().getPath());
                 }
