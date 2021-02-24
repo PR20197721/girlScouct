@@ -178,7 +178,10 @@
 					renderMaps.sort((m1, m2) -> {
 						Date d1 = (Date)m1.get("date");
 						Date d2 = (Date)m2.get("date");
-						return d1.before(d2) ? -1 : 1;
+						if(null != d1 && null !=d2){
+							return d1.before(d2) ? -1 : 1;
+						}
+						return 0;
 					});
 
 					// Render
