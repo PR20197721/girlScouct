@@ -1,5 +1,7 @@
 package org.girlscouts.web.cq.workflow.service.pojo;
 
+import java.util.List;
+
 /**
  * The type Content difference.
  */
@@ -8,6 +10,7 @@ public class RolloutContentDifference {
     private String newContent;
     private String componentResourceType;
     private String propertyName;
+    private Boolean isInheritanceBroken;
 
     /**
      * Instantiates a new Content difference.
@@ -58,5 +61,23 @@ public class RolloutContentDifference {
      */
     public String getPropertyName() {
         return propertyName;
+    }
+
+    /**
+     * Is inheritance broken boolean.
+     *
+     * @return the boolean
+     */
+    public Boolean isInheritanceBroken() {
+        return isInheritanceBroken;
+    }
+
+    /**
+     * Sets inheritance broken.
+     *
+     * @param inheritanceBroken the inheritance broken
+     */
+    public void setInheritanceBroken(Boolean inheritanceBroken) {
+        isInheritanceBroken = inheritanceBroken;
     }
 }

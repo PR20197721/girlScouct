@@ -6,6 +6,7 @@ import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
 import com.day.cq.wcm.msm.api.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.mail.EmailException;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.resource.LoginException;
@@ -26,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.*;
 import javax.jcr.query.Query;
 import javax.jcr.version.VersionManager;
+import javax.mail.MessagingException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -361,7 +363,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                     log.error("Girlscouts Rollout Service encountered error: ", e);
                                 }
                                 deleteComponents(rr, rolloutLog, componentsToDelete);
-                                List<RolloutContentDifference> contentDifferences = compareRolloutComponentsForContentChange(rr, sourceToTargetComponentRelations, componentsToRollout);
+                                //function to get the difference of content while rolling out
+                                List<RolloutContentDifference> contentDifferences = compareRolloutComponentsForContentChange(rr, sourceToTargetComponentRelations, componentsToRollout,relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS));
+
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
                                 updatePageTitle(sourcePageResource, relationPageResource);
                                 if (updateReferences) {
@@ -370,6 +374,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 pagesToActivate.add(relationPagePath);
                                 rolloutLog.add("Page added to activation queue");
                                 log.info("Page added to activation queue");
+                                //lets send email to individual councils letting them know about what changed.
+                                sendContentDifferenceEmail(rr,councilPath,contentDifferences);
                             } catch (Exception e) {
                                 log.error("Girlscouts Rollout Service encountered error: ", e);
                                 try {
@@ -1045,7 +1051,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     /*
      * This function compares the content of council with template and check for any difference.
      */
-    private List<RolloutContentDifference> compareRolloutComponentsForContentChange(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations, Set<String> templateComponentsToRollout) {
+    private List<RolloutContentDifference> compareRolloutComponentsForContentChange(ResourceResolver rr, Map<String, String> sourceToTargetComponentRelations, Set<String> templateComponentsToRollout, Set<String> cancInheritanceComponents) {
         List<String> noExistingComponentInCouncil = new ArrayList<>();
         //GSAWDO-60 - List of properties and resourceType we have to check against,which is provided by business.
         Map<String,List<String>> knownResourceType = new HashMap<>();
@@ -1144,6 +1150,21 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 }
             }
         }
+
+       /* //lets check for components which has inheritance disabled.
+        for(String councilPath : cancInheritanceComponents){
+            Iterator<Map.Entry<String,String>> sourceToTargetComponentRelationsIter = sourceToTargetComponentRelations.entrySet().iterator();
+            while (sourceToTargetComponentRelationsIter.hasNext()) {
+                Map.Entry<String,String> entry = sourceToTargetComponentRelationsIter.next();
+                if (entry.getValue().equals(councilPath)) {
+                    String templatePath = entry.getKey();
+                    //Now since we have both councilPath and templatePath, lets see if the resourceType of cancel Inherited component lies in known resourceType
+                    rr.getResource()
+                }
+            }
+        }*/
+
+
         return contentDifferences;
     }
 
@@ -1157,15 +1178,15 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                         String newContent = templateChildrenNodeChildValueMap.get("nameField",String.class);
                         String councilComponentToRolloutPath = sourceToTargetComponentRelations.get(childrenChildResource.getPath());
                         Resource councilComponentToRolloutResource = rr.getResource(councilComponentToRolloutPath);
-                        ValueMap councilChildrenNodeChildValueMap = childrenChildResource.adaptTo(ValueMap.class);
+                        ValueMap councilChildrenNodeChildValueMap = councilComponentToRolloutResource.adaptTo(ValueMap.class);
                         String oldContent = councilChildrenNodeChildValueMap.get("nameField",String.class);
                         //Exact property is found in council and template component. Lets check if value for both are same or not.
                         if (!newContent.equals(oldContent)) {
                             //Hurray! this property was changed by someone in template before rolling out.
                             contentDifferences.add(new RolloutContentDifference(oldContent, newContent, "Accordion-children", "nameField"));
                         }
-                        break;
                     }
+                    break;
                 }
             }
         }
@@ -1181,5 +1202,42 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             sb.append(str).append(delimiter);
         }
         return sb.substring(0, sb.length() - 1);
+    }
+
+
+    private void sendContentDifferenceEmail(ResourceResolver rr, String councilPath, List<RolloutContentDifference> contentDifferences){
+        if (councilPath != null) {
+            try {
+                String pathToCouncilSite = PageReplicationUtil.getCouncilName(councilPath);
+                // get the email addresses configured in
+                // page properties of the council's homepage
+                Page homepage = rr.resolve(pathToCouncilSite + "/en").adaptTo(Page.class);
+                List<String> toAddresses = PageReplicationUtil.getCouncilEmails(homepage.adaptTo(Node.class));
+                log.info("sending content difference email to " + pathToCouncilSite.substring(9) + " emails:" + toAddresses.toString());
+                String subject = DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_SUBJECT;
+                String message = DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_MESSAGE;
+                StringBuilder body = new StringBuilder();
+                body.append("<table style=\"width:100%\">");
+                body.append("<tr>");
+                body.append("<th>Component Type</th>");
+                body.append("<th>Status</th>");
+                body.append("<th>Old</th>");
+                body.append("<th>New</th>");
+                body.append("</tr>");
+
+                for (RolloutContentDifference contentDifference : contentDifferences) {
+                    body.append("<tr>");
+                    body.append("<td>" + contentDifference.getComponentResourceType() + "</td>");
+                    body.append("<td>" + "Changed" + "</td>");
+                    body.append("<td>" + contentDifference.getOldContent() + "</td>");
+                    body.append("<td>" + contentDifference.getNewContent() + "</td>");
+                    body.append("</tr>");
+                }
+                body.append("</table>");
+                gsEmailService.sendEmail(subject, toAddresses, body.toString());
+            } catch (Exception e) {
+                log.error("Girlscouts Content Difference Email Trigger encountered error: ", e);
+            }
+        }
     }
 }
