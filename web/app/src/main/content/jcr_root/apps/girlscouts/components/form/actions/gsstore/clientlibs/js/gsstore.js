@@ -1,8 +1,7 @@
 $(document).ready(function () {
     var form = $('form#gsstore');
-    
+
     form.find("input[type='submit']").click(form, function (e) {
-        debugger;
         e.stopPropagation();
         submitForm(form);
         document.body.scrollTop = 0; // For Safari
@@ -27,6 +26,7 @@ $(document).ready(function () {
             errorMessage += "<div class=\"form_row form_error\">" + errors[i] + "</div>";
         }
         $(formErrorContainer[0]).html(errorMessage);
+        $("#recaptcha-error").hide();
     }
     
     function submitForm(form) {
@@ -40,12 +40,12 @@ $(document).ready(function () {
                     var responseForm = $(response).find("#" + formId);
                     if (responseForm != null && responseForm.length > 0) {
                         form.html($(responseForm[0]).html());
-                    }
+                    }  
                 }
                 if (ct.indexOf('json') > -1) {
                     if (response.status == "success") {
                         console.log("form submitted successfully");
-                        var redirect = form.find("input[name=':redirect']");
+                        var redirect = form.find("input[name=':gsredirect']");
                         if (redirect != null && redirect.length > 0) {
                             console.log("redirect to " + $(redirect).val());
                             window.location.href=$(redirect).val();
@@ -55,7 +55,7 @@ $(document).ready(function () {
                         displayErrors(errors, form);
                     }
                 }
-
+                localStorage.removeItem("recaptchaError");
             })
             .fail(function (xhr, status, error) {
                 $("#validation-errors").html(xhr.responseText);

@@ -18,6 +18,9 @@ import com.day.cq.mailer.MailService;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
+import com.google.gson.Gson;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Properties;
@@ -41,6 +44,7 @@ import javax.jcr.RepositoryException;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -166,18 +170,21 @@ public class GSStoreServlet
             throws ServletException, IOException {
 
         final MailService localService = this.mailService;
+        List<String> errors = new ArrayList<>();
 
         //Double check that the request should be accepted since it is possible to
         //bypass the OptingServlet interface through a properly constructed resource type.
         //eg. sling:resourceType=foundation/components/form/start/mail.POST.servlet
         if (!accepts(request)) {
-            logger.debug("Resource not accepted.");
-            response.setStatus(500);
+        	logger.error("Resource not accepted.");
+            errors.add("Resource not accepted.");
+            respond(new GSStoreResponse("error", errors), response);
             return;
         }
         if (ResourceUtil.isNonExistingResource(request.getResource())) {
-            logger.debug("Received fake request!");
-            response.setStatus(500);
+        	logger.error("Received invalid request!");
+            errors.add("Received invalid request!");
+            respond(new GSStoreResponse("error", errors), response);
             return;
         }
         
@@ -186,19 +193,40 @@ public class GSStoreServlet
         String captcha = request.getParameter(CAPTCHA_RESPONSE);
         String secret = request.getParameter(SECRET);
         if (null == captcha){
-	        if (null != responseVal) {
-		        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
-		        if (!success) {
-		        	logger.debug("Recaptcha validation failed");
-		        	response.sendError(500, "Recaptcha validation failed");
-		        	return;
-		        }
-	        } else {
-	        	logger.debug("Recaptcha response invalid");
-	        	response.sendError(500, "Recaptcha response invalid");
-	        	return;
-	        }
+        	if (null != responseVal) {
+	        	if (StringUtils.isBlank(responseVal)){
+	                errors.add("Missing value for required field: g-recaptcha-response");
+	            } else {
+			        boolean success = recaptchaService.captchaSuccess(secret, responseVal);
+			        if (!success) {
+			        	logger.debug("Recaptcha validation failed");
+			        	errors.add("Validation failed for : g-recaptcha-response. Please try again.");
+			        }
+	            }
+	        } 
         }
+        Iterator<Resource> elements = FormsHelper.getFormElements(request.getResource());
+        while (elements.hasNext()) {
+            final Resource element = elements.next();
+            final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, element);
+            for (final FieldDescription desc : descs) {
+                ValueMap childProperties = ResourceUtil.getValueMap(element);
+                	if(childProperties.containsKey("required") && childProperties.get("required").equals("true")){
+                		String paramVal = request.getParameter(desc.getName());
+                		if (null == paramVal || paramVal.equals("")) {
+                			if (null != desc.getRequiredMessage()) {
+                				errors.add(desc.getRequiredMessage());
+                			}
+                		}
+            		}
+            }
+        }
+        
+        if (errors != null && !errors.isEmpty()) {
+        	GSStoreResponse respObj = new GSStoreResponse("error", errors);
+            respond(respObj, response);
+            return;
+        } 
 
         final ResourceBundle resBundle = request.getResourceBundle(null);
         final ValueMap values = ResourceUtil.getValueMap(request.getResource());
@@ -401,7 +429,9 @@ public class GSStoreServlet
                     			confEmail.attach(ea, rp.getFileName(), rp.getFileName());
                     		}
                     }
-                    localService.sendEmail(confEmail);
+                    if (null != confEmail.getToAddresses() && !confEmail.getToAddresses().isEmpty()) {
+                    	localService.sendEmail(confEmail);
+                    }
                 }else{
                 	logger.debug("Email body null for " + request.getResource().getPath());
                 }
@@ -409,25 +439,15 @@ public class GSStoreServlet
 
         } catch (Exception e) {
             logger.error("Error sending email: " + e.getMessage(), e);
-            status = 500;
-        }
-        // check for redirect
-        String redirectTo = request.getParameter(":gsredirect");
-        if (redirectTo != null) {
-            if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
-                int pos = redirectTo.indexOf('?');
-                redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + status;
-                response.sendRedirect(redirectTo);
-            } else {
-                logger.error("Invalid redirect specified: {}", new Object[]{redirectTo});
-                response.sendError(403);
-            }
+            errors.add("Error sending email.");
+            respond(new GSStoreResponse("error", errors), response);
             return;
         }
-        if (FormsHelper.isRedirectToReferrer(request)) {
-            FormsHelper.redirectToReferrer(request, response,
-                    Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
+        if(!errors.isEmpty()){
+            respond(new GSStoreResponse("error", errors),response);
             return;
+        } else {
+            respond(new GSStoreResponse("success", null),response);
         }
         
         response.setStatus(status);
@@ -528,5 +548,44 @@ public class GSStoreServlet
     		return imgPath + "/jcr:content/renditions/original";
     	}
     }
+    
+    private void respond(GSStoreResponse respObj, SlingHttpServletResponse response) {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		try {
+			PrintWriter out = response.getWriter();
+			out.print(new Gson().toJson(respObj));
+			out.flush();
+		} catch (Exception e) {
+			logger.error("Encountered error:", e);
+		}
+	}
+    
+    private class GSStoreResponse {
+		private String status;
+		private List<String> errors;
+
+		GSStoreResponse(String status, List<String> errors) {
+			this.status = status;
+			this.errors = errors;
+
+		}
+
+		public String getStatus() {
+			return status;
+		}
+
+		public void setStatus(String status) {
+			this.status = status;
+		}
+
+		public List<String> getErrors() {
+			return errors;
+		}
+
+		public void setErrors(List<String> errors) {
+			this.errors = errors;
+		}
+	}
 
 }
