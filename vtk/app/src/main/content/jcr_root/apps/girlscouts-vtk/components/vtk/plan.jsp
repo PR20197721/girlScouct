@@ -892,7 +892,11 @@
                     image += '<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/' + globalImgName + '" />';
                 }
 
-
+                if (binder.reqTitle == "Badge Steps" || binder.reqTitle == "Journey Steps" || binder.reqTitle == "Award Steps" || binder.reqTitle == "Pin Steps" ){
+					binder.reqTitle;
+                } else {
+					binder.reqTitle = "Badge Steps";
+                }
                 var _template = '<div class="modal_resource" style="height: 608px;overflow: hidden;">' +
                     '<div class="header clearfix">' +
                     '<h3 class="columns large-22">'+ binder.reqTitle +'</h3>' +
