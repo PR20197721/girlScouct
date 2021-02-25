@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var form = $('form#web-to-case');
+    var form = $('form#gsstore');
 
     form.find("input[type='submit']").click(form, function (e) {
         e.stopPropagation();
@@ -25,15 +25,14 @@ $(document).ready(function () {
             console.log(errors[i]);
             errorMessage += "<div class=\"form_row form_error\">" + errors[i] + "</div>";
         }
-
         $(formErrorContainer[0]).html(errorMessage);
         $("#recaptcha-error").hide();
     }
-
+    
     function submitForm(form) {
         var action = form.attr("action");
         var formId = form.attr("id");
-        action = action.replace(".html", ".webtocase.html");
+        action = action.replace(".html", ".gsstore.html");
         $.post(action, form.serialize())
             .success(function (response, status, xhr) {
                 var ct = xhr.getResponseHeader("content-type") || "";
@@ -41,7 +40,7 @@ $(document).ready(function () {
                     var responseForm = $(response).find("#" + formId);
                     if (responseForm != null && responseForm.length > 0) {
                         form.html($(responseForm[0]).html());
-                    }
+                    }  
                 }
                 if (ct.indexOf('json') > -1) {
                     if (response.status == "success") {
@@ -56,7 +55,7 @@ $(document).ready(function () {
                         displayErrors(errors, form);
                     }
                 }
-
+                localStorage.removeItem("recaptchaError");
             })
             .fail(function (xhr, status, error) {
                 $("#validation-errors").html(xhr.responseText);
