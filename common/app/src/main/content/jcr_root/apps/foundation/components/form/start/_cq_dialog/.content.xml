@@ -260,13 +260,13 @@
                                                     <from-email
                                                         jcr:primaryType="nt:unstructured"
                                                         sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
-                                                        fieldLabel="From Email"
+                                                        fieldLabel="From Email(*)"
                                                         name="./from"
                                                         validation="email-validate"/>
                                                     <to-email
                                                         jcr:primaryType="nt:unstructured"
                                                         sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
-                                                        fieldLabel="Mail To Email"
+                                                        fieldLabel="Mail To Email(*)"
                                                         validation="email-validate">
                                                         <field
                                                             jcr:primaryType="nt:unstructured"
