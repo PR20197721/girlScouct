@@ -28,6 +28,23 @@ public class RolloutContentDifference {
     }
 
     /**
+     * Instantiates a new Content difference.
+     *
+     * @param oldContent            the old content
+     * @param newContent            the new content
+     * @param componentResourceType the component resource type
+     * @param propertyName          the property name
+     * @param isInheritanceBroken   the isInheritanceBroken
+     */
+    public RolloutContentDifference(String oldContent, String newContent, String componentResourceType, String propertyName,Boolean isInheritanceBroken) {
+        this.oldContent = oldContent;
+        this.newContent = newContent;
+        this.componentResourceType = componentResourceType;
+        this.propertyName = propertyName;
+        this.isInheritanceBroken = isInheritanceBroken;
+    }
+
+    /**
      * Gets old content.
      *
      * @return the old content
