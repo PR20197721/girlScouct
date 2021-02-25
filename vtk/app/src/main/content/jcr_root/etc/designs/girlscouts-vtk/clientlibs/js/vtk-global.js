@@ -628,6 +628,11 @@ function generateMeetingHtml(data, meeting) {
 	$("[data-meetingid=" + data[meeting].id + "]").append("<div class='row'><div>");
 	$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-14'><div style='display:table;min-height:110px'><div style='display:table-cell;height:inherit;vertical-align:middle;'><p class='title'>" + data[meeting].name + "</p><p class='blurb'>" + data[meeting].blurb + "</p><p class='tags'> <span></span></p></div></div></div>");
 
+	if (data[meeting].reqTitle == "Badge Steps" || data[meeting].reqTitle == "Journey Steps" || data[meeting].reqTitle == "Award Steps" || data[meeting].reqTitle == "Pin Steps" ){
+        data[meeting].reqTitle;
+    } else {
+        data[meeting].reqTitle = "Badge Steps";
+    }
 
 	if (data[meeting].included) {
 		$("[data-meetingid=" + data[meeting].id + "]").find(".row").append("<div class='column small-24 medium-6'><div style='display:table;min-height:110px; width: inherit;'><div style=\"display:table-cell;height:inherit;vertical-align:middle; text-align:center;\"><img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png\" width='10' height='15'> <i class=\"included\">Included in Year Plan</i></div></div></div>");
@@ -885,6 +890,11 @@ function appendPreviewMeetings(data) {
 
 }
 function generatePreviewMeetingHtml(data, meeting) {
+	if (data[meeting].reqTitle == "Badge Steps" || data[meeting].reqTitle == "Journey Steps" || data[meeting].reqTitle == "Award Steps" || data[meeting].reqTitle == "Pin Steps" ){
+        data[meeting].reqTitle;
+    } else {
+        data[meeting].reqTitle = "Badge Steps";
+    }
 
 	$("#meetingSelect").append("<div class='meeting-item column small-24' id='vtk-mtg-" + data[meeting].id + "' data-url='" + data[meeting].path + "' data-meetingid='" + data[meeting].id + "'></div>")
 	$("[data-meetingid=" + data[meeting].id + "]").append("<div class='row' style='background:#f6f6f6;'><div>");
