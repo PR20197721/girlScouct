@@ -60,10 +60,14 @@
             }
             image += '<img style="width:44px" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/' + globalImageName + '" />';
         }
-
+        if (binder.reqTitle == "Badge Steps" || binder.reqTitle == "Journey Steps" || binder.reqTitle == "Award Steps" || binder.reqTitle == "Pin Steps" ){
+            binder.reqTitle;
+        } else {
+            binder.reqTitle = "Badge Steps";
+        }
         var _template = '<div class="modal_resource">'+
                         '<div class="header clearfix">'+
-                          '<h3 class="columns large-22">STEPS</h3>'+
+                          '<h3 class="columns large-22">'+ binder.reqTitle +'</h3>'+
                           '<a class="close-reveal-modal columns large-2" href="#">'+
                               '<span style="color: black;font-size: 24px;font-weight: normal;margin-right: 5px;font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;">X</span>'+
                           '</a>'+

@@ -5,11 +5,20 @@ public class GirlScoutsException extends Exception {
 
     private Exception exception;
     private String reason;
+    private String typeOfException;
     
     public GirlScoutsException(Exception e, String reason) {
     	super(reason, e);
     	this.exception = e;
     	this.reason = reason;
+    }
+
+    //This is created explicitly for TrashcanUtil and GSTrashcanServlet
+    public GirlScoutsException(Exception e, String reason, String typeOfException) {
+        super(reason, e);
+        this.exception = e;
+        this.reason = reason;
+        this.typeOfException = typeOfException;
     }
     
     public Exception getException() {
@@ -18,6 +27,10 @@ public class GirlScoutsException extends Exception {
     
     public String getReason() {
     	return reason;
+    }
+
+    public String getTypeOfException() {
+        return typeOfException;
     }
     
 

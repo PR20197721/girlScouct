@@ -18,6 +18,9 @@
         private boolean addTargetValueToHref = true;
         private SlingRepository repository;
         private JoinVolunteerMigration joinVolunteerMigration;
+        private boolean addHrefToGivenCouncilOnly=false;
+        private String[] councilURL = {"/content/gsgms"};
+        int addHrefToGivenCouncilOnlyIndex=0;
 
 
         public JoinVolunteerMigrationThread(ServletContext ctxt, boolean dryRun, SlingRepository repository, JoinVolunteerMigration joinVolunteerMigration) {
@@ -47,7 +50,24 @@
                             log.debug("Stopping JoinVolunteerMigration");
                             return;
                         }
+
                         Node site = contentChildren.nextNode();
+                        log.debug("addHrefToGivenCouncilOnly +  addHrefToGivenCouncilOnlyIndex ## "+ addHrefToGivenCouncilOnly+" >> "+addHrefToGivenCouncilOnlyIndex);
+
+                        //if addHrefToGivenCouncilOnly is true and councilURL array is given && addHrefToGivenCouncilOnlyIndex < councilURL.length
+                        if(addHrefToGivenCouncilOnly && councilURL.length > 0 && addHrefToGivenCouncilOnlyIndex < councilURL.length){
+                           site = s.getNode(councilURL[addHrefToGivenCouncilOnlyIndex]);
+                           log.debug("content ## "+ site.getPath());
+
+                        }
+
+
+                        if(addHrefToGivenCouncilOnly && addHrefToGivenCouncilOnlyIndex >= councilURL.length){
+                            break;
+                        }
+                        log.debug("addHrefToGivenCouncilOnly2 +  addHrefToGivenCouncilOnlyIndex2 ## "+ addHrefToGivenCouncilOnly+" >> "+addHrefToGivenCouncilOnlyIndex);
+
+						addHrefToGivenCouncilOnlyIndex++;
                         if(site.hasProperty("jcr:primaryType") && site.getProperty("jcr:primaryType").getString().equals("cq:Page") ){
                             if(updateJoin) {
                                 log.debug("updating join links ");

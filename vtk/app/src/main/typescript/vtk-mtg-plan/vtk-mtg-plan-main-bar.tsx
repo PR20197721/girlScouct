@@ -83,11 +83,12 @@ class VtkMtgPlanMainBar extends React.Component <VtkMtgPlanMainBarProps,
                         <br/> CATEGORY: {' '}{meetingInfo.cat}<br/><br/>
                         <VtkMtgPlanLocation locationFind={locationFind} meetingPath={meetingEvents.path} yearPlanPath={meeting.path}/><br/>
                         {(meetingInfo.reqTitle)
-                            ? <div style = {{display : 'flex'}}>
-                                <div style={{fontSize: '14px'}}>
-                                    STEPS:
+                            ? <div className="row">
+                                <div className="columns small-24 medium-4" style={{fontSize: '14px'}}>
+                                    {(meetingInfo.reqTitle == "Badge Steps" || meetingInfo.reqTitle == "Journey Steps" ||
+                                      meetingInfo.reqTitle == "Award Steps" || meetingInfo.reqTitle == "Pin Steps") ? meetingInfo.reqTitle : "Badge Steps"}:
                                 </div>
-                                <div>
+                                <div className="columns small-24 medium-20">
                                     <div className={(this.state.isOpen) ? "__mid_show" : "__mid_show __hidden"}
                                          style={{paddingLeft: '5px'}}
                                          dangerouslySetInnerHTML={{
