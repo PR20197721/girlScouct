@@ -6,7 +6,6 @@ import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
 import com.day.cq.wcm.msm.api.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.mail.EmailException;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.resource.LoginException;
@@ -27,10 +26,10 @@ import org.slf4j.LoggerFactory;
 import javax.jcr.*;
 import javax.jcr.query.Query;
 import javax.jcr.version.VersionManager;
-import javax.mail.MessagingException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * The type Rollout template page service.
@@ -364,7 +363,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 }
                                 deleteComponents(rr, rolloutLog, componentsToDelete);
                                 //function to get the difference of content while rolling out
-                                List<RolloutContentDifference> contentDifferences = compareRolloutComponents(rr, sourceToTargetComponentRelations, componentsToRollout,relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS));
+                                List<RolloutContentDifference> contentDifferences = compareRolloutComponents(rr, sourceToTargetComponentRelations, relationComponents);
 
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
                                 updatePageTitle(sourcePageResource, relationPageResource);
@@ -1051,8 +1050,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     /*
      * This function compares the content of council with template and check for any difference.
      */
-    private List<RolloutContentDifference> compareRolloutComponents(ResourceResolver rr, Map<String, String> sourceToTargetComponentRelations, Set<String> templateComponentsToRollout, Set<String> cancInheritanceComponents) {
+    private List<RolloutContentDifference> compareRolloutComponents(ResourceResolver rr, Map<String, String> sourceToTargetComponentRelations, Map<String, Set<String>> relationComponents) {
         List<String> noExistingComponentInCouncil = new ArrayList<>();
+        //Reversing the hashmap, so that we can have council URL's as key.
+        sourceToTargetComponentRelations = sourceToTargetComponentRelations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        Set<String> councilComponentsToRollout = relationComponents.get(RELATION_INHERITED_COMPONENTS);
+        Set<String> cancInheritanceComponents =relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS);
         //GSAWDO-60 - List of properties and resourceType we have to check against,which is provided by business.
         Map<String,List<String>> knownResourceType = new HashMap<>();
         List<String> imagePropertyArray= new ArrayList<>();
@@ -1099,53 +1102,46 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         List<RolloutContentDifference> contentDifferences = new ArrayList<>();
 
         //lets check for components which has inheritance enabled.
-        for(String templateComponentToRollout :  templateComponentsToRollout){
-            if(sourceToTargetComponentRelations.containsKey(templateComponentToRollout)){
-                Resource templateComponentToRolloutResource = rr.resolve(templateComponentToRollout);
-                String templateComponentToRolloutResourceType = templateComponentToRolloutResource.getResourceType();
-                /* Checking the resourceType of the template component(which is getting rolled-out) against the known component resourceType.
+        for(String councilComponentToRollout :  councilComponentsToRollout){
+            if(sourceToTargetComponentRelations.containsKey(councilComponentToRollout)){
+                Resource councilComponentToRolloutResource = rr.resolve(councilComponentToRollout);
+                String councilComponentToRolloutResourceType = councilComponentToRolloutResource.getResourceType();
+                /* Checking the resourceType of the council component(which is getting rolled-out)from template against the known component resourceType.
                 If found lets compare the properties of that component for any differences.*/
-                if(knownResourceType.containsKey(templateComponentToRolloutResourceType)){
-                    String councilComponentToRolloutPath = sourceToTargetComponentRelations.get(templateComponentToRolloutResource.getPath());
-                    Resource councilComponentToRolloutResource = rr.getResource(councilComponentToRolloutPath);
+                if(knownResourceType.containsKey(councilComponentToRolloutResourceType)){
+                    String templateComponentToRolloutPath = sourceToTargetComponentRelations.get(councilComponentToRolloutResource.getPath());
+                    Resource templateComponentToRolloutResource = rr.getResource(templateComponentToRolloutPath);
 
                     //If Accordion resourceType is found,lets handle it separately.
-                    if(templateComponentToRolloutResourceType.equals("girlscouts/components/accordion")){
-                        contentDifferences.addAll(handleAccordionResourceType(rr,sourceToTargetComponentRelations,templateComponentToRolloutResource));
+                    if(councilComponentToRolloutResourceType.equals("girlscouts/components/accordion")){
+                        contentDifferences.addAll(handleAccordionResourceType(rr,sourceToTargetComponentRelations,councilComponentToRolloutResource));
                         continue;
                     }
 
-                    if(null != councilComponentToRolloutResource) {
-                        List<RolloutContentDifference> rolloutContentDifference = getContentDifference(knownResourceType, templateComponentToRolloutResource,councilComponentToRolloutResource,false);
-                        contentDifferences.addAll(rolloutContentDifference);
-                    }else{
-                        noExistingComponentInCouncil.add(templateComponentToRolloutResourceType);
-                    }
+                    List<RolloutContentDifference> rolloutContentDifference = getContentDifference(knownResourceType, councilComponentToRolloutResource,templateComponentToRolloutResource,false);
+                    contentDifferences.addAll(rolloutContentDifference);
                 }
             }
         }
 
         //lets check for components which has inheritance disabled.
         for(String councilPath : cancInheritanceComponents){
-            Iterator<Map.Entry<String,String>> sourceToTargetComponentRelationsIter = sourceToTargetComponentRelations.entrySet().iterator();
-            while (sourceToTargetComponentRelationsIter.hasNext()) {
-                Map.Entry<String,String> entry = sourceToTargetComponentRelationsIter.next();
-                if (entry.getValue().equals(councilPath)) {
-                    String templatePath = entry.getKey();
-                    Resource templateComponentToRolloutResource = rr.getResource(templatePath);
-                    Resource councilComponentToRolloutResource = rr.getResource(councilPath);
-                    //Now since we have both councilPath and templatePath, lets see if the resourceType of cancel Inherited component lies in known resourceType
-                    List<RolloutContentDifference> rolloutContentDifference = getContentDifference(knownResourceType, templateComponentToRolloutResource,councilComponentToRolloutResource,true);
-                    contentDifferences.addAll(rolloutContentDifference);
-                }
+            if(sourceToTargetComponentRelations.containsKey(councilPath)){
+                Resource councilComponentToRolloutResource = rr.getResource(councilPath);
+                Resource templateComponentToRolloutResource = rr.getResource(sourceToTargetComponentRelations.get(councilPath));
+                //Now since we have both councilPath and templatePath, lets see if the resourceType of cancel Inherited component lies in known resourceType
+                List<RolloutContentDifference> rolloutContentDifference = getContentDifference(knownResourceType, councilComponentToRolloutResource,templateComponentToRolloutResource,true);
+                contentDifferences.addAll(rolloutContentDifference);
             }
         }
 
 
         return contentDifferences;
     }
-
-    private List<RolloutContentDifference>  getContentDifference(Map<String, List<String>> knownResourceType, Resource templateComponentToRolloutResource,Resource councilComponentToRolloutResource,Boolean isInheritanceBroken) {
+    /*
+     * This function iterate over the components which are rolling out and checks for any content difference.
+     */
+    private List<RolloutContentDifference>  getContentDifference(Map<String, List<String>> knownResourceType, Resource councilComponentToRolloutResource,Resource templateComponentToRolloutResource,Boolean isInheritanceBroken) {
         List<RolloutContentDifference> contentDifferences = new ArrayList<>();
         String councilComponentToRolloutPath  = councilComponentToRolloutResource.getPath();
         String templateComponentToRolloutResourceType = templateComponentToRolloutResource.getResourceType();
@@ -1179,19 +1175,22 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
         return contentDifferences;
     }
-
-    private List<RolloutContentDifference> handleAccordionResourceType(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations,Resource templateComponentToRolloutResource) {
+    
+    /*
+     * This function handles Accordion Resource Type- this is a special scenerio.
+     */
+    private List<RolloutContentDifference> handleAccordionResourceType(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations,Resource councilComponentToRolloutResource) {
         List<RolloutContentDifference> contentDifferences = new ArrayList<>();
-        if(null != templateComponentToRolloutResource) {
-            for(Resource childNode : templateComponentToRolloutResource.getChildren()){
+        if(null != councilComponentToRolloutResource) {
+            for(Resource childNode : councilComponentToRolloutResource.getChildren()){
                 if(childNode.getName().equals("children")){
                     for(Resource childrenChildResource :  childNode.getChildren()){
-                        ValueMap templateChildrenNodeChildValueMap = childrenChildResource.adaptTo(ValueMap.class);
-                        String newContent = templateChildrenNodeChildValueMap.get("nameField",String.class);
-                        String councilComponentToRolloutPath = sourceToTargetComponentRelations.get(childrenChildResource.getPath());
-                        Resource councilComponentToRolloutResource = rr.getResource(councilComponentToRolloutPath);
-                        ValueMap councilChildrenNodeChildValueMap = councilComponentToRolloutResource.adaptTo(ValueMap.class);
+                        ValueMap councilChildrenNodeChildValueMap = childrenChildResource.adaptTo(ValueMap.class);
                         String oldContent = councilChildrenNodeChildValueMap.get("nameField",String.class);
+                        String templateComponentToRolloutPath = sourceToTargetComponentRelations.get(childrenChildResource.getPath());
+                        Resource templateComponentToRolloutPathResource = rr.getResource(templateComponentToRolloutPath);
+                        ValueMap templateChildrenNodeChildValueMap = templateComponentToRolloutPathResource.adaptTo(ValueMap.class);
+                        String newContent = templateChildrenNodeChildValueMap.get("nameField",String.class);
                         //Exact property is found in council and template component. Lets check if value for both are same or not.
                         if (!newContent.equals(oldContent)) {
                             //Hurray! this property was changed by someone in template before rolling out.
@@ -1216,7 +1215,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         return sb.substring(0, sb.length() - 1);
     }
 
-
+    /*
+     * This function sends the content difference email to individual concils.
+     */
     private void sendContentDifferenceEmail(ResourceResolver rr, String councilPath, List<RolloutContentDifference> contentDifferences){
         if (councilPath != null) {
             try {
@@ -1229,7 +1230,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 String subject = DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_SUBJECT;
                 String message = DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_MESSAGE;
                 StringBuilder body = new StringBuilder();
-                body.append("<table style=\"width:100%\">");
+                body.append(message);
+                body.append("<style>table, th, td {\n" +
+                        "  border: 1px solid black;\n" +
+                        "} </style>");
+                body.append("<table style=\"width:100%;border-collapse: collapse;\">");
                 body.append("<tr>");
                 body.append("<th>Component Type</th>");
                 body.append("<th>Status</th>");
@@ -1241,9 +1246,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                     body.append("<tr>");
                     body.append("<td>" + contentDifference.getComponentResourceType() + "</td>");
                     if(contentDifference.isInheritanceBroken()){
-                        body.append("<td>" + "Not Updated" + "</td>");
+                        body.append("<td style=\"color:red\"><b>" + "Not Updated (Inheritance is Broken)" + "</b></td>");
                     }else{
-                        body.append("<td>" + "Updated" + "</td>");
+                        body.append("<td style=\"color:green\"><b>" + "Updated" + "</b></td>");
                     }
                     body.append("<td>" + contentDifference.getOldContent() + "</td>");
                     body.append("<td>" + contentDifference.getNewContent() + "</td>");
