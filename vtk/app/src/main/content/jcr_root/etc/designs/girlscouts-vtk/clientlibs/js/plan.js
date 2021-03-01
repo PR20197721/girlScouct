@@ -1376,11 +1376,16 @@ var ModalVtk = (function() {
         }
 
         function confirm(msg, desc, okCallBack, cancelCallBack) {
+            // chnages due to text of the button and styling of the bttons(GSAVTK-65)
+            let popUpBodyTxt = '<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class = "vtk-js-modal_button_action vtk-js-modal_ok_action">  Ok</div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action">Cancel</div></div>';
+            if(msg ==='LOGGING OUT'){
+                popUpBodyTxt = '<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class = "vtk-js-modal_button_action vtk-js-modal_ok_action log-out-pop-up-btn">  Log Out</div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action">Keep Working</div></div>';
+            }
             _preOpen(true);
             _centerModal();
 
             $main_modal.find('.vtk-js-modal_title').html(msg);
-            $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action">Ok</div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action">Cancel</div></div>')
+            $main_modal.find('.vtk-js-modal_body').html(popUpBodyTxt)
 
             $main_modal.find('.vtk-js-modal_ok_action').on('click', okCallBack);
             $main_modal.find('.vtk-js-modal_cancel_action','').on('click', cancelCallBack);
