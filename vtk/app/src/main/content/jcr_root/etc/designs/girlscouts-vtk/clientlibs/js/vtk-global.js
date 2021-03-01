@@ -382,7 +382,7 @@ $(function() {
 			window.removeEventListener("DOMMouseScroll", resetTimeout, false);
 			window.removeEventListener("mousewheel", resetTimeout, false);
 			secondTimeOutId = setTimeout(onCB, 30000 /* in millisecons */);
-			signOutModal.confirm('LOGGING OUT', '<p>You are about to be automatically logged out due to inactivity. Please click "CANCEL" to continue working.</p>', onCB, cCBack);
+			signOutModal.confirm('LOGGING OUT', '<p>You are about to be logged out due to inactivity. Click "Keep Working" to stay logged in.</p>', onCB, cCBack);
 		}
 
 		function onCB() {
