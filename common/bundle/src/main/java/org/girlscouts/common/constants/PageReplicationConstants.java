@@ -132,5 +132,13 @@ public interface PageReplicationConstants {
 				+ "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">"
 				+ "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" + "<title>"
 				+ DEFAULT_COMPLETION_REPORT_SUBJECT + "</title></head>";
+		/**
+		 * The constant DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_SUBJECT.
+		 */
+		public static final String DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_SUBJECT = "GSUSA Content Difference Rollout Notification";
+		/**
+		 * The constant DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_MESSAGE.
+		 */
+		public static final String DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_MESSAGE = "Here is a list of things which got changed!";
 	}
 }

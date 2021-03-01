@@ -1,5 +1,6 @@
 package org.girlscouts.web.cq.workflow.service.impl;
 
+import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
@@ -15,6 +16,7 @@ import org.girlscouts.common.constants.PageReplicationConstants;
 import org.girlscouts.common.osgi.service.GSEmailService;
 import org.girlscouts.common.util.PageReplicationUtil;
 import org.girlscouts.web.cq.workflow.service.RolloutTemplatePageService;
+import org.girlscouts.web.cq.workflow.service.pojo.RolloutContentDifference;
 import org.girlscouts.web.service.replication.PageReplicator;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.ComponentContext;
@@ -27,7 +29,11 @@ import javax.jcr.version.VersionManager;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+/**
+ * The type Rollout template page service.
+ */
 /*
  * Girl Scouts Page Activator - DL
  * This process activates a queue of pages, in batches, with a timed delay between batches
@@ -35,10 +41,19 @@ import java.util.regex.Pattern;
 @Component
 @Service
 public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageService, PageReplicationConstants, PageReplicationConstants.Email {
+    /**
+     * The constant DESCRIPTION.
+     */
     @Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages.")
     static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
+    /**
+     * The constant VENDOR.
+     */
     @Property(value = "Girl Scouts")
     static final String VENDOR = Constants.SERVICE_VENDOR;
+    /**
+     * The constant LABEL.
+     */
     @Property(value = "Girl Scouts Roll out Service")
     static final String LABEL = "process.label";
     private static Logger log = LoggerFactory.getLogger(RolloutTemplatePageServiceImpl.class);
@@ -48,6 +63,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     private RolloutManager rolloutManager;
     @Reference
     private SlingSettingsService settingsService;
+    /**
+     * The Gs email service.
+     */
     @Reference
     public GSEmailService gsEmailService;
     @Reference
@@ -56,6 +74,51 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     private PageReplicator pageReplicator;
     private Map<String, Object> serviceParams;
     private boolean isPublisher = false;
+    /**
+     * The constant COOKIE_HEADER_RESOURCE_TYPE.
+     */
+    private static final String  COOKIE_HEADER_RESOURCE_TYPE = "girlscouts/components/standalone-cookie-header";
+    /**
+     * The constant ACTION_TYPE_ADDED.
+     */
+    private static final String  ACTION_TYPE_ADDED = "Added";
+    /**
+     * The constant ACTION_TYPE_REMOVED.
+     */
+    private static final String  ACTION_TYPE_REMOVED = "<>";
+    /**
+     * The constant TABLE_START.
+     */
+    private static final String  TABLE_START = "<table>";
+    /**
+     * The constant TR_START.
+     */
+    private static final String  TR_START = "<tr>";
+    /**
+     * The constant TR_END.
+     */
+    private static final String  TR_END = "</tr>";
+    /**
+     * The constant TH_START.
+     */
+    private static final String  TH_START = "<th>";
+    /**
+     * The constant TH_END.
+     */
+    private static final String  TH_END = "</th>";
+    /**
+     * The constant TD_START.
+     */
+    private static final String  TD_START = "<td>";
+    /**
+     * The constant TD_END.
+     */
+    private static final String  TD_END = "</td>";
+    /**
+     * The constant TABLE_END.
+     */
+    private static final String  TABLE_END = "</table>";
+
 
     @Activate
     private void activate(ComponentContext context) {
@@ -343,7 +406,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 } catch (Exception e) {
                                     log.error("Girlscouts Rollout Service encountered error: ", e);
                                 }
+                                //Check if cookie Header Component got added or removed
+                                String cookieHeaderComponentAddedOrRemoved =  cookieHeaderComponentAddedOrRemoved(rr, sourceToTargetComponentRelations, relationComponents, componentsToDelete);
+
                                 deleteComponents(rr, rolloutLog, componentsToDelete);
+                                //Get the difference of content before rolling out
+                                List<RolloutContentDifference> contentDifferences = compareRolloutComponents(rr, sourceToTargetComponentRelations, relationComponents);
+
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
                                 updateRolloutPageInfo(relationPageResource);                              
                                 updatePageTitle(sourcePageResource, relationPageResource);
@@ -353,6 +422,8 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 pagesToActivate.add(relationPagePath);
                                 rolloutLog.add("Page added to activation queue");
                                 log.info("Page added to activation queue");
+                                //lets send email to individual councils letting them know about what changed.
+                                sendContentDifferenceEmail(rr,councilPath,contentDifferences,cookieHeaderComponentAddedOrRemoved);
                             } catch (Exception e) {
                                 log.error("Girlscouts Rollout Service encountered error: ", e);
                                 try {
@@ -1037,5 +1108,302 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             return null;
         }
 
+    }
+
+
+    /**
+     * Compare rollout components list.
+     *
+     * @param rr                               the rr
+     * @param sourceToTargetComponentRelations the source to target component relations
+     * @param relationComponents               the relation components
+     * @return the list
+     */
+    private List<RolloutContentDifference> compareRolloutComponents(ResourceResolver rr, Map<String, String> sourceToTargetComponentRelations, Map<String, Set<String>> relationComponents) {
+        //Reversing the hashmap, so that we can have council URL's as key.
+        sourceToTargetComponentRelations = sourceToTargetComponentRelations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        Set<String> councilComponentsToRollout = relationComponents.get(RELATION_INHERITED_COMPONENTS);
+        Set<String> cancInheritanceComponents =relationComponents.get(RELATION_CANC_INHERITANCE_COMPONENTS);
+        //GSAWDO-60 - List of properties and resourceType we have to check against,which is provided by business.
+        Map<String,List<String>> knownResourceType = new HashMap<>();
+        List<String> imagePropertyArray= new ArrayList<>();
+        imagePropertyArray.add("fileReference");
+        knownResourceType.put("girlscouts/components/image",imagePropertyArray);
+        List<String> textPropertyArray= new ArrayList<>();
+        textPropertyArray.add("text");
+        knownResourceType.put("girlscouts/components/text",textPropertyArray);
+        List<String> titlePropertyArray= new ArrayList<>();
+        titlePropertyArray.add("title");
+        knownResourceType.put("girlscouts/components/title",titlePropertyArray);
+        List<String> textImagePropertyArray= new ArrayList<>();
+        textImagePropertyArray.add("text");
+        knownResourceType.put("girlscouts/components/textimage",textImagePropertyArray);
+        List<String> videoPropertyArray= new ArrayList<>();
+        videoPropertyArray.add("html");
+        knownResourceType.put("girlscouts/components/video",videoPropertyArray);
+        List<String> tablePropertyArray= new ArrayList<>();
+        tablePropertyArray.add("tableData");
+        knownResourceType.put("girlscouts/components/table",tablePropertyArray);
+        List<String> embeddedPropertyArray= new ArrayList<>();
+        embeddedPropertyArray.add("html");
+        knownResourceType.put("girlscouts/components/embedded",embeddedPropertyArray);
+
+        //Form based difference checking
+        List<String> formTextPropertyArray= new ArrayList<>();
+        formTextPropertyArray.add(JcrConstants.JCR_TITLE);
+        formTextPropertyArray.add("name");
+        knownResourceType.put("girlscouts/components/form/text",formTextPropertyArray);
+        List<String> formCheckboxPropertyArray= new ArrayList<>();
+        formCheckboxPropertyArray.add("options");
+        formCheckboxPropertyArray.add("name");
+        knownResourceType.put("foundation/components/form/checkbox",formCheckboxPropertyArray);
+        List<String> formDropdownPropertyArray= new ArrayList<>(formCheckboxPropertyArray);
+        formDropdownPropertyArray.add(JcrConstants.JCR_TITLE);
+        knownResourceType.put("foundation/components/form/dropdown",formDropdownPropertyArray);
+        List<String> formRadioPropertyArray= new ArrayList<>(formDropdownPropertyArray);
+        knownResourceType.put("foundation/components/form/radio",formDropdownPropertyArray);
+
+        //Accordion Handling, its a special case, for this resourceType we have custom way of handling it.
+        knownResourceType.put("girlscouts/components/accordion",null);
+
+        List<RolloutContentDifference> contentDifferences = new ArrayList<>();
+
+        //lets check for components which has inheritance enabled.
+        for(String councilComponentToRollout :  councilComponentsToRollout){
+            if(sourceToTargetComponentRelations.containsKey(councilComponentToRollout)){
+                Resource councilComponentToRolloutResource = rr.resolve(councilComponentToRollout);
+                String councilComponentToRolloutResourceType = councilComponentToRolloutResource.getResourceType();
+                /* Checking the resourceType of the council component(which is getting rolled-out)from template against the known component resourceType.
+                If found lets compare the properties of that component for any differences.*/
+                if(knownResourceType.containsKey(councilComponentToRolloutResourceType)){
+                    String templateComponentToRolloutPath = sourceToTargetComponentRelations.get(councilComponentToRolloutResource.getPath());
+                    Resource templateComponentToRolloutResource = rr.getResource(templateComponentToRolloutPath);
+
+                    //If Accordion resourceType is found,lets handle it separately.
+                    if(councilComponentToRolloutResourceType.equals("girlscouts/components/accordion")){
+                        contentDifferences.addAll(handleAccordionResourceType(rr,sourceToTargetComponentRelations,councilComponentToRolloutResource));
+                        continue;
+                    }
+
+                    List<RolloutContentDifference> rolloutContentDifference = getContentDifference(knownResourceType, councilComponentToRolloutResource,templateComponentToRolloutResource,false);
+                    contentDifferences.addAll(rolloutContentDifference);
+                }
+            }
+        }
+
+        //Lets check for components which has inheritance disabled.
+        for(String councilPath : cancInheritanceComponents){
+            if(sourceToTargetComponentRelations.containsKey(councilPath)){
+                Resource councilComponentToRolloutResource = rr.getResource(councilPath);
+                Resource templateComponentToRolloutResource = rr.getResource(sourceToTargetComponentRelations.get(councilPath));
+                //Now since we have both councilPath and templatePath, lets see if the resourceType of cancel Inherited component lies in known resourceType
+                List<RolloutContentDifference> rolloutContentDifference = getContentDifference(knownResourceType, councilComponentToRolloutResource,templateComponentToRolloutResource,true);
+                contentDifferences.addAll(rolloutContentDifference);
+            }
+        }
+
+        return contentDifferences;
+    }
+
+
+    /**
+     * Cookie header component added or removed string.
+     *
+     * @param rr                               the rr
+     * @param sourceToTargetComponentRelations the source to target component relations
+     * @param relationComponents               the relation components
+     * @param componentsToDelete               the components to delete
+     * @return the string
+     */
+    private String cookieHeaderComponentAddedOrRemoved(ResourceResolver rr, Map<String, String> sourceToTargetComponentRelations, Map<String, Set<String>> relationComponents, Set<String> componentsToDelete) {
+        //Reversing the hashmap, so that we can have council URL's as key.
+        sourceToTargetComponentRelations = sourceToTargetComponentRelations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        Set<String> councilComponentsToRollout = relationComponents.get(RELATION_INHERITED_COMPONENTS);
+        //Lets check for girlscouts/components/standalone-cookie-header,whether it was removed or added
+        String cookieHeaderComponentAddedRemoved = null;
+        //First removing all the component which has inheritance enabled in sourceToTargetComponentRelations Map, now we are left with component which are newly added.
+        sourceToTargetComponentRelations.keySet().removeAll(councilComponentsToRollout);
+        //Reversing the hashmap Again, so that we can have template URL's as key.
+        sourceToTargetComponentRelations = sourceToTargetComponentRelations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        Set<String> newAddedComponentTemplatePaths = sourceToTargetComponentRelations.keySet();
+        //lets check in the new added component which are getting rolled out.
+        for(String newAddedComponentTemplatePath : newAddedComponentTemplatePaths){
+            Resource newAddedComponentResource = rr.getResource(newAddedComponentTemplatePath);
+            if(null != newAddedComponentResource && newAddedComponentResource.getResourceType().equals(RolloutTemplatePageServiceImpl.COOKIE_HEADER_RESOURCE_TYPE)){
+                cookieHeaderComponentAddedRemoved = RolloutTemplatePageServiceImpl.ACTION_TYPE_ADDED;
+                break;
+            }
+        }
+        //lets check in the removed components which are getting rolled out.
+        for(String removedComponentTemplatePath:  componentsToDelete){
+            Resource removedComponentTemplateResource = rr.getResource(removedComponentTemplatePath);
+            if(null != removedComponentTemplateResource && removedComponentTemplateResource.getResourceType().equals(RolloutTemplatePageServiceImpl.COOKIE_HEADER_RESOURCE_TYPE)){
+                cookieHeaderComponentAddedRemoved = RolloutTemplatePageServiceImpl.ACTION_TYPE_REMOVED;
+                break;
+            }
+        }
+
+        return cookieHeaderComponentAddedRemoved;
+    }
+
+
+    /**
+     * Gets content difference.
+     *
+     * @param knownResourceType                  the known resource type
+     * @param councilComponentToRolloutResource  the council component to rollout resource
+     * @param templateComponentToRolloutResource the template component to rollout resource
+     * @param isInheritanceBroken                the is inheritance broken
+     * @return the content difference
+     */
+    private List<RolloutContentDifference>  getContentDifference(Map<String, List<String>> knownResourceType, Resource councilComponentToRolloutResource,Resource templateComponentToRolloutResource,Boolean isInheritanceBroken) {
+        List<RolloutContentDifference> contentDifferences = new ArrayList<>();
+        String councilComponentToRolloutPath  = councilComponentToRolloutResource.getPath();
+        String templateComponentToRolloutResourceType = templateComponentToRolloutResource.getResourceType();
+        List<String> resourceTypePropertyArray = knownResourceType.get(templateComponentToRolloutResourceType);
+        for (String resourceTypeProperty : resourceTypePropertyArray) {
+            ValueMap templateResourceValueMap = templateComponentToRolloutResource.adaptTo(ValueMap.class);
+            if (templateResourceValueMap.containsKey(resourceTypeProperty)) {
+                ValueMap councilResourceValueMap = councilComponentToRolloutResource.adaptTo(ValueMap.class);
+                if (councilResourceValueMap.containsKey(resourceTypeProperty)) {
+                    String[] councilComponentToRolloutPathArray = councilComponentToRolloutPath.split("/");
+                    String pathTillCouncilHeadPage = "/" + councilComponentToRolloutPathArray[1] + "/" + councilComponentToRolloutPathArray[2] + "/";
+                    String newContent =null,oldContent =null;
+                    /*if resourceType is girlscouts/components/form/checkbox and property is options,
+                    we have to handle it differently. As options is a multifield */
+                    if((templateComponentToRolloutResourceType.equals("foundation/components/form/checkbox") || templateComponentToRolloutResourceType.equals("foundation/components/form/dropdown")) && resourceTypeProperty.equals("options")){
+                        String[] newContentArray = templateResourceValueMap.get(resourceTypeProperty, String[].class);
+                        String[] oldContentArray = councilResourceValueMap.get(resourceTypeProperty, String[].class);
+                        oldContent = convertStringArrayToString(oldContentArray, ",");
+                        newContent = convertStringArrayToString(newContentArray, ",");
+                    }else {
+                        newContent = templateResourceValueMap.get(resourceTypeProperty, String.class);
+                        oldContent = councilResourceValueMap.get(resourceTypeProperty, String.class);
+                    }
+                    //Exact property is found in council and template component. Lets check if value for both are same or not.
+                    if (!oldContent.replaceAll(pathTillCouncilHeadPage, "/content/girlscouts-template/").equals(newContent)) {
+                        //Hurray! this property was changed by someone in template before rolling out.
+                        contentDifferences.add(new RolloutContentDifference(oldContent, newContent, templateComponentToRolloutResourceType, resourceTypeProperty, isInheritanceBroken));
+                    }
+                }
+            }
+        }
+        return contentDifferences;
+    }
+
+
+    /**
+     * Handle accordion resource type list.
+     *
+     * @param rr                                the rr
+     * @param sourceToTargetComponentRelations  the source to target component relations
+     * @param councilComponentToRolloutResource the council component to rollout resource
+     * @return the list
+     */
+    private List<RolloutContentDifference> handleAccordionResourceType(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations,Resource councilComponentToRolloutResource) {
+        List<RolloutContentDifference> contentDifferences = new ArrayList<>();
+        if(null != councilComponentToRolloutResource) {
+            for(Resource childNode : councilComponentToRolloutResource.getChildren()){
+                if(childNode.getName().equals("children")){
+                    for(Resource childrenChildResource :  childNode.getChildren()){
+                        ValueMap councilChildrenNodeChildValueMap = childrenChildResource.adaptTo(ValueMap.class);
+                        String oldContent = councilChildrenNodeChildValueMap.get("nameField",String.class);
+                        String templateComponentToRolloutPath = sourceToTargetComponentRelations.get(childrenChildResource.getPath());
+                        Resource templateComponentToRolloutPathResource = rr.getResource(templateComponentToRolloutPath);
+                        ValueMap templateChildrenNodeChildValueMap = templateComponentToRolloutPathResource.adaptTo(ValueMap.class);
+                        String newContent = templateChildrenNodeChildValueMap.get("nameField",String.class);
+                        //Exact property is found in council and template component. Lets check if value for both are same or not.
+                        if (!newContent.equals(oldContent)) {
+                            //Hurray! this property was changed by someone in template before rolling out.
+                            contentDifferences.add(new RolloutContentDifference(oldContent, newContent, "Accordion-children", "nameField"));
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        return contentDifferences;
+    }
+
+    /**
+     * Convert string array to string string.
+     *
+     * @param strArr    the str arr
+     * @param delimiter the delimiter
+     * @return the string
+     */
+    private String convertStringArrayToString(String[] strArr, String delimiter) {
+        StringBuilder sb = new StringBuilder();
+        for (String str : strArr) {
+            sb.append(str).append(delimiter);
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
+
+
+    /**
+     * Send content difference email.
+     *
+     * @param rr                                  the rr
+     * @param councilPath                         the council path
+     * @param contentDifferences                  the content differences
+     * @param cookieHeaderComponentAddedOrRemoved the cookie header component added or removed
+     */
+    private void sendContentDifferenceEmail(ResourceResolver rr, String councilPath, List<RolloutContentDifference> contentDifferences, String cookieHeaderComponentAddedOrRemoved){
+        if (councilPath != null) {
+            try {
+                String pathToCouncilSite = PageReplicationUtil.getCouncilName(councilPath);
+                // get the email addresses configured in
+                // page properties of the council's homepage
+                Page homepage = rr.resolve(pathToCouncilSite + "/en").adaptTo(Page.class);
+                List<String> toAddresses = PageReplicationUtil.getCouncilEmails(homepage.adaptTo(Node.class));
+                log.info("Sending content difference email to " + pathToCouncilSite.substring(9) + " emails:" + toAddresses.toString());
+                String subject = DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_SUBJECT;
+                String message = DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_MESSAGE;
+                StringBuilder body = new StringBuilder();
+                body.append(message);
+                body.append("<style> table, th, td { border: 1px solid black;} </style>");
+                body.append("<table style=\"width:100%;border-collapse: collapse;\">");
+                body.append(RolloutTemplatePageServiceImpl.TR_START);
+                body.append(RolloutTemplatePageServiceImpl.TH_START+"Component Type"+RolloutTemplatePageServiceImpl.TH_END);
+                body.append(RolloutTemplatePageServiceImpl.TH_START+"Status"+RolloutTemplatePageServiceImpl.TH_END);
+                body.append(RolloutTemplatePageServiceImpl.TH_START+"Old"+RolloutTemplatePageServiceImpl.TH_END);
+                body.append(RolloutTemplatePageServiceImpl.TH_START+"New"+RolloutTemplatePageServiceImpl.TH_END);
+                body.append(RolloutTemplatePageServiceImpl.TR_END);
+
+                //lets create entry for all the components having content difference in the table.
+                for (RolloutContentDifference contentDifference : contentDifferences) {
+                    body.append(RolloutTemplatePageServiceImpl.TR_START);
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+ contentDifference.getComponentResourceType() +RolloutTemplatePageServiceImpl.TD_END);
+                    if(contentDifference.isInheritanceBroken()){
+                        body.append("<td style=\"color:red\">" + "<b>Not Updated (Inheritance is Broken)<b>" + RolloutTemplatePageServiceImpl.TD_END);
+                    }else{
+                        body.append("<td style=\"color:green\"><b>" + "Updated" + "</b>"+ RolloutTemplatePageServiceImpl.TD_END);
+                    }
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+ contentDifference.getOldContent() + RolloutTemplatePageServiceImpl.TD_END);
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+ contentDifference.getNewContent() + RolloutTemplatePageServiceImpl.TD_END);
+                    body.append(RolloutTemplatePageServiceImpl.TR_END);
+                }
+                //lets create one entry for cookieHeaderComponent in the table.
+                if(null != cookieHeaderComponentAddedOrRemoved){
+                    body.append(RolloutTemplatePageServiceImpl.TR_START);
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+RolloutTemplatePageServiceImpl.COOKIE_HEADER_RESOURCE_TYPE+RolloutTemplatePageServiceImpl.TD_END);
+                    if(cookieHeaderComponentAddedOrRemoved.equals(RolloutTemplatePageServiceImpl.ACTION_TYPE_REMOVED)){
+                        body.append("<td style=\"color:red\"><b>" + RolloutTemplatePageServiceImpl.ACTION_TYPE_REMOVED + "</b>"+RolloutTemplatePageServiceImpl.TD_END);
+                    }else{
+                        body.append("<td style=\"color:green\"><b>" + RolloutTemplatePageServiceImpl.ACTION_TYPE_ADDED + "</b>"+RolloutTemplatePageServiceImpl.TD_END);
+                    }
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+RolloutTemplatePageServiceImpl.TD_END);
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+RolloutTemplatePageServiceImpl.TD_END);
+                    body.append(RolloutTemplatePageServiceImpl.TR_END);
+                }
+
+                body.append(RolloutTemplatePageServiceImpl.TABLE_END);
+
+                gsEmailService.sendEmail(subject, toAddresses, body.toString());
+            } catch (Exception e) {
+                log.error("Girlscouts Content Difference Email Trigger encountered error: ", e);
+            }
+        }
     }
 }
