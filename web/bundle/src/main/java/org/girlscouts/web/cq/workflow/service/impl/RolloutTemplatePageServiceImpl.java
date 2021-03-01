@@ -56,11 +56,23 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
      */
     @Property(value = "Girl Scouts Roll out Service")
     static final String LABEL = "process.label";
+    /**
+     * The constant log.
+     */
     private static Logger log = LoggerFactory.getLogger(RolloutTemplatePageServiceImpl.class);
+    /**
+     * The Resolver factory.
+     */
     @Reference
     private ResourceResolverFactory resolverFactory;
+    /**
+     * The Rollout manager.
+     */
     @Reference
     private RolloutManager rolloutManager;
+    /**
+     * The Settings service.
+     */
     @Reference
     private SlingSettingsService settingsService;
     /**
@@ -68,13 +80,75 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
      */
     @Reference
     public GSEmailService gsEmailService;
+    /**
+     * The Relation manager.
+     */
     @Reference
     private LiveRelationshipManager relationManager;
+    /**
+     * The Page replicator.
+     */
     @Reference
     private PageReplicator pageReplicator;
+    /**
+     * The Service params.
+     */
     private Map<String, Object> serviceParams;
+    /**
+     * The Is publisher.
+     */
     private boolean isPublisher = false;
+    /**
+     * The constant COOKIE_HEADER_RESOURCE_TYPE.
+     */
+    private static final String  COOKIE_HEADER_RESOURCE_TYPE = "girlscouts/components/standalone-cookie-header";
+    /**
+     * The constant ACTION_TYPE_ADDED.
+     */
+    private static final String  ACTION_TYPE_ADDED = "Added";
+    /**
+     * The constant ACTION_TYPE_REMOVED.
+     */
+    private static final String  ACTION_TYPE_REMOVED = "<>";
+    /**
+     * The constant TABLE_START.
+     */
+    private static final String  TABLE_START = "<table>";
+    /**
+     * The constant TR_START.
+     */
+    private static final String  TR_START = "<tr>";
+    /**
+     * The constant TR_END.
+     */
+    private static final String  TR_END = "</tr>";
+    /**
+     * The constant TH_START.
+     */
+    private static final String  TH_START = "<th>";
+    /**
+     * The constant TH_END.
+     */
+    private static final String  TH_END = "</th>";
+    /**
+     * The constant TD_START.
+     */
+    private static final String  TD_START = "<td>";
+    /**
+     * The constant TD_END.
+     */
+    private static final String  TD_END = "</td>";
+    /**
+     * The constant TABLE_END.
+     */
+    private static final String  TABLE_END = "</table>";
 
+
+    /**
+     * Activate.
+     *
+     * @param context the context
+     */
     @Activate
     private void activate(ComponentContext context) {
         serviceParams = new HashMap<String, Object>();
@@ -83,6 +157,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         isPublisher = isPublisher();
     }
 
+    /**
+     * Rollout.
+     *
+     * @param path the path
+     */
     @Override
     public void rollout(String path) {
         log.info("Girlscouts Rollout Service Start.");
@@ -255,6 +334,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         log.info("Girlscouts Rollout Service Finished.");
     }
 
+    /**
+     * Is publisher boolean.
+     *
+     * @return the boolean
+     */
     private boolean isPublisher() {
         log.info("checking if running on publisher instance.");
         if (settingsService.getRunModes().contains("publish")) {
@@ -263,11 +347,29 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         return false;
     }
 
+    /**
+     * Deactivate.
+     *
+     * @param componentContext the component context
+     */
     @Deactivate
     private void deactivate(ComponentContext componentContext) {
         log.info("GS Page Rollout Service Deactivated.");
     }
 
+    /**
+     * Process new live relationships.
+     *
+     * @param submittedCouncils  the submitted councils
+     * @param sourcePageResource the source page resource
+     * @param pagesToActivate    the pages to activate
+     * @param rolloutLog         the rollout log
+     * @param notifyCouncils     the notify councils
+     * @param rr                 the rr
+     * @param updateReferences   the update references
+     * @throws RepositoryException the repository exception
+     * @throws WCMException        the wcm exception
+     */
     private void processNewLiveRelationships(Set<String> submittedCouncils, Resource sourcePageResource, Set<String> pagesToActivate, List<String> rolloutLog, Set<String> notifyCouncils, ResourceResolver rr, Boolean updateReferences) throws RepositoryException, WCMException {
         log.info("Processing new live relationships.");
         Session session = rr.adaptTo(Session.class);
@@ -316,6 +418,20 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         submittedCouncils.removeAll(processedRelationCouncils);
     }
 
+    /**
+     * Process existing live relationships.
+     *
+     * @param submittedCouncils  the submitted councils
+     * @param sourcePageResource the source page resource
+     * @param pagesToActivate    the pages to activate
+     * @param rolloutLog         the rollout log
+     * @param notifyCouncils     the notify councils
+     * @param noLiveCopyCouncils the no live copy councils
+     * @param rr                 the rr
+     * @param updateReferences   the update references
+     * @throws RepositoryException the repository exception
+     * @throws WCMException        the wcm exception
+     */
     private void processExistingLiveRelationships(Set<String> submittedCouncils, Resource sourcePageResource, Set<String> pagesToActivate, List<String> rolloutLog, Set<String> notifyCouncils, Set<String> noLiveCopyCouncils, ResourceResolver rr, Boolean updateReferences) throws RepositoryException, WCMException {
         log.info("Processing existing live relationships.");
         Set<String> srcComponents = PageReplicationUtil.getComponents(sourcePageResource);
@@ -361,8 +477,11 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 } catch (Exception e) {
                                     log.error("Girlscouts Rollout Service encountered error: ", e);
                                 }
+                                //Check if cookie Header Component got added or removed
+                                String cookieHeaderComponentAddedOrRemoved =  cookieHeaderComponentAddedOrRemoved(rr, sourceToTargetComponentRelations, relationComponents, componentsToDelete);
+
                                 deleteComponents(rr, rolloutLog, componentsToDelete);
-                                //function to get the difference of content while rolling out
+                                //Get the difference of content before rolling out
                                 List<RolloutContentDifference> contentDifferences = compareRolloutComponents(rr, sourceToTargetComponentRelations, relationComponents);
 
                                 rolloutComponents(sourcePageResource, rolloutLog, relationPagePath, componentsToRollout);
@@ -374,7 +493,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                                 rolloutLog.add("Page added to activation queue");
                                 log.info("Page added to activation queue");
                                 //lets send email to individual councils letting them know about what changed.
-                                sendContentDifferenceEmail(rr,councilPath,contentDifferences);
+                                sendContentDifferenceEmail(rr,councilPath,contentDifferences,cookieHeaderComponentAddedOrRemoved);
                             } catch (Exception e) {
                                 log.error("Girlscouts Rollout Service encountered error: ", e);
                                 try {
@@ -402,6 +521,14 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         submittedCouncils.removeAll(processedRelationCouncils);
     }
 
+    /**
+     * Update all references.
+     *
+     * @param sourceResource    the source resource
+     * @param targetResource    the target resource
+     * @param sourceComponents  the source components
+     * @param hrefReferencesMap the href references map
+     */
     private void updateAllReferences(Resource sourceResource, Resource targetResource, Set<String> sourceComponents, Map<String, String> hrefReferencesMap) {
         if (sourceResource != null && sourceComponents != null && sourceComponents.size() > 0) {
             try {
@@ -500,6 +627,16 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
     }
 
+    /**
+     * Replace branch string.
+     *
+     * @param value             the value
+     * @param sourceBranch      the source branch
+     * @param targetBranch      the target branch
+     * @param resourceResolver  the resource resolver
+     * @param hrefReferencesMap the href references map
+     * @return the string
+     */
     private String replaceBranch(String value, String sourceBranch, String targetBranch, ResourceResolver resourceResolver, Map<String, String> hrefReferencesMap) {
         Pattern p = Pattern.compile("href=\"(.*?)\"", Pattern.DOTALL);
         Matcher m = p.matcher(value);
@@ -553,6 +690,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
     }
 
+    /**
+     * Delete components.
+     *
+     * @param rr                 the rr
+     * @param rolloutLog         the rollout log
+     * @param componentsToDelete the components to delete
+     */
     private void deleteComponents(ResourceResolver rr, List<String> rolloutLog, Set<String> componentsToDelete) {
         for (String component : componentsToDelete) {
             log.info("Deleting node {}", component);
@@ -567,6 +711,15 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
     }
 
+    /**
+     * Rollout components.
+     *
+     * @param srcRes              the src res
+     * @param rolloutLog          the rollout log
+     * @param relationPath        the relation path
+     * @param componentsToRollout the components to rollout
+     * @throws WCMException the wcm exception
+     */
     private void rolloutComponents(Resource srcRes, List<String> rolloutLog, String relationPath, Set<String> componentsToRollout) throws WCMException {
         log.info("Rolling out content for {}, components {}.", relationPath, componentsToRollout);
         RolloutManager.RolloutParams params = new RolloutManager.RolloutParams();
@@ -587,6 +740,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         log.info("Successfully rolled out content for {}.", relationPath);
     }
 
+    /**
+     * Update page title.
+     *
+     * @param srcRes         the src res
+     * @param targetResource the target resource
+     */
     private void updatePageTitle(Resource srcRes, Resource targetResource) {
         try {
             Resource srcContent = srcRes.getChild("jcr:content");
@@ -605,6 +764,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
     }
 
+    /**
+     * Validate rollout config.
+     *
+     * @param srcRes         the src res
+     * @param targetResource the target resource
+     */
     private void validateRolloutConfig(Resource srcRes, Resource targetResource) {
         log.info("Girlscouts Rollout Service : Validating rollout config for {}", targetResource.getPath());
         try {
@@ -629,6 +794,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
     }
 
+    /**
+     * Create live sync node node.
+     *
+     * @param page    the page
+     * @param srcPage the src page
+     * @return the node
+     */
     private Node createLiveSyncNode(Node page, Node srcPage) {
         try {
             Node contentNode = page.getNode("jcr:content");
@@ -646,6 +818,9 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     /**
      * cancel the Inheritance for certain components (nodes with mixin type
      * "cq:LiveSyncCancelled" under national template page)
+     *
+     * @param rr          the rr
+     * @param councilPath the council path
      */
     private void cancelInheritance(ResourceResolver rr, String councilPath) {
         try {
@@ -661,6 +836,15 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
     }
 
+    /**
+     * Send gsusa notifications.
+     *
+     * @param dateRolloutNode        the date rollout node
+     * @param rolloutLog             the rollout log
+     * @param councilNotificationLog the council notification log
+     * @param isTestMode             the is test mode
+     * @param rr                     the rr
+     */
     private void sendGSUSANotifications(Node dateRolloutNode, List<String> rolloutLog, List<String> councilNotificationLog, Boolean isTestMode, ResourceResolver rr) {
         try {
             log.info("Girlscouts Rollout Service : Sending GSUSA notifications for {} rollout. isTestMode={}", dateRolloutNode.getPath(), isTestMode);
@@ -784,6 +968,14 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
     }
 
+    /**
+     * Send council notifications.
+     *
+     * @param dateRolloutNode        the date rollout node
+     * @param councilNotificationLog the council notification log
+     * @param isTestMode             the is test mode
+     * @param rr                     the rr
+     */
     private void sendCouncilNotifications(Node dateRolloutNode, List<String> councilNotificationLog, Boolean isTestMode, ResourceResolver rr) {
         Set<String> notifyCouncils = new TreeSet<String>();
         Set<String> noLiveCopyCouncils = new TreeSet<String>();
@@ -945,6 +1137,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
     }
 
+    /**
+     * Is gs rollout config boolean.
+     *
+     * @param pageNode the page node
+     * @return the boolean
+     */
     private Boolean isGSRolloutConfig(Node pageNode) {
         boolean isValid = false;
         if (pageNode != null) {
@@ -971,6 +1169,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         return isValid;
     }
 
+    /**
+     * Gets live sync node.
+     *
+     * @param node the node
+     * @return the live sync node
+     */
     private Node getLiveSyncNode(Node node) {
         try {
             if (node.hasNode("jcr:content/cq:LiveSyncConfig")) {
@@ -981,6 +1185,12 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         return null;
     }
 
+    /**
+     * Gets ancestor with live sync.
+     *
+     * @param node the node
+     * @return the ancestor with live sync
+     */
     private Node getAncestorWithLiveSync(Node node) {
         try {
             Node parentNode = node.getParent();
@@ -996,6 +1206,16 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         return null;
     }
 
+    /**
+     * Get good parent resource.
+     *
+     * @param sourceParent    the source parent
+     * @param councilPath     the council path
+     * @param rr              the rr
+     * @param relationManager the relation manager
+     * @param rolloutLog      the rollout log
+     * @return the resource
+     */
     private Resource getGoodParent(Resource sourceParent, String councilPath, ResourceResolver rr, LiveRelationshipManager relationManager, List<String> rolloutLog){
         Page sourcePage = sourceParent.adaptTo(Page.class);
         if(sourcePage.getDepth() == 2){
@@ -1047,11 +1267,18 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
 
     }
 
+    /**
+     * Compare rollout components list.
+     *
+     * @param rr                               the rr
+     * @param sourceToTargetComponentRelations the source to target component relations
+     * @param relationComponents               the relation components
+     * @return the list
+     */
     /*
      * This function compares the content of council with template and check for any difference.
      */
     private List<RolloutContentDifference> compareRolloutComponents(ResourceResolver rr, Map<String, String> sourceToTargetComponentRelations, Map<String, Set<String>> relationComponents) {
-        List<String> noExistingComponentInCouncil = new ArrayList<>();
         //Reversing the hashmap, so that we can have council URL's as key.
         sourceToTargetComponentRelations = sourceToTargetComponentRelations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
         Set<String> councilComponentsToRollout = relationComponents.get(RELATION_INHERITED_COMPONENTS);
@@ -1098,7 +1325,6 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         //Accordion Handling, its a special case, for this resourceType we have custom way of handling it.
         knownResourceType.put("girlscouts/components/accordion",null);
 
-
         List<RolloutContentDifference> contentDifferences = new ArrayList<>();
 
         //lets check for components which has inheritance enabled.
@@ -1124,7 +1350,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             }
         }
 
-        //lets check for components which has inheritance disabled.
+        //Lets check for components which has inheritance disabled.
         for(String councilPath : cancInheritanceComponents){
             if(sourceToTargetComponentRelations.containsKey(councilPath)){
                 Resource councilComponentToRolloutResource = rr.getResource(councilPath);
@@ -1135,9 +1361,62 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
             }
         }
 
-
         return contentDifferences;
     }
+
+
+    /**
+     * Cookie header component added or removed string.
+     *
+     * @param rr                               the rr
+     * @param sourceToTargetComponentRelations the source to target component relations
+     * @param relationComponents               the relation components
+     * @param componentsToDelete               the components to delete
+     * @return the string
+     */
+    /*
+     * This function checks if Cookie Header Component Added Or Removed.
+     */
+    private String cookieHeaderComponentAddedOrRemoved(ResourceResolver rr, Map<String, String> sourceToTargetComponentRelations, Map<String, Set<String>> relationComponents, Set<String> componentsToDelete) {
+        //Reversing the hashmap, so that we can have council URL's as key.
+        sourceToTargetComponentRelations = sourceToTargetComponentRelations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        Set<String> councilComponentsToRollout = relationComponents.get(RELATION_INHERITED_COMPONENTS);
+        //Lets check for girlscouts/components/standalone-cookie-header,whether it was removed or added
+        String cookieHeaderComponentAddedRemoved = null;
+        //First removing all the component which has inheritance enabled in sourceToTargetComponentRelations Map, now we are left with component which are newly added.
+        sourceToTargetComponentRelations.keySet().removeAll(councilComponentsToRollout);
+        //Reversing the hashmap Again, so that we can have template URL's as key.
+        sourceToTargetComponentRelations = sourceToTargetComponentRelations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        Set<String> newAddedComponentTemplatePaths = sourceToTargetComponentRelations.keySet();
+        //lets check in the new added component which are getting rolled out.
+        for(String newAddedComponentTemplatePath : newAddedComponentTemplatePaths){
+            Resource newAddedComponentResource = rr.getResource(newAddedComponentTemplatePath);
+            if(null != newAddedComponentResource && newAddedComponentResource.getResourceType().equals(RolloutTemplatePageServiceImpl.COOKIE_HEADER_RESOURCE_TYPE)){
+                cookieHeaderComponentAddedRemoved = RolloutTemplatePageServiceImpl.ACTION_TYPE_ADDED;
+                break;
+            }
+        }
+        //lets check in the removed components which are getting rolled out.
+        for(String removedComponentTemplatePath:  componentsToDelete){
+            Resource removedComponentTemplateResource = rr.getResource(removedComponentTemplatePath);
+            if(null != removedComponentTemplateResource && removedComponentTemplateResource.getResourceType().equals(RolloutTemplatePageServiceImpl.COOKIE_HEADER_RESOURCE_TYPE)){
+                cookieHeaderComponentAddedRemoved = RolloutTemplatePageServiceImpl.ACTION_TYPE_REMOVED;
+                break;
+            }
+        }
+
+        return cookieHeaderComponentAddedRemoved;
+    }
+
+    /**
+     * Gets content difference.
+     *
+     * @param knownResourceType                  the known resource type
+     * @param councilComponentToRolloutResource  the council component to rollout resource
+     * @param templateComponentToRolloutResource the template component to rollout resource
+     * @param isInheritanceBroken                the is inheritance broken
+     * @return the content difference
+     */
     /*
      * This function iterate over the components which are rolling out and checks for any content difference.
      */
@@ -1175,7 +1454,15 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         }
         return contentDifferences;
     }
-    
+
+    /**
+     * Handle accordion resource type list.
+     *
+     * @param rr                                the rr
+     * @param sourceToTargetComponentRelations  the source to target component relations
+     * @param councilComponentToRolloutResource the council component to rollout resource
+     * @return the list
+     */
     /*
      * This function handles Accordion Resource Type- this is a special scenerio.
      */
@@ -1204,6 +1491,13 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         return contentDifferences;
     }
 
+    /**
+     * Convert string array to string string.
+     *
+     * @param strArr    the str arr
+     * @param delimiter the delimiter
+     * @return the string
+     */
     /*
      * This function convert String array to String
      */
@@ -1215,10 +1509,18 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
         return sb.substring(0, sb.length() - 1);
     }
 
+    /**
+     * Send content difference email.
+     *
+     * @param rr                                  the rr
+     * @param councilPath                         the council path
+     * @param contentDifferences                  the content differences
+     * @param cookieHeaderComponentAddedOrRemoved the cookie header component added or removed
+     */
     /*
      * This function sends the content difference email to individual concils.
      */
-    private void sendContentDifferenceEmail(ResourceResolver rr, String councilPath, List<RolloutContentDifference> contentDifferences){
+    private void sendContentDifferenceEmail(ResourceResolver rr, String councilPath, List<RolloutContentDifference> contentDifferences, String cookieHeaderComponentAddedOrRemoved){
         if (councilPath != null) {
             try {
                 String pathToCouncilSite = PageReplicationUtil.getCouncilName(councilPath);
@@ -1226,35 +1528,48 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
                 // page properties of the council's homepage
                 Page homepage = rr.resolve(pathToCouncilSite + "/en").adaptTo(Page.class);
                 List<String> toAddresses = PageReplicationUtil.getCouncilEmails(homepage.adaptTo(Node.class));
-                log.info("sending content difference email to " + pathToCouncilSite.substring(9) + " emails:" + toAddresses.toString());
+                log.info("Sending content difference email to " + pathToCouncilSite.substring(9) + " emails:" + toAddresses.toString());
                 String subject = DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_SUBJECT;
                 String message = DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_MESSAGE;
                 StringBuilder body = new StringBuilder();
                 body.append(message);
-                body.append("<style>table, th, td {\n" +
-                        "  border: 1px solid black;\n" +
-                        "} </style>");
+                body.append("<style> table, th, td { border: 1px solid black;} </style>");
                 body.append("<table style=\"width:100%;border-collapse: collapse;\">");
-                body.append("<tr>");
-                body.append("<th>Component Type</th>");
-                body.append("<th>Status</th>");
-                body.append("<th>Old</th>");
-                body.append("<th>New</th>");
-                body.append("</tr>");
+                body.append(RolloutTemplatePageServiceImpl.TR_START);
+                body.append(RolloutTemplatePageServiceImpl.TH_START+"Component Type"+RolloutTemplatePageServiceImpl.TH_END);
+                body.append(RolloutTemplatePageServiceImpl.TH_START+"Status"+RolloutTemplatePageServiceImpl.TH_END);
+                body.append(RolloutTemplatePageServiceImpl.TH_START+"Old"+RolloutTemplatePageServiceImpl.TH_END);
+                body.append(RolloutTemplatePageServiceImpl.TH_START+"New"+RolloutTemplatePageServiceImpl.TH_END);
+                body.append(RolloutTemplatePageServiceImpl.TR_END);
 
+                //lets create entry for all the components having content difference in the table.
                 for (RolloutContentDifference contentDifference : contentDifferences) {
-                    body.append("<tr>");
-                    body.append("<td>" + contentDifference.getComponentResourceType() + "</td>");
+                    body.append(RolloutTemplatePageServiceImpl.TR_START);
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+ contentDifference.getComponentResourceType() +RolloutTemplatePageServiceImpl.TD_END);
                     if(contentDifference.isInheritanceBroken()){
-                        body.append("<td style=\"color:red\"><b>" + "Not Updated (Inheritance is Broken)" + "</b></td>");
+                        body.append("<td style=\"color:red\">" + "<b>Not Updated (Inheritance is Broken)<b>" + RolloutTemplatePageServiceImpl.TD_END);
                     }else{
-                        body.append("<td style=\"color:green\"><b>" + "Updated" + "</b></td>");
+                        body.append("<td style=\"color:green\"><b>" + "Updated" + "</b>"+ RolloutTemplatePageServiceImpl.TD_END);
                     }
-                    body.append("<td>" + contentDifference.getOldContent() + "</td>");
-                    body.append("<td>" + contentDifference.getNewContent() + "</td>");
-                    body.append("</tr>");
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+ contentDifference.getOldContent() + RolloutTemplatePageServiceImpl.TD_END);
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+ contentDifference.getNewContent() + RolloutTemplatePageServiceImpl.TD_END);
+                    body.append(RolloutTemplatePageServiceImpl.TR_END);
                 }
-                body.append("</table>");
+                //lets create one entry for cookieHeaderComponent in the table.
+                if(null != cookieHeaderComponentAddedOrRemoved){
+                    body.append(RolloutTemplatePageServiceImpl.TR_START);
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+RolloutTemplatePageServiceImpl.COOKIE_HEADER_RESOURCE_TYPE+RolloutTemplatePageServiceImpl.TD_END);
+                    if(cookieHeaderComponentAddedOrRemoved.equals(RolloutTemplatePageServiceImpl.ACTION_TYPE_REMOVED)){
+                        body.append("<td style=\"color:red\"><b>" + RolloutTemplatePageServiceImpl.ACTION_TYPE_REMOVED + "</b>"+RolloutTemplatePageServiceImpl.TD_END);
+                    }else{
+                        body.append("<td style=\"color:green\"><b>" + RolloutTemplatePageServiceImpl.ACTION_TYPE_ADDED + "</b>"+RolloutTemplatePageServiceImpl.TD_END);
+                    }
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+RolloutTemplatePageServiceImpl.TD_END);
+                    body.append(RolloutTemplatePageServiceImpl.TD_START+RolloutTemplatePageServiceImpl.TD_END);
+                    body.append(RolloutTemplatePageServiceImpl.TR_END);
+                }
+
+                body.append(RolloutTemplatePageServiceImpl.TABLE_END);
 
                 gsEmailService.sendEmail(subject, toAddresses, body.toString());
             } catch (Exception e) {

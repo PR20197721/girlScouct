@@ -6,10 +6,25 @@ import java.util.List;
  * The type Content difference.
  */
 public class RolloutContentDifference {
+    /**
+     * The Old content.
+     */
     private String oldContent;
+    /**
+     * The New content.
+     */
     private String newContent;
+    /**
+     * The Component resource type.
+     */
     private String componentResourceType;
+    /**
+     * The Property name.
+     */
     private String propertyName;
+    /**
+     * The Is inheritance broken.
+     */
     private Boolean isInheritanceBroken;
 
     /**
