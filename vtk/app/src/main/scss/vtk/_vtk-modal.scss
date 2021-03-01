@@ -120,6 +120,9 @@
         border : 1px solid $green_light;
         &:hover{
           cursor: pointer;
+          background: #eeeeee;
+          color: $green_light;
+          border : 1px solid $green_light;
         }
       }
       
