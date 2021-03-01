@@ -111,8 +111,18 @@
 
         &:hover {
           background-color: green;
+          cursor: pointer;
         }
       }
+      .log-out-pop-up-btn{ 
+        background-color: white;
+        color: $green_light;
+        border : 1px solid $green_light;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+      
     }
   }
 }
