@@ -80,12 +80,20 @@ $(document).ready(function () {
                     } else {
                         var errors = response.errors;
                         displayErrors(errors, form);
+                        $('html, body').animate({
+                            scrollTop: $("#validation-errors").offset().top
+                        }, 2000);
                     }
                 }
                 localStorage.removeItem("recaptchaError");
             })
             .fail(function (xhr, status, error) {
                 $("#validation-errors").html(xhr.responseText);
+                //GSAWDO-162-form-scroll-to-error starts
+                $('html, body').animate({
+                    scrollTop: $("#validation-errors").offset().top
+                }, 2000);
+                //GSAWDO-162-form-scroll-to-error ends
             });
     }
 
