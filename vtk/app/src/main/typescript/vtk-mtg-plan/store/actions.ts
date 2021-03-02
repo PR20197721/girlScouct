@@ -162,6 +162,14 @@ export namespace Actions {
 
     export function FETCH(url) {
         INTERVAL_FETCH(url);
+        return POST_FETCH(url);
+    }
+
+    export function FETCH_WITHOUT_INTERVAL(url) {
+        return POST_FETCH(url);    
+    }
+
+    export function POST_FETCH(url) {
         return async (dispatch, getState) => {
             //try{
             dispatch({type: ActionsTypes.FETCHING_PAGE});
@@ -212,6 +220,7 @@ export namespace Actions {
             //     (error) :void=>{ console.log(error) }
             //}
         }
+
     }
 
     //MESSAGE TOP
@@ -263,6 +272,11 @@ export namespace Actions {
                 dispatch({type: ActionsTypes.LOADING, payload: {loading: true}});
                 __interval.skip(3000);
                 const response = await COMUNICATIONS.REQUEST(call);
+                const getUrl = JSON.parse(localStorage.getItem('URL')).url;
+                __interval.off();
+                store.dispatch((dispatch) => {
+                    dispatch(Actions.FETCH_WITHOUT_INTERVAL(getUrl));
+                });
 
                 let activityState = [...getState().activities];
 

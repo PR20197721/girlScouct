@@ -1179,6 +1179,7 @@ public class MeetingUtil {
                                 if (subActivityPath.equals(subActivities.get(z).getPath())) {
                                     subActivities.get(z).setIsSelected(true);
                                     activities.get(y).setDbUpdate(true);
+                                    log.debug("Subactivity selection done : {}", subActivities.get(z).getName());
                                 } else {
                                     subActivities.get(z).setIsSelected(false);
                                 }//end else
