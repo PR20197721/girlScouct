@@ -85,7 +85,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     /**
      * The constant ACTION_TYPE_REMOVED.
      */
-    private static final String  ACTION_TYPE_REMOVED = "<>";
+    private static final String  ACTION_TYPE_REMOVED = "Removed";
     /**
      * The constant TABLE_START.
      */
