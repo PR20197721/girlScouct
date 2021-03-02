@@ -43,7 +43,7 @@ public class Troop extends JcrNode {
     private DateTime endDate;
 
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private static final Logger log = LoggerFactory.getLogger(Troop.class);
 
     public Troop() {
         this.type = 0;
@@ -305,19 +305,14 @@ public class Troop extends JcrNode {
         this.schedule = null;
     }
     public Map<Date, YearPlanComponent> getSchedule(){
-        log.debug("Getting schedule for "+ this.getPath());
-        /*if(this.schedule != null) {
-            log.debug("Existing schedule for "+ this.getPath());
-            return this.schedule;
-        } else{
-        */
-        log.debug("Building schedule for "+ this.getPath());
+        log.debug("Getting schedule for : {}", this.getPath());
+        log.debug("Building schedule for : {}", this.getPath());
         YearPlan yearPlan = this.getYearPlan();
         if (yearPlan != null) {
             this.schedule = getYearPlanSchedule(yearPlan);
             return this.schedule;
         } else {
-            log.debug("No year plan for " + this.getPath());
+            log.debug("No year plan for : {}", this.getPath());
             return new TreeMap<>();
         }
        // }

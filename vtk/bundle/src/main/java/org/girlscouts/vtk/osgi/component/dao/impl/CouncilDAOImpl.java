@@ -105,6 +105,8 @@ public class CouncilDAOImpl implements CouncilDAO {
             String path;
             if(troop == null) {
                 path = "/vtk" + user.getCurrentYear() + "/" + user.getAdminCouncilId() + "/councilInfo";
+            } else if (null == troop.getCouncilPath()) {
+            	path = "/vtk" + user.getCurrentYear() + "/" + user.getAdminCouncilId() + "/councilInfo";
             } else {
                 path = troop.getCouncilPath() + "/councilInfo";
             }
