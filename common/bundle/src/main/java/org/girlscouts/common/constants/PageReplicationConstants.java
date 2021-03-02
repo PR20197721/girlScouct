@@ -139,6 +139,7 @@ public interface PageReplicationConstants {
 		/**
 		 * The constant DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_MESSAGE.
 		 */
-		public static final String DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_MESSAGE = "Here is a list of things which got changed!";
+		public static final String DEFAULT_ROLLOUT_CONTENT_DIFFERENCE_NOTIFICATION_MESSAGE = "<p>Dear Council, </p>"
+				+"<p>Here is a list of things which got changed!</p>";
 	}
 }

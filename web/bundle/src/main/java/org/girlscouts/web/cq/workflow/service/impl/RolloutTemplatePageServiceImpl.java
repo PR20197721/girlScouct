@@ -85,7 +85,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
     /**
      * The constant ACTION_TYPE_REMOVED.
      */
-    private static final String  ACTION_TYPE_REMOVED = "<>";
+    private static final String  ACTION_TYPE_REMOVED = "Removed";
     /**
      * The constant TABLE_START.
      */
@@ -1120,6 +1120,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
      * @return the list
      */
     private List<RolloutContentDifference> compareRolloutComponents(ResourceResolver rr, Map<String, String> sourceToTargetComponentRelations, Map<String, Set<String>> relationComponents) {
+        log.info("Inside compare Rollout Components ");
         //Reversing the hashmap, so that we can have council URL's as key.
         sourceToTargetComponentRelations = sourceToTargetComponentRelations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
         Set<String> councilComponentsToRollout = relationComponents.get(RELATION_INHERITED_COMPONENTS);
@@ -1216,6 +1217,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
      * @return the string
      */
     private String cookieHeaderComponentAddedOrRemoved(ResourceResolver rr, Map<String, String> sourceToTargetComponentRelations, Map<String, Set<String>> relationComponents, Set<String> componentsToDelete) {
+        log.info("Inside cookie Header Component Added Or Removed");
         //Reversing the hashmap, so that we can have council URL's as key.
         sourceToTargetComponentRelations = sourceToTargetComponentRelations.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
         Set<String> councilComponentsToRollout = relationComponents.get(RELATION_INHERITED_COMPONENTS);
@@ -1257,6 +1259,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
      * @return the content difference
      */
     private List<RolloutContentDifference>  getContentDifference(Map<String, List<String>> knownResourceType, Resource councilComponentToRolloutResource,Resource templateComponentToRolloutResource,Boolean isInheritanceBroken) {
+        log.info("Inside get Content Difference function");
         List<RolloutContentDifference> contentDifferences = new ArrayList<>();
         String councilComponentToRolloutPath  = councilComponentToRolloutResource.getPath();
         String templateComponentToRolloutResourceType = templateComponentToRolloutResource.getResourceType();
@@ -1301,6 +1304,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
      * @return the list
      */
     private List<RolloutContentDifference> handleAccordionResourceType(ResourceResolver rr,Map<String, String> sourceToTargetComponentRelations,Resource councilComponentToRolloutResource) {
+        log.info("Inside handle Accordion Resource Type");
         List<RolloutContentDifference> contentDifferences = new ArrayList<>();
         if(null != councilComponentToRolloutResource) {
             for(Resource childNode : councilComponentToRolloutResource.getChildren()){
@@ -1333,6 +1337,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
      * @return the string
      */
     private String convertStringArrayToString(String[] strArr, String delimiter) {
+        log.info("Inside convert String Array To String");
         StringBuilder sb = new StringBuilder();
         for (String str : strArr) {
             sb.append(str).append(delimiter);
@@ -1350,6 +1355,7 @@ public class RolloutTemplatePageServiceImpl implements RolloutTemplatePageServic
      * @param cookieHeaderComponentAddedOrRemoved the cookie header component added or removed
      */
     private void sendContentDifferenceEmail(ResourceResolver rr, String councilPath, List<RolloutContentDifference> contentDifferences, String cookieHeaderComponentAddedOrRemoved){
+        log.info("Inside send Content Difference Email");
         if (councilPath != null) {
             try {
                 String pathToCouncilSite = PageReplicationUtil.getCouncilName(councilPath);
