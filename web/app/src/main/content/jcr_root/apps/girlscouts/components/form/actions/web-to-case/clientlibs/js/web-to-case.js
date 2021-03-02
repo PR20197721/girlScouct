@@ -4,8 +4,8 @@ $(document).ready(function () {
     form.find("input[type='submit']").click(form, function (e) {
         e.stopPropagation();
         submitForm(form);
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      //  document.body.scrollTop = 0; // For Safari
+       // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         return false;
     });
 
@@ -54,12 +54,20 @@ $(document).ready(function () {
                     } else {
                         var errors = response.errors;
                         displayErrors(errors, form);
+                        $('html, body').animate({
+                            scrollTop: $("#validation-errors").offset().top
+                        }, 2000);
                     }
                 }
 
             })
             .fail(function (xhr, status, error) {
                 $("#validation-errors").html(xhr.responseText);
+                //GSAWDO-162-form-scroll-to-error starts
+                $('html, body').animate({
+                    scrollTop: $("#validation-errors").offset().top
+                }, 2000);
+                //GSAWDO-162-form-scroll-to-error ends
             });
     }
 
