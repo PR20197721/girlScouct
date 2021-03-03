@@ -115,6 +115,7 @@ public class GirlScoutsOCMRepositoryImpl implements GirlScoutsOCMRepository {
                 ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
                 object.setLastModifiedDate(new GregorianCalendar());
                 log.debug("Updating node at: " + object.getPath());
+                session.refresh(true); // to eliminate concurrent session conflicts for long running sessions
                 ocm.update(object);
                 ocm.save();
             } catch (Exception e) {
