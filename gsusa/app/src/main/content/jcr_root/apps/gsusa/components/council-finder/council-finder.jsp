@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
-<%@page import="com.day.cq.wcm.api.WCMMode"%>
+<%@page import="com.day.cq.wcm.api.WCMMode,
+				org.apache.commons.lang.StringEscapeUtils" %>
 
 <cq:includeClientLib categories="safari-back-button-fix"/>
 <%
@@ -8,6 +9,7 @@ boolean state = properties.get("state", false);
 boolean councilName = properties.get("council-name", false);
 String path = properties.get("path","");
 String councilCode = slingRequest.getParameter("council-code") != null ? slingRequest.getParameter("council-code") : "";
+councilCode = StringEscapeUtils.escapeXml(councilCode);
 String relativeResultPath;
 String relativeCurrentPath;
 try{
