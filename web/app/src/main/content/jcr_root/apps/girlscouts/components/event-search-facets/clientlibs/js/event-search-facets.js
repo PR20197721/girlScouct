@@ -4,20 +4,15 @@
 $(window).load(() =>{
     let url = window.location.search;
    url = url.replace("?", ''); 
-   if(url.indexOf('q') > -1){
+	const getSearchedItem = localStorage.getItem('searchedItem'); // checking local storage on click of search and advance search button click
+   if(url.indexOf('q') > -1 || getSearchedItem){
        const getEventSearchSubmit = $('#eventSearchSubmit')
        if(getEventSearchSubmit){
        $('html, body').animate({
            scrollTop: $("#eventListWrapper").offset().top
        }, 1000);
        }
-   
-       const getEventSimpleSearch = $('#smplSearch')
-       if(getEventSearchSubmit){
-       $('html, body').animate({
-           scrollTop: $("#smplSearch").offset().top
-       }, 1000);
-       }
+      localStorage.removeItem('searchedItem');
    }
    })
    
@@ -30,7 +25,7 @@ $(window).load(() =>{
           $(".event-search-facets").find("form").submit();
        });
        $("#advSearch").on('click', function(){	
-           localStorage.setItem('searchedItem', true);
+           localStorage.setItem('searchedItem', true);  // csetting local storage on click  advance search button click
            var ref = $("#advSearch").find("a").attr("href");
            var searchInput = $(".event-search-facets").find("input");
            var searchVal = searchInput.val();
@@ -60,6 +55,7 @@ $(window).load(() =>{
        //advanced search
    
        $("#smplSearch").on('click', function() {
+        localStorage.setItem('searchedItem', true);  // csetting local storage on click  advance search button click
            var ref = $("#smplSearch").attr("href");
            if ($(".event-search-facets").find("input[name=q]").val() !== "") {
                //GSWP-2056-used indexOf to support IE
