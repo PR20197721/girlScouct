@@ -71,7 +71,7 @@ if (newCurrentDesign != null) {
 				if (name) {
 					girlscouts.components.login.sayHello('signedin', name);	
 				} else if ($(".login").children().length < 4){
-					var html = '<a href="' + '<%= signInUrl%>' + '" class="signin link-login">SIGN IN</a>';
+					var html = '<a target="_blank" href="' + '<%= signInUrl%>' + '" class="signin link-login">SIGN IN</a>';
                     $('.login').html(html);
 				} else {
 					girlscouts.components.login.genCode('<%= helloUrl %>');
